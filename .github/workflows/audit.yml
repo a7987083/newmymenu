@@ -150,6 +150,7 @@ jobs:
           for source in src/Execution/NMReceiverLease.m src/Execution/NMInvocationCoordinator.m src/NativeHook/NMCaptureSession.m src/RuntimeDiscovery/NMIL2CPPDiscovery.m; do
             xcrun clang --analyze -std=c11 -fobjc-arc -fblocks -Wall -Wextra -Werror -Iinclude "$source" -o "build/core/$(basename "$source" .m)-analysis.plist"
           done
+          python3 tools/check_analysis.py build/core/*-analysis.plist
       - name: Build and strictly verify ARM64 foundation core
         run: |
           set -euo pipefail
@@ -177,6 +178,7 @@ jobs:
           set -euo pipefail
           SDK="$(xcrun --sdk iphoneos --show-sdk-path)"
           xcrun --sdk iphoneos clang --analyze -isysroot "$SDK" -arch arm64 -miphoneos-version-min=14.0 -std=c11 -fobjc-arc -fblocks -Wall -Wextra -Werror -Iinclude src/DeviceProbe/NMDeviceProbe.m -o build/device-probe/NMDeviceProbe-analysis.plist
+          python3 tools/check_analysis.py build/device-probe/NMDeviceProbe-analysis.plist
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:

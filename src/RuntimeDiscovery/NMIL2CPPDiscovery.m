@@ -116,14 +116,14 @@ static NSString *NMDLImageUUID(const struct mach_header *header) {
     if(!text.length || !limit || limit>1024){if(error)*error=NMDLError(10,@"Enter a class query and limit within 1..1024");return nil;}
     return [self withMetadata:^NSDictionary *(NMIL2CPPAPI api,void *domain,NSError *__strong *failure){
         size_t count=0;const void **assemblies=api.domainGetAssemblies(domain,&count);
-        if(!assemblies||!count||count>4096){*failure=NMDLError(11,@"No assemblies yet or invalid assembly count");return nil;}
+        if(!assemblies||!count||count>4096){if(failure)*failure=NMDLError(11,@"No assemblies yet or invalid assembly count");return nil;}
         NSMutableArray *ordered=[NSMutableArray array];
         for(size_t i=0;i<count;i++){const void *image=api.assemblyGetImage(assemblies[i]);if(image)[ordered addObject:@{@"pointer":@((uintptr_t)image),@"assembly":NMDLString(api.imageGetName(image))}];}
         [ordered sortUsingComparator:^NSComparisonResult(NSDictionary *a,NSDictionary *b){BOOL ac=[a[@"assembly"] hasPrefix:@"Assembly-CSharp"],bc=[b[@"assembly"] hasPrefix:@"Assembly-CSharp"];if(ac!=bc)return ac?NSOrderedAscending:NSOrderedDescending;return [a[@"assembly"] compare:b[@"assembly"]];}];
         NSMutableArray *results=[NSMutableArray array];NSUInteger scanned=0;BOOL truncated=NO;double deadline=NMDLTime()+2.0;
         for(NSDictionary *entry in ordered){
             const void *image=(const void *)(uintptr_t)[entry[@"pointer"] unsignedLongLongValue];size_t classes=api.imageGetClassCount(image);
-            if(classes>2000000){*failure=NMDLError(12,@"Invalid class count");return nil;}
+            if(classes>2000000){if(failure)*failure=NMDLError(12,@"Invalid class count");return nil;}
             for(size_t i=0;i<classes;i++){ @autoreleasepool {
                 if(results.count>=limit||scanned>=200000||NMDLTime()>deadline){truncated=YES;break;}
                 scanned++;void *klass=api.imageGetClass(image,i);if(!klass)continue;
@@ -145,24 +145,24 @@ static NSString *NMDLImageUUID(const struct mach_header *header) {
     NSMutableDictionary *frozen=[NSMutableDictionary dictionary];for(NSString *key in @[@"assembly",@"namespace",@"class",@"fullType",@"runtimeIdentifier"])frozen[key]=[identity[key] copy];
     NSDictionary *descriptor=[frozen copy];
     return [self withMetadata:^NSDictionary *(NMIL2CPPAPI api,void *domain,NSError *__strong *failure){
-        size_t count=0;const void **assemblies=api.domainGetAssemblies(domain,&count);if(!assemblies||!count||count>4096){*failure=NMDLError(11,@"Invalid assembly list");return nil;}
+        size_t count=0;const void **assemblies=api.domainGetAssemblies(domain,&count);if(!assemblies||!count||count>4096){if(failure)*failure=NMDLError(11,@"Invalid assembly list");return nil;}
         void *matched=NULL;double deadline=NMDLTime()+2.0;
         for(size_t a=0;a<count;a++){
             const void *image=api.assemblyGetImage(assemblies[a]);if(!image||![NMDLString(api.imageGetName(image)) isEqual:descriptor[@"assembly"]])continue;
-            size_t classes=api.imageGetClassCount(image);if(classes>2000000){*failure=NMDLError(12,@"Invalid class count");return nil;}
+            size_t classes=api.imageGetClassCount(image);if(classes>2000000){if(failure)*failure=NMDLError(12,@"Invalid class count");return nil;}
             for(size_t c=0;c<classes;c++){ @autoreleasepool {
-                if(c>=200000||NMDLTime()>deadline){*failure=NMDLError(15,@"Class identity lookup exceeded bounds; narrow the query");return nil;}
+                if(c>=200000||NMDLTime()>deadline){if(failure)*failure=NMDLError(15,@"Class identity lookup exceeded bounds; narrow the query");return nil;}
                 void *klass=api.imageGetClass(image,c);if(!klass)continue;
                 if(![NMDLString(api.classGetName(klass)) isEqual:descriptor[@"class"]]||![NMDLString(api.classGetNamespace(klass)) isEqual:descriptor[@"namespace"]])continue;
                 if(![NMDLTypeName(api,api.classGetType(klass)) isEqual:descriptor[@"fullType"]])continue;
-                if(matched&&matched!=klass){*failure=NMDLError(16,@"Ambiguous class identity; refusing first-match selection");return nil;}matched=klass;
+                if(matched&&matched!=klass){if(failure)*failure=NMDLError(16,@"Ambiguous class identity; refusing first-match selection");return nil;}matched=klass;
             }}
         }
-        if(!matched){*failure=NMDLError(17,@"Class is no longer available; search again");return nil;}
+        if(!matched){if(failure)*failure=NMDLError(17,@"Class is no longer available; search again");return nil;}
         NSMutableArray *results=[NSMutableArray array];void *iterator=NULL;const void *method=NULL;BOOL truncated=NO;NSUInteger scanned=0;
         while((method=api.classGetMethods(matched,&iterator))){ @autoreleasepool {
             if(results.count>=limit||scanned++>=20000||NMDLTime()>deadline){truncated=YES;break;}
-            uint32_t params=api.methodGetParamCount(method);if(params>128){*failure=NMDLError(18,@"Invalid method parameter count");return nil;}
+            uint32_t params=api.methodGetParamCount(method);if(params>128){if(failure)*failure=NMDLError(18,@"Invalid method parameter count");return nil;}
             NSMutableArray *types=[NSMutableArray arrayWithCapacity:params];for(uint32_t i=0;i<params;i++)[types addObject:NMDLTypeName(api,api.methodGetParam(method,i))];
             uint32_t implementation=0;uint32_t flags=api.methodGetFlags(method,&implementation);
             NSString *name=NMDLString(api.methodGetName(method)),*ret=NMDLTypeName(api,api.methodGetReturnType(method));
