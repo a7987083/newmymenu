@@ -1,0 +1,5 @@
+# 0007 不依赖游戏ABI的协作取消
+
+原Probe虽拒绝过期completion，但用户没有取消入口，worker仍扫描到边界。改为每次请求独立NSProgress，UI取消先标记token并立即使Finder generation失效；当前snapshot/state只有主线程持有。Discovery在进入VM前、枚举循环、参数复制和发布结果前检查cancelled，取消统一NSError21且不返回部分成功。finally仍detach本次拥有的线程并释放typename。
+
+不强制终止native调用；若某次Runtime C API自身阻塞，取消只能在返回后的检查点生效。原4个Discovery入口增加progress参数并升级Core API6，本仓库调用方一次迁移，不保留旧selector兼容分支。现有Foundation/受控API测试覆盖请求前取消、扫描中取消、方法类型复制中取消和取消后迟到结果。

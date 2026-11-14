@@ -4,6 +4,7 @@ NS_ASSUME_NONNULL_BEGIN
 // Private presentation state; all access belongs to the main thread.
 @interface NMFinderSession : NSObject
 @property(nonatomic,readonly) NSUInteger generation;
+@property(nonatomic,readonly,getter=isBusy) BOOL busy;
 @property(nonatomic,copy,readonly) NSDictionary *snapshot;
 @property(nonatomic,copy,readonly) NSDictionary *report;
 @property(nonatomic,copy,readonly) NSArray<NSDictionary *> *rows;
@@ -13,5 +14,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSUInteger)beginRequestResetClasses:(BOOL)reset classOffset:(double)offset;
 - (BOOL)acceptSnapshot:(nullable NSDictionary *)snapshot report:(NSDictionary *)report generation:(NSUInteger)generation;
 - (BOOL)returnToClasses;
+- (void)cancelPending;
 @end
 NS_ASSUME_NONNULL_END

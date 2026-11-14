@@ -26,5 +26,9 @@ int main(void){@autoreleasepool{
  check(state.rows.count==0&&[state.report[@"error"] length]>0,"count and rows divergence rejected");
  latest=[state beginRequestResetClasses:YES classOffset:0];[state acceptSnapshot:classes(@[@{@"class":@"Fresh"}]) report:@{} generation:latest];
  latest=[state beginRequestResetClasses:YES classOffset:0];[state acceptSnapshot:nil report:@{@"error":@"runtime reset"} generation:latest];check(![state returnToClasses]&&state.rows.count==0,"runtime refresh cannot restore stale binding");
+ NSUInteger pending=[state beginRequestResetClasses:YES classOffset:0];check(state.busy&&state.rows.count==0,"fresh request clears stale rendered snapshot");
+ [state cancelPending];check(!state.busy,"cancel leaves no busy state");
+ check(![state acceptSnapshot:classes(@[@{@"class":@"Late"}]) report:@{} generation:pending]&&state.rows.count==0,"cancelled completion cannot repopulate rows");
+ NSUInteger afterCancel=state.generation;[state cancelPending];check(state.generation==afterCancel,"idle cancel is idempotent");
  puts("PASS: Finder immutable snapshots, count/rows parity, stale completion rejection, cached return/scroll and refresh invalidation");
  }return 0;}

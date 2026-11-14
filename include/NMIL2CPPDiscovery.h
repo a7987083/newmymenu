@@ -8,9 +8,9 @@ __attribute__((visibility("default")))
 + (nullable instancetype)loadedRuntimeWithError:(NSError * _Nullable * _Nullable)error;
 + (NSDictionary *)loadedRuntimeCapabilities;
 @property(nonatomic,copy,readonly) NSDictionary *runtimeReport;
-- (nullable NSDictionary *)searchClasses:(NSString *)query limit:(NSUInteger)limit error:(NSError * _Nullable * _Nullable)error;
-- (nullable NSDictionary *)searchMethodExpression:(NSString *)expression limit:(NSUInteger)limit error:(NSError * _Nullable * _Nullable)error;
-- (nullable NSDictionary *)searchMethods:(NSString *)query limit:(NSUInteger)limit error:(NSError * _Nullable * _Nullable)error;
-- (nullable NSDictionary *)methodsForClass:(NSDictionary *)identity limit:(NSUInteger)limit error:(NSError * _Nullable * _Nullable)error;
+- (nullable NSDictionary *)searchClasses:(NSString *)query limit:(NSUInteger)limit progress:(nullable NSProgress *)progress error:(NSError * _Nullable * _Nullable)error;
+- (nullable NSDictionary *)searchMethodExpression:(NSString *)expression limit:(NSUInteger)limit progress:(nullable NSProgress *)progress error:(NSError * _Nullable * _Nullable)error;
+- (nullable NSDictionary *)searchMethods:(NSString *)query limit:(NSUInteger)limit progress:(nullable NSProgress *)progress error:(NSError * _Nullable * _Nullable)error;
+- (nullable NSDictionary *)methodsForClass:(NSDictionary *)identity limit:(NSUInteger)limit progress:(nullable NSProgress *)progress error:(NSError * _Nullable * _Nullable)error;
 @end
 NS_ASSUME_NONNULL_END

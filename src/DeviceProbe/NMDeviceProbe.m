@@ -21,6 +21,7 @@ static CGFloat NMClamp(CGFloat x,CGFloat low,CGFloat high){return MAX(low,MIN(MA
     UITextField *_query;
     UITableView *_table;
     NMFinderSession *_finder;
+    NSProgress *_progress;
     NMIL2CPPDiscovery *_service;
     dispatch_queue_t _worker;
     CGFloat _keyboardTop;
@@ -80,21 +81,22 @@ static CGFloat NMClamp(CGFloat x,CGFloat low,CGFloat high){return MAX(low,MIN(MA
     [self setNeedsLayout];
 }
 - (BOOL)textFieldShouldReturn:(UITextField *)field {(void)field;[self search:nil];return YES;}
-- (void)setBusy:(BOOL)busy {_refresh.enabled=!busy;_search.enabled=!busy;_back.enabled=!busy;_table.userInteractionEnabled=!busy;_searchMode.enabled=!busy;}
+- (void)setBusy:(BOOL)busy {_refresh.enabled=!busy;_search.enabled=YES;[_search setTitle:busy?@"取消":(_searchMode.selectedSegmentIndex?@"查找方法":@"查找类") forState:UIControlStateNormal];_back.enabled=!busy;_table.userInteractionEnabled=!busy;_searchMode.enabled=!busy;}
 - (NSDictionary *)hostInfo {
     NSBundle *bundle=NSBundle.mainBundle;
     return @{@"bundleID":bundle.bundleIdentifier?:@"",@"appVersion":[bundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"]?:@"",@"build":[bundle objectForInfoDictionaryKey:@"CFBundleVersion"]?:@"",@"system":UIDevice.currentDevice.systemVersion?:@""};
 }
 - (void)runQuery:(NSString *)query classIdentity:(NSDictionary *)identity refresh:(BOOL)refresh {
     [self endEditing:YES];NSUInteger generation=[_finder beginRequestResetClasses:(refresh||!identity) classOffset:_table.contentOffset.y];[self setBusy:YES];_status.text=@"正在读取 Runtime 元数据…";
+    [_progress cancel];NSProgress *progress=[NSProgress progressWithTotalUnitCount:1];_progress=progress;
     BOOL methodSearch=_searchMode.selectedSegmentIndex==1,expressionSearch=_searchMode.selectedSegmentIndex==2;
     NSDictionary *host=[self hostInfo];__weak NMProbeOverlay *weakSelf=self;
     dispatch_async(_worker,^{
-        NMProbeOverlay *owner=weakSelf;if(!owner)return;
+        NMProbeOverlay *owner=weakSelf;if(!owner||progress.cancelled)return;
         NSError *error=nil;NSDictionary *capabilities=[NMIL2CPPDiscovery loadedRuntimeCapabilities];
         if(refresh||!owner->_service)owner->_service=[NMIL2CPPDiscovery loadedRuntimeWithError:&error];
         NSDictionary *snapshot=nil;
-        if(owner->_service&&!error){if(identity)snapshot=[owner->_service methodsForClass:identity limit:200 error:&error];else if(query)snapshot=expressionSearch?[owner->_service searchMethodExpression:query limit:200 error:&error]:methodSearch?[owner->_service searchMethods:query limit:200 error:&error]:[owner->_service searchClasses:query limit:200 error:&error];}
+        if(owner->_service&&!error){if(identity)snapshot=[owner->_service methodsForClass:identity limit:200 progress:progress error:&error];else if(query)snapshot=expressionSearch?[owner->_service searchMethodExpression:query limit:200 progress:progress error:&error]:methodSearch?[owner->_service searchMethods:query limit:200 progress:progress error:&error]:[owner->_service searchClasses:query limit:200 progress:progress error:&error];}
         NSDictionary *report=@{@"schemaVersion":@1,@"probeBuild":[NSString stringWithUTF8String:NM_BUILD_SHA],@"coreAPI":@(NewMyMenuCoreGetAPIVersion()),@"mode":@"read-only metadata; no runtime_invoke/GCHandle/Hook",@"host":host,@"capabilities":capabilities,@"runtime":owner->_service.runtimeReport?:@{},@"lastSnapshot":snapshot?:@{},@"error":error.localizedDescription?:@"",@"timestamp":[NSISO8601DateFormatter.new stringFromDate:NSDate.date]};
         dispatch_async(dispatch_get_main_queue(),^{
             NMProbeOverlay *view=weakSelf;if(!view)return;
@@ -115,7 +117,7 @@ static CGFloat NMClamp(CGFloat x,CGFloat low,CGFloat high){return MAX(low,MIN(MA
 }
 - (void)modeChanged:(id)sender {(void)sender;[_search setTitle:_searchMode.selectedSegmentIndex?@"查找方法":@"查找类" forState:UIControlStateNormal];_query.placeholder=_searchMode.selectedSegmentIndex==2?@"Class::Method/参数个数":(_searchMode.selectedSegmentIndex?@"方法名关键词，例如 GetValue":@"类名关键词，例如 Cheat / Player");if(_query.text.length)[self search:nil];else [self refresh:nil];}
 - (void)refresh:(id)sender {(void)sender;[self runQuery:nil classIdentity:nil refresh:YES];}
-- (void)search:(id)sender {(void)sender;NSString *query=[_query.text stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceAndNewlineCharacterSet];if(!query.length){_status.text=@"请输入类名关键词";return;}[self runQuery:query classIdentity:nil refresh:NO];}
+- (void)search:(id)sender {(void)sender;if(_finder.busy){[_progress cancel];[_finder cancelPending];[self renderSessionRestoringOffset:NO];_status.text=@"已取消；旧请求结果不会覆盖新页面。";return;}NSString *query=[_query.text stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceAndNewlineCharacterSet];if(!query.length){_status.text=@"请输入类名关键词";return;}[self runQuery:query classIdentity:nil refresh:NO];}
 - (void)back:(id)sender {(void)sender;if([_finder returnToClasses])[self renderSessionRestoringOffset:YES];}
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {(void)tableView;(void)section;return (NSInteger)_finder.rows.count;}
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {

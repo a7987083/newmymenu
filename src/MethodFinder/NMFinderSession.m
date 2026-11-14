@@ -2,11 +2,13 @@
 #include <math.h>
 @implementation NMFinderSession {
     NSUInteger _generation;
+    BOOL _busy;
     NSDictionary *_snapshot,*_report,*_classSnapshot,*_classReport;
     double _classOffset;
 }
 - (instancetype)init {self=[super init];if(self){_snapshot=@{};_report=@{};}return self;}
 - (NSUInteger)generation {return _generation;}
+- (BOOL)isBusy {return _busy;}
 - (NSDictionary *)snapshot {return _snapshot;}
 - (NSDictionary *)report {return _report;}
 - (NSArray *)rows {return _snapshot[@"results"]?:@[];}
@@ -15,14 +17,15 @@
 - (double)classOffset {return _classOffset;}
 - (NSUInteger)beginRequestResetClasses:(BOOL)reset classOffset:(double)offset {
     NSAssert(NSThread.isMainThread,@"Finder state must be owned by the main thread");
-    _generation++;
-    if(reset){_classSnapshot=nil;_classReport=nil;_classOffset=0;}
+    _generation++;_busy=YES;
+    if(reset){_classSnapshot=nil;_classReport=nil;_classOffset=0;_snapshot=@{};_report=@{};}
     else if([_snapshot[@"kind"] isEqual:@"classes"]){_classOffset=isfinite(offset)?MAX(0,offset):0;}
     return _generation;
 }
 - (BOOL)acceptSnapshot:(NSDictionary *)snapshot report:(NSDictionary *)report generation:(NSUInteger)generation {
     NSAssert(NSThread.isMainThread,@"Finder state must be owned by the main thread");
     if(generation!=_generation)return NO;
+    _busy=NO;
     // JSON decoding returns deeply immutable values, independent of producer mutations.
     NSDictionary *payload=@{@"snapshot":snapshot?:@{},@"report":report};
     NSData *data=[NSJSONSerialization isValidJSONObject:payload]?[NSJSONSerialization dataWithJSONObject:payload options:0 error:nil]:nil;
@@ -38,6 +41,10 @@
 - (BOOL)returnToClasses {
     NSAssert(NSThread.isMainThread,@"Finder state must be owned by the main thread");
     if(!_classSnapshot)return NO;
-    _generation++;_snapshot=_classSnapshot;_report=_classReport;return YES;
+    _generation++;_busy=NO;_snapshot=_classSnapshot;_report=_classReport;return YES;
+}
+- (void)cancelPending {
+    NSAssert(NSThread.isMainThread,@"Finder state must be owned by the main thread");
+    if(_busy){_generation++;_busy=NO;}
 }
 @end
