@@ -12,6 +12,13 @@ static void waitState(NMCaptureSessionManager *manager,NMCaptureState state){
  }
  check(NO,"capture state did not converge");
 }
+static void waitReleased(BOOL (^released)(void)){
+ for(unsigned i=0;i<100;i++){
+  if(released())return;
+  dispatch_semaphore_t delay=dispatch_semaphore_create(0);dispatch_after(dispatch_time(DISPATCH_TIME_NOW,10*NSEC_PER_MSEC),dispatch_get_global_queue(QOS_CLASS_DEFAULT,0),^{dispatch_semaphore_signal(delay);});waitSignal(delay,"release delay");
+ }
+ check(NO,"owned resource was not released after safe close");
+}
 @interface NMCaptureHarness : NSObject
 @property(nonatomic,strong) NSMutableDictionary *events;
 @property(nonatomic,strong) NSMutableDictionary *installAcks;
@@ -72,14 +79,19 @@ static void installing_cancel(){
 static void safe_close_and_retry(){
  NMCaptureHarness *h=[NMCaptureHarness new];h.autoClose=NO;NMCaptureSessionManager *manager=[h manager];dispatch_semaphore_t done=dispatch_semaphore_create(0);std::atomic<unsigned> completions(0);auto *count=&completions;
  NMCaptureToken *token=[manager startForTarget:@"Closing" timeout:1 completion:^(NMCaptureToken *t,NMReceiverLease *l,NSError *e){(void)t;check(l==nil&&e.code==7,"close failure is explicit");count->fetch_add(1);dispatch_semaphore_signal(done);} error:NULL];
- waitState(manager,NMCaptureStateActive);[h event:token](objectLease());waitSignal(h.closed,"close requested");waitState(manager,NMCaptureStateClosing);
+ waitState(manager,NMCaptureStateActive);__weak NSObject *weakOwner=nil;
+ @autoreleasepool {NSObject *owner=[NSObject new];weakOwner=owner;NMReceiverLease *lease=[NMReceiverLease leaseRetainingObject:owner error:NULL];[h event:token](lease);}
+ waitSignal(h.closed,"close requested");waitState(manager,NMCaptureStateClosing);
+ check(weakOwner!=nil,"resource retained while close acknowledgement pending");
  check(dispatch_semaphore_wait(done,DISPATCH_TIME_NOW)!=0,"no completion before close ack");
  NMCaptureCompletion unused=^(NMCaptureToken *t,NMReceiverLease *l,NSError *e){(void)t;(void)l;(void)e;};
  check([manager startForTarget:@"Blocked" timeout:1 completion:unused error:NULL]==nil,"closing blocks new install");
  [h ackClose:token error:[NSError errorWithDomain:@"fixture" code:1 userInfo:nil]];waitSignal(done,"close error delivered");waitState(manager,NMCaptureStateCloseFailed);
+ check(weakOwner!=nil,"failed close retains resource instead of unsafe release");
  check([manager startForTarget:@"Still blocked" timeout:1 completion:unused error:NULL]==nil,"failed close retains session ownership");
  @synchronized(h){h.autoClose=YES;}[manager retryCloseForSession:token];waitState(manager,NMCaptureStateIdle);dispatch_sync(h.callbacks,^{});
  check(completions.load()==1,"retry does not deliver completion twice");
+ waitReleased(^BOOL{return weakOwner==nil;});
 }
 static void install_failure_and_timeout(){
  NMCaptureHarness *h=[NMCaptureHarness new];h.autoInstall=NO;NMCaptureSessionManager *manager=[h manager];dispatch_semaphore_t done=dispatch_semaphore_create(0);
@@ -89,4 +101,13 @@ static void install_failure_and_timeout(){
  [manager startForTarget:@"Actual timeout" timeout:0.5 completion:^(NMCaptureToken *t,NMReceiverLease *l,NSError *e){(void)t;check(l==nil&&e.code==4,"current session own timeout");dispatch_semaphore_signal(timedOut);} error:NULL];
  waitSignal(timedOut,"timeout completes");waitState(manager,NMCaptureStateIdle);
 }
-int main(){@autoreleasepool{stale_session();installing_cancel();safe_close_and_retry();install_failure_and_timeout();puts("PASS: real timers isolate old sessions; install cancellation, acknowledged close, failure ownership/retry and one-shot completion");}return 0;}
+static void manager_lifetime(){
+ NMCaptureHarness *h=[NMCaptureHarness new];__weak NMCaptureSessionManager *weak=nil;dispatch_semaphore_t done=dispatch_semaphore_create(0);
+ @autoreleasepool {
+  NMCaptureSessionManager *manager=[h manager];weak=manager;
+  NMCaptureToken *token=[manager startForTarget:@"Lifetime" timeout:1 completion:^(NMCaptureToken *t,NMReceiverLease *l,NSError *e){(void)t;check(l!=nil&&!e,"lifetime session completes");dispatch_semaphore_signal(done);} error:NULL];
+  waitState(manager,NMCaptureStateActive);[h event:token](objectLease());waitSignal(done,"lifetime completion");waitState(manager,NMCaptureStateIdle);dispatch_sync(h.callbacks,^{});
+ }
+ waitReleased(^BOOL{return weak==nil;});
+}
+int main(){@autoreleasepool{manager_lifetime();stale_session();installing_cancel();safe_close_and_retry();install_failure_and_timeout();puts("PASS: real timers isolate old sessions; install cancellation, acknowledged close, failure ownership/retry, resource/manager release and one-shot completion");}return 0;}

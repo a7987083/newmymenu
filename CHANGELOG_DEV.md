@@ -53,3 +53,6 @@
 - Capture旧事件/cancel/timer均绑定session；install未ack不复用，close失败保留ownership并允许retry。未ack后端不能强制释放。
 - 增加真实Foundation对象存活、1000并发调用、旧timeout隔离及install/close失败fixture；尚待macOS CI，不预填通过。
 - core API提升为2；增加的基础接口尚未连接IL2CPP/Dobby或旧UI，不宣称原游戏已修复。
+
+- 初轮Execution/Capture CI Run43643039478（cd93060）四job通过：新Foundation契约/并发/真实对象存活与timer测试执行，ARM64 API2核心库通过15项精确导出、依赖/签名检查。
+- 自审新增关闭失败资源保留、retry成功释放及manager正常关闭后解除自持有的具体生命周期断言；这些新增断言等待下一CI，不以初轮结果冒充通过。
