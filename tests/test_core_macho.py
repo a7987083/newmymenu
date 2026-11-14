@@ -14,6 +14,8 @@ class CoreMachOTests(unittest.TestCase):
  def test_expected_platform_layout(self):self.assertEqual(inspect(fixture())['architecture'],'arm64')
  def test_wrong_sdk_rejected(self):
   with self.assertRaises(ValueError):inspect(fixture(sdk=17<<16))
+ def test_observed_constant_string_runtime_dependency(self):
+  self.assertIn('/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation',inspect(fixture(dependency='/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation'))['dependencies'])
  def test_foreign_dependency_rejected(self):
   with self.assertRaises(ValueError):inspect(fixture(dependency='@rpath/libdobby.dylib'))
  def test_truncated_signature_rejected(self):

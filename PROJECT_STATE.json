@@ -64,20 +64,24 @@
   },
   "foundation_core": {
     "modified": true,
-    "committed": false,
-    "compiled_ios_arm64": false,
+    "committed": true,
+    "compiled_ios_arm64": true,
     "run_ios": false,
     "device_verified": false,
     "menu_integration": false,
     "portable_python_tests_passed": 15,
     "portable_codec_run": true,
     "wire_parity_run": true,
-    "foundation_run": false,
-    "baseline_regression": false,
-    "ci_status": "pending",
+    "foundation_run": true,
+    "baseline_regression": true,
+    "ci_status": "failure_dependency_validation",
     "scope": [
       "offline translation",
       "runtime action wire and checked ordinal codec"
-    ]
+    ],
+    "ci_source_head": "cd7d6b8a87825248e7741ffc2ad4f4b5752599dc",
+    "ci_run_id": 43638600632,
+    "strict_verification": false,
+    "ios_run": false
   }
 }

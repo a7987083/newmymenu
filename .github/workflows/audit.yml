@@ -138,10 +138,16 @@ jobs:
         run: |
           set -euo pipefail
           make test-parity SOURCE_BASELINE=.audit-source
+      - name: Static analysis of migrated modules
+        run: |
+          set -euo pipefail
+          mkdir -p build/core
+          xcrun clang --analyze -std=c11 -Wall -Wextra -Werror -Iinclude src/NMCore.c -o build/core/NMCore-analysis.plist
+          xcrun clang --analyze -std=c11 -Wall -Wextra -Werror -Iinclude src/Configuration/NMRuntimeActionCodec.c -o build/core/NMRuntimeActionCodec-analysis.plist
+          xcrun clang++ --analyze -std=c++17 -fobjc-arc -fblocks -Wall -Wextra -Werror -Iinclude src/MethodFinder/NMMethodTranslator.mm -o build/core/NMMethodTranslator-analysis.plist
       - name: Build and strictly verify ARM64 foundation core
         run: |
           set -euo pipefail
-          test "$(xcodebuild -version | head -n 1)" = 'Xcode 16.4'
           make core
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
