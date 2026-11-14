@@ -6,6 +6,6 @@
 
 继承默认拒绝：ObjC公共API不能删除class_addMethod形成的本地槽。显式选择LocalSnapshot时才本地化，不修改父类，恢复的是安装时IMP快照，本地槽会保留；父类在安装期间变化则拒绝恢复旧快照。不能把这种恢复描述为完全恢复动态继承。
 
-统一单owner registry，重复目标拒绝，当前IMP与原/替换记录不符时报告冲突并不覆盖第三方。此检查基于所有写入遵循协作契约，不提供跨任意第三方并发写入的CAS保证。替换Method仍需由其定义模块保持代码可用，不接受block-backed IMP（生命周期无法由manager拥有）。不自动安装任何游戏或系统Hook。
+统一单owner registry，重复目标拒绝，当前IMP与原/替换记录不符时报告冲突并不覆盖第三方。此检查基于所有写入遵循协作契约，不提供跨任意第三方并发写入的CAS保证。token用dladdr/RTLD_NOLOAD持有target/replacement Class与两个IMP的代码镜像，拒绝无法持有的动态/无镜像地址和block-backed IMP。失败候选和恢复token的资源释放安排在独占scope退出后，避免dlclose回调在锁内重入。不自动安装任何游戏或系统Hook。
 
 真实Runtime fixture涵盖instance/class、参数/返回、原IMP、签名不符、继承隔离、活动调用/重入拒绝、外部IMP改变、并发调度与恢复、对象释放。必要外部诊断的实际接入仍需明确调度适配器，不因manager组件通过就声称已迁移。

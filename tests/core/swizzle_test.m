@@ -14,7 +14,7 @@ typedef struct {double value;NSInteger count;} NMSWPair;
 - (NMSWPair)pair:(double)x count:(NSInteger)n;
 @end
 @implementation NMSWParent
-- (NSInteger)value:(NSInteger)x{return x+1;}
+- (NSInteger)value:(NSInteger)x{return _cmd==@selector(value:)?x+1:-999;}
 + (double)classValue:(double)x{return x+0.5;}
 - (NMSWPair)pair:(double)x count:(NSInteger)n{return (NMSWPair){x+1,n+2};}
 - (void)dealloc{atomic_fetch_add(&released,1);}
@@ -42,7 +42,12 @@ int main(void){@autoreleasepool{
  check(install(manager,NMSWParent.class,@selector(value:),NO,@selector(badValue:),0,&error)==nil&&error.code==7,"wrong argument ABI rejected");
  check(install(manager,NMSWChild.class,@selector(value:),NO,@selector(replacementValue:),0,&error)==nil&&error.code==8,"inherited method rejected by default without parent mutation");
  check(method_getImplementation(class_getInstanceMethod(NMSWParent.class,@selector(value:)))==baseline,"failed install leaves original IMP untouched");
+ Method replacementMethod=class_getInstanceMethod(NMSWReplacement.class,@selector(replacementValue:));IMP compiledReplacement=method_getImplementation(replacementMethod);
+ IMP block=imp_implementationWithBlock(^NSInteger(id object,NSInteger x){(void)object;return x+5;});check(block!=NULL,"controlled block IMP fixture created");method_setImplementation(replacementMethod,block);
+ check(install(manager,NMSWParent.class,@selector(value:),NO,@selector(replacementValue:),0,&error)==nil&&error.code==9,"unowned block IMP rejected before installation");method_setImplementation(replacementMethod,compiledReplacement);check(imp_removeBlock(block),"unused block IMP safely released in controlled fixture");
  instanceToken=install(manager,NMSWParent.class,@selector(value:),NO,@selector(replacementValue:),0,&error);check(instanceToken&&!error&&instanceToken.originalImplementation==baseline,"first install saves exact original IMP");
+ classToken=install(manager,NMSWParent.class,@selector(classValue:),YES,@selector(replacementClassValue:),0,&error);check(classToken!=nil,"instance and metaclass slots can be independently owned");
+ [manager performInvocation:^{check([NMSWParent classValue:2]==4.5,"simultaneous class original IMP chain");} error:NULL];check([manager restoreToken:classToken error:&error],"metaclass restoration leaves instance owner intact");classToken=nil;
  check(install(manager,NMSWParent.class,@selector(value:),NO,@selector(replacementValue:),0,&error)==nil&&error.code==5,"duplicate selector owner rejected");
  __weak NMSWParent *weak=nil;unsigned before=atomic_load(&released);
  @autoreleasepool{NMSWParent *object=[NMSWParent new];weak=object;check([manager performInvocation:^{check([object value:2]==13,"replacement calls original with correct argument/return");} error:&error],"coordinated dispatch succeeds");}

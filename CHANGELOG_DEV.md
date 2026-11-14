@@ -120,3 +120,7 @@
 - 1aab363a / Run43654350053最终五job通过：API8 ARM64 core/Probe构建、25/26导出与依赖/签名校验通过，10份core+3份UI/state/presentation分析零diagnostics；搜索取消/Manifest/JSON/原解析器等回归与独立codesign/权限拒绝负例通过。Core Artifact14137721557已下载核对ZIP/SHA/Mach-O；源码与产物一致。未发送中间dylib，未宣称完整产品或实机验证。
 
 - SwizzleManager implementation/test fixture: single registry, exact runtime Method ABI checks, original IMP preservation, cooperative read/try-write gate, explicit default inherited rejection/local-snapshot opt-in, duplicate/foreign/parent conflict refusal and bounded diagnostics. No automatic external/game Hook installation. Source and real Runtime ASan tests pending CI; uncoordinated dispatch/foreign writers are explicitly unsupported.
+
+- Run43655309286: first real ObjC Runtime/ASan SwizzleManager fixture passed instance/class/aggregate ABI, original IMP, inheritance, active/reentrant refusal, foreign/parent conflict and receiver release. Core API9 integration now adds manager/token exports, formal ARM64 compile/static analysis. Additional controlled block-IMP rejection and simultaneous instance/metaclass ownership tests retain the same lifecycle contract.
+
+- Swizzle token now pins target/replacement Class and original/replacement IMP images; unmapped/dynamic/block-backed implementations are refused. Precise token/candidate lifetimes defer image release until after the exclusive gate unlocks, including failed installation. No block/free or image-unload fallback introduced.
