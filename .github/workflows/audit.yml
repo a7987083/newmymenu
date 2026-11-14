@@ -137,6 +137,7 @@ jobs:
           make test-execution
           make test-discovery
           make test-finder
+          make test-presentation
       - name: Regression against fixed original implementation
         run: |
           set -euo pipefail
@@ -180,6 +181,7 @@ jobs:
           SDK="$(xcrun --sdk iphoneos --show-sdk-path)"
           xcrun --sdk iphoneos clang --analyze -isysroot "$SDK" -arch arm64 -miphoneos-version-min=14.0 -std=c11 -fobjc-arc -fblocks -Wall -Wextra -Werror -Iinclude -Isrc/MethodFinder src/DeviceProbe/NMDeviceProbe.m -o build/device-probe/NMDeviceProbe-analysis.plist
           xcrun --sdk iphoneos clang --analyze -isysroot "$SDK" -arch arm64 -miphoneos-version-min=14.0 -std=c11 -fobjc-arc -fblocks -Wall -Wextra -Werror -Isrc/MethodFinder src/MethodFinder/NMFinderSession.m -o build/device-probe/NMFinderSession-analysis.plist
+          xcrun --sdk iphoneos clang --analyze -isysroot "$SDK" -arch arm64 -miphoneos-version-min=14.0 -std=c11 -fobjc-arc -fblocks -Wall -Wextra -Werror -Iinclude -Isrc/MethodFinder src/MethodFinder/NMMethodPresentation.m -o build/device-probe/NMMethodPresentation-analysis.plist
           python3 tools/check_analysis.py build/device-probe/*-analysis.plist
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()

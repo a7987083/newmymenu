@@ -35,6 +35,11 @@ int main(){@autoreleasepool{
  NSError *error=nil;NSDictionary *found=[service searchClasses:@"cheat" limit:10 error:&error];check(!error&&[found[@"count"] intValue]==1,"case-insensitive class search");check(attached==1&&detached==1&&allocated==freed,"thread scope and typename free");
  NSDictionary *descriptor=[found[@"results"] firstObject];NSDictionary *listed=[service methodsForClass:descriptor limit:10 error:&error];NSArray *rows=listed[@"results"];
  check(!error&&rows.count==2&&[rows[0][@"static"] boolValue]&&[rows[1][@"parameterTypes"][0] isEqual:@"System.Int32&"],"method signatures and flags copied");
+ NSDictionary *global=[service searchMethods:@"vALuE" limit:10 error:&error];NSArray *globalRows=global[@"results"];
+ check(!error&&globalRows.count==4&&[global[@"methodsScanned"] intValue]==4,@"global method substring search scans both classes".UTF8String);
+ check([globalRows[0][@"classIdentity"][@"fullType"] isEqual:@"Game.CheatController"],"global result preserves copied owner identity");
+ NSDictionary *methodLimit=[service searchMethods:@"Value" limit:1 error:&error];check([methodLimit[@"count"] intValue]==1&&[methodLimit[@"truncated"] boolValue],"method search result limit is explicit");
+ NSDictionary *noMethod=[service searchMethods:@"absent" limit:10 error:&error];check(!error&&[noMethod[@"count"] intValue]==0,"method no-match is empty snapshot");
  currentThread=true;unsigned before=attached;[service searchClasses:@"Player" limit:10 error:&error];check(attached==before&&detached==before,"existing VM thread is not detached");currentThread=false;
  throwMetadata=true;check([service searchClasses:@"cheat" limit:10 error:&error]==nil&&error,"exception becomes error");check(attached==detached,"exception still detaches owned thread");throwMetadata=false;
  attachFailure=true;before=detached;check([service searchClasses:@"cheat" limit:10 error:&error]==nil&&error&&detached==before,"failed attach is not detached");attachFailure=false;

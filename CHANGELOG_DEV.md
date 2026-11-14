@@ -88,3 +88,5 @@
 - User screenshot of 4d9231c7 confirms the panel is visibly loaded on one device; real Runtime exports/class results/method signatures/keyboard/lifecycle not confirmed by this image.
 
 - 05840d7b / Run43649083590: 5 jobs通过；Finder ASan状态测试及现有回归通过，7份core+2份Probe分析零diagnostics；ARM64/导出/依赖/签名通过。Artifact14134789796已下载核对ZIP/dylib SHA及Mach-O。设备行为仍未验证；已提供新版只读dylib和滚动返回测试步骤。
+
+- API4: single Discovery scan loop now supports bounded global method-name substring search; class expansion/global search share one method-signature copy function. UI Class/Method mode and private presentation fields integrate original offline translator and raw single-field copying. Original exact/canonical/RVA grammar and rank parity remain pending; no Invoke or native pointer fallback added. New fixture/ASan/presentation/analysis checks pending CI.

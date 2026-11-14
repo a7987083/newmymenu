@@ -1,0 +1,7 @@
+# 0005 方法搜索与字段呈现
+
+基线7066ede：ZNIL2CPPMethodFinderSearchV3.mm的zn64_searchClasses使用exact/prefix/suffix/contains排名；zn60_searchCandidates解析限定表达式/参数个数/RVA，MethodMatches使用大小写不敏感精确方法名。ZNUnifiedUI.mm:13016起P5字段模型明确分离label/value/copyable。不能称当前关键词扫描已经完整替代旧表达式/RVA查找。
+
+本阶段增加有界全局方法关键词扫描和独立字段呈现：复用Discovery唯一Runtime绑定/线程scope/方法签名复制算法，不创建第二套Resolver。类/方法模式使用同一scan循环和table renderer；方法结果携带值类型class identity，不保存MethodInfo/IMP。签名字段和翻译只影响显示，复制始终使用原始值。未知RVA/指针不显示伪数据，也不启用Invoke。
+
+保留一个字段生成模块供详情UI和测试，复用已验证NMMethodTranslator。完整表达式解析、RVA反查、排名对等、ObjC discovery、参数ABI执行仍单列待迁移，不能靠本阶段成功删除这些需求。

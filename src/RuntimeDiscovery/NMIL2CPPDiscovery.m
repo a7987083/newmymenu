@@ -21,6 +21,16 @@ static NSString *NMDLTypeName(NMIL2CPPAPI api,const void *type) {
     @try { value=[NMDLString(raw) copy]; } @finally { api.freeMemory(raw); }
     return value.length?value:@"?";
 }
+// Shared by class expansion and global method search: one metadata copying path.
+static NSDictionary *NMDLCopyMethod(NMIL2CPPAPI api,const void *method,NSDictionary *identity,NSError *__strong *failure) {
+    uint32_t params=api.methodGetParamCount(method);
+    if(params>128){if(failure)*failure=NMDLError(18,@"Invalid method parameter count");return nil;}
+    NSMutableArray *types=[NSMutableArray arrayWithCapacity:params];
+    for(uint32_t i=0;i<params;i++)[types addObject:NMDLTypeName(api,api.methodGetParam(method,i))];
+    uint32_t implementation=0;uint32_t flags=api.methodGetFlags(method,&implementation);
+    NSString *name=NMDLString(api.methodGetName(method)),*ret=NMDLTypeName(api,api.methodGetReturnType(method));
+    return @{@"method":name,@"parameterTypes":[types copy],@"returnType":ret,@"static":@((flags&0x10u)!=0),@"classIdentity":identity,@"signature":[NSString stringWithFormat:@"%@ %@(%@)",ret,name,[types componentsJoinedByString:@", "]]};
+}
 static NSString *NMDLImageUUID(const struct mach_header *header) {
     if(!header || header->magic!=MH_MAGIC_64 || header->sizeofcmds>16*1024*1024)return @"";
     const uint8_t *cursor=(const uint8_t *)header+sizeof(struct mach_header_64),*end=cursor+header->sizeofcmds;
@@ -40,6 +50,7 @@ static NSString *NMDLImageUUID(const struct mach_header *header) {
     void *_ownedHandle;
     NSDictionary *_runtimeReport;
 }
+- (nullable NSDictionary *)scanQuery:(NSString *)query methods:(BOOL)methods limit:(NSUInteger)limit error:(NSError **)error;
 - (nullable NSDictionary *)withMetadata:(NSDictionary * _Nullable (^)(NMIL2CPPAPI api,void *domain,NSError *__strong *error))operation error:(NSError **)error;
 @end
 
@@ -111,16 +122,18 @@ static NSString *NMDLImageUUID(const struct mach_header *header) {
     if(!result&&!failure)failure=NMDLError(9,@"Metadata operation produced no result");
     if(error)*error=failure;return failure?nil:result;
 }
-- (NSDictionary *)searchClasses:(NSString *)query limit:(NSUInteger)limit error:(NSError **)error {
+- (NSDictionary *)searchClasses:(NSString *)query limit:(NSUInteger)limit error:(NSError **)error {return [self scanQuery:query methods:NO limit:limit error:error];}
+- (NSDictionary *)searchMethods:(NSString *)query limit:(NSUInteger)limit error:(NSError **)error {return [self scanQuery:query methods:YES limit:limit error:error];}
+- (NSDictionary *)scanQuery:(NSString *)query methods:(BOOL)methodSearch limit:(NSUInteger)limit error:(NSError **)error {
     NSString *text=[query isKindOfClass:NSString.class]?[[query stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceAndNewlineCharacterSet] copy]:nil;
-    if(!text.length || !limit || limit>1024){if(error)*error=NMDLError(10,@"Enter a class query and limit within 1..1024");return nil;}
+    if(!text.length || !limit || limit>1024){if(error)*error=NMDLError(10,@"Enter a keyword and limit within 1..1024");return nil;}
     return [self withMetadata:^NSDictionary *(NMIL2CPPAPI api,void *domain,NSError *__strong *failure){
         size_t count=0;const void **assemblies=api.domainGetAssemblies(domain,&count);
         if(!assemblies||!count||count>4096){if(failure)*failure=NMDLError(11,@"No assemblies yet or invalid assembly count");return nil;}
         NSMutableArray *ordered=[NSMutableArray array];
         for(size_t i=0;i<count;i++){const void *image=api.assemblyGetImage(assemblies[i]);if(image)[ordered addObject:@{@"pointer":@((uintptr_t)image),@"assembly":NMDLString(api.imageGetName(image))}];}
         [ordered sortUsingComparator:^NSComparisonResult(NSDictionary *a,NSDictionary *b){BOOL ac=[a[@"assembly"] hasPrefix:@"Assembly-CSharp"],bc=[b[@"assembly"] hasPrefix:@"Assembly-CSharp"];if(ac!=bc)return ac?NSOrderedAscending:NSOrderedDescending;return [a[@"assembly"] compare:b[@"assembly"]];}];
-        NSMutableArray *results=[NSMutableArray array];NSUInteger scanned=0;BOOL truncated=NO;double deadline=NMDLTime()+2.0;
+        NSMutableArray *results=[NSMutableArray array];NSUInteger scanned=0,methodsScanned=0;BOOL truncated=NO;double deadline=NMDLTime()+2.0;
         for(NSDictionary *entry in ordered){
             const void *image=(const void *)(uintptr_t)[entry[@"pointer"] unsignedLongLongValue];size_t classes=api.imageGetClassCount(image);
             if(classes>2000000){if(failure)*failure=NMDLError(12,@"Invalid class count");return nil;}
@@ -129,13 +142,25 @@ static NSString *NMDLImageUUID(const struct mach_header *header) {
                 scanned++;void *klass=api.imageGetClass(image,i);if(!klass)continue;
                 NSString *name=NMDLString(api.classGetName(klass)),*ns=NMDLString(api.classGetNamespace(klass));
                 NSString *full=NMDLTypeName(api,api.classGetType(klass));
-                NSString *search=[NSString stringWithFormat:@"%@ %@ %@",name,ns,full];
-                if([search rangeOfString:text options:NSCaseInsensitiveSearch|NSDiacriticInsensitiveSearch].location==NSNotFound)continue;
-                [results addObject:@{@"assembly":entry[@"assembly"],@"namespace":ns,@"class":name,@"fullType":full,@"runtimeIdentifier":self->_runtimeReport[@"runtimeIdentifier"]}];
+                NSDictionary *identity=@{@"assembly":entry[@"assembly"],@"namespace":ns,@"class":name,@"fullType":full,@"runtimeIdentifier":self->_runtimeReport[@"runtimeIdentifier"]};
+                if(!methodSearch){
+                    NSString *search=[NSString stringWithFormat:@"%@ %@ %@",name,ns,full];
+                    if([search rangeOfString:text options:NSCaseInsensitiveSearch|NSDiacriticInsensitiveSearch].location!=NSNotFound)[results addObject:identity];
+                } else {
+                    void *iterator=NULL;const void *method=NULL;
+                    while((method=api.classGetMethods(klass,&iterator))){ @autoreleasepool {
+                        if(results.count>=limit||methodsScanned>=500000||NMDLTime()>deadline){truncated=YES;break;}
+                        methodsScanned++;
+                        NSString *methodName=NMDLString(api.methodGetName(method));
+                        if([methodName rangeOfString:text options:NSCaseInsensitiveSearch|NSDiacriticInsensitiveSearch].location==NSNotFound)continue;
+                        NSDictionary *row=NMDLCopyMethod(api,method,identity,failure);if(!row)return nil;[results addObject:row];
+                    }}
+                }
+                if(truncated)break;
             }}
             if(truncated)break;
         }
-        return @{@"kind":@"classes",@"query":text,@"results":[results copy],@"count":@(results.count),@"scanned":@(scanned),@"truncated":@(truncated)};
+        return @{@"kind":methodSearch?@"methods":@"classes",@"query":text,@"results":[results copy],@"count":@(results.count),@"scanned":@(scanned),@"methodsScanned":@(methodsScanned),@"truncated":@(truncated)};
     } error:error];
 }
 - (NSDictionary *)methodsForClass:(NSDictionary *)identity limit:(NSUInteger)limit error:(NSError **)error {
@@ -162,11 +187,7 @@ static NSString *NMDLImageUUID(const struct mach_header *header) {
         NSMutableArray *results=[NSMutableArray array];void *iterator=NULL;const void *method=NULL;BOOL truncated=NO;NSUInteger scanned=0;
         while((method=api.classGetMethods(matched,&iterator))){ @autoreleasepool {
             if(results.count>=limit||scanned++>=20000||NMDLTime()>deadline){truncated=YES;break;}
-            uint32_t params=api.methodGetParamCount(method);if(params>128){if(failure)*failure=NMDLError(18,@"Invalid method parameter count");return nil;}
-            NSMutableArray *types=[NSMutableArray arrayWithCapacity:params];for(uint32_t i=0;i<params;i++)[types addObject:NMDLTypeName(api,api.methodGetParam(method,i))];
-            uint32_t implementation=0;uint32_t flags=api.methodGetFlags(method,&implementation);
-            NSString *name=NMDLString(api.methodGetName(method)),*ret=NMDLTypeName(api,api.methodGetReturnType(method));
-            [results addObject:@{@"method":name,@"parameterTypes":[types copy],@"returnType":ret,@"static":@((flags&0x10u)!=0),@"signature":[NSString stringWithFormat:@"%@ %@(%@)",ret,name,[types componentsJoinedByString:@", "]]}];
+            NSDictionary *row=NMDLCopyMethod(api,method,descriptor,failure);if(!row)return nil;[results addObject:row];
         }}
         return @{@"kind":@"methods",@"class":descriptor,@"results":[results copy],@"count":@(results.count),@"truncated":@(truncated)};
     } error:error];

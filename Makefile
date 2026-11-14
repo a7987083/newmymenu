@@ -51,3 +51,10 @@ test-finder:
 	mkdir -p build/tests
 	xcrun clang -std=c11 $(WARN) -g -fsanitize=address -fobjc-arc -fblocks -Isrc/MethodFinder -framework Foundation src/MethodFinder/NMFinderSession.m tests/core/finder_session_test.m -o build/tests/finder-session
 	build/tests/finder-session
+
+.PHONY: test-presentation
+test-presentation:
+	mkdir -p build/tests
+	xcrun clang -std=c11 $(WARN) -g -fsanitize=address -fobjc-arc -fblocks -Iinclude -Isrc/MethodFinder -c src/MethodFinder/NMMethodPresentation.m -o build/tests/NMMethodPresentation.o
+	xcrun clang++ -std=c++17 $(WARN) -g -fsanitize=address -fobjc-arc -fblocks -Iinclude -Isrc/MethodFinder -framework Foundation build/tests/NMMethodPresentation.o src/MethodFinder/NMMethodTranslator.mm tests/core/method_presentation_test.mm -o build/tests/method-presentation
+	build/tests/method-presentation
