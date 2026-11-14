@@ -20,12 +20,10 @@
 
 static const uint32_t kNMSignerCSMagicEmbeddedSignature = 0xfade0cc0u;
 static const uint32_t kNMSignerCSMagicRequirements      = 0xfade0c01u;
-static const uint32_t kNMSignerCSMagicRequirement       = 0xfade0c00u;
 static const uint32_t kNMSignerCSMagicCodeDirectory     = 0xfade0c02u;
 static const uint32_t kNMSignerCSSlotCodeDirectory      = 0u;
 static const uint32_t kNMSignerCSSlotRequirements       = 2u;
 static const uint32_t kNMSignerCSSlotAlternate          = 0x1000u;
-static const uint32_t kNMSignerCSRequirementDesignated  = 3u;
 static const uint32_t kNMSignerCSCodeDirectoryVersion   = 0x00020400u;
 static const uint32_t kNMSignerCSPageShift              = 12u;
 static const uint64_t kNMSignerCSPageSize               = 1ULL << kNMSignerCSPageShift;
@@ -66,11 +64,6 @@ static void NMSignerWriteBE32(uint8_t *p, uint32_t value) {
 static void NMSignerWriteBE64(uint8_t *p, uint64_t value) {
     value = __builtin_bswap64(value);
     memcpy(p, &value, sizeof(value));
-}
-
-static void NMSignerAppendBE32(NSMutableData *data, uint32_t value) {
-    uint32_t be = __builtin_bswap32(value);
-    [data appendBytes:&be length:sizeof(be)];
 }
 
 static BOOL NMSignerParseSignLayout(uint8_t *base, uint64_t size, NMSignerSignLayout &layout, NSString **error) {
@@ -181,53 +174,12 @@ static NSString *NMSignerExtractExistingIdentifier(const uint8_t *base, uint64_t
     return fallback;
 }
 
-static void NMSignerReqAppendBytes(NSMutableData *data, const void *bytes, uint32_t length) {
-    NMSignerAppendBE32(data, length);
-    if (length) [data appendBytes:bytes length:length];
-    uint32_t padding = (4u - (length & 3u)) & 3u;
-    if (padding) {
-        static const uint8_t zeros[4] = {0,0,0,0};
-        [data appendBytes:zeros length:padding];
-    }
-}
-
-static void NMSignerReqAppendString(NSMutableData *data, NSString *string) {
-    NSData *utf8 = [string dataUsingEncoding:NSUTF8StringEncoding] ?: [NSData data];
-    NMSignerReqAppendBytes(data, utf8.bytes, (uint32_t)utf8.length);
-}
-
-static NSData *NMSignerBuildRequirements(NSString *identifier) {
-    NSMutableData *expr = [NSMutableData data];
-    NMSignerAppendBE32(expr, 1);
-    NMSignerAppendBE32(expr, 6);
-    NMSignerAppendBE32(expr, 2);
-    NMSignerReqAppendString(expr, identifier);
-    NMSignerAppendBE32(expr, 6);
-    NMSignerAppendBE32(expr, 15);
-    NMSignerAppendBE32(expr, 6);
-    NMSignerAppendBE32(expr, 11);
-    NMSignerAppendBE32(expr, 0);
-    NMSignerReqAppendString(expr, @"subject.CN");
-    NMSignerAppendBE32(expr, 1);
-    NMSignerReqAppendString(expr, @"");
-    NMSignerAppendBE32(expr, 14);
-    NMSignerAppendBE32(expr, 1);
-    static const uint8_t appleExtensionOID[] = {0x2a,0x86,0x48,0x86,0xf7,0x63,0x64,0x06,0x02,0x01};
-    NMSignerReqAppendBytes(expr, appleExtensionOID, sizeof(appleExtensionOID));
-    NMSignerAppendBE32(expr, 0);
-
-    uint32_t nestedLength = (uint32_t)(8 + expr.length);
-    uint32_t totalLength = 20 + nestedLength;
-    NSMutableData *requirements = [NSMutableData dataWithLength:totalLength];
-    uint8_t *p = (uint8_t *)requirements.mutableBytes;
-    NMSignerWriteBE32(p + 0, kNMSignerCSMagicRequirements);
-    NMSignerWriteBE32(p + 4, totalLength);
-    NMSignerWriteBE32(p + 8, 1);
-    NMSignerWriteBE32(p + 12, kNMSignerCSRequirementDesignated);
-    NMSignerWriteBE32(p + 16, 20);
-    NMSignerWriteBE32(p + 20, kNMSignerCSMagicRequirement);
-    NMSignerWriteBE32(p + 24, nestedLength);
-    memcpy(p + 28, expr.bytes, expr.length);
+static NSData *NMSignerBuildRequirements(void) {
+    // Ad-hoc has no certificate chain. An empty requirements set lets Code Signing
+    // Services derive the designated requirement from the CodeDirectory hash.
+    NSMutableData *requirements=[NSMutableData dataWithLength:12];
+    uint8_t *p=(uint8_t *)requirements.mutableBytes;
+    NMSignerWriteBE32(p,kNMSignerCSMagicRequirements);NMSignerWriteBE32(p+4,12);NMSignerWriteBE32(p+8,0);
     return requirements;
 }
 
@@ -494,7 +446,7 @@ static BOOL NMSignerSignWorkingFile(NSString *path, NSString *fallbackIdentifier
     uint64_t signatureAlloc = 0;
 
     if (!localError) {
-        requirements = NMSignerBuildRequirements(identifier);
+        requirements = NMSignerBuildRequirements();
         uint64_t superLength = 36 + sha1Length + requirements.length + sha256Length;
         if (superLength > UINT32_MAX || codeLimit > UINT32_MAX) {
             localError = @"Phase 1 ad-hoc signer 暂不处理 >4GB Mach-O/签名";

@@ -5,3 +5,5 @@
 解析边界同时检查segment文件范围加法、command对齐/section容量、重复signature/linkedit与command总长度。既有Mach-O布局签名路径保留；不支持无LC_CODE_SIGNATURE、fat或非ARM64，明确失败不绕过检查。生成的是ad-hoc签名，最终IPA仍需按原模型重新签名；不将它当设备授权签名。
 
 验证使用CI本项目真实ARM64 dylib、独立codesign严格校验，以及损坏header/segment、截断/架构/输出已存在/源symlink等负例。此模块不使用游戏Runtime ABI。
+
+首轮独立校验暴露原算法flags=0且无CMS的不一致。Apple原维护源码参考：Security/OSX/libsecurity_codesigning/lib/signer.cpp的ad-hoc路径添加kSecCodeSignatureAdhoc，xnu/osfmk/kern/cs_blobs.h的CS_ADHOC=0x2。仅修正目录标志，继续要求codesign --verify --strict独立通过，不能将内部hash通过记成签名通过。

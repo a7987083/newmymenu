@@ -27,6 +27,8 @@ with tempfile.TemporaryDirectory(prefix='newmymenu-signer-') as folder:
     metadata = json.loads(r.stdout)
     assert metadata['finalPackageResignRequired'] is True
     subprocess.run(['codesign', '--verify', '--strict', '--verbose=4', str(signed)], check=True)
+    requirement = subprocess.run(['codesign', '--display', '-r-', str(signed)], capture_output=True, text=True, check=True)
+    assert 'cdhash' in requirement.stdout + requirement.stderr, 'ad-hoc designated requirement must be hash-derived'
     signed_hash = sha(signed)
     call(binary, signed, False)
     assert sha(signed) == signed_hash, 'existing output overwritten'
