@@ -16,7 +16,7 @@ UI最终入口 `ZNUnifiedUI.mm:14782` 的长按处理调用 `ZNM47StartReceiverC
 
 `generate_capture_audit.py` 先按库存核对原`.mm`和两个header SHA，然后完整带入原实现（仅移除本地imports）。真实arm64 macOS、Foundation与libdispatch运行实际异步与timer；DobbyInstall/Destroy是记录调用的受控替身，不实际改代码。
 
-A完成后立即创建B；检查A的旧0.5秒timer是否会销毁B。此文档初次提交时该复现待CI，结果记录到CI_EVIDENCE及PROJECT_STATE，不用源码推断冒充运行。
+A完成后立即创建B；检查A的旧0.5秒timer是否会销毁B。已在CI Run43634163884（10efd67）编译并实际运行通过：A完成后B的15秒任务，在约0.543秒被A的旧timer结束；两次Install和两次Destroy均被边界记录。此结果只确认状态机缺陷，不确认真实Dobby teardown或iOS行为。
 
 ## 必须采用的生命周期
 

@@ -32,7 +32,7 @@ ZNNativeHookRuntime.mm: removeTemporaryHookForCandidate: :1642 附近调用 Dobb
 
 ## F06 instanceIndex 不是稳定身份：已确认契约限制
 
-ZNRuntimeActionFormat.h 使用 flag bit7 + bits16..23，0=自动，1..128=当次枚举序号。开发端 InvokeEngine :151 每次重新枚举后按 index-1 取 receiver。不能保证跨调用/场景/重启稳定；不能把“指定序号”当“固定对象”。customer 有 auto-bind unique receiver 的额外 lifecycle，开发端没有这个 customer wrapper。两者并非所有生命周期完全相同。
+ZNRuntimeActionFormat.h 使用 flag bit7 + bits16..23，0=自动，1..128=当次枚举序号。开发端基础 InvokeEngine 入口 :151 在命中ordinal分支时重新枚举后按 index-1 取 receiver；M47短路分支不经过这里。不能保证跨调用/场景/重启稳定；不能把“指定序号”当“固定对象”。本轮进一步核对并更正：当前开发端 InstanceSelectionV2 的 :133–167 已含唯一实例auto-bind；customer分支把同类行为放在额外wrapper中。实现位置不同不能证明行为不同，不能声称开发端缺少自动绑定。实际已复现的分歧是M47多参数/ByRef分支绕过ordinal/explicit receiver，见F13。
 
 ## F07 线程局部隐藏参数：已确认设计债务
 
@@ -57,3 +57,15 @@ ZNNativeHookLifecycleBootstrap.mm 的 requestReconcile 在 scheduled=YES 时合�
 ## F12 旋转路径已定位，未声称不存在
 
 ZNUnifiedUI.mm:548 的tick按window bounds/safeArea变化调用layoutForWindow，并非使用orientation关键词注册旋转通知。因此关键词没有命中不能等价“没有旋转处理”。布局还经过多个装饰层，必须继续追踪最终IMP与hostWindow选择；实机旋转/多scene未验证。
+
+## F13 M47接收器契约绕过：已隔离运行复现
+
+见INVOKE_OWNERSHIP.md。固定源完整M47代码、原基础入口及真实ObjC交换，受控IL2CPP边界运行中确认：/0和普通/1尊重ordinal/explicit receiver；/2、/8和typed/1 ByRef绕过基础入口并读取class selection。UI传字段没有解决执行入口分叉。生产未修复，游戏/设备未验证。
+
+## F14 ReceiverCapture旧timeout结束新会话：已隔离运行复现
+
+CI Run43634163884：原ReceiverCapture实现和真实libdispatch，A先成功、B设置15秒，却被A遗留0.5秒timer在B启动约0.543秒后销毁。Dobby是受控替身，未实际修改机器码。见CAPTURE_LIFECYCLE.md。需要session身份和唯一状态所有者；并发Dobby卸载仍是另一问题。
+
+## F15 Build输入快照与错误传播：源码已确认限制
+
+当前UI直接调用C BuildExecutor，绕过旧+[ZNStaticBinaryBuilder buildWorkspace...]装饰链。不能把未经过的旧Swizzle当当前构建依赖。Manifest collector异常被吞为空items，多个阶段仍重复读取store；完整数据一致性与业务影响待验证。见BUILD_BOUNDARIES.md。

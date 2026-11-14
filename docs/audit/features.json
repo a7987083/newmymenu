@@ -331,13 +331,13 @@
     "dependencies": [
       "ZNIL2CPPInvokeEngine.mm"
     ],
-    "status": "已实现但未验证",
+    "status": "已知存在错误",
     "evidence": "固定HEAD源码入口及相邻实现；不等于运行通过",
-    "known_defects": "见 FINDINGS.md；未逐项完成动态回归",
+    "known_defects": "M47 /2-/8及typed /1 ByRef绕过ordinal/explicit receiver；固定源隔离运行已复现，生产未修复",
     "recommendation": "显式上下文替代 TLS",
     "original_behavior": "源码所示路径，运行行为未验证",
     "new_behavior": "尚未迁移",
-    "validation": "源码阅读；无设备回归",
+    "validation": "源码链+真实ObjC方法交换及受控IL2CPP边界隔离运行；游戏/设备未验证",
     "regression": "未验证"
   },
   {
@@ -432,13 +432,13 @@
     "dependencies": [
       "ZNRuntimeActionFormat.h"
     ],
-    "status": "已实现但未验证",
+    "status": "已知存在错误",
     "evidence": "固定HEAD源码入口及相邻实现；不等于运行通过",
-    "known_defects": "见 FINDINGS.md；未逐项完成动态回归",
+    "known_defects": "M47 /2-/8及typed /1 ByRef绕过ordinal/explicit receiver；固定源隔离运行已复现，生产未修复",
     "recommendation": "不是稳定身份，见F06",
     "original_behavior": "源码所示路径，运行行为未验证",
     "new_behavior": "尚未迁移",
-    "validation": "源码阅读；无设备回归",
+    "validation": "源码链+真实ObjC方法交换及受控IL2CPP边界隔离运行；游戏/设备未验证",
     "regression": "未验证"
   },
   {
@@ -575,7 +575,7 @@
     ],
     "status": "部分实现",
     "evidence": "已读完整bootstrap实现；目标Runtime行为未验证",
-    "known_defects": "镜像新增事件与scheduled合并可能漏掉重跑，见F11",
+    "known_defects": "镜像新增事件与scheduled合并可能漏掉重跑，见F11；ReceiverCapture旧timer跨会话结束新任务，已隔离运行复现",
     "recommendation": "生命周期状态机替代分散 bootstrap",
     "original_behavior": "源码所示路径，运行行为未验证",
     "new_behavior": "尚未迁移",

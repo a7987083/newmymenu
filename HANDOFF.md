@@ -38,3 +38,7 @@ Artifact名 `runtime-audit-fixture-NOT-PRODUCT-<sha>`。该产物不是最终开
 INVOKE_OWNERSHIP.md包含实际5层selector链。CI Run43633875936以原M47完整实现及原基础入口隔离复现了receiver契约绕过：/2-/8和typed/1 ByRef绕过ordinal/explicit receiver；不是生产修复。
 CaptureSession旧timer会跨会话的假设已写原实现复现fixture，运行状态必须核对CI，不能预填通过。
 下步不要在M47内部再加一个隐藏TLS补丁；新执行入口必须先建立ReceiverLease/InvocationRequest，再交给共享marshaller后端。
+
+更新：10efd67的Run43634163884三个job全部通过，Capture旧timer跨会话错误实际复现（约0.543秒），证据artifact14129835094。
+更正前轮F06：开发端InstanceSelectionV2:133–167已含唯一实例auto-bind，不能因没有customer wrapper就判断缺功能。
+新增BUILD_BOUNDARIES：当前UI的C Executor路径绕过旧class-method builder Swizzle，但其他旧API使用者尚未排除。对生产仍没有任何修复或迁移，不得向用户提供审计fixture冒充最终菜单。

@@ -10,8 +10,8 @@
     "passed": 9,
     "environment": "Linux Python",
     "source_snapshot_reproduced": true,
-    "ci_latest_source_head": "e0d897c2c6705a8017d7b0281ddae8ed54a086bd",
-    "ci_run_id": 43632817583,
+    "ci_latest_source_head": "10efd671cbe0c5ca22ffb31aef71fbaaed4cc67e",
+    "ci_run_id": 43634163884,
     "ci_status": "success"
   },
   "product": {
@@ -31,28 +31,34 @@
     "run_environment": "macOS arm64 only",
     "ios_run": false,
     "device_verified": false,
-    "ci_source_head": "e0d897c2c6705a8017d7b0281ddae8ed54a086bd",
-    "run_id": 43632817583,
-    "artifact_id": 14128049232,
+    "ci_source_head": "10efd671cbe0c5ca22ffb31aef71fbaaed4cc67e",
+    "run_id": 43634163884,
+    "artifact_id": 14129845013,
     "sha256": "1223bf9df9cedb2eba66d781faab1459ec00e9b18ea8b23829daa89602f70b09"
   },
   "known_findings": "docs/audit/FINDINGS.md",
   "next_task": "Verify original capture timer reproduction; complete Native/Build effective dependency audit before business migration",
   "invoke_contract_audit": {
     "source_head": "7066edeaf9e47580c89440be670c517280534b69",
-    "ci_head": "23860680ab9287a5f3caea3d50b0bcac2cad2a37",
-    "ci_run_id": 43633875936,
+    "ci_head": "10efd671cbe0c5ca22ffb31aef71fbaaed4cc67e",
+    "ci_run_id": 43634163884,
     "status": "known_defect_reproduced",
     "real_objc_runtime": true,
     "il2cpp_boundary": "controlled doubles",
     "device_verified": false,
-    "production_fixed": false
+    "production_fixed": false,
+    "artifact_id": 14129835094
   },
   "capture_lifecycle_audit": {
     "source_written": true,
-    "compiled": false,
-    "run": false,
-    "status": "pending_ci",
-    "dobby_boundary": "controlled doubles"
+    "compiled": true,
+    "run": true,
+    "status": "known_defect_reproduced",
+    "dobby_boundary": "controlled doubles",
+    "ci_head": "10efd671cbe0c5ca22ffb31aef71fbaaed4cc67e",
+    "ci_run_id": 43634163884,
+    "run_environment": "macOS arm64 real libdispatch",
+    "device_verified": false,
+    "production_fixed": false
   }
 }

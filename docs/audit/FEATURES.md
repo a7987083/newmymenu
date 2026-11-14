@@ -20,12 +20,12 @@
 | Runtime Method | 实例枚举 | iosruntimepatchmenu/src/ZNIL2CPPInstanceResolver.mm:102 `candidateAddressesForAssembly:` | 已实现但未验证 / 尚未迁移 / 未验证 | 需 ReceiverLease，不能将地址当存活证明 |
 | Runtime Method | 实例选择 | iosruntimepatchmenu/src/ZNIL2CPPInstanceSelectionV2.mm:96 `znm44_selectInstanceAddress:` | 已实现但未验证 / 尚未迁移 / 未验证 | 合并为单实例管理服务 |
 | Runtime Method | 参数封送 | iosruntimepatchmenu/src/ZNRuntimeArgumentMarshaller.mm:335 `encodeValueTypeParameterForMethod:` | 部分实现 / 尚未迁移 / 未验证 | ByRef/结构单独 fixture |
-| Runtime Method | 实际方法调用 | iosruntimepatchmenu/src/ZNIL2CPPInvokeEngine.mm:144 `executeAction:` | 已实现但未验证 / 尚未迁移 / 未验证 | 显式上下文替代 TLS |
+| Runtime Method | 实际方法调用 | iosruntimepatchmenu/src/ZNIL2CPPInvokeEngine.mm:144 `executeAction:` | 已知存在错误 / 尚未迁移 / 未验证 | 显式上下文替代 TLS |
 | Runtime Method | 返回值处理 | iosruntimepatchmenu/src/ZNM48ReturnCapture.mm:237 `ZNInstallM48ReturnCaptureDeferred` | 已实现但未验证 / 尚未迁移 / 未验证 | 取消内部类自我 Swizzle |
 | Runtime Method | 异常错误反馈 | iosruntimepatchmenu/src/ZNIL2CPPInvokeEngine.mm:233 `FAILED_RESOLVE` | 已实现但未验证 / 尚未迁移 / 未验证 | 统一 typed error，不吞失败 |
 | Runtime Method | 多参数复杂结构 | iosruntimepatchmenu/src/ZNComplexStructCodec.mm:98 `ZNRegisterBuiltInComplexStructCodecs` | 部分实现 / 尚未迁移 / 未验证 | 已实现范围必须逐类型核验，不能标全面支持 |
 | Runtime Method | 对象生命周期 | iosruntimepatchmenu/src/ZNM462InstanceSafety.mm:52 `ZNM462ReleaseSelection` | 已实现但未验证 / 尚未迁移 / 未验证 | 同步范围缺口，见F03 |
-| Runtime Method | instanceIndex 契约 | iosruntimepatchmenu/src/ZNRuntimeActionFormat.h:45 `ZNRuntimeActionDecodeInstanceIndex` | 已实现但未验证 / 尚未迁移 / 未验证 | 不是稳定身份，见F06 |
+| Runtime Method | instanceIndex 契约 | iosruntimepatchmenu/src/ZNRuntimeActionFormat.h:45 `ZNRuntimeActionDecodeInstanceIndex` | 已知存在错误 / 尚未迁移 / 未验证 | 不是稳定身份，见F06 |
 | Native Hook | 安装 Hook | iosruntimepatchmenu/src/ZNNativeHookBackend.mm:28 `installReplacementAtAddress:` | 已实现但未验证 / 尚未迁移 / 未验证 | 与 ObjC Swizzle 分离 |
 | Native Hook | Hook 参数传递 | iosruntimepatchmenu/src/ZNNativeHookRuntime.mm:1086 `supportedInt32ArgumentIndicesForCandidate:` | 已实现但未验证 / 尚未迁移 / 未验证 | 模板限制必须保留 |
 | Native Hook | 调用原函数 | iosruntimepatchmenu/src/ZNNativeHookBackend.mm:36 `DobbyHook` | 已实现但未验证 / 尚未迁移 / 未验证 | 在途 trampoline 生命周期待证 |
