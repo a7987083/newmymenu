@@ -76,3 +76,5 @@
 - Probe host now supports the UIApplicationDelegate window lifecycle when no UIScene exists, covering pre-scene Unity hosts without deprecated global windows enumeration. Device behavior remains unverified.
 
 - Run 43647062960: probe dylib build/strict verification passed, discovery fixture crashed at runtime. Enabled AddressSanitizer/debug symbols for discovery fixture to locate the first invalid access; no test skipped.
+
+- Run 43647225475 AddressSanitizer located objc_retain crash in withMetadata:error: returning from ambiguous-class error inside a nested autoreleasepool. Internal NSError** implicit autoreleasing writeback outlived the pool. Changed only the private callback channel to NSError* __strong*: errors are owned before the pool drains; public NSError** contract remains unchanged. Existing ambiguous descriptor case is the regression test, with ASan retained.

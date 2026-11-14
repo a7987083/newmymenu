@@ -40,7 +40,7 @@ static NSString *NMDLImageUUID(const struct mach_header *header) {
     void *_ownedHandle;
     NSDictionary *_runtimeReport;
 }
-- (nullable NSDictionary *)withMetadata:(NSDictionary * _Nullable (^)(NMIL2CPPAPI api,void *domain,NSError **error))operation error:(NSError **)error;
+- (nullable NSDictionary *)withMetadata:(NSDictionary * _Nullable (^)(NMIL2CPPAPI api,void *domain,NSError *__strong *error))operation error:(NSError **)error;
 @end
 
 @implementation NMIL2CPPDiscovery
@@ -93,12 +93,14 @@ static NSString *NMDLImageUUID(const struct mach_header *header) {
 }
 - (void)dealloc { if(_ownedHandle)dlclose(_ownedHandle); }
 - (NSDictionary *)runtimeReport { return _runtimeReport; }
-- (NSDictionary *)withMetadata:(NSDictionary *(^)(NMIL2CPPAPI,void *,NSError **))operation error:(NSError **)error {
+- (NSDictionary *)withMetadata:(NSDictionary *(^)(NMIL2CPPAPI,void *,NSError *__strong *))operation error:(NSError **)error {
     NMIL2CPPAPI api=_api;void *domain=api.domainGet();
     if(!domain){if(error)*error=NMDLError(5,@"IL2CPP Domain is not ready; enter gameplay and retry");return nil;}
     void *thread=api.threadCurrent();BOOL attached=NO;
     if(!thread){thread=api.threadAttach(domain);attached=thread!=NULL;}
     if(!thread){if(error)*error=NMDLError(6,@"IL2CPP thread_attach returned null");return nil;}
+    // The internal callback owns its error strongly before nested autorelease pools drain.
+    // Public NSError** writeback happens only after the operation has returned.
     NSError *failure=nil;NSDictionary *result=nil;
     @try {
         result=operation(api,domain,&failure);
@@ -112,7 +114,7 @@ static NSString *NMDLImageUUID(const struct mach_header *header) {
 - (NSDictionary *)searchClasses:(NSString *)query limit:(NSUInteger)limit error:(NSError **)error {
     NSString *text=[query isKindOfClass:NSString.class]?[[query stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceAndNewlineCharacterSet] copy]:nil;
     if(!text.length || !limit || limit>1024){if(error)*error=NMDLError(10,@"Enter a class query and limit within 1..1024");return nil;}
-    return [self withMetadata:^NSDictionary *(NMIL2CPPAPI api,void *domain,NSError **failure){
+    return [self withMetadata:^NSDictionary *(NMIL2CPPAPI api,void *domain,NSError *__strong *failure){
         size_t count=0;const void **assemblies=api.domainGetAssemblies(domain,&count);
         if(!assemblies||!count||count>4096){*failure=NMDLError(11,@"No assemblies yet or invalid assembly count");return nil;}
         NSMutableArray *ordered=[NSMutableArray array];
@@ -142,7 +144,7 @@ static NSString *NMDLImageUUID(const struct mach_header *header) {
     if(!limit||limit>1024||![identity[@"runtimeIdentifier"] isEqual:_runtimeReport[@"runtimeIdentifier"]]){if(error)*error=NMDLError(14,@"Runtime changed or invalid method limit; search classes again");return nil;}
     NSMutableDictionary *frozen=[NSMutableDictionary dictionary];for(NSString *key in @[@"assembly",@"namespace",@"class",@"fullType",@"runtimeIdentifier"])frozen[key]=[identity[key] copy];
     NSDictionary *descriptor=[frozen copy];
-    return [self withMetadata:^NSDictionary *(NMIL2CPPAPI api,void *domain,NSError **failure){
+    return [self withMetadata:^NSDictionary *(NMIL2CPPAPI api,void *domain,NSError *__strong *failure){
         size_t count=0;const void **assemblies=api.domainGetAssemblies(domain,&count);if(!assemblies||!count||count>4096){*failure=NMDLError(11,@"Invalid assembly list");return nil;}
         void *matched=NULL;double deadline=NMDLTime()+2.0;
         for(size_t a=0;a<count;a++){

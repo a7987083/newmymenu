@@ -21,3 +21,5 @@
 ## 待证据
 
 GCHandle32/指针宽度差异及整个managed调用范围的保活仍须目标Runtime确认，Probe只报告相关导出，不调用它们。样本专用外部ObjC Hook与Static Builder仍不在此Probe中。
+
+API交叉参考：BepInEx/Il2CppInterop `81a6f78c8b653e0da4a3420ac4cd00819e8b6292` 的 `Il2CppInterop.Runtime/IL2CPP.cs`。只用于公开API/线程及分配释放配对交叉检查，没有据此声明目标游戏的ABI已经实测。
