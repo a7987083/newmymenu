@@ -1,0 +1,7 @@
+# 0008 Manifest冻结快照与错误传播
+
+已核对源ZNBuildItem.h/.mm、ZNBuildManifest.mm:303–334：provider/kind/identifier/domain/metadata、Static=1/Runtime=2沿用原模型；原collector异常转空items使构建误判为空，且provider后续读取全局store导致阶段输入不一致。
+
+新NMBuildItem深冻结metadata，NMBuildProvider显式注入无状态collector，NMBuildManifest先冻结唯一configuration再收集并按provider确定排序。所有异常/nil/error/重复身份/来源不一致明确失败，不能伪装空manifest。没有默认全局registry，没有旧collector备用路径。prepare/emit后续必须消费同一manifest，而非回读store。
+
+增加Manifest自身的versioned JSON roundtrip；格式newmymenu.manifest/schemaVersion1，严格校验结构，metadata保留扩展。它不是原zonoe-authoring或Patch JSON兼容导入器，不能把manifest序列化成功当旧配置功能已迁移。provider payload只记录数据，不执行游戏ABI。

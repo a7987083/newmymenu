@@ -3,7 +3,7 @@
 import hashlib,json,struct,subprocess,sys
 from pathlib import Path
 EXPECTED_EXPORTS={'_NewMyMenuCoreGetAPIVersion','_NMRuntimeActionTryEncodeInstanceIndex','_NMRuntimeActionTryDecodeInstanceIndex','_OBJC_CLASS_$_NMMethodTranslator','_OBJC_METACLASS_$_NMMethodTranslator'}
-EXPECTED_EXPORTS |= {prefix+name for name in ('NMIL2CPPDiscovery','NMReceiverLease','NMInvocationRequest','NMInvocationCoordinator','NMCaptureToken','NMCaptureSessionManager') for prefix in ('_OBJC_CLASS_$_','_OBJC_METACLASS_$_')}
+EXPECTED_EXPORTS |= {prefix+name for name in ('NMBuildItem','NMBuildProvider','NMBuildManifest','NMIL2CPPDiscovery','NMReceiverLease','NMInvocationRequest','NMInvocationCoordinator','NMCaptureToken','NMCaptureSessionManager') for prefix in ('_OBJC_CLASS_$_','_OBJC_METACLASS_$_')}
 ALLOWED_DEPS={'/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation','/System/Library/Frameworks/Foundation.framework/Foundation','/usr/lib/libobjc.A.dylib','/usr/lib/libSystem.B.dylib','/usr/lib/libc++.1.dylib'}
 def inspect(data, *, install_name='@rpath/NewMyMenuCore.dylib', allowed_deps=None):
  if allowed_deps is None:allowed_deps=ALLOWED_DEPS

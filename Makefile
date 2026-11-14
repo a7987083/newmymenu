@@ -67,3 +67,9 @@ test-parser:
 	python3 tools/generate_parser_parity.py "$(SOURCE_BASELINE)" build/tests/original-parser.m
 	xcrun clang -std=c11 $(WARN) -g -fsanitize=address -fobjc-arc -fblocks -Isrc/MethodFinder -framework Foundation src/MethodFinder/NMNamedExpression.m build/tests/original-parser.m tests/core/named_expression_test.m -o build/tests/named-expression
 	build/tests/named-expression
+
+.PHONY: test-manifest
+test-manifest:
+	mkdir -p build/tests
+	xcrun clang -std=c11 $(WARN) -g -fsanitize=address -fobjc-arc -fblocks -Iinclude -framework Foundation src/Build/NMBuildManifest.m tests/core/manifest_test.m -o build/tests/manifest
+	build/tests/manifest

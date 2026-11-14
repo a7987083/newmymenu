@@ -102,3 +102,5 @@
 - 09cae3ce / Run43650787572：五job通过；10020原纯解析器结果/错误对照、qualified owner/arity过滤及晚到exact排名回归通过；8+3分析零诊断。Core/Probe ARM64构建并下载复核哈希/Mach-O，签名在CI验证。按用户要求未分发本轮dylib。记录实际Runtime/ABI证据缺口，完整产品未完成。
 
 - API6: cooperative cancellation via per-request NSProgress; UI cancel immediately invalidates Finder generation, worker checks cancellation before VM/inside scans/type copying/before publish, and always releases owned thread/type resources. Fresh requests clear stale snapshots. Controlled fixture covers pre-entry/mid-scan/type-copy cancellation; state test covers cancelled late result and idle idempotence. Game ABI work remains deferred.
+
+- API7 Manifest: preserve original provider/kind/id/domain/metadata model while freezing metadata and configuration; replace swallowed collector exceptions with explicit errors, reject nil/duplicate/foreign items. Explicit injected provider list replaces hidden registry state. Added strict Manifest-only JSON schema/roundtrip; legacy authoring/Patch import and backend prepare/emit remain pending. ASan fixture and ARM64/analysis pending CI.
