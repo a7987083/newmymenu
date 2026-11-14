@@ -19,6 +19,6 @@
 
 ## 自动化证据
 
-`make test-signer`在macOS ASan下使用本项目真实iOS ARM64 core作为输入，执行独立`codesign --verify --strict`和指定要求验证；验证源/输出相同、输出已存在、源symlink、截断、错误架构/fat、损坏command count、segment溢出和临时文件清理。随后编译iOS ARM64对象，执行静态分析并要求零diagnostics。
+`make test-signer`在macOS ASan下使用本项目真实iOS ARM64 core作为输入，执行独立`codesign --verify --strict`和指定要求验证；验证源/输出相同、输出已存在、源symlink、截断、错误架构/fat、损坏command count、segment溢出和临时文件清理。iOS ARM64编译与静态分析由正式Core构建统一负责并要求零diagnostics；集成后删除了重复的临时ARM64对象/分析步骤。
 
 Run43653714734首次通过上述独立签名验证；后续集成构建及entitlements负例状态以PROJECT_STATE和docs/builds报告为准。没有真实设备运行签名产物；不将macOS代码签名校验当iOS加载结果。

@@ -80,6 +80,3 @@ test-signer:
 	xcrun clang++ -std=c++17 $(WARN) -g -fsanitize=address -fobjc-arc -fblocks -Iinclude -framework Foundation src/Build/NMMachOSigner.mm tests/core/signer_driver.mm -o build/signer-fixture/signer-driver
 	xcrun --sdk iphoneos clang -isysroot "$$(xcrun --sdk iphoneos --show-sdk-path)" -arch arm64 -miphoneos-version-min=14.0 -Wall -Wextra -Werror tests/core/signer_executable_fixture.c -o build/signer-fixture/executable
 	python3 tools/test_signer.py build/core/NewMyMenuCore.dylib build/signer-fixture/signer-driver build/signer-fixture/executable
-	xcrun --sdk iphoneos clang++ -isysroot "$$(xcrun --sdk iphoneos --show-sdk-path)" -arch arm64 -miphoneos-version-min=14.0 -std=c++17 $(WARN) -fobjc-arc -fblocks -Iinclude -c src/Build/NMMachOSigner.mm -o build/signer-fixture/signer-arm64.o
-	xcrun clang++ --analyze -std=c++17 $(WARN) -fobjc-arc -fblocks -Iinclude src/Build/NMMachOSigner.mm -o build/signer-fixture/signer-analysis.plist
-	python3 tools/check_analysis.py build/signer-fixture/signer-analysis.plist

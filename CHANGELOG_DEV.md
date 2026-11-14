@@ -114,3 +114,5 @@
 - Run43653714734: reused signer now passes codesign --verify --strict, designated cdhash requirement assertion, ASan negatives/cleanup, ARM64 object compilation and analyzer. Integrated signer into Core API8; added explicit refusal for embedded XML/DER entitlements so unsupported permission preservation is not silently lost. Final integrated CI pending.
 
 - Run43653952155: integrated core/Probe built and analyzed, but permission negative fixture had no entitlement slots after signing a dylib, so the refusal assertion was not testing the intended input. Replaced fixture with an actual iOS ARM64 MH_EXECUTE file and independently assert XML/DER slots exist before testing refusal. No production entitlement check relaxed.
+
+- Run43654155060: integrated API8 core/Probe, strict signing/designated requirement, real embedded-entitlement refusal, ASan failures and regression suite all passed. Post-integration cleanup removes the now-duplicate signer ARM64 object compilation/analyzer from test-signer; formal core build already owns those checks. No required check removed.
