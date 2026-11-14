@@ -16,9 +16,9 @@ BASE=(-isysroot "$SDK" -arch arm64 -miphoneos-version-min=14.0 -Oz -fvisibility=
 xcrun --sdk iphoneos clang "${BASE[@]}" -std=c11 -c src/NMCore.c -o build/core/NMCore.o
 xcrun --sdk iphoneos clang "${BASE[@]}" -std=c11 -c src/Configuration/NMRuntimeActionCodec.c -o build/core/NMRuntimeActionCodec.o
 xcrun --sdk iphoneos clang++ "${BASE[@]}" -std=c++17 -fobjc-arc -fblocks -c src/MethodFinder/NMMethodTranslator.mm -o build/core/NMMethodTranslator.o
-for source in src/Execution/NMReceiverLease.m src/Execution/NMInvocationCoordinator.m src/NativeHook/NMCaptureSession.m src/RuntimeDiscovery/NMIL2CPPDiscovery.m; do
+for source in src/Execution/NMReceiverLease.m src/Execution/NMInvocationCoordinator.m src/NativeHook/NMCaptureSession.m src/RuntimeDiscovery/NMIL2CPPDiscovery.m src/MethodFinder/NMNamedExpression.m; do
     xcrun --sdk iphoneos clang "${BASE[@]}" -std=c11 -fobjc-arc -fblocks -c "$source" -o "build/core/$(basename "$source" .m).o"
 done
-xcrun --sdk iphoneos clang++ -isysroot "$SDK" -arch arm64 -miphoneos-version-min=14.0 -dynamiclib -framework Foundation -install_name @rpath/NewMyMenuCore.dylib build/core/NMCore.o build/core/NMRuntimeActionCodec.o build/core/NMMethodTranslator.o build/core/NMReceiverLease.o build/core/NMInvocationCoordinator.o build/core/NMCaptureSession.o build/core/NMIL2CPPDiscovery.o -o build/core/NewMyMenuCore.dylib
+xcrun --sdk iphoneos clang++ -isysroot "$SDK" -arch arm64 -miphoneos-version-min=14.0 -dynamiclib -framework Foundation -install_name @rpath/NewMyMenuCore.dylib build/core/NMCore.o build/core/NMRuntimeActionCodec.o build/core/NMMethodTranslator.o build/core/NMReceiverLease.o build/core/NMInvocationCoordinator.o build/core/NMCaptureSession.o build/core/NMIL2CPPDiscovery.o build/core/NMNamedExpression.o -o build/core/NewMyMenuCore.dylib
 codesign --force --sign - --timestamp=none build/core/NewMyMenuCore.dylib
 python3 tools/verify_core.py build/core/NewMyMenuCore.dylib

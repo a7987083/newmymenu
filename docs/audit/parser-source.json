@@ -1,0 +1,7 @@
+{
+  "repository": "a7987083/mymenu",
+  "head": "7066edeaf9e47580c89440be670c517280534b69",
+  "path": "iosruntimepatchmenu/src/ZNIL2CPPResolver.mm",
+  "sha256": "812d2bf45ad86f0ca0e66010ab69c781d68902b84c8938093f6cf7f761913c81",
+  "migration": "pure named expression parser and trim/magnitude helpers only"
+}

@@ -40,7 +40,8 @@ test-execution:
 test-discovery:
 	mkdir -p build/tests
 	xcrun clang -std=c11 $(WARN) -g -fsanitize=address -fobjc-arc -fblocks -Iinclude -Isrc/RuntimeDiscovery -c src/RuntimeDiscovery/NMIL2CPPDiscovery.m -o build/tests/NMIL2CPPDiscovery.o
-	xcrun clang++ -std=c++17 $(WARN) -g -fsanitize=address -fobjc-arc -fblocks -Iinclude -Isrc/RuntimeDiscovery -framework Foundation build/tests/NMIL2CPPDiscovery.o tests/core/il2cpp_discovery_test.mm -o build/tests/il2cpp-discovery
+	xcrun clang -std=c11 $(WARN) -g -fsanitize=address -fobjc-arc -fblocks -c src/MethodFinder/NMNamedExpression.m -o build/tests/NMNamedExpression.o
+	xcrun clang++ -std=c++17 $(WARN) -g -fsanitize=address -fobjc-arc -fblocks -Iinclude -Isrc/RuntimeDiscovery -framework Foundation build/tests/NMNamedExpression.o build/tests/NMIL2CPPDiscovery.o tests/core/il2cpp_discovery_test.mm -o build/tests/il2cpp-discovery
 	build/tests/il2cpp-discovery
 
 device-probe: core
@@ -58,3 +59,11 @@ test-presentation:
 	xcrun clang -std=c11 $(WARN) -g -fsanitize=address -fobjc-arc -fblocks -Iinclude -Isrc/MethodFinder -c src/MethodFinder/NMMethodPresentation.m -o build/tests/NMMethodPresentation.o
 	xcrun clang++ -std=c++17 $(WARN) -g -fsanitize=address -fobjc-arc -fblocks -Iinclude -Isrc/MethodFinder -framework Foundation build/tests/NMMethodPresentation.o src/MethodFinder/NMMethodTranslator.mm tests/core/method_presentation_test.mm -o build/tests/method-presentation
 	build/tests/method-presentation
+
+.PHONY: test-parser
+test-parser:
+	test -n "$(SOURCE_BASELINE)"
+	mkdir -p build/tests
+	python3 tools/generate_parser_parity.py "$(SOURCE_BASELINE)" build/tests/original-parser.m
+	xcrun clang -std=c11 $(WARN) -g -fsanitize=address -fobjc-arc -fblocks -Isrc/MethodFinder -framework Foundation src/MethodFinder/NMNamedExpression.m build/tests/original-parser.m tests/core/named_expression_test.m -o build/tests/named-expression
+	build/tests/named-expression

@@ -45,7 +45,7 @@ static CGFloat NMClamp(CGFloat x,CGFloat low,CGFloat high){return MAX(low,MIN(MA
     _close=[self button:@"收起" action:@selector(toggle:)];[_header addSubview:_close];
     _status=[UILabel new];_status.text=@"进入游戏后检查 Runtime，再输入类名关键词。";_status.textColor=[UIColor colorWithWhite:.85 alpha:1];_status.font=[UIFont systemFontOfSize:11];_status.numberOfLines=2;[_panel addSubview:_status];
     _query=[UITextField new];_query.backgroundColor=[UIColor colorWithWhite:.16 alpha:1];_query.textColor=UIColor.whiteColor;_query.font=[UIFont systemFontOfSize:13];_query.attributedPlaceholder=[[NSAttributedString alloc] initWithString:@"类名关键词，例如 Cheat / Player" attributes:@{NSForegroundColorAttributeName:[UIColor colorWithWhite:.65 alpha:1]}];_query.borderStyle=UITextBorderStyleRoundedRect;_query.delegate=self;_query.returnKeyType=UIReturnKeySearch;_query.autocorrectionType=UITextAutocorrectionTypeNo;_query.autocapitalizationType=UITextAutocapitalizationTypeNone;[_panel addSubview:_query];
-    _searchMode=[[UISegmentedControl alloc] initWithItems:@[@"Class",@"Method"]];_searchMode.selectedSegmentIndex=0;_searchMode.backgroundColor=[UIColor colorWithWhite:.2 alpha:1];[_searchMode setTitleTextAttributes:@{NSForegroundColorAttributeName:UIColor.whiteColor} forState:UIControlStateNormal];[_searchMode addTarget:self action:@selector(modeChanged:) forControlEvents:UIControlEventValueChanged];[_panel addSubview:_searchMode];
+    _searchMode=[[UISegmentedControl alloc] initWithItems:@[@"Class",@"Method",@"Expression"]];_searchMode.selectedSegmentIndex=0;_searchMode.backgroundColor=[UIColor colorWithWhite:.2 alpha:1];[_searchMode setTitleTextAttributes:@{NSForegroundColorAttributeName:UIColor.whiteColor} forState:UIControlStateNormal];[_searchMode addTarget:self action:@selector(modeChanged:) forControlEvents:UIControlEventValueChanged];[_panel addSubview:_searchMode];
     _refresh=[self button:@"检查 Runtime" action:@selector(refresh:)];_search=[self button:@"查找类" action:@selector(search:)];_back=[self button:@"‹ 类列表" action:@selector(back:)];_copy=[self button:@"复制报告" action:@selector(copyReport:)];_share=[self button:@"导出报告" action:@selector(shareReport:)];
     for(UIView *v in @[_refresh,_search,_back,_copy,_share])[_panel addSubview:v];_back.hidden=YES;
     _table=[[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];_table.backgroundColor=UIColor.clearColor;_table.separatorColor=[UIColor colorWithWhite:.25 alpha:1];_table.dataSource=self;_table.delegate=self;_table.keyboardDismissMode=UIScrollViewKeyboardDismissModeOnDrag;_table.rowHeight=80;[_table registerClass:UITableViewCell.class forCellReuseIdentifier:@"NMProbeRow"];[_panel addSubview:_table];
@@ -87,14 +87,14 @@ static CGFloat NMClamp(CGFloat x,CGFloat low,CGFloat high){return MAX(low,MIN(MA
 }
 - (void)runQuery:(NSString *)query classIdentity:(NSDictionary *)identity refresh:(BOOL)refresh {
     [self endEditing:YES];NSUInteger generation=[_finder beginRequestResetClasses:(refresh||!identity) classOffset:_table.contentOffset.y];[self setBusy:YES];_status.text=@"正在读取 Runtime 元数据…";
-    BOOL methodSearch=_searchMode.selectedSegmentIndex==1;
+    BOOL methodSearch=_searchMode.selectedSegmentIndex==1,expressionSearch=_searchMode.selectedSegmentIndex==2;
     NSDictionary *host=[self hostInfo];__weak NMProbeOverlay *weakSelf=self;
     dispatch_async(_worker,^{
         NMProbeOverlay *owner=weakSelf;if(!owner)return;
         NSError *error=nil;NSDictionary *capabilities=[NMIL2CPPDiscovery loadedRuntimeCapabilities];
         if(refresh||!owner->_service)owner->_service=[NMIL2CPPDiscovery loadedRuntimeWithError:&error];
         NSDictionary *snapshot=nil;
-        if(owner->_service&&!error){if(identity)snapshot=[owner->_service methodsForClass:identity limit:200 error:&error];else if(query)snapshot=methodSearch?[owner->_service searchMethods:query limit:200 error:&error]:[owner->_service searchClasses:query limit:200 error:&error];}
+        if(owner->_service&&!error){if(identity)snapshot=[owner->_service methodsForClass:identity limit:200 error:&error];else if(query)snapshot=expressionSearch?[owner->_service searchMethodExpression:query limit:200 error:&error]:methodSearch?[owner->_service searchMethods:query limit:200 error:&error]:[owner->_service searchClasses:query limit:200 error:&error];}
         NSDictionary *report=@{@"schemaVersion":@1,@"probeBuild":[NSString stringWithUTF8String:NM_BUILD_SHA],@"coreAPI":@(NewMyMenuCoreGetAPIVersion()),@"mode":@"read-only metadata; no runtime_invoke/GCHandle/Hook",@"host":host,@"capabilities":capabilities,@"runtime":owner->_service.runtimeReport?:@{},@"lastSnapshot":snapshot?:@{},@"error":error.localizedDescription?:@"",@"timestamp":[NSISO8601DateFormatter.new stringFromDate:NSDate.date]};
         dispatch_async(dispatch_get_main_queue(),^{
             NMProbeOverlay *view=weakSelf;if(!view)return;
@@ -113,7 +113,7 @@ static CGFloat NMClamp(CGFloat x,CGFloat low,CGFloat high){return MAX(low,MIN(MA
     CGFloat low=-_table.adjustedContentInset.top,high=MAX(low,_table.contentSize.height-_table.bounds.size.height+_table.adjustedContentInset.bottom);
     [_table setContentOffset:CGPointMake(0,NMClamp(restore?_finder.classOffset:low,low,high)) animated:NO];
 }
-- (void)modeChanged:(id)sender {(void)sender;[_search setTitle:_searchMode.selectedSegmentIndex?@"查找方法":@"查找类" forState:UIControlStateNormal];_query.placeholder=_searchMode.selectedSegmentIndex?@"方法名关键词，例如 GetValue":@"类名关键词，例如 Cheat / Player";if(_query.text.length)[self search:nil];else [self refresh:nil];}
+- (void)modeChanged:(id)sender {(void)sender;[_search setTitle:_searchMode.selectedSegmentIndex?@"查找方法":@"查找类" forState:UIControlStateNormal];_query.placeholder=_searchMode.selectedSegmentIndex==2?@"Class::Method/参数个数":(_searchMode.selectedSegmentIndex?@"方法名关键词，例如 GetValue":@"类名关键词，例如 Cheat / Player");if(_query.text.length)[self search:nil];else [self refresh:nil];}
 - (void)refresh:(id)sender {(void)sender;[self runQuery:nil classIdentity:nil refresh:YES];}
 - (void)search:(id)sender {(void)sender;NSString *query=[_query.text stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceAndNewlineCharacterSet];if(!query.length){_status.text=@"请输入类名关键词";return;}[self runQuery:query classIdentity:nil refresh:NO];}
 - (void)back:(id)sender {(void)sender;if([_finder returnToClasses])[self renderSessionRestoringOffset:YES];}

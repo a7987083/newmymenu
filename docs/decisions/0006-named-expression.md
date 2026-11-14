@@ -1,0 +1,5 @@
+# 0006 复用Named Expression解析
+
+复用7066ede的ZNIL2CPPResolver.parseNamedOffsetExpression算法及两个纯文本helper，不复制Runtime绑定或MethodInfo布局猜测。新模块私有无状态，不增加备用执行入口；公开Discovery.expression入口仅把解析得到的assembly/namespace/class/method/arity过滤交给现有scan循环。
+
+原delta语法仍可解析；非零delta属于地址解析阶段，本次元数据入口明确拒绝，不能把偏移附着到方法后再当可调用入口。与固定原源码提取的纯解析器逐输入比对结果/错误，记录来源哈希。未知RVA仍不读取MethodInfo机器字。

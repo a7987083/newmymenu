@@ -94,3 +94,5 @@
 - Detail copy audit: Class now copies the original simple class name, with a separate Type field for the fully qualified type. Namespace/name composition is not silently substituted for raw fields.
 
 - 3115e2b3 / Run43649811591五job通过：API4 Core和自包含Finder已编译；metadata/Finder/presentation ASan fixtures、既有原实现回归通过；7+3份静态分析零诊断；下载ZIP/dylib哈希与Mach-O复核通过。已更新迁移差异矩阵、构建报告、状态与接手文档。完整产品和本轮设备验证未完成。
+
+- Continued without intermediate binary delivery: API5 reuses fixed-source pure named expression parser; qualified assembly/namespace/class/exact method/arity filters feed the existing scan. Nonzero delta explicitly waits for address resolution. Added hash-verified original parser extraction and 10020 input/output/error parity cases under ASan; CI pending.

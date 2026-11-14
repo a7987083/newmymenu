@@ -138,6 +138,7 @@ jobs:
           make test-discovery
           make test-finder
           make test-presentation
+          make test-parser SOURCE_BASELINE=.audit-source
       - name: Regression against fixed original implementation
         run: |
           set -euo pipefail
@@ -149,7 +150,7 @@ jobs:
           xcrun clang --analyze -std=c11 -Wall -Wextra -Werror -Iinclude src/NMCore.c -o build/core/NMCore-analysis.plist
           xcrun clang --analyze -std=c11 -Wall -Wextra -Werror -Iinclude src/Configuration/NMRuntimeActionCodec.c -o build/core/NMRuntimeActionCodec-analysis.plist
           xcrun clang++ --analyze -std=c++17 -fobjc-arc -fblocks -Wall -Wextra -Werror -Iinclude src/MethodFinder/NMMethodTranslator.mm -o build/core/NMMethodTranslator-analysis.plist
-          for source in src/Execution/NMReceiverLease.m src/Execution/NMInvocationCoordinator.m src/NativeHook/NMCaptureSession.m src/RuntimeDiscovery/NMIL2CPPDiscovery.m; do
+          for source in src/Execution/NMReceiverLease.m src/Execution/NMInvocationCoordinator.m src/NativeHook/NMCaptureSession.m src/RuntimeDiscovery/NMIL2CPPDiscovery.m src/MethodFinder/NMNamedExpression.m; do
             xcrun clang --analyze -std=c11 -fobjc-arc -fblocks -Wall -Wextra -Werror -Iinclude "$source" -o "build/core/$(basename "$source" .m)-analysis.plist"
           done
           python3 tools/check_analysis.py build/core/*-analysis.plist

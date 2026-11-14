@@ -9,6 +9,7 @@ __attribute__((visibility("default")))
 + (NSDictionary *)loadedRuntimeCapabilities;
 @property(nonatomic,copy,readonly) NSDictionary *runtimeReport;
 - (nullable NSDictionary *)searchClasses:(NSString *)query limit:(NSUInteger)limit error:(NSError * _Nullable * _Nullable)error;
+- (nullable NSDictionary *)searchMethodExpression:(NSString *)expression limit:(NSUInteger)limit error:(NSError * _Nullable * _Nullable)error;
 - (nullable NSDictionary *)searchMethods:(NSString *)query limit:(NSUInteger)limit error:(NSError * _Nullable * _Nullable)error;
 - (nullable NSDictionary *)methodsForClass:(NSDictionary *)identity limit:(NSUInteger)limit error:(NSError * _Nullable * _Nullable)error;
 @end

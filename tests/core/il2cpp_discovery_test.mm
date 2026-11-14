@@ -40,6 +40,10 @@ int main(){@autoreleasepool{
  check([globalRows[0][@"classIdentity"][@"fullType"] isEqual:@"Game.CheatController"],"global result preserves copied owner identity");
  NSDictionary *methodLimit=[service searchMethods:@"Value" limit:1 error:&error];check([methodLimit[@"count"] intValue]==1&&[methodLimit[@"truncated"] boolValue],"method search result limit is explicit");
  NSDictionary *noMethod=[service searchMethods:@"absent" limit:10 error:&error];check(!error&&[noMethod[@"count"] intValue]==0,"method no-match is empty snapshot");
+ NSDictionary *qualified=[service searchMethodExpression:@"assembly-csharp!Game.CheatController::setvalue/1" limit:10 error:&error];check(!error&&[qualified[@"count"] intValue]==1,"qualified assembly/namespace/class/method/arity filter");
+ NSDictionary *wrongArity=[service searchMethodExpression:@"Game.CheatController::SetValue/0" limit:10 error:&error];check(!error&&[wrongArity[@"count"] intValue]==0,"arity does not select a different overload");
+ NSDictionary *wrongOwner=[service searchMethodExpression:@"Other.CheatController::SetValue/1" limit:10 error:&error];check(!error&&[wrongOwner[@"count"] intValue]==0,"namespace qualifier is enforced");
+ unsigned preDelta=attached;check([service searchMethodExpression:@"SetValue+4" limit:10 error:&error]==nil&&error.code==20&&attached==preDelta,"nonzero delta rejected before VM calls");
  currentThread=true;unsigned before=attached;[service searchClasses:@"Player" limit:10 error:&error];check(attached==before&&detached==before,"existing VM thread is not detached");currentThread=false;
  throwMetadata=true;check([service searchClasses:@"cheat" limit:10 error:&error]==nil&&error,"exception becomes error");check(attached==detached,"exception still detaches owned thread");throwMetadata=false;
  attachFailure=true;before=detached;check([service searchClasses:@"cheat" limit:10 error:&error]==nil&&error&&detached==before,"failed attach is not detached");attachFailure=false;
