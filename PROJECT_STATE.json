@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "phase": "execution_capture_contract_verified",
+  "phase": "runtime_discovery_and_device_probe_implementation",
   "branch": "main",
   "head_reference": "git rev-parse HEAD; CI github.sha",
   "source_head": "7066edeaf9e47580c89440be670c517280534b69",
@@ -120,5 +120,21 @@
     "strict_verification": true,
     "static_analysis_diagnostics": 0,
     "static_analysis_files": 6
+  },
+  "runtime_discovery": {
+    "source_written": true,
+    "compiled": false,
+    "fixture_run": false,
+    "device_verified": false,
+    "scope": "read-only metadata; no managed invocation or GCHandle",
+    "ci_status": "pending"
+  },
+  "device_probe": {
+    "source_written": true,
+    "compiled": false,
+    "ui_run": false,
+    "device_verified": false,
+    "scope": "read-only Runtime/class/method UI and report export",
+    "ci_status": "pending"
   }
 }

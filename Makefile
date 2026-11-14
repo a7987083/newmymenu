@@ -35,3 +35,13 @@ test-execution:
 	build/tests/execution
 	xcrun clang++ -std=c++17 $(WARN) -fobjc-arc -fblocks -Iinclude -framework Foundation build/tests/NMReceiverLease.o build/tests/NMInvocationCoordinator.o build/tests/NMCaptureSession.o tests/core/capture_session_test.mm -o build/tests/capture-session
 	build/tests/capture-session
+
+.PHONY: test-discovery device-probe
+test-discovery:
+	mkdir -p build/tests
+	xcrun clang -std=c11 $(WARN) -fobjc-arc -fblocks -Iinclude -Isrc/RuntimeDiscovery -c src/RuntimeDiscovery/NMIL2CPPDiscovery.m -o build/tests/NMIL2CPPDiscovery.o
+	xcrun clang++ -std=c++17 $(WARN) -fobjc-arc -fblocks -Iinclude -Isrc/RuntimeDiscovery -framework Foundation build/tests/NMIL2CPPDiscovery.o tests/core/il2cpp_discovery_test.mm -o build/tests/il2cpp-discovery
+	build/tests/il2cpp-discovery
+
+device-probe: core
+	bash scripts/build_device_probe.sh

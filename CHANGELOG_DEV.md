@@ -60,3 +60,10 @@
 - 加强后ae7f607 / Run43643448325四job通过，真实Foundation资源/manager释放断言通过，16项Python和原翻译/wire回归持续通过。
 - 已下载Artifact14133306387，校验API2 dylib与ZIP哈希、Mach-O，6个静态分析plist无diagnostics。报告写入docs/builds/execution-ae7f607.json。
 - 仅确认新契约组件，不将结果归为真实IL2CPP GCHandle、Dobby关闭屏障、旧UI或设备修复。
+
+## Runtime元数据与实机Probe
+
+- 先记录0003边界；新增同一镜像所有者绑定、thread current/attach/finally-detach、配对typename分配/释放、有限类扫描与完整身份方法展开。
+- 描述符只存Foundation身份，不跨调用缓存Class/Method裸指针；Runtime变更/歧义/不完整导出明确拒绝。GCHandle/runtime_invoke只报告导出，不调用。
+- 新增自包含UIKit只读验证版：独立透明touch-through host、可拖动面板、类/方法列表、字段复制与JSON报告导出。没有复制旧UI或安装Swizzle/Dobby。
+- Core API3加入Discovery；新增受控C API fixture和独立Probe构建/签名/导出/依赖检查。当前未编译/运行，等待CI，设备未验证。

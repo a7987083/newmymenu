@@ -135,6 +135,7 @@ jobs:
           make test-portable
           make test-macos
           make test-execution
+          make test-discovery
       - name: Regression against fixed original implementation
         run: |
           set -euo pipefail
@@ -146,7 +147,7 @@ jobs:
           xcrun clang --analyze -std=c11 -Wall -Wextra -Werror -Iinclude src/NMCore.c -o build/core/NMCore-analysis.plist
           xcrun clang --analyze -std=c11 -Wall -Wextra -Werror -Iinclude src/Configuration/NMRuntimeActionCodec.c -o build/core/NMRuntimeActionCodec-analysis.plist
           xcrun clang++ --analyze -std=c++17 -fobjc-arc -fblocks -Wall -Wextra -Werror -Iinclude src/MethodFinder/NMMethodTranslator.mm -o build/core/NMMethodTranslator-analysis.plist
-          for source in src/Execution/NMReceiverLease.m src/Execution/NMInvocationCoordinator.m src/NativeHook/NMCaptureSession.m; do
+          for source in src/Execution/NMReceiverLease.m src/Execution/NMInvocationCoordinator.m src/NativeHook/NMCaptureSession.m src/RuntimeDiscovery/NMIL2CPPDiscovery.m; do
             xcrun clang --analyze -std=c11 -fobjc-arc -fblocks -Wall -Wextra -Werror -Iinclude "$source" -o "build/core/$(basename "$source" .m)-analysis.plist"
           done
       - name: Build and strictly verify ARM64 foundation core
@@ -159,4 +160,26 @@ jobs:
           name: newmymenu-foundation-core-NOT-FULL-MENU-${{ github.sha }}
           path: |
             build/core/
+          if-no-files-found: error
+
+  device-probe:
+    runs-on: macos-15
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_16.4.app/Contents/Developer
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Build verified self-contained device probe
+        run: |
+          set -euo pipefail
+          make device-probe
+      - name: Analyze probe UI lifecycle
+        run: |
+          set -euo pipefail
+          SDK="$(xcrun --sdk iphoneos --show-sdk-path)"
+          xcrun --sdk iphoneos clang --analyze -isysroot "$SDK" -arch arm64 -miphoneos-version-min=14.0 -std=c11 -fobjc-arc -fblocks -Wall -Wextra -Werror -Iinclude src/DeviceProbe/NMDeviceProbe.m -o build/device-probe/NMDeviceProbe-analysis.plist
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: newmymenu-device-probe-READONLY-${{ github.sha }}
+          path: build/device-probe/
           if-no-files-found: error

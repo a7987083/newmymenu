@@ -3,9 +3,10 @@
 import hashlib,json,struct,subprocess,sys
 from pathlib import Path
 EXPECTED_EXPORTS={'_NewMyMenuCoreGetAPIVersion','_NMRuntimeActionTryEncodeInstanceIndex','_NMRuntimeActionTryDecodeInstanceIndex','_OBJC_CLASS_$_NMMethodTranslator','_OBJC_METACLASS_$_NMMethodTranslator'}
-EXPECTED_EXPORTS |= {prefix+name for name in ('NMReceiverLease','NMInvocationRequest','NMInvocationCoordinator','NMCaptureToken','NMCaptureSessionManager') for prefix in ('_OBJC_CLASS_$_','_OBJC_METACLASS_$_')}
+EXPECTED_EXPORTS |= {prefix+name for name in ('NMIL2CPPDiscovery','NMReceiverLease','NMInvocationRequest','NMInvocationCoordinator','NMCaptureToken','NMCaptureSessionManager') for prefix in ('_OBJC_CLASS_$_','_OBJC_METACLASS_$_')}
 ALLOWED_DEPS={'/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation','/System/Library/Frameworks/Foundation.framework/Foundation','/usr/lib/libobjc.A.dylib','/usr/lib/libSystem.B.dylib','/usr/lib/libc++.1.dylib'}
-def inspect(data):
+def inspect(data, *, install_name='@rpath/NewMyMenuCore.dylib', allowed_deps=None):
+ if allowed_deps is None:allowed_deps=ALLOWED_DEPS
  if len(data)<32:raise ValueError('truncated header')
  magic,cpu,subtype,kind,ncmds,sizecmds,flags,reserved=struct.unpack_from('<8I',data)
  if (magic,cpu,kind)!=(0xfeedfacf,0x100000c,6):raise ValueError('expected thin arm64 dylib')
@@ -38,18 +39,20 @@ def inspect(data):
  if cursor!=end:raise ValueError('load command size mismatch')
  if build!=[(2,14<<16,(18<<16)|(5<<8))]:raise ValueError('unexpected platform/minimum/SDK: '+repr(build))
  if len(signatures)!=1:raise ValueError('expected one code signature')
- if identities!=['@rpath/NewMyMenuCore.dylib']:raise ValueError('unexpected install name')
- if not deps or any(x not in ALLOWED_DEPS for x in deps):raise ValueError('unexpected dependencies: '+repr(deps))
+ if identities!=[install_name]:raise ValueError('unexpected install name')
+ if not deps or any(x not in allowed_deps for x in deps):raise ValueError('unexpected dependencies: '+repr(deps))
  return dict(architecture='arm64',filetype='MH_DYLIB',deployment='14.0',sdk='18.5',dependencies=deps,install_name=identities[0])
-def main(path):
- result=inspect(path.read_bytes())
+def main(path, device_probe=False):
+ allowed=ALLOWED_DEPS|{'/System/Library/Frameworks/UIKit.framework/UIKit','/System/Library/Frameworks/QuartzCore.framework/QuartzCore','/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics'} if device_probe else ALLOWED_DEPS
+ result=inspect(path.read_bytes(),install_name='@rpath/NewMyMenuDeviceProbe.dylib' if device_probe else '@rpath/NewMyMenuCore.dylib',allowed_deps=allowed)
+ expected=EXPECTED_EXPORTS|{'_NewMyMenuDeviceProbeVersion'} if device_probe else EXPECTED_EXPORTS
  exports=subprocess.check_output(['nm','-gU',str(path)],text=True)
  symbols={line.split()[-1] for line in exports.splitlines() if line.strip()}
- if symbols!=EXPECTED_EXPORTS:raise ValueError('export mismatch: '+repr(symbols^EXPECTED_EXPORTS))
+ if symbols!=expected:raise ValueError('export mismatch: '+repr(symbols^expected))
  check=subprocess.run(['codesign','--verify','--strict','--verbose=4',str(path)],text=True,capture_output=True,check=True)
- result.update(exports=sorted(symbols),signature_verified=True,sha256=hashlib.sha256(path.read_bytes()).hexdigest(),product_scope='foundation and execution/capture contracts; no menu or IL2CPP/Dobby/Build adapters',source_head=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip())
+ result.update(exports=sorted(symbols),signature_verified=True,sha256=hashlib.sha256(path.read_bytes()).hexdigest(),product_scope='device read-only metadata probe; no Invoke/GCHandle/Hook/Build' if device_probe else 'foundation/contracts and read-only IL2CPP discovery; no game invoke/Hook/Build',source_head=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip())
  path.with_name('verification.json').write_text(json.dumps(result,indent=2)+'\n')
  path.with_name('signature.txt').write_text(check.stdout+check.stderr)
  path.with_name('SHA256.txt').write_text(result['sha256']+'  '+path.name+'\n')
  print(json.dumps(result,ensure_ascii=False))
-if __name__=='__main__':main(Path(sys.argv[1]))
+if __name__=='__main__':main(Path(sys.argv[1]), '--device-probe' in sys.argv[2:])
