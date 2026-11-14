@@ -80,3 +80,6 @@
 - Run 43647225475 AddressSanitizer located objc_retain crash in withMetadata:error: returning from ambiguous-class error inside a nested autoreleasepool. Internal NSError** implicit autoreleasing writeback outlived the pool. Changed only the private callback channel to NSError* __strong*: errors are owned before the pool drains; public NSError** contract remains unchanged. Existing ambiguous descriptor case is the regression test, with ASan retained.
 
 - Run 43647368642: controlled metadata fixture including the prior ambiguous-class crash passed under AddressSanitizer. Analyzer exposed 8 nullable NSError channel dereference warnings; guarded writes and added explicit plist-diagnostics CI gates (clang --analyze can exit zero with findings). No warning/check suppressed.
+
+- `4d9231c7` / Run43647531696: 5 jobs全部通过。metadata ASan fixture、旧实现wire129/翻译12000对照、7份core分析和1份UI分析零diagnostics；Core API3与自包含只读DeviceProbe均已构建，ARM64/SDK/依赖/导出/签名/SHA256验证。Artifact下载hash与Mach-O复核通过。未运行UIKit/真实IL2CPP/设备。
+- 已交付设备测试文件 `newmymenu-DeviceProbe-4d9231c7-READONLY.dylib`，对应SHA256 `3b0ce6555c45360072257a1c701503fab9dfa9abcd6a7d0d1eb3a0709f93b3bc`；步骤见docs/DEVICE_VALIDATION.md。完整产品、Invoke/Hook/Build回归未验证。

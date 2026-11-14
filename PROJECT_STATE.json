@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "phase": "runtime_discovery_and_device_probe_implementation",
+  "phase": "device_probe_ready_awaiting_real_ios_metadata_evidence",
   "branch": "main",
   "head_reference": "git rev-parse HEAD; CI github.sha",
   "source_head": "7066edeaf9e47580c89440be670c517280534b69",
@@ -10,8 +10,8 @@
     "passed": 16,
     "environment": "Linux Python",
     "source_snapshot_reproduced": true,
-    "ci_latest_source_head": "ae7f607d2f938bcc29ac545dffcfd09bb15c5292",
-    "ci_run_id": 43643448325,
+    "ci_latest_source_head": "4d9231c7e7cc428a8c8947230970d37631c05afa",
+    "ci_run_id": 43647531696,
     "ci_status": "success"
   },
   "product": {
@@ -39,7 +39,7 @@
     "sha256": "1223bf9df9cedb2eba66d781faab1459ec00e9b18ea8b23829daa89602f70b09"
   },
   "known_findings": "docs/audit/FINDINGS.md",
-  "next_task": "Implement version-confirmed IL2CPP receiver/metadata/marshalling adapters through NMInvocationCoordinator; integrate capture backend only with demonstrated teardown safety; then search/UI",
+  "next_task": "Receive DeviceProbe JSON/screenshots/crash evidence; verify real metadata/UI; then implement ABI-confirmed managed receiver/marshalling adapter through single coordinator. Native teardown and full Build/UI remain independent pending migrations.",
   "invoke_contract_audit": {
     "source_head": "7066edeaf9e47580c89440be670c517280534b69",
     "ci_head": "10efd671cbe0c5ca22ffb31aef71fbaaed4cc67e",
@@ -78,17 +78,19 @@
     "scope": [
       "offline translation",
       "runtime action wire and checked ordinal codec",
-      "execution and capture contracts"
+      "execution and capture contracts",
+      "read-only IL2CPP metadata discovery"
     ],
-    "ci_source_head": "ae7f607d2f938bcc29ac545dffcfd09bb15c5292",
-    "ci_run_id": 43643448325,
+    "ci_source_head": "4d9231c7e7cc428a8c8947230970d37631c05afa",
+    "ci_run_id": 43647531696,
     "strict_verification": true,
     "ios_run": false,
-    "artifact_id": 14133306387,
-    "sha256": "6adef025b3e6608711c504e0b05d3f5515b8a24ecb86aed18eddec784cd1588d",
+    "artifact_id": 14134279302,
+    "sha256": "da325b58e77890322febbe133805d6f0a1ddfb310a94c95c2339b838845b7048",
     "static_analysis_diagnostics": 0,
-    "build_report": "docs/builds/execution-ae7f607.json",
-    "core_api_version": 2
+    "build_report": "docs/builds/foundation-core-4d9231c7.json",
+    "core_api_version": 3,
+    "static_analysis_files": 7
   },
   "execution_lifecycle_core": {
     "modified": true,
@@ -123,18 +125,32 @@
   },
   "runtime_discovery": {
     "source_written": true,
-    "compiled": false,
-    "fixture_run": false,
+    "compiled": true,
+    "fixture_run": true,
     "device_verified": false,
     "scope": "read-only metadata; no managed invocation or GCHandle",
-    "ci_status": "pending"
+    "ci_status": "success",
+    "fixture_boundary": "controlled C API callbacks on macOS; AddressSanitizer enabled",
+    "ci_source_head": "4d9231c7e7cc428a8c8947230970d37631c05afa",
+    "ci_run_id": 43647531696,
+    "static_analysis_diagnostics": 0
   },
   "device_probe": {
     "source_written": true,
-    "compiled": false,
+    "compiled": true,
     "ui_run": false,
     "device_verified": false,
     "scope": "read-only Runtime/class/method UI and report export",
-    "ci_status": "pending"
+    "ci_status": "success",
+    "compiled_ios_arm64": true,
+    "ci_source_head": "4d9231c7e7cc428a8c8947230970d37631c05afa",
+    "ci_run_id": 43647531696,
+    "artifact_id": 14133719131,
+    "sha256": "3b0ce6555c45360072257a1c701503fab9dfa9abcd6a7d0d1eb3a0709f93b3bc",
+    "build_report": "docs/builds/device-probe-4d9231c7.json",
+    "self_contained": true,
+    "core_api_version": 3,
+    "static_analysis_diagnostics": 0,
+    "device_instructions": "docs/DEVICE_VALIDATION.md"
   }
 }

@@ -6,7 +6,21 @@
 源仓库 https://github.com/a7987083/mymenu 只读，未修改远程或历史。
 固定候选 `feat/method-finder-p5-detail-copy@7066edeaf9e47580c89440be670c517280534b69`；main7216b55，customer92d675e。所有远程分支SHA与源文件hash在docs/audit/source-inventory.json。
 
-## 当前最新状态：API2
+## 当前最新状态：API3 / 只读 DeviceProbe
+
+最新编译代码 `4d9231c7e7cc428a8c8947230970d37631c05afa`，Run [43647531696](https://github.com/a7987083/newmymenu/actions/runs/43647531696) 五个 job 全部通过。文档提交之后 HEAD 会前进，二进制 source_head 保持此代码提交。
+
+- 自包含 DeviceProbe Artifact [14133719131](https://github.com/a7987083/newmymenu/actions/runs/43647531696/artifacts/14133719131)，SHA256 `3b0ce6555c45360072257a1c701503fab9dfa9abcd6a7d0d1eb3a0709f93b3bc`。只注入此一个 probe，不另加 Core。build report: `docs/builds/device-probe-4d9231c7.json`。
+- Core API3 Artifact14134279302；SHA256 `da325b58e77890322febbe133805d6f0a1ddfb310a94c95c2339b838845b7048`；report `docs/builds/foundation-core-4d9231c7.json`。API3新增NMIL2CPPDiscovery，原wire布局与执行组件契约未改。
+- 7份core和1份UI分析报告零diagnostics；增加显式plist gate，不能只靠clang --analyze退出码。实际下载重新核对ZIP/dylib哈希、Mach-O和分析报告；签名验证发生在macOS CI。
+- RuntimeDiscovery: `src/RuntimeDiscovery/NMIL2CPPDiscovery.m`、私有API表，公开 `include/NMIL2CPPDiscovery.h`。loadedRuntimeCapabilities→同镜像绑定→withMetadata线程scope→类快照→完整identity重定位→方法值快照。无原生Class/Method指针跨操作缓存。
+- `src/DeviceProbe/NMDeviceProbe.m`：constructor仅dispatch主线程host；foreground window/delegate window→透明overlay→唯一table renderer；serial worker结果用generation校验。没有Swizzle/Hook/managed invoke安装。
+- `make test-discovery` 已在macOS ASan实际运行，覆盖搜索/签名、线程/分配释放、异常、歧义、Domain变化与stale descriptor。真实目标IL2CPP ABI/导出与UIKit运行仍未验证，步骤见 [DEVICE_VALIDATION](docs/DEVICE_VALIDATION.md)。
+- 修复证据：Run43647225475在歧义错误路径objc_retain崩溃；内部NSError**隐式autoreleasing在内层pool后writeback。私有通道改NSError* __strong*后ASan原用例通过。公有NSError**契约不变。
+
+完整开发端尚未完成；Probe不包含Invoke/GCHandle、Native Hook/恢复、Build、完整MethodFinder状态/缓存/翻译UI。不能用Probe成功宣称功能对等。等待设备元数据/交互报告后，先确认目标API/生命周期，再接managed adapter；不猜GCHandle宽度/布局。
+
+## API2执行组件的首次通过记录（历史）
 
 最新被验证代码`ae7f607d2f938bcc29ac545dffcfd09bb15c5292`，Run43643448325四job通过，Artifact14133306387。基础版f385c8a结果作为历史保留，不是最新core。
 新增include/NMReceiverLease.h、NMInvocationCoordinator.h、NMCaptureSession.h，对应src/Execution/*.m、src/NativeHook/NMCaptureSession.m。设计见0002，实际语义/测试/限制见EXECUTION_CORE.md，报告docs/builds/execution-ae7f607.json。
@@ -19,7 +33,7 @@
 
 - include/NMMethodTranslator.h、src/MethodFinder/NMMethodTranslator.mm：沿用原翻译算法，只调整公开NM命名空间/路径；一个实现，没有ZN兼容别名。私有词典由tools/generate_dictionary.py从3000词条JSON确定生成，许可在resources。
 - include/NMRuntimeActionFormat.h：原wire magic/version/64-byte layout；src/Configuration/NMRuntimeActionCodec.c提供唯一checked ordinal编解码，0自动/1..128序号，不是稳定对象身份，拒绝无效flag组合。
-- src/NMCore.c：基础API版本2，没有自动初始化、UI或Hook。
+- src/NMCore.c：当前API版本3，没有自动初始化、UI或Hook。
 
 设计先于迁移记录在docs/decisions/0001-foundation-migration.md。首批库完全不依赖原仓库、Theos、Dobby或旧UI；固定原仓库checkout只用于审计与回归test。
 

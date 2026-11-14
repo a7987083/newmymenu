@@ -7,6 +7,10 @@
 - 完成首批离线翻译与Action wire/checked codec的模块审计、设计、独立源码迁移、测试和ARM64 core构建。
 - f385c8a的Run43638969924四job通过；基础core机器报告位于docs/builds。
 
+## 本轮 DeviceProbe
+
+RuntimeDiscovery 的同镜像导出绑定、线程所有权与元数据值复制已实现；自包含只读 UIKit 验证入口用于收集真实游戏证据。具体设备步骤见 [DEVICE_VALIDATION](docs/DEVICE_VALIDATION.md)。这不等于 MethodFinder/Invoke 的完整迁移。
+
 ## 下一阶段
 
 1. InvocationRequest/ReceiverLease/Coordinator基础组件已实现并经Foundation验证。下一步接入版本明确的IL2CPP解析/线程/GCHandle/封送/返回adapter和显式chain session，保持所有arity使用同一契约。

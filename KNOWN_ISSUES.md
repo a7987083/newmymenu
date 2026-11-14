@@ -15,3 +15,11 @@
 - API2新增执行/捕获基础组件已通过Foundation和ARM64构建验证，但原M47/旧Capture UI未集成，旧源码缺陷仍保留在审计基线。
 - custom lease的managed存活/地址/线程保证和capture safe close必须由待实现adapter提供；当前没有默认raw pointer fallback或Dobby成功即ack的实现。
 - install/close永不ack时会话保持占用与自持有；无法证明安全时不强制释放。正常关闭/retry释放已实际测试。
+
+## API3 / 只读 DeviceProbe 的验证边界
+
+- DeviceProbe 不是完整开发端。只提供 IL2CPP 类/方法元数据搜索和报告，没有全局 Method 搜索、词典翻译 UI、字段级完整详情、搜索缓存/滚动位置恢复、Invoke/实例、Native Hook 或混合 Build。
+- IL2CPP API 测试使用受控 C 函数表。真实游戏导出、ABI、Domain/线程行为必须依赖设备报告；缺导出或多个 Runtime 所有者明确拒绝绑定。
+- UIKit host 为 foreground UIScene window 或无 UIScene 时的 UIApplicationDelegate.window。多窗口、键盘、触摸穿透、旋转和前后台行为尚未实机验证。
+- 新实现错误对象曾在内层 autoreleasepool 后悬空，CI ASan 已复现并修复，原失败用例保留。静态分析的 NSError 可空通道已加守卫，分析器 findings 由显式 plist gate 拦截。
+- Probe 只保留最近一次操作报告，类与方法页面需分别导出。扫描上限会显示 truncated，不能当完整游戏索引。
