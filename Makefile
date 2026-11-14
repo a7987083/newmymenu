@@ -80,3 +80,9 @@ test-signer:
 	xcrun clang++ -std=c++17 $(WARN) -g -fsanitize=address -fobjc-arc -fblocks -Iinclude -framework Foundation src/Build/NMMachOSigner.mm tests/core/signer_driver.mm -o build/signer-fixture/signer-driver
 	xcrun --sdk iphoneos clang -isysroot "$$(xcrun --sdk iphoneos --show-sdk-path)" -arch arm64 -miphoneos-version-min=14.0 -Wall -Wextra -Werror tests/core/signer_executable_fixture.c -o build/signer-fixture/executable
 	python3 tools/test_signer.py build/core/NewMyMenuCore.dylib build/signer-fixture/signer-driver build/signer-fixture/executable
+
+.PHONY: test-swizzle
+test-swizzle:
+	mkdir -p build/tests
+	xcrun clang -std=c11 $(WARN) -g -fsanitize=address -fobjc-arc -fblocks -Iinclude -framework Foundation src/Swizzle/NMSwizzleManager.m tests/core/swizzle_test.m -o build/tests/swizzle
+	build/tests/swizzle

@@ -1,0 +1,11 @@
+# 0010 ObjC Swizzle生命周期契约
+
+原SharedSite V2/V3有必要的外部ObjC诊断（见NATIVE_BOUNDARIES），但未知外部调用线程/其他dylib写入没有可证明的通用恢复点。新管理器只实现“合作式调度”契约：目标调用必须通过同一个manager的读scope，安装/恢复以try-write独占scope执行；活动调用中明确拒绝安装/恢复，避免重入等待死锁。不把manager锁描述成能阻止未合作的外部dylib。
+
+安装方必须明确声明协调条件成立；默认无此条件拒绝安装，不进行不安全降级。源/替换都来自实际ObjC Method，比较解析后的完整return/argument编码，不把任意IMP强转为通用调用函数。仅保存IMP并交给类型明确的replacement使用；manager不承担Invoke。
+
+继承默认拒绝：ObjC公共API不能删除class_addMethod形成的本地槽。显式选择LocalSnapshot时才本地化，不修改父类，恢复的是安装时IMP快照，本地槽会保留；父类在安装期间变化则拒绝恢复旧快照。不能把这种恢复描述为完全恢复动态继承。
+
+统一单owner registry，重复目标拒绝，当前IMP与原/替换记录不符时报告冲突并不覆盖第三方。此检查基于所有写入遵循协作契约，不提供跨任意第三方并发写入的CAS保证。替换Method仍需由其定义模块保持代码可用，不接受block-backed IMP（生命周期无法由manager拥有）。不自动安装任何游戏或系统Hook。
+
+真实Runtime fixture涵盖instance/class、参数/返回、原IMP、签名不符、继承隔离、活动调用/重入拒绝、外部IMP改变、并发调度与恢复、对象释放。必要外部诊断的实际接入仍需明确调度适配器，不因manager组件通过就声称已迁移。

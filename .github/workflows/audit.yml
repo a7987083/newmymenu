@@ -138,6 +138,7 @@ jobs:
           make test-discovery
           make test-finder
           make test-manifest
+          make test-swizzle
           make test-presentation
           make test-parser SOURCE_BASELINE=.audit-source
       - name: Regression against fixed original implementation
