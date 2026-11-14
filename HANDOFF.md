@@ -6,17 +6,24 @@
 源仓库 https://github.com/a7987083/mymenu 只读，未修改远程或历史。
 固定候选 `feat/method-finder-p5-detail-copy@7066edeaf9e47580c89440be670c517280534b69`；main7216b55，customer92d675e。所有远程分支SHA与源文件hash在docs/audit/source-inventory.json。
 
-## 当前实现范围
+## 当前最新状态：API2
+
+最新被验证代码`ae7f607d2f938bcc29ac545dffcfd09bb15c5292`，Run43643448325四job通过，Artifact14133306387。基础版f385c8a结果作为历史保留，不是最新core。
+新增include/NMReceiverLease.h、NMInvocationCoordinator.h、NMCaptureSession.h，对应src/Execution/*.m、src/NativeHook/NMCaptureSession.m。设计见0002，实际语义/测试/限制见EXECUTION_CORE.md，报告docs/builds/execution-ae7f607.json。
+`make test-execution`实际运行统一receiver、1000并发、真实对象lease、token/ack session、close失败/retry与资源/manager释放。core API版本2，ARM64签名/依赖/15导出全部通过，6个分析报告无diagnostics。
+真实IL2CPP/Dobby/旧UI未接入，完整产品及设备未验证。下一任务是版本明确的managed adapter和显式线程/GCHandle/封送，不能将managed指针强转id或重新引入TLS分流；Native safe-close必须有后端证据。
+
+## 首批基础实现范围与历史证据
 
 已经迁移：
 
 - include/NMMethodTranslator.h、src/MethodFinder/NMMethodTranslator.mm：沿用原翻译算法，只调整公开NM命名空间/路径；一个实现，没有ZN兼容别名。私有词典由tools/generate_dictionary.py从3000词条JSON确定生成，许可在resources。
 - include/NMRuntimeActionFormat.h：原wire magic/version/64-byte layout；src/Configuration/NMRuntimeActionCodec.c提供唯一checked ordinal编解码，0自动/1..128序号，不是稳定对象身份，拒绝无效flag组合。
-- src/NMCore.c：基础API版本1，没有自动初始化、UI或Hook。
+- src/NMCore.c：基础API版本2，没有自动初始化、UI或Hook。
 
 设计先于迁移记录在docs/decisions/0001-foundation-migration.md。首批库完全不依赖原仓库、Theos、Dobby或旧UI；固定原仓库checkout只用于审计与回归test。
 
-尚未迁移：菜单、搜索Renderer、Invoke/Receiver/Chain、Capture、Native、Static/Runtime生成业务。不能拿NewMyMenuCore.dylib替换旧开发端。
+尚未集成：菜单、搜索Renderer、真实IL2CPP Invoke/Receiver/Chain与Native Capture/Hook adapter、Static/Runtime生成业务。不能拿NewMyMenuCore.dylib替换旧开发端。
 
 ## 构建/测试/实际CI
 

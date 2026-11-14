@@ -1,6 +1,6 @@
 # 架构草案与迁移门槛
 
-当前进入首批独立基础模块迁移：离线翻译与Action wire/checked codec，见decisions/0001。UI、Invoke、Native与Build尚未迁移；这不是全功能验收。
+当前进入首批独立基础模块迁移：离线翻译与Action wire/checked codec，见decisions/0001。Invoke/Receiver/Capture的基础契约现已按0002实现并验证；真实IL2CPP/Dobby adapter、UI与Build仍未迁移。这不是全功能验收。
 
 ## 唯一职责
 

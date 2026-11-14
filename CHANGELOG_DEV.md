@@ -56,3 +56,7 @@
 
 - 初轮Execution/Capture CI Run43643039478（cd93060）四job通过：新Foundation契约/并发/真实对象存活与timer测试执行，ARM64 API2核心库通过15项精确导出、依赖/签名检查。
 - 自审新增关闭失败资源保留、retry成功释放及manager正常关闭后解除自持有的具体生命周期断言；这些新增断言等待下一CI，不以初轮结果冒充通过。
+
+- 加强后ae7f607 / Run43643448325四job通过，真实Foundation资源/manager释放断言通过，16项Python和原翻译/wire回归持续通过。
+- 已下载Artifact14133306387，校验API2 dylib与ZIP哈希、Mach-O，6个静态分析plist无diagnostics。报告写入docs/builds/execution-ae7f607.json。
+- 仅确认新契约组件，不将结果归为真实IL2CPP GCHandle、Dobby关闭屏障、旧UI或设备修复。

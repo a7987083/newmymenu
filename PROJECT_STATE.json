@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "phase": "execution_capture_contract_implementation",
+  "phase": "execution_capture_contract_verified",
   "branch": "main",
   "head_reference": "git rev-parse HEAD; CI github.sha",
   "source_head": "7066edeaf9e47580c89440be670c517280534b69",
@@ -10,8 +10,8 @@
     "passed": 16,
     "environment": "Linux Python",
     "source_snapshot_reproduced": true,
-    "ci_latest_source_head": "f385c8a83b9fc41f6af5adcc89c19938f223f944",
-    "ci_run_id": 43638969924,
+    "ci_latest_source_head": "ae7f607d2f938bcc29ac545dffcfd09bb15c5292",
+    "ci_run_id": 43643448325,
     "ci_status": "success"
   },
   "product": {
@@ -39,7 +39,7 @@
     "sha256": "1223bf9df9cedb2eba66d781faab1459ec00e9b18ea8b23829daa89602f70b09"
   },
   "known_findings": "docs/audit/FINDINGS.md",
-  "next_task": "Compile/run execution and capture lifecycle fixtures; verify ARM64 core; then integrate version-confirmed IL2CPP/Dobby adapters",
+  "next_task": "Implement version-confirmed IL2CPP receiver/metadata/marshalling adapters through NMInvocationCoordinator; integrate capture backend only with demonstrated teardown safety; then search/UI",
   "invoke_contract_audit": {
     "source_head": "7066edeaf9e47580c89440be670c517280534b69",
     "ci_head": "10efd671cbe0c5ca22ffb31aef71fbaaed4cc67e",
@@ -67,7 +67,6 @@
     "modified": true,
     "committed": true,
     "compiled_ios_arm64": true,
-    "run_ios": false,
     "device_verified": false,
     "menu_integration": false,
     "portable_python_tests_passed": 16,
@@ -78,23 +77,25 @@
     "ci_status": "success",
     "scope": [
       "offline translation",
-      "runtime action wire and checked ordinal codec"
+      "runtime action wire and checked ordinal codec",
+      "execution and capture contracts"
     ],
-    "ci_source_head": "f385c8a83b9fc41f6af5adcc89c19938f223f944",
-    "ci_run_id": 43638969924,
+    "ci_source_head": "ae7f607d2f938bcc29ac545dffcfd09bb15c5292",
+    "ci_run_id": 43643448325,
     "strict_verification": true,
     "ios_run": false,
-    "artifact_id": 14130499746,
-    "sha256": "c5047fa72ce5de73c8af5ede0b0bc00d354e95c8526f8932c5716ca670f9baee",
+    "artifact_id": 14133306387,
+    "sha256": "6adef025b3e6608711c504e0b05d3f5515b8a24ecb86aed18eddec784cd1588d",
     "static_analysis_diagnostics": 0,
-    "build_report": "docs/builds/foundation-f385c8a.json"
+    "build_report": "docs/builds/execution-ae7f607.json",
+    "core_api_version": 2
   },
   "execution_lifecycle_core": {
     "modified": true,
-    "committed": false,
-    "compiled_ios_arm64": false,
-    "foundation_run": false,
-    "ci_status": "pending",
+    "committed": true,
+    "compiled_ios_arm64": true,
+    "foundation_run": true,
+    "ci_status": "success",
     "core_api_version": 2,
     "game_adapters_integrated": false,
     "device_verified": false,
@@ -103,6 +104,21 @@
       "owned receiver scope",
       "single coordinator entry",
       "token-owned capture state and acknowledged close"
-    ]
+    ],
+    "ci_source_head": "ae7f607d2f938bcc29ac545dffcfd09bb15c5292",
+    "ci_run_id": 43643448325,
+    "artifact_id": 14133306387,
+    "sha256": "6adef025b3e6608711c504e0b05d3f5515b8a24ecb86aed18eddec784cd1588d",
+    "build_report": "docs/builds/execution-ae7f607.json",
+    "owned_scope_fixture_passed": true,
+    "capture_state_fixture_passed": true,
+    "resource_release_fixture_passed": true,
+    "managed_gc_handle_adapter": false,
+    "native_close_safety_verified": false,
+    "old_ui_integration": false,
+    "ios_run": false,
+    "strict_verification": true,
+    "static_analysis_diagnostics": 0,
+    "static_analysis_files": 6
   }
 }

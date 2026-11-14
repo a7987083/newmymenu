@@ -57,3 +57,5 @@
 | Developer UI | 横竖屏 | iosruntimepatchmenu/src/ZNUnifiedUI.mm:548 `- (void)tick:(NSTimer *)timer` | 部分实现 / 尚未迁移 / 未验证 | 细节仅文本定位，未验证 |
 | Developer UI | 触摸穿透 | iosruntimepatchmenu/src/ZNUnifiedUI.mm:2455 `hitTest:` | 部分实现 / 尚未迁移 / 未验证 | scene/UI fixture与设备测 |
 | Developer UI | 多窗口 | iosruntimepatchmenu/src/ZNUnifiedUI.mm:225 `UIWindowScene` | 部分实现 / 尚未迁移 / 未验证 | 销毁/rebind生命周期未验证 |
+
+API2的部分基础组件已独立迁移，见features.json的new_component与EXECUTION_CORE.md；表内“尚未迁移/未验证”指完整功能与旧UI/真实Runtime的集成回归，不否认基础组件已经实现。

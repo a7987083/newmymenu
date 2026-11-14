@@ -297,7 +297,8 @@
     "original_behavior": "源码所示路径，运行行为未验证",
     "new_behavior": "尚未迁移",
     "validation": "源码阅读；无设备回归",
-    "regression": "未验证"
+    "regression": "未验证",
+    "new_component": "explicit/ordinal provider契约与lease已验证；真实枚举/GCHandle adapter未接入"
   },
   {
     "name": "参数封送",
@@ -338,7 +339,8 @@
     "original_behavior": "源码所示路径，运行行为未验证",
     "new_behavior": "尚未迁移",
     "validation": "源码链+真实ObjC方法交换及受控IL2CPP边界隔离运行；游戏/设备未验证",
-    "regression": "未验证"
+    "regression": "未验证",
+    "new_component": "NMInvocationCoordinator统一arity/ByRef receiver入口已通过Foundation；真实IL2CPP backend未接入"
   },
   {
     "name": "返回值处理",
@@ -419,7 +421,8 @@
     "original_behavior": "源码所示路径，运行行为未验证",
     "new_behavior": "尚未迁移",
     "validation": "源码阅读；无设备回归",
-    "regression": "未验证"
+    "regression": "未验证",
+    "new_component": "ObjC owner scope与正常释放已验证；不能等同IL2CPP GCHandle生命周期验证"
   },
   {
     "name": "instanceIndex 契约",
@@ -580,7 +583,8 @@
     "original_behavior": "源码所示路径，运行行为未验证",
     "new_behavior": "尚未迁移",
     "validation": "源码阅读；无设备回归",
-    "regression": "未验证"
+    "regression": "未验证",
+    "new_component": "Capture token/ack状态及失败保留/释放已验证；Native Scheduler/Dobby关闭屏障未接入"
   },
   {
     "name": "Static Patch",

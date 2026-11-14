@@ -74,3 +74,10 @@ Run https://github.com/a7987083/newmymenu/actions/runs/43638969924 四个job均s
 - 机器报告 docs/builds/foundation-f385c8a.json
 
 只完成基础模块，没有菜单/搜索/Invoke/Native/Static Build入口；完整产品未编译或运行。iOS加载、设备和UI回归未验证。
+
+## API2 Execution/Capture契约模块
+
+初轮cd93060的Run43643039478四job通过。资源保留/释放与manager自持有解除断言补齐后，ae7f607的Run https://github.com/a7987083/newmymenu/actions/runs/43643448325 四job再次通过。
+实际运行`execution_test`与`capture_session_test`：1000并发、arity/ByRef统一receiver、真实ObjC生命周期、旧session隔离、install取消、close失败/retry、一次completion及资源/manager最终释放。
+ARM64 API2 core编译/签名/15项精确导出通过；实际下载Artifact14133306387核对ZIP/dylib hash、Mach-O与6个静态分析plist的零diagnostics。完整机器结果见docs/builds/execution-ae7f607.json，边界见EXECUTION_CORE.md。
+IL2CPP/Dobby adapter与旧UI未接入，真实游戏/iOS设备未验证。

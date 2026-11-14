@@ -1,6 +1,6 @@
 # newmymenu
 
-独立 iOS ARM64 开发端重构工程，目前处于源码审计与首批基础模块迁移阶段，**尚未实现原开发端功能对等，也没有最终菜单 dylib**。
+独立 iOS ARM64 开发端重构工程，目前处于源码审计及基础执行/生命周期模块迁移阶段，**尚未实现原开发端功能对等，也没有最终菜单 dylib**。
 
 原仓库保持只读。候选开发端：`a7987083/mymenu feat/method-finder-p5-detail-copy@7066edeaf9e47580c89440be670c517280534b69`。
 
@@ -23,6 +23,8 @@ Actions 的 macOS job 用真实 Objective-C Runtime 运行独立实验，然后�
 
 首批实现：`NMMethodTranslator`（离线翻译）与`NMRuntimeActionFormat/Codec`（原wire布局及checked ordinal codec）。独立构建：`make core`；本地可移植测试：`make test-portable`；macOS Foundation测试：`make test-macos`。与固定源比对：`make test-parity SOURCE_BASELINE=/path/to/mymenu`。
 
-`NewMyMenuCore.dylib`仅为基础模块库，没有菜单、搜索、Invoke、Native Hook或生成业务入口，不能替代旧开发端。模块设计与迁移边界见[0001](docs/decisions/0001-foundation-migration.md)。
+`NewMyMenuCore.dylib`仅为基础模块库，没有菜单、搜索、真实IL2CPP Invoke、Native Hook或生成业务入口，不能替代旧开发端。模块设计与迁移边界见[0001](docs/decisions/0001-foundation-migration.md)。
 
 首批核心代码`f385c8a`已通过[CI](https://github.com/a7987083/newmymenu/actions/runs/43638969924)，构建报告见[foundation-f385c8a.json](docs/builds/foundation-f385c8a.json)。[核心库Artifact](https://github.com/a7987083/newmymenu/actions/runs/43638969924/artifacts/14130499746)仅含基础模块，不是完整开发端。
+
+API2已新增[显式调用与Capture生命周期组件](docs/audit/EXECUTION_CORE.md)：统一receiver scope、immutable request和token/ack会话。代码`ae7f607`已通过[CI](https://github.com/a7987083/newmymenu/actions/runs/43643448325)；[API2核心Artifact](https://github.com/a7987083/newmymenu/actions/runs/43643448325/artifacts/14133306387)仍不包含菜单或真实IL2CPP/Dobby adapter。

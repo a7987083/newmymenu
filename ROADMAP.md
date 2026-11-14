@@ -9,8 +9,8 @@
 
 ## 下一阶段
 
-1. 完成Invoke/Receiver依赖闭包，设计不可变InvocationRequest、完整调用范围ReceiverLease和显式chain session。验收：所有arity/ByRef消费同一receiver契约，不能再用隐藏TLS分流。
-2. 重写CaptureSession生命周期。验收：旧timeout/callback/cancel不能影响新session；teardown必须由backend确认安全后才允许释放/复用。
+1. InvocationRequest/ReceiverLease/Coordinator基础组件已实现并经Foundation验证。下一步接入版本明确的IL2CPP解析/线程/GCHandle/封送/返回adapter和显式chain session，保持所有arity使用同一契约。
+2. CaptureSessionManager新状态机已通过真实timer、失败/retry与释放测试。下一步接Native adapter；不能以DobbyDestroy成功代替在途调用排空。
 3. RuntimeDiscovery/MethodFinder状态与单Renderer迁移。验收：count和卡片同一快照；类/方法切换、取消、滚动、复制与翻译保持行为。
 4. Native/Build迁移：临时Dobby、StaticPrepared及外部SharedSite诊断各自生命周期；BuildRequest冻结输入并显式传播错误。成熟Mach-O/ABI算法优先复用。
 5. 必要外部ObjC Hook进入统一SwizzleManager，完成真实Runtime冲突/继承/恢复fixture；不因旧版本装饰器多就删除有用外部诊断。
