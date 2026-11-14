@@ -19,3 +19,7 @@ Core API5解析器/类排名/元数据扫描与既有生命周期组件已经受
 没有这些证据，仍可进行纯配置/Mach-O/文本等独立模块审计与fixture工作，但不能安全宣称managed adapter、native entry恢复和完整产品已接入/通过。不得为满足进度采用raw receiver fallback、MethodInfo字猜测或跳过ABI检查。
 
 用户最新要求：不再中途分发dylib；最终产品完成才交付。CI内部构建产物仅作为证据保存，不向用户作为阶段成品分发。
+
+## 用户后续范围调整
+
+游戏ABI依赖已明确暂缓，不再作为整个工程暂停理由。搜索/配置/Manifest/ObjC Runtime生命周期/离线Mach-O与签名等工作继续。暂缓Invoke/managed receiver与需要目标布局的Native/Prepared部分，不把暂缓写成已完成。用户仍要求最终整合后再发dylib，本阶段不分发二进制。

@@ -267,7 +267,7 @@ static NSData *NMSignerBuildCodeDirectory(const uint8_t *base,
     NMSignerWriteBE32(p + 0, kNMSignerCSMagicCodeDirectory);
     NMSignerWriteBE32(p + 4, (uint32_t)length64);
     NMSignerWriteBE32(p + 8, kNMSignerCSCodeDirectoryVersion);
-    NMSignerWriteBE32(p + 12, 0);
+    NMSignerWriteBE32(p + 12, 0x2u); // CS_ADHOC: no CMS identity signature is emitted.
     NMSignerWriteBE32(p + 16, (uint32_t)hashOffset64);
     NMSignerWriteBE32(p + 20, identOffset);
     NMSignerWriteBE32(p + 24, nSpecial);

@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "phase": "named_expression_and_ranked_discovery_verified_runtime_abi_evidence_needed",
+  "phase": "abi_independent_modules_in_progress",
   "branch": "main",
   "head_reference": "git rev-parse HEAD; CI github.sha",
   "source_head": "7066edeaf9e47580c89440be670c517280534b69",
@@ -39,7 +39,7 @@
     "sha256": "1223bf9df9cedb2eba66d781faab1459ec00e9b18ea8b23829daa89602f70b09"
   },
   "known_findings": "docs/audit/FINDINGS.md",
-  "next_task": "Obtain version-matched Runtime binary/report to validate managed/Native ABI; independent Configuration/Build audits may continue, but full product cannot be accepted without that evidence.",
+  "next_task": "Complete ABI-independent modules and their CI: cancellation, immutable Manifest/JSON, transactional reused signer; then ObjC Swizzle lifecycle, configuration/UI and independent Build. Game ABI adapters remain explicitly deferred.",
   "invoke_contract_audit": {
     "source_head": "7066edeaf9e47580c89440be670c517280534b69",
     "ci_head": "10efd671cbe0c5ca22ffb31aef71fbaaed4cc67e",
@@ -181,7 +181,8 @@
     "raw_detail_fields": true,
     "presentation_fixture_passed": true,
     "named_expression_parity_cases": 10020,
-    "late_exact_rank_regression_passed": true
+    "late_exact_rank_regression_passed": true,
+    "cooperative_cancellation_implemented": true
   },
   "device_observations": [
     {
@@ -196,11 +197,35 @@
   ],
   "delivery_policy": "No further intermediate dylib delivery; final integrated product only",
   "runtime_abi_gate": {
-    "status": "missing_target_evidence",
+    "status": "deferred_by_user_not_global_blocker",
     "report": "docs/ABI_EVIDENCE_GATE.md",
     "target_runtime_binary_available": false,
     "target_runtime_report_available": false,
     "invoke_adapter_safe_to_claim_complete": false,
     "native_adapter_safe_to_claim_complete": false
+  },
+  "manifest": {
+    "source_written": true,
+    "committed": true,
+    "compiled_ios_arm64": true,
+    "foundation_asan_fixture_passed": true,
+    "ci_source_head": "463584d",
+    "ci_run_id": 43652959430,
+    "immutable_items": true,
+    "single_frozen_configuration": true,
+    "errors_not_swallowed": true,
+    "strict_manifest_json_roundtrip": true,
+    "legacy_authoring_import": false,
+    "prepare_emit_backends_integrated": false
+  },
+  "signer": {
+    "source_written": true,
+    "committed": true,
+    "compiled": false,
+    "tested": false,
+    "source_reused": "docs/audit/signer-source.json",
+    "transactional_copy": true,
+    "core_integration": false,
+    "ci_status": "pending"
   }
 }
