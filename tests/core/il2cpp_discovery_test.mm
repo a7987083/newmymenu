@@ -48,6 +48,8 @@ int main(){@autoreleasepool{
  throwMetadata=true;check([service searchClasses:@"cheat" limit:10 error:&error]==nil&&error,"exception becomes error");check(attached==detached,"exception still detaches owned thread");throwMetadata=false;
  attachFailure=true;before=detached;check([service searchClasses:@"cheat" limit:10 error:&error]==nil&&error&&detached==before,"failed attach is not detached");attachFailure=false;
  notReady=true;check([service searchClasses:@"cheat" limit:10 error:&error]==nil&&error,"not ready rejected");notReady=false;
+ const char *savedName=classes[0].name;classes[0].name="PlayerHelper";
+ NSDictionary *ranked=[service searchClasses:@"Player" limit:1 error:&error];check(!error&&[ranked[@"results"][0][@"class"] isEqual:@"Player"]&&[ranked[@"matchesWithinScan"] intValue]==2,"later exact class outranks early prefix even at limit one");classes[0].name=savedName;
  NSDictionary *limited=[service searchClasses:@"Game" limit:1 error:&error];check([limited[@"count"] intValue]==1&&[limited[@"truncated"] boolValue],"bounds are visible");
  NSMutableDictionary *wrong=[descriptor mutableCopy];wrong[@"runtimeIdentifier"]=@"other";before=attached;check([service methodsForClass:wrong limit:10 error:&error]==nil&&error&&before==attached,"stale binding rejected before VM entry");
  NMIL2CPPAPI missing=api();missing.freeMemory=nullptr;check([[NMIL2CPPDiscovery alloc] initWithAPI:missing report:@{@"runtimeIdentifier":@"x"} ownedHandle:nullptr]==nil,"allocator pair required");

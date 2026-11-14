@@ -3,3 +3,5 @@
 复用7066ede的ZNIL2CPPResolver.parseNamedOffsetExpression算法及两个纯文本helper，不复制Runtime绑定或MethodInfo布局猜测。新模块私有无状态，不增加备用执行入口；公开Discovery.expression入口仅把解析得到的assembly/namespace/class/method/arity过滤交给现有scan循环。
 
 原delta语法仍可解析；非零delta属于地址解析阶段，本次元数据入口明确拒绝，不能把偏移附着到方法后再当可调用入口。与固定原源码提取的纯解析器逐输入比对结果/错误，记录来源哈希。未知RVA仍不读取MethodInfo机器字。
+
+类排名按原V3 exact/prefix/suffix/contains顺序复用。类搜索不能因为先凑够limit就停止，否则后面的exact匹配丢失；保留有界候选池，扫描仍受时间/数量边界约束，排序后截取。namespace/fullType附加匹配排在简单类名匹配之后；这项扩展明确保留，不宣称完全等同原name-only语义。

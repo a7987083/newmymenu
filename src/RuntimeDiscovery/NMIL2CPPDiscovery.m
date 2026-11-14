@@ -32,6 +32,18 @@ static NSDictionary *NMDLCopyMethod(NMIL2CPPAPI api,const void *method,NSDiction
     NSString *name=NMDLString(api.methodGetName(method)),*ret=NMDLTypeName(api,api.methodGetReturnType(method));
     return @{@"method":name,@"parameterTypes":[types copy],@"returnType":ret,@"static":@((flags&0x10u)!=0),@"classIdentity":identity,@"signature":[NSString stringWithFormat:@"%@ %@(%@)",ret,name,[types componentsJoinedByString:@", "]]};
 }
+static NSInteger NMDLClassRank(NSString *name,NSString *query) {
+    if([name caseInsensitiveCompare:query]==NSOrderedSame)return 0;
+    NSString *n=name.lowercaseString,*q=query.lowercaseString;
+    if([n hasPrefix:q])return 1;if([n hasSuffix:q])return 2;
+    return [n containsString:q]?3:NSIntegerMax;
+}
+static NSComparisonResult NMDLCompareClasses(NSDictionary *a,NSDictionary *b) {
+    NSInteger ar=[a[@"rank"] integerValue],br=[b[@"rank"] integerValue];
+    if(ar!=br)return ar<br?NSOrderedAscending:NSOrderedDescending;
+    NSComparisonResult order=[a[@"fullType"] localizedCaseInsensitiveCompare:b[@"fullType"]];
+    return order==NSOrderedSame?[a[@"assembly"] compare:b[@"assembly"]]:order;
+}
 static NSString *NMDLImageUUID(const struct mach_header *header) {
     if(!header || header->magic!=MH_MAGIC_64 || header->sizeofcmds>16*1024*1024)return @"";
     const uint8_t *cursor=(const uint8_t *)header+sizeof(struct mach_header_64),*end=cursor+header->sizeofcmds;
@@ -140,12 +152,12 @@ static NSString *NMDLImageUUID(const struct mach_header *header) {
         NSMutableArray *ordered=[NSMutableArray array];
         for(size_t i=0;i<count;i++){const void *image=api.assemblyGetImage(assemblies[i]);if(image)[ordered addObject:@{@"pointer":@((uintptr_t)image),@"assembly":NMDLString(api.imageGetName(image))}];}
         [ordered sortUsingComparator:^NSComparisonResult(NSDictionary *a,NSDictionary *b){BOOL ac=[a[@"assembly"] hasPrefix:@"Assembly-CSharp"],bc=[b[@"assembly"] hasPrefix:@"Assembly-CSharp"];if(ac!=bc)return ac?NSOrderedAscending:NSOrderedDescending;return [a[@"assembly"] compare:b[@"assembly"]];}];
-        NSMutableArray *results=[NSMutableArray array];NSUInteger scanned=0,methodsScanned=0;BOOL truncated=NO;double deadline=NMDLTime()+2.0;
+        NSMutableArray *results=[NSMutableArray array];NSUInteger scanned=0,methodsScanned=0,totalMatches=0,capacity=MIN((NSUInteger)4096,MAX(limit*4,(NSUInteger)64));BOOL truncated=NO;double deadline=NMDLTime()+2.0;
         for(NSDictionary *entry in ordered){
             const void *image=(const void *)(uintptr_t)[entry[@"pointer"] unsignedLongLongValue];size_t classes=api.imageGetClassCount(image);
             if(classes>2000000){if(failure)*failure=NMDLError(12,@"Invalid class count");return nil;}
             for(size_t i=0;i<classes;i++){ @autoreleasepool {
-                if(results.count>=limit||scanned>=200000||NMDLTime()>deadline){truncated=YES;break;}
+                if((methodSearch&&results.count>=limit)||scanned>=200000||NMDLTime()>deadline){truncated=YES;break;}
                 scanned++;void *klass=api.imageGetClass(image,i);if(!klass)continue;
                 NSString *name=NMDLString(api.classGetName(klass)),*ns=NMDLString(api.classGetNamespace(klass));
                 if(filter){
@@ -160,7 +172,12 @@ static NSString *NMDLImageUUID(const struct mach_header *header) {
                 NSDictionary *identity=@{@"assembly":entry[@"assembly"],@"namespace":ns,@"class":name,@"fullType":full,@"runtimeIdentifier":self->_runtimeReport[@"runtimeIdentifier"]};
                 if(!methodSearch){
                     NSString *search=[NSString stringWithFormat:@"%@ %@ %@",name,ns,full];
-                    if([search rangeOfString:text options:NSCaseInsensitiveSearch|NSDiacriticInsensitiveSearch].location!=NSNotFound)[results addObject:identity];
+                    NSInteger rank=NMDLClassRank(name,text);
+                    if(rank==NSIntegerMax&&[search rangeOfString:text options:NSCaseInsensitiveSearch|NSDiacriticInsensitiveSearch].location!=NSNotFound)rank=4;
+                    if(rank!=NSIntegerMax){
+                        totalMatches++;NSMutableDictionary *ranked=[identity mutableCopy];ranked[@"rank"]=@(rank);[results addObject:[ranked copy]];
+                        if(results.count>capacity){[results sortUsingComparator:^NSComparisonResult(NSDictionary *a,NSDictionary *b){return NMDLCompareClasses(a,b);}];[results removeObjectsInRange:NSMakeRange(capacity,results.count-capacity)];}
+                    }
                 } else {
                     void *iterator=NULL;const void *method=NULL;
                     while((method=api.classGetMethods(klass,&iterator))){ @autoreleasepool {
@@ -178,7 +195,12 @@ static NSString *NMDLImageUUID(const struct mach_header *header) {
             }}
             if(truncated)break;
         }
-        return @{@"kind":methodSearch?@"methods":@"classes",@"query":text,@"results":[results copy],@"count":@(results.count),@"scanned":@(scanned),@"methodsScanned":@(methodsScanned),@"truncated":@(truncated)};
+        if(!methodSearch){
+            [results sortUsingComparator:^NSComparisonResult(NSDictionary *a,NSDictionary *b){return NMDLCompareClasses(a,b);}];
+            if(results.count>limit)[results removeObjectsInRange:NSMakeRange(limit,results.count-limit)];
+            truncated=truncated||totalMatches>limit;
+        }
+        return @{@"kind":methodSearch?@"methods":@"classes",@"query":text,@"results":[results copy],@"count":@(results.count),@"scanned":@(scanned),@"methodsScanned":@(methodsScanned),@"matchesWithinScan":@(methodSearch?results.count:totalMatches),@"truncated":@(truncated)};
     } error:error];
 }
 - (NSDictionary *)methodsForClass:(NSDictionary *)identity limit:(NSUInteger)limit error:(NSError **)error {
