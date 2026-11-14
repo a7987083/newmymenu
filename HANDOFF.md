@@ -16,8 +16,8 @@
 
 ## 构建/测试
 
-Linux：`python3 -m unittest discover -s tests -v`，当前3项通过。
-macOS：workflow完整命令是唯一权威，Xcode16.4/iOS18.5，14.0 deployment target；实际编译/运行状态查看对应SHA的Actions。
+Linux：`python3 -m unittest discover -s tests -v`，当前6项通过，另已重建核对固定源SHA/162文件hash/API位置。
+macOS：workflow完整命令是唯一权威，Xcode16.4/iOS18.5，14.0 deployment target；审计fixture已在1db15a2通过真实Runtime执行、ARM64编译、签名与依赖检查；Run43632322407，详见docs/audit/CI_EVIDENCE.md。后续源码仍须核对对应SHA。
 审计fixture运行：clang ARC/Foundation后执行；iOS fixture仅编译/检查/签名，不运行。
 Artifact名 `runtime-audit-fixture-NOT-PRODUCT-<sha>`。该产物不是最终开发端dylib。
 
@@ -30,3 +30,5 @@ Artifact名 `runtime-audit-fixture-NOT-PRODUCT-<sha>`。该产物不是最终开
 优先为325个文本候选补充：剔除注释/未编译来源、展开Swap wrapper调用、建立Class/SEL/types/原IMP/安装顺序/覆盖关系。特别核对最终Renderer及Invoke多层装饰的真实可达链。
 补齐53项弱锚点和Build/Native传递依赖；读取固定Dobby源码确认destroy是否排空在途trampoline。完成专项审计后再定稿和迁移业务。
 真实iOS回归需要设备，但此时仍有大量可由源码和CI推进的工作，不应提前宣称设备是唯一阻塞。
+
+补充：swizzle_audit.py已建立47wrapper/124函数/164调用索引，不等价实际Hook数量。固定Dobby的DobbyDestroy没有调用排空；不释放entry，不能误称trampoline已被它释放。详见SWIZZLE.md和F04。

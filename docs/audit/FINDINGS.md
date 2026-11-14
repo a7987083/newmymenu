@@ -24,7 +24,7 @@ ZNM462InstanceSafety.mm: selected getter 仅在锁内取得 selection，随后�
 
 ZNNativeHookRuntime.mm: removeTemporaryHookForCandidate: :1642 附近调用 DobbyDestroy 后立即将 slot original/actionID/target 清零。removeAction: :2164 类似。局部 atomic 字段不能证明整条卸载生命周期安全；尚未证明 DobbyDestroy 排空全部已经进入的 replacement。
 
-必须先核对固定 Dobby 实现及 trampoline 释放语义，再采用关闭新操作、等待受控在途调用或拒绝运行中卸载。Static prepatch 与临时 Dobby 是不同后端，不能混用恢复规则。
+本轮进一步读取 Dobby 固定 commit 5dfc8546954ce3b3198132ab13fddb89ee92cdd7 的 source/dobby.cpp:18：DobbyDestroy 仅 remove entry、restore_orig_code，然后 return；没有在途调用等待，且明确保留 `FIXME: delete entry safely`、注释掉 delete。source/Interceptor.h 的 find/remove/add 直接操作 vector，没有内部锁。因此不能把 DobbyDestroy 返回成功当调用排空，也不能声称它在这里释放了 trampoline。应关闭新操作、等待受控在途调用或拒绝运行中卸载。Static prepatch 与临时 Dobby 是不同后端，不能混用恢复规则。
 
 ## F05 早到安装被 dispatch_once 消耗：静态风险
 

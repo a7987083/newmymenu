@@ -9,6 +9,16 @@ jobs:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       - name: Audit integrity tests
         run: python3 -m unittest discover -s tests -v
+      - name: Read fixed source snapshot
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          repository: a7987083/mymenu
+          ref: 7066edeaf9e47580c89440be670c517280534b69
+          path: .audit-source
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Reproduce source hashes and API inventory
+        run: python3 tools/verify_source.py .audit-source
   runtime-audit:
     runs-on: macos-15
     env:

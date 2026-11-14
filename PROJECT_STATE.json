@@ -7,8 +7,10 @@
   "source_repository_modified": false,
   "audit_tests": {
     "executed": true,
-    "passed": 3,
-    "environment": "Linux Python"
+    "passed": 6,
+    "environment": "Linux Python",
+    "source_snapshot_reproduced": true,
+    "ci_latest_source_head": "pending_after_next_commit"
   },
   "product": {
     "modified": false,
@@ -21,9 +23,16 @@
   },
   "runtime_audit_fixture": {
     "source_written": true,
-    "compiled": false,
-    "run": false,
-    "ci_status": "pending"
+    "compiled": true,
+    "run": true,
+    "ci_status": "success",
+    "run_environment": "macOS arm64 only",
+    "ios_run": false,
+    "device_verified": false,
+    "ci_source_head": "1db15a2b9f4a0f7b2b4f598bef953a3d387dd68e",
+    "run_id": 43632322407,
+    "artifact_id": 14129005845,
+    "sha256": "1223bf9df9cedb2eba66d781faab1459ec00e9b18ea8b23829daa89602f70b09"
   },
   "known_findings": "docs/audit/FINDINGS.md",
   "next_task": "Resolve actual Swizzle ownership and complete feature dependency evidence"

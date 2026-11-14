@@ -7,6 +7,8 @@
 - [基线与证据边界](docs/audit/BASELINE.md)
 - [53项功能清单](docs/audit/FEATURES.md)
 - [关键发现](docs/audit/FINDINGS.md)
+- [Swizzle安装索引与边界](docs/audit/SWIZZLE.md)
+- [实际CI实验报告](docs/audit/CI_EVIDENCE.md)
 - [架构草案](docs/ARCHITECTURE.md)
 - [机器可读源码库存](docs/audit/source-inventory.json)
 - [交接](HANDOFF.md)

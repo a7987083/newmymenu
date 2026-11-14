@@ -1,0 +1,4192 @@
+{
+  "schema_version": 1,
+  "source_head": "7066edeaf9e47580c89440be670c517280534b69",
+  "activation_roots": [
+    "ZNInstallRuntimeMenuV055Deferred",
+    "ZNInstallFeatureGroupUIDeferred",
+    "ZNInstallPublicCompactDefaultsDeferred",
+    "ZNInstallIL2CPPNamedOffsetWorkspaceDeferred",
+    "ZNInstallFeatureBuilderUIDeferred",
+    "ZNInstallRuntimeMethodCallBuilderUIDeferred",
+    "ZNInstallMethodFinderUnifiedUIDeferred",
+    "ZNInstallM630HardCutUIDeferred"
+  ],
+  "wrappers": [
+    "ZN49Swap",
+    "ZN50BSwapInstanceMethod",
+    "ZN50SwapInstanceMethod",
+    "ZN51SSwapSilentCustomerExecution",
+    "ZN51Swap",
+    "ZN57MFSwapInstanceMethod",
+    "ZNM42Swap",
+    "ZNM43PolishSwap",
+    "ZNM43Swap",
+    "ZNM441Swap",
+    "ZNM442Swap",
+    "ZNM44Swap",
+    "ZNM45Swap",
+    "ZNM461Swap",
+    "ZNM462Swap",
+    "ZNM462UISwap",
+    "ZNM46SignatureSwap",
+    "ZNM46UISwap",
+    "ZNM47BuilderSwap",
+    "ZNM47ReceiverUISwap",
+    "ZNM47Swap",
+    "ZNM47UISwap",
+    "ZNM47VersionSwap",
+    "ZNM48Swap",
+    "ZNM52ChainStoreSwap",
+    "ZNM52HSwap",
+    "ZNM52Swap",
+    "ZNM52XSwap",
+    "ZNM53Swap",
+    "ZNM54Swap",
+    "ZNM551Swap",
+    "ZNM592SwapInstance",
+    "ZNM600Swap",
+    "ZNModalSwap",
+    "ZNOV2Swap",
+    "ZNSwapInstanceMethodV040",
+    "ZNSwapInstanceMethodV0401",
+    "ZNSwapInstanceMethodV0402",
+    "ZNSwapInstanceMethodV042",
+    "ZNSwapInstanceMethodV043",
+    "ZNSwapPatchManagerV041",
+    "ZNSwapPatchManagerV042",
+    "ZNSwapV044",
+    "ZNSwapV048",
+    "ZNSwapV049",
+    "ZNSwapV053",
+    "ZNUXSwap"
+  ],
+  "functions": [
+    {
+      "function": "ZNInstallBinaryPatchWorkspaceAddressV2Deferred",
+      "path": "iosruntimepatchmenu/src/ZNBinaryPatchWorkspaceAddressV2.mm",
+      "line": 46,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {
+        "cls": "ZNBinaryPatchWorkspace.class"
+      },
+      "method_lookups": [
+        {
+          "api": "class_getInstanceMethod",
+          "class_expression": "cls",
+          "selector": "validateAll:"
+        },
+        {
+          "api": "class_getInstanceMethod",
+          "class_expression": "cls",
+          "selector": "znov2_validateAll:"
+        }
+      ],
+      "wrapper_calls": [],
+      "dispatch_once": true,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": true,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNInstallIL2CPPInstanceSelectionV2Deferred",
+      "path": "iosruntimepatchmenu/src/ZNIL2CPPInstanceSelectionV2.mm",
+      "line": 174,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {
+        "cls": "ZNIL2CPPInstanceResolver.class"
+      },
+      "method_lookups": [
+        {
+          "api": "class_getInstanceMethod",
+          "class_expression": "cls",
+          "selector": "resolveUniqueInstanceForAssembly:namespace:className:diagnostics:error:"
+        },
+        {
+          "api": "class_getInstanceMethod",
+          "class_expression": "cls",
+          "selector": "znm44_originalResolveUniqueInstanceForAssembly:namespace:className:diagnostics:error:"
+        }
+      ],
+      "wrapper_calls": [],
+      "dispatch_once": true,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": true,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNInstallIL2CPPMethodFinderPatchBridgeV3Deferred",
+      "path": "iosruntimepatchmenu/src/ZNIL2CPPMethodFinderPatchBridgeV3.mm",
+      "line": 47,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {
+        "cls": "NSClassFromString(@\"ZNRuntimeMenuControllerV040\")"
+      },
+      "method_lookups": [
+        {
+          "api": "class_getInstanceMethod",
+          "class_expression": "cls",
+          "selector": "zn60v3_createPatch:"
+        },
+        {
+          "api": "class_getInstanceMethod",
+          "class_expression": "cls",
+          "selector": "zn61v3_createPatch:"
+        }
+      ],
+      "wrapper_calls": [],
+      "dispatch_once": true,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": true,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNInstallIL2CPPMethodFinderSearchV2Deferred",
+      "path": "iosruntimepatchmenu/src/ZNIL2CPPMethodFinderSearchV2.mm",
+      "line": 756,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {
+        "cls": "ZNIL2CPPHybridFinder.class"
+      },
+      "method_lookups": [
+        {
+          "api": "class_getInstanceMethod",
+          "class_expression": "cls",
+          "selector": "resolveExpression:error:"
+        },
+        {
+          "api": "class_getInstanceMethod",
+          "class_expression": "cls",
+          "selector": "zn58_resolveExpression:error:"
+        }
+      ],
+      "wrapper_calls": [],
+      "dispatch_once": true,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": true,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNInstallIL2CPPMethodFinderZeroVMAddrFixDeferred",
+      "path": "iosruntimepatchmenu/src/ZNIL2CPPMethodFinderZeroVMAddrFix.mm",
+      "line": 540,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {
+        "cls": "ZNIL2CPPHybridFinder.class"
+      },
+      "method_lookups": [
+        {
+          "api": "class_getInstanceMethod",
+          "class_expression": "cls",
+          "selector": "resolveExpression:error:"
+        },
+        {
+          "api": "class_getInstanceMethod",
+          "class_expression": "cls",
+          "selector": "zn59_resolveExpression:error:"
+        }
+      ],
+      "wrapper_calls": [],
+      "dispatch_once": true,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": true,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNInstallIL2CPPNamedOffsetWorkspaceDeferred",
+      "path": "iosruntimepatchmenu/src/ZNIL2CPPNamedOffsetWorkspace.mm",
+      "line": 159,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {
+        "cls": "ZNBinaryPatchWorkspace.class"
+      },
+      "method_lookups": [
+        {
+          "api": "class_getInstanceMethod",
+          "class_expression": "cls",
+          "selector": "validateAll:"
+        },
+        {
+          "api": "class_getInstanceMethod",
+          "class_expression": "cls",
+          "selector": "zn57_validateAll:"
+        }
+      ],
+      "wrapper_calls": [],
+      "dispatch_once": true,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": true,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNM462Swap",
+      "path": "iosruntimepatchmenu/src/ZNM462InstanceSafety.mm",
+      "line": 190,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {},
+      "method_lookups": [],
+      "wrapper_calls": [],
+      "dispatch_once": false,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": true,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNInstallM462InstanceSafetyDeferred",
+      "path": "iosruntimepatchmenu/src/ZNM462InstanceSafety.mm",
+      "line": 196,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {
+        "cls": "ZNIL2CPPInstanceResolver.class"
+      },
+      "method_lookups": [],
+      "wrapper_calls": [
+        {
+          "wrapper": "ZNM462Swap",
+          "call": "ZNM462Swap(cls,\n                   @selector(znm44_selectedInstanceForAssembly:namespace:className:),\n                   @selector(znm462_selectedInstanceForAssembly:namespace:className:))",
+          "line": 200,
+          "selectors": [
+            "znm44_selectedInstanceForAssembly:namespace:className:",
+            "znm462_selectedInstanceForAssembly:namespace:className:"
+          ]
+        },
+        {
+          "wrapper": "ZNM462Swap",
+          "call": "ZNM462Swap(cls,\n                   @selector(znm44_selectInstanceAddress:assembly:namespace:className:error:),\n                   @selector(znm462_selectInstanceAddress:assembly:namespace:className:error:))",
+          "line": 203,
+          "selectors": [
+            "znm44_selectInstanceAddress:assembly:namespace:className:error:",
+            "znm462_selectInstanceAddress:assembly:namespace:className:error:"
+          ]
+        },
+        {
+          "wrapper": "ZNM462Swap",
+          "call": "ZNM462Swap(cls,\n                   @selector(znm44_clearSelectedInstanceForAssembly:namespace:className:),\n                   @selector(znm462_clearSelectedInstanceForAssembly:namespace:className:))",
+          "line": 206,
+          "selectors": [
+            "znm44_clearSelectedInstanceForAssembly:namespace:className:",
+            "znm462_clearSelectedInstanceForAssembly:namespace:className:"
+          ]
+        }
+      ],
+      "dispatch_once": true,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": false,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNM46SignatureSwap",
+      "path": "iosruntimepatchmenu/src/ZNM46SignatureExecution.mm",
+      "line": 125,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {},
+      "method_lookups": [],
+      "wrapper_calls": [],
+      "dispatch_once": false,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": true,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNInstallM46SignatureExecutionDeferred",
+      "path": "iosruntimepatchmenu/src/ZNM46SignatureExecution.mm",
+      "line": 131,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {},
+      "method_lookups": [],
+      "wrapper_calls": [
+        {
+          "wrapper": "ZNM46SignatureSwap",
+          "call": "ZNM46SignatureSwap(ZNIL2CPPInvokeEngine.class,\n                           @selector(executeAction:error:),\n                           @selector(znm46_executeAction:error:))",
+          "line": 134,
+          "selectors": [
+            "executeAction:error:",
+            "znm46_executeAction:error:"
+          ]
+        },
+        {
+          "wrapper": "ZNM46SignatureSwap",
+          "call": "ZNM46SignatureSwap(ZNIL2CPPResolver.class,\n                           @selector(resolveMethodAssembly:namespace:className:method:argumentCount:),\n                           @selector(znm46_resolveMethodAssembly:namespace:className:method:argumentCount:))",
+          "line": 137,
+          "selectors": [
+            "resolveMethodAssembly:namespace:className:method:argumentCount:",
+            "znm46_resolveMethodAssembly:namespace:className:method:argumentCount:"
+          ]
+        }
+      ],
+      "dispatch_once": true,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": false,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNM47Swap",
+      "path": "iosruntimepatchmenu/src/ZNM47MultiArgInvoke.mm",
+      "line": 484,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {},
+      "method_lookups": [],
+      "wrapper_calls": [],
+      "dispatch_once": false,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": true,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNInstallM47MultiArgInvokeDeferred",
+      "path": "iosruntimepatchmenu/src/ZNM47MultiArgInvoke.mm",
+      "line": 489,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {},
+      "method_lookups": [],
+      "wrapper_calls": [
+        {
+          "wrapper": "ZNM47Swap",
+          "call": "ZNM47Swap(ZNIL2CPPInvokeEngine.class, @selector(executeAction:error:), @selector(znm47_executeAction:error:))",
+          "line": 492,
+          "selectors": [
+            "executeAction:error:",
+            "znm47_executeAction:error:"
+          ]
+        },
+        {
+          "wrapper": "ZNM47Swap",
+          "call": "ZNM47Swap(ZNIL2CPPInvokeEngine.class, @selector(capabilities), @selector(znm47_capabilities))",
+          "line": 493,
+          "selectors": [
+            "capabilities",
+            "znm47_capabilities"
+          ]
+        }
+      ],
+      "dispatch_once": true,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": false,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNM48Swap",
+      "path": "iosruntimepatchmenu/src/ZNM48ReturnCapture.mm",
+      "line": 231,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {},
+      "method_lookups": [],
+      "wrapper_calls": [],
+      "dispatch_once": false,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": true,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNInstallM48ReturnCaptureDeferred",
+      "path": "iosruntimepatchmenu/src/ZNM48ReturnCapture.mm",
+      "line": 237,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {
+        "menu": "NSClassFromString(@\"ZNRuntimeMenuControllerV040\")"
+      },
+      "method_lookups": [],
+      "wrapper_calls": [
+        {
+          "wrapper": "ZNM48Swap",
+          "call": "ZNM48Swap(ZNIL2CPPInvokeEngine.class, @selector(executeAction:error:), @selector(znm48_executeAction:error:))",
+          "line": 240,
+          "selectors": [
+            "executeAction:error:",
+            "znm48_executeAction:error:"
+          ]
+        },
+        {
+          "wrapper": "ZNM48Swap",
+          "call": "ZNM48Swap(menu, @selector(zn60v3_setStatus:), @selector(znm48_setStatus:))",
+          "line": 242,
+          "selectors": [
+            "zn60v3_setStatus:",
+            "znm48_setStatus:"
+          ]
+        }
+      ],
+      "dispatch_once": true,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": false,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNInstallM50ManagedReturnChainingDeferred",
+      "path": "iosruntimepatchmenu/src/ZNM50ManagedReturnChaining.mm",
+      "line": 189,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {},
+      "method_lookups": [
+        {
+          "api": "class_getInstanceMethod",
+          "class_expression": "ZNIL2CPPInvokeEngine.class",
+          "selector": "executeAction:error:"
+        },
+        {
+          "api": "class_getInstanceMethod",
+          "class_expression": "ZNIL2CPPInvokeEngine.class",
+          "selector": "znm50_executeAction:error:"
+        }
+      ],
+      "wrapper_calls": [],
+      "dispatch_once": true,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": true,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNM52ChainStoreSwap",
+      "path": "iosruntimepatchmenu/src/ZNM52ChainStoreV2.mm",
+      "line": 51,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {
+        "cls": "ZNRuntimeActionStore.class"
+      },
+      "method_lookups": [
+        {
+          "api": "class_getInstanceMethod",
+          "class_expression": "cls",
+          "selector": "updateImmediateChain:atIndex:error:"
+        },
+        {
+          "api": "class_getInstanceMethod",
+          "class_expression": "cls",
+          "selector": "znm52_updateImmediateChain:atIndex:error:"
+        }
+      ],
+      "wrapper_calls": [],
+      "dispatch_once": false,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": true,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNInstallM52ChainStoreV2Deferred",
+      "path": "iosruntimepatchmenu/src/ZNM52ChainStoreV2.mm",
+      "line": 58,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {},
+      "method_lookups": [],
+      "wrapper_calls": [
+        {
+          "wrapper": "ZNM52ChainStoreSwap",
+          "call": "ZNM52ChainStoreSwap()",
+          "line": 61,
+          "selectors": []
+        }
+      ],
+      "dispatch_once": true,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": false,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNM52Swap",
+      "path": "iosruntimepatchmenu/src/ZNM52ImmediateChainV2.mm",
+      "line": 476,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {},
+      "method_lookups": [],
+      "wrapper_calls": [],
+      "dispatch_once": false,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": true,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNInstallM52ImmediateChainV2Deferred",
+      "path": "iosruntimepatchmenu/src/ZNM52ImmediateChainV2.mm",
+      "line": 481,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {
+        "menu": "NSClassFromString(@\"ZNRuntimeMenuControllerV040\")"
+      },
+      "method_lookups": [],
+      "wrapper_calls": [
+        {
+          "wrapper": "ZNM52Swap",
+          "call": "ZNM52Swap(ZNIL2CPPInvokeEngine.class, @selector(executeAction:error:), @selector(znm52_executeAction:error:))",
+          "line": 484,
+          "selectors": [
+            "executeAction:error:",
+            "znm52_executeAction:error:"
+          ]
+        },
+        {
+          "wrapper": "ZNM52Swap",
+          "call": "ZNM52Swap(menu, @selector(zn60v3_renderResultsAtWidth:), @selector(zn52_renderResultsAtWidth:))",
+          "line": 486,
+          "selectors": [
+            "zn60v3_renderResultsAtWidth:",
+            "zn52_renderResultsAtWidth:"
+          ]
+        }
+      ],
+      "dispatch_once": true,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": false,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNM551Swap",
+      "path": "iosruntimepatchmenu/src/ZNM551AuthoringPersistence.mm",
+      "line": 127,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {},
+      "method_lookups": [],
+      "wrapper_calls": [],
+      "dispatch_once": false,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": true,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNInstallM551AuthoringPersistenceDeferred",
+      "path": "iosruntimepatchmenu/src/ZNM551AuthoringPersistence.mm",
+      "line": 132,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {
+        "cls": "ZNRuntimeActionStore.class"
+      },
+      "method_lookups": [],
+      "wrapper_calls": [
+        {
+          "wrapper": "ZNM551Swap",
+          "call": "ZNM551Swap(cls, @selector(addMethodCandidate:title:argumentValues:error:), @selector(znm551_addMethodCandidate:title:argumentValues:error:))",
+          "line": 137,
+          "selectors": [
+            "addMethodCandidate:title:argumentValues:error:",
+            "znm551_addMethodCandidate:title:argumentValues:error:"
+          ]
+        },
+        {
+          "wrapper": "ZNM551Swap",
+          "call": "ZNM551Swap(cls, @selector(updateTitle:atIndex:error:), @selector(znm551_updateTitle:atIndex:error:))",
+          "line": 138,
+          "selectors": [
+            "updateTitle:atIndex:error:",
+            "znm551_updateTitle:atIndex:error:"
+          ]
+        },
+        {
+          "wrapper": "ZNM551Swap",
+          "call": "ZNM551Swap(cls, @selector(updateFeatureDescription:atIndex:error:), @selector(znm551_updateFeatureDescription:atIndex:error:))",
+          "line": 139,
+          "selectors": [
+            "updateFeatureDescription:atIndex:error:",
+            "znm551_updateFeatureDescription:atIndex:error:"
+          ]
+        },
+        {
+          "wrapper": "ZNM551Swap",
+          "call": "ZNM551Swap(cls, @selector(updateArgumentValues:atIndex:error:), @selector(znm551_updateArgumentValues:atIndex:error:))",
+          "line": 140,
+          "selectors": [
+            "updateArgumentValues:atIndex:error:",
+            "znm551_updateArgumentValues:atIndex:error:"
+          ]
+        },
+        {
+          "wrapper": "ZNM551Swap",
+          "call": "ZNM551Swap(cls, @selector(updateArgumentControlConfigs:atIndex:error:), @selector(znm551_updateArgumentControlConfigs:atIndex:error:))",
+          "line": 141,
+          "selectors": [
+            "updateArgumentControlConfigs:atIndex:error:",
+            "znm551_updateArgumentControlConfigs:atIndex:error:"
+          ]
+        },
+        {
+          "wrapper": "ZNM551Swap",
+          "call": "ZNM551Swap(cls, @selector(updateImmediateChain:atIndex:error:), @selector(znm551_updateImmediateChain:atIndex:error:))",
+          "line": 142,
+          "selectors": [
+            "updateImmediateChain:atIndex:error:",
+            "znm551_updateImmediateChain:atIndex:error:"
+          ]
+        },
+        {
+          "wrapper": "ZNM551Swap",
+          "call": "ZNM551Swap(cls, @selector(updateInstanceIndex:atIndex:error:), @selector(znm551_updateInstanceIndex:atIndex:error:))",
+          "line": 143,
+          "selectors": [
+            "updateInstanceIndex:atIndex:error:",
+            "znm551_updateInstanceIndex:atIndex:error:"
+          ]
+        },
+        {
+          "wrapper": "ZNM551Swap",
+          "call": "ZNM551Swap(cls, @selector(removeActionAtIndex:), @selector(znm551_removeActionAtIndex:))",
+          "line": 144,
+          "selectors": [
+            "removeActionAtIndex:",
+            "znm551_removeActionAtIndex:"
+          ]
+        },
+        {
+          "wrapper": "ZNM551Swap",
+          "call": "ZNM551Swap(cls, @selector(clear), @selector(znm551_clear))",
+          "line": 145,
+          "selectors": [
+            "clear",
+            "znm551_clear"
+          ]
+        }
+      ],
+      "dispatch_once": true,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": false,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNM592SwapInstance",
+      "path": "iosruntimepatchmenu/src/ZNM592OffsetAuthoringPersistence.mm",
+      "line": 337,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {},
+      "method_lookups": [],
+      "wrapper_calls": [],
+      "dispatch_once": false,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": true,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNInstallM592OffsetAuthoringPersistenceDeferred",
+      "path": "iosruntimepatchmenu/src/ZNM592OffsetAuthoringPersistence.mm",
+      "line": 342,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {
+        "workspace": "NSClassFromString(@\"ZNBinaryPatchWorkspace\")",
+        "builder": "NSClassFromString(@\"ZNStaticBinaryBuilder\")"
+      },
+      "method_lookups": [
+        {
+          "api": "class_getClassMethod",
+          "class_expression": "builder",
+          "selector": "buildWorkspace:outputs:report:error:"
+        },
+        {
+          "api": "class_getClassMethod",
+          "class_expression": "builder",
+          "selector": "znm592_buildWorkspace:outputs:report:error:"
+        }
+      ],
+      "wrapper_calls": [
+        {
+          "wrapper": "ZNM592SwapInstance",
+          "call": "ZNM592SwapInstance(workspace,@selector(validateAll:),@selector(znm592_validateAll:))",
+          "line": 347,
+          "selectors": [
+            "validateAll:",
+            "znm592_validateAll:"
+          ]
+        },
+        {
+          "wrapper": "ZNM592SwapInstance",
+          "call": "ZNM592SwapInstance(workspace,@selector(updateOffset:row:),@selector(znm592_updateOffset:row:))",
+          "line": 348,
+          "selectors": [
+            "updateOffset:row:",
+            "znm592_updateOffset:row:"
+          ]
+        },
+        {
+          "wrapper": "ZNM592SwapInstance",
+          "call": "ZNM592SwapInstance(workspace,@selector(updateEnabled:row:),@selector(znm592_updateEnabled:row:))",
+          "line": 349,
+          "selectors": [
+            "updateEnabled:row:",
+            "znm592_updateEnabled:row:"
+          ]
+        },
+        {
+          "wrapper": "ZNM592SwapInstance",
+          "call": "ZNM592SwapInstance(workspace,@selector(updateDefaultTarget:),@selector(znm592_updateDefaultTarget:))",
+          "line": 350,
+          "selectors": [
+            "updateDefaultTarget:",
+            "znm592_updateDefaultTarget:"
+          ]
+        },
+        {
+          "wrapper": "ZNM592SwapInstance",
+          "call": "ZNM592SwapInstance(workspace,@selector(addEmptyRow),@selector(znm592_addEmptyRow))",
+          "line": 351,
+          "selectors": [
+            "addEmptyRow",
+            "znm592_addEmptyRow"
+          ]
+        },
+        {
+          "wrapper": "ZNM592SwapInstance",
+          "call": "ZNM592SwapInstance(workspace,@selector(importJSONAtPath:error:),@selector(znm592_importJSONAtPath:error:))",
+          "line": 352,
+          "selectors": [
+            "importJSONAtPath:error:",
+            "znm592_importJSONAtPath:error:"
+          ]
+        },
+        {
+          "wrapper": "ZNM592SwapInstance",
+          "call": "ZNM592SwapInstance(workspace,@selector(addFeature),@selector(znm592_addFeature))",
+          "line": 353,
+          "selectors": [
+            "addFeature",
+            "znm592_addFeature"
+          ]
+        },
+        {
+          "wrapper": "ZNM592SwapInstance",
+          "call": "ZNM592SwapInstance(workspace,@selector(addPatchToFeature:),@selector(znm592_addPatchToFeature:))",
+          "line": 354,
+          "selectors": [
+            "addPatchToFeature:",
+            "znm592_addPatchToFeature:"
+          ]
+        },
+        {
+          "wrapper": "ZNM592SwapInstance",
+          "call": "ZNM592SwapInstance(workspace,@selector(renameFeature:to:error:),@selector(znm592_renameFeature:to:error:))",
+          "line": 355,
+          "selectors": [
+            "renameFeature:to:error:",
+            "znm592_renameFeature:to:error:"
+          ]
+        },
+        {
+          "wrapper": "ZNM592SwapInstance",
+          "call": "ZNM592SwapInstance(workspace,@selector(setControlType:forFeature:error:),@selector(znm592_setControlType:forFeature:error:))",
+          "line": 356,
+          "selectors": [
+            "setControlType:forFeature:error:",
+            "znm592_setControlType:forFeature:error:"
+          ]
+        },
+        {
+          "wrapper": "ZNM592SwapInstance",
+          "call": "ZNM592SwapInstance(workspace,@selector(setValueType:forFeature:error:),@selector(znm592_setValueType:forFeature:error:))",
+          "line": 357,
+          "selectors": [
+            "setValueType:forFeature:error:",
+            "znm592_setValueType:forFeature:error:"
+          ]
+        },
+        {
+          "wrapper": "ZNM592SwapInstance",
+          "call": "ZNM592SwapInstance(workspace,@selector(removeFeatureNamed:error:),@selector(znm592_removeFeatureNamed:error:))",
+          "line": 358,
+          "selectors": [
+            "removeFeatureNamed:error:",
+            "znm592_removeFeatureNamed:error:"
+          ]
+        },
+        {
+          "wrapper": "ZNM592SwapInstance",
+          "call": "ZNM592SwapInstance(workspace,@selector(removePatchAtGlobalIndex:error:),@selector(znm592_removePatchAtGlobalIndex:error:))",
+          "line": 359,
+          "selectors": [
+            "removePatchAtGlobalIndex:error:",
+            "znm592_removePatchAtGlobalIndex:error:"
+          ]
+        },
+        {
+          "wrapper": "ZNM592SwapInstance",
+          "call": "ZNM592SwapInstance(workspace,@selector(setDescription:forFeature:error:),@selector(znm592_setDescription:forFeature:error:))",
+          "line": 360,
+          "selectors": [
+            "setDescription:forFeature:error:",
+            "znm592_setDescription:forFeature:error:"
+          ]
+        }
+      ],
+      "dispatch_once": true,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": true,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNOV2Swap",
+      "path": "iosruntimepatchmenu/src/ZNOffsetResolverV2.mm",
+      "line": 581,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {},
+      "method_lookups": [],
+      "wrapper_calls": [],
+      "dispatch_once": false,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": true,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNInstallOffsetResolverV2Deferred",
+      "path": "iosruntimepatchmenu/src/ZNOffsetResolverV2.mm",
+      "line": 587,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {
+        "cls": "ZNPatchRuntimeValidator.class"
+      },
+      "method_lookups": [],
+      "wrapper_calls": [
+        {
+          "wrapper": "ZNOV2Swap",
+          "call": "ZNOV2Swap(cls, @selector(configureTarget:offsetString:patchHex:error:), @selector(znov2_configureTarget:offsetString:patchHex:error:))",
+          "line": 591,
+          "selectors": [
+            "configureTarget:offsetString:patchHex:error:",
+            "znov2_configureTarget:offsetString:patchHex:error:"
+          ]
+        },
+        {
+          "wrapper": "ZNOV2Swap",
+          "call": "ZNOV2Swap(cls, @selector(validate:), @selector(znov2_validate:))",
+          "line": 592,
+          "selectors": [
+            "validate:",
+            "znov2_validate:"
+          ]
+        },
+        {
+          "wrapper": "ZNOV2Swap",
+          "call": "ZNOV2Swap(cls, @selector(applyTemporary:), @selector(znov2_applyTemporary:))",
+          "line": 593,
+          "selectors": [
+            "applyTemporary:",
+            "znov2_applyTemporary:"
+          ]
+        },
+        {
+          "wrapper": "ZNOV2Swap",
+          "call": "ZNOV2Swap(cls, @selector(restoreOriginal:), @selector(znov2_restoreOriginal:))",
+          "line": 594,
+          "selectors": [
+            "restoreOriginal:",
+            "znov2_restoreOriginal:"
+          ]
+        },
+        {
+          "wrapper": "ZNOV2Swap",
+          "call": "ZNOV2Swap(cls, @selector(clearSession), @selector(znov2_clearSession))",
+          "line": 595,
+          "selectors": [
+            "clearSession",
+            "znov2_clearSession"
+          ]
+        },
+        {
+          "wrapper": "ZNOV2Swap",
+          "call": "ZNOV2Swap(cls, @selector(diagnosticLines), @selector(znov2_diagnosticLines))",
+          "line": 596,
+          "selectors": [
+            "diagnosticLines",
+            "znov2_diagnosticLines"
+          ]
+        },
+        {
+          "wrapper": "ZNOV2Swap",
+          "call": "ZNOV2Swap(cls, @selector(diagnosticReport), @selector(znov2_diagnosticReport))",
+          "line": 597,
+          "selectors": [
+            "diagnosticReport",
+            "znov2_diagnosticReport"
+          ]
+        }
+      ],
+      "dispatch_once": true,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": false,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNSwapPatchManagerV041",
+      "path": "iosruntimepatchmenu/src/ZNPatchCoreV041.mm",
+      "line": 64,
+      "source_call_graph_reachable_from_activation": false,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {
+        "cls": "[ZNPatchManager class]"
+      },
+      "method_lookups": [],
+      "wrapper_calls": [],
+      "dispatch_once": false,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": true,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNInstallRuntimeExecutorV041Deferred",
+      "path": "iosruntimepatchmenu/src/ZNPatchCoreV041.mm",
+      "line": 71,
+      "source_call_graph_reachable_from_activation": false,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {},
+      "method_lookups": [],
+      "wrapper_calls": [
+        {
+          "wrapper": "ZNSwapPatchManagerV041",
+          "call": "ZNSwapPatchManagerV041(@selector(setFeature:enabled:), @selector(zn41_setFeature:enabled:))",
+          "line": 73,
+          "selectors": [
+            "setFeature:enabled:",
+            "zn41_setFeature:enabled:"
+          ]
+        },
+        {
+          "wrapper": "ZNSwapPatchManagerV041",
+          "call": "ZNSwapPatchManagerV041(@selector(runSelfTest), @selector(zn41_runSelfTest))",
+          "line": 74,
+          "selectors": [
+            "runSelfTest",
+            "zn41_runSelfTest"
+          ]
+        },
+        {
+          "wrapper": "ZNSwapPatchManagerV041",
+          "call": "ZNSwapPatchManagerV041(@selector(diagnosticReport), @selector(zn41_diagnosticReport))",
+          "line": 75,
+          "selectors": [
+            "diagnosticReport",
+            "zn41_diagnosticReport"
+          ]
+        }
+      ],
+      "dispatch_once": false,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": false,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNSwapPatchManagerV042",
+      "path": "iosruntimepatchmenu/src/ZNRuntimeDiagnosticsV042.mm",
+      "line": 117,
+      "source_call_graph_reachable_from_activation": false,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {
+        "cls": "[ZNPatchManager class]"
+      },
+      "method_lookups": [],
+      "wrapper_calls": [],
+      "dispatch_once": false,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": true,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNInstallRuntimeDiagnosticsV042Deferred",
+      "path": "iosruntimepatchmenu/src/ZNRuntimeDiagnosticsV042.mm",
+      "line": 124,
+      "source_call_graph_reachable_from_activation": false,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {},
+      "method_lookups": [],
+      "wrapper_calls": [
+        {
+          "wrapper": "ZNSwapPatchManagerV042",
+          "call": "ZNSwapPatchManagerV042(@selector(moduleAdded:), @selector(zn42_moduleAdded:))",
+          "line": 127,
+          "selectors": [
+            "moduleAdded:",
+            "zn42_moduleAdded:"
+          ]
+        },
+        {
+          "wrapper": "ZNSwapPatchManagerV042",
+          "call": "ZNSwapPatchManagerV042(@selector(refreshResolution), @selector(zn42_refreshResolution))",
+          "line": 128,
+          "selectors": [
+            "refreshResolution",
+            "zn42_refreshResolution"
+          ]
+        },
+        {
+          "wrapper": "ZNSwapPatchManagerV042",
+          "call": "ZNSwapPatchManagerV042(@selector(diagnosticReport), @selector(zn42_diagnosticReport))",
+          "line": 129,
+          "selectors": [
+            "diagnosticReport",
+            "zn42_diagnosticReport"
+          ]
+        }
+      ],
+      "dispatch_once": false,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": false,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNSwapInstanceMethodV040",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 934,
+      "source_call_graph_reachable_from_activation": false,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {},
+      "method_lookups": [],
+      "wrapper_calls": [],
+      "dispatch_once": false,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": true,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNInstallV040Swizzles",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 940,
+      "source_call_graph_reachable_from_activation": false,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {
+        "cls": "NSClassFromString(@\"ZNRuntimeMenuControllerV040\")"
+      },
+      "method_lookups": [],
+      "wrapper_calls": [
+        {
+          "wrapper": "ZNSwapInstanceMethodV040",
+          "call": "ZNSwapInstanceMethodV040(cls,@selector(init),@selector(zn40_init))",
+          "line": 943,
+          "selectors": [
+            "init",
+            "zn40_init"
+          ]
+        },
+        {
+          "wrapper": "ZNSwapInstanceMethodV040",
+          "call": "ZNSwapInstanceMethodV040(cls,@selector(enabledForFeature:),@selector(zn40_enabledForFeature:))",
+          "line": 944,
+          "selectors": [
+            "enabledForFeature:",
+            "zn40_enabledForFeature:"
+          ]
+        },
+        {
+          "wrapper": "ZNSwapInstanceMethodV040",
+          "call": "ZNSwapInstanceMethodV040(cls,@selector(setFeature:enabled:),@selector(zn40_setFeature:enabled:))",
+          "line": 945,
+          "selectors": [
+            "setFeature:enabled:",
+            "zn40_setFeature:enabled:"
+          ]
+        },
+        {
+          "wrapper": "ZNSwapInstanceMethodV040",
+          "call": "ZNSwapInstanceMethodV040(cls,@selector(valueForFeature:fallback:),@selector(zn40_valueForFeature:fallback:))",
+          "line": 946,
+          "selectors": [
+            "valueForFeature:fallback:",
+            "zn40_valueForFeature:fallback:"
+          ]
+        },
+        {
+          "wrapper": "ZNSwapInstanceMethodV040",
+          "call": "ZNSwapInstanceMethodV040(cls,@selector(setFeature:value:),@selector(zn40_setFeature:value:))",
+          "line": 947,
+          "selectors": [
+            "setFeature:value:",
+            "zn40_setFeature:value:"
+          ]
+        },
+        {
+          "wrapper": "ZNSwapInstanceMethodV040",
+          "call": "ZNSwapInstanceMethodV040(cls,@selector(renderFullPage),@selector(zn40_renderFullPage))",
+          "line": 948,
+          "selectors": [
+            "renderFullPage",
+            "zn40_renderFullPage"
+          ]
+        },
+        {
+          "wrapper": "ZNSwapInstanceMethodV040",
+          "call": "ZNSwapInstanceMethodV040(cls,@selector(fullSizeForWindow:),@selector(zn40_fullSizeForWindow:))",
+          "line": 949,
+          "selectors": [
+            "fullSizeForWindow:",
+            "zn40_fullSizeForWindow:"
+          ]
+        },
+        {
+          "wrapper": "ZNSwapInstanceMethodV040",
+          "call": "ZNSwapInstanceMethodV040(cls,@selector(tick:),@selector(zn40_tick:))",
+          "line": 950,
+          "selectors": [
+            "tick:",
+            "zn40_tick:"
+          ]
+        },
+        {
+          "wrapper": "ZNSwapInstanceMethodV040",
+          "call": "ZNSwapInstanceMethodV040(cls,@selector(makeUI:),@selector(zn40_makeUI:))",
+          "line": 951,
+          "selectors": [
+            "makeUI:",
+            "zn40_makeUI:"
+          ]
+        },
+        {
+          "wrapper": "ZNSwapInstanceMethodV040",
+          "call": "ZNSwapInstanceMethodV040(cls,@selector(togglePanel:),@selector(zn40_togglePanel:))",
+          "line": 952,
+          "selectors": [
+            "togglePanel:",
+            "zn40_togglePanel:"
+          ]
+        }
+      ],
+      "dispatch_once": false,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": false,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNSwapInstanceMethodV0401",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 1038,
+      "source_call_graph_reachable_from_activation": false,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {},
+      "method_lookups": [],
+      "wrapper_calls": [],
+      "dispatch_once": false,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": true,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNInstallV0401UIFixes",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 1044,
+      "source_call_graph_reachable_from_activation": false,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {
+        "cls": "NSClassFromString(@\"ZNRuntimeMenuControllerV040\")"
+      },
+      "method_lookups": [],
+      "wrapper_calls": [
+        {
+          "wrapper": "ZNSwapInstanceMethodV0401",
+          "call": "ZNSwapInstanceMethodV0401(cls, @selector(makeUI:), @selector(zn401_makeUI:))",
+          "line": 1048,
+          "selectors": [
+            "makeUI:",
+            "zn401_makeUI:"
+          ]
+        },
+        {
+          "wrapper": "ZNSwapInstanceMethodV0401",
+          "call": "ZNSwapInstanceMethodV0401(cls, @selector(themeTapped:), @selector(zn401_themeTapped:))",
+          "line": 1049,
+          "selectors": [
+            "themeTapped:",
+            "zn401_themeTapped:"
+          ]
+        },
+        {
+          "wrapper": "ZNSwapInstanceMethodV0401",
+          "call": "ZNSwapInstanceMethodV0401(cls, @selector(fullSizeForWindow:), @selector(zn401_fullSizeForWindow:))",
+          "line": 1050,
+          "selectors": [
+            "fullSizeForWindow:",
+            "zn401_fullSizeForWindow:"
+          ]
+        },
+        {
+          "wrapper": "ZNSwapInstanceMethodV0401",
+          "call": "ZNSwapInstanceMethodV0401(cls, @selector(zn40_button:selector:frame:), @selector(zn401_button:selector:frame:))",
+          "line": 1051,
+          "selectors": [
+            "zn40_button:selector:frame:",
+            "zn401_button:selector:frame:"
+          ]
+        }
+      ],
+      "dispatch_once": false,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": false,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNSwapInstanceMethodV0402",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 1093,
+      "source_call_graph_reachable_from_activation": false,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {},
+      "method_lookups": [],
+      "wrapper_calls": [],
+      "dispatch_once": false,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": true,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNInstallV0402TouchPolicyFix",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 1099,
+      "source_call_graph_reachable_from_activation": false,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {
+        "cls": "NSClassFromString(@\"ZNRuntimeMenuControllerV040\")"
+      },
+      "method_lookups": [],
+      "wrapper_calls": [
+        {
+          "wrapper": "ZNSwapInstanceMethodV0402",
+          "call": "ZNSwapInstanceMethodV0402(cls, @selector(makeUI:), @selector(zn402_makeUI:))",
+          "line": 1103,
+          "selectors": [
+            "makeUI:",
+            "zn402_makeUI:"
+          ]
+        },
+        {
+          "wrapper": "ZNSwapInstanceMethodV0402",
+          "call": "ZNSwapInstanceMethodV0402(cls, @selector(renderPage), @selector(zn402_renderPage))",
+          "line": 1104,
+          "selectors": [
+            "renderPage",
+            "zn402_renderPage"
+          ]
+        }
+      ],
+      "dispatch_once": false,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": false,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNSwapInstanceMethodV042",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 1183,
+      "source_call_graph_reachable_from_activation": false,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {},
+      "method_lookups": [],
+      "wrapper_calls": [],
+      "dispatch_once": false,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": true,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNInstallV042MenuDiagnostics",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 1189,
+      "source_call_graph_reachable_from_activation": false,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {
+        "cls": "NSClassFromString(@\"ZNRuntimeMenuControllerV040\")"
+      },
+      "method_lookups": [],
+      "wrapper_calls": [
+        {
+          "wrapper": "ZNSwapInstanceMethodV042",
+          "call": "ZNSwapInstanceMethodV042(cls, @selector(zn40_addInfoCard:lines:y:width:), @selector(zn42_addInfoCard:lines:y:width:))",
+          "line": 1193,
+          "selectors": [
+            "zn40_addInfoCard:lines:y:width:",
+            "zn42_addInfoCard:lines:y:width:"
+          ]
+        },
+        {
+          "wrapper": "ZNSwapInstanceMethodV042",
+          "call": "ZNSwapInstanceMethodV042(cls, @selector(zn40_selfTest:), @selector(zn42_selfTest:))",
+          "line": 1194,
+          "selectors": [
+            "zn40_selfTest:",
+            "zn42_selfTest:"
+          ]
+        },
+        {
+          "wrapper": "ZNSwapInstanceMethodV042",
+          "call": "ZNSwapInstanceMethodV042(cls, @selector(makeUI:), @selector(zn42_makeUI:))",
+          "line": 1195,
+          "selectors": [
+            "makeUI:",
+            "zn42_makeUI:"
+          ]
+        }
+      ],
+      "dispatch_once": false,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": false,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNSwapInstanceMethodV043",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 1394,
+      "source_call_graph_reachable_from_activation": false,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {},
+      "method_lookups": [],
+      "wrapper_calls": [],
+      "dispatch_once": false,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": true,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNInstallV043RuntimeValidation",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 1400,
+      "source_call_graph_reachable_from_activation": false,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {
+        "cls": "NSClassFromString(@\"ZNRuntimeMenuControllerV040\")"
+      },
+      "method_lookups": [],
+      "wrapper_calls": [
+        {
+          "wrapper": "ZNSwapInstanceMethodV043",
+          "call": "ZNSwapInstanceMethodV043(cls, @selector(zn40_renderDebug), @selector(zn43_renderDebug))",
+          "line": 1404,
+          "selectors": [
+            "zn40_renderDebug",
+            "zn43_renderDebug"
+          ]
+        },
+        {
+          "wrapper": "ZNSwapInstanceMethodV043",
+          "call": "ZNSwapInstanceMethodV043(cls, @selector(makeUI:), @selector(zn43_makeUI:))",
+          "line": 1405,
+          "selectors": [
+            "makeUI:",
+            "zn43_makeUI:"
+          ]
+        },
+        {
+          "wrapper": "ZNSwapInstanceMethodV043",
+          "call": "ZNSwapInstanceMethodV043(cls, @selector(tick:), @selector(zn43_tick:))",
+          "line": 1406,
+          "selectors": [
+            "tick:",
+            "zn43_tick:"
+          ]
+        }
+      ],
+      "dispatch_once": false,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": false,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNSwapV044",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 1604,
+      "source_call_graph_reachable_from_activation": false,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {},
+      "method_lookups": [],
+      "wrapper_calls": [],
+      "dispatch_once": false,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": true,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNInstallV044BinaryBuilder",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 1605,
+      "source_call_graph_reachable_from_activation": false,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {
+        "cls": "NSClassFromString(@\"ZNRuntimeMenuControllerV040\")"
+      },
+      "method_lookups": [],
+      "wrapper_calls": [
+        {
+          "wrapper": "ZNSwapV044",
+          "call": "ZNSwapV044(cls,@selector(renderFullPage),@selector(zn44_renderFullPage))",
+          "line": 1605,
+          "selectors": [
+            "renderFullPage",
+            "zn44_renderFullPage"
+          ]
+        },
+        {
+          "wrapper": "ZNSwapV044",
+          "call": "ZNSwapV044(cls,@selector(fullSizeForWindow:),@selector(zn44_fullSizeForWindow:))",
+          "line": 1605,
+          "selectors": [
+            "fullSizeForWindow:",
+            "zn44_fullSizeForWindow:"
+          ]
+        },
+        {
+          "wrapper": "ZNSwapV044",
+          "call": "ZNSwapV044(cls,@selector(makeUI:),@selector(zn44_makeUI:))",
+          "line": 1605,
+          "selectors": [
+            "makeUI:",
+            "zn44_makeUI:"
+          ]
+        },
+        {
+          "wrapper": "ZNSwapV044",
+          "call": "ZNSwapV044(cls,@selector(tick:),@selector(zn44_tick:))",
+          "line": 1605,
+          "selectors": [
+            "tick:",
+            "zn44_tick:"
+          ]
+        }
+      ],
+      "dispatch_once": false,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": false,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNSwapV048",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 1837,
+      "source_call_graph_reachable_from_activation": false,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {},
+      "method_lookups": [],
+      "wrapper_calls": [],
+      "dispatch_once": false,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": true,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNInstallV048JSONImport",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 1842,
+      "source_call_graph_reachable_from_activation": false,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {
+        "cls": "NSClassFromString(@\"ZNRuntimeMenuControllerV040\")"
+      },
+      "method_lookups": [],
+      "wrapper_calls": [
+        {
+          "wrapper": "ZNSwapV048",
+          "call": "ZNSwapV048(cls,@selector(zn44_importJSON:),@selector(zn48_importJSON:))",
+          "line": 1846,
+          "selectors": [
+            "zn44_importJSON:",
+            "zn48_importJSON:"
+          ]
+        },
+        {
+          "wrapper": "ZNSwapV048",
+          "call": "ZNSwapV048(cls,@selector(zn44_renderOther),@selector(zn48_renderOther))",
+          "line": 1847,
+          "selectors": [
+            "zn44_renderOther",
+            "zn48_renderOther"
+          ]
+        },
+        {
+          "wrapper": "ZNSwapV048",
+          "call": "ZNSwapV048(cls,@selector(makeUI:),@selector(zn48_makeUI:))",
+          "line": 1848,
+          "selectors": [
+            "makeUI:",
+            "zn48_makeUI:"
+          ]
+        },
+        {
+          "wrapper": "ZNSwapV048",
+          "call": "ZNSwapV048(cls,@selector(tick:),@selector(zn48_tick:))",
+          "line": 1849,
+          "selectors": [
+            "tick:",
+            "zn48_tick:"
+          ]
+        }
+      ],
+      "dispatch_once": false,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": false,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNSwapV049",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 1951,
+      "source_call_graph_reachable_from_activation": false,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {},
+      "method_lookups": [],
+      "wrapper_calls": [],
+      "dispatch_once": false,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": true,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNInstallV049SharedSiteProbeUI",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 1956,
+      "source_call_graph_reachable_from_activation": false,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {
+        "cls": "NSClassFromString(@\"ZNRuntimeMenuControllerV040\")"
+      },
+      "method_lookups": [],
+      "wrapper_calls": [
+        {
+          "wrapper": "ZNSwapV049",
+          "call": "ZNSwapV049(cls,@selector(zn40_renderDebug),@selector(zn49_renderDebug))",
+          "line": 1960,
+          "selectors": [
+            "zn40_renderDebug",
+            "zn49_renderDebug"
+          ]
+        },
+        {
+          "wrapper": "ZNSwapV049",
+          "call": "ZNSwapV049(cls,@selector(makeUI:),@selector(zn49_makeUI:))",
+          "line": 1961,
+          "selectors": [
+            "makeUI:",
+            "zn49_makeUI:"
+          ]
+        },
+        {
+          "wrapper": "ZNSwapV049",
+          "call": "ZNSwapV049(cls,@selector(tick:),@selector(zn49_tick:))",
+          "line": 1962,
+          "selectors": [
+            "tick:",
+            "zn49_tick:"
+          ]
+        }
+      ],
+      "dispatch_once": false,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": false,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNSwapV053",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 2163,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {},
+      "method_lookups": [],
+      "wrapper_calls": [],
+      "dispatch_once": false,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": true,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNInstallV053CurrentUI",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 2168,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {
+        "cls": "NSClassFromString(@\"ZNRuntimeMenuControllerV040\")"
+      },
+      "method_lookups": [],
+      "wrapper_calls": [
+        {
+          "wrapper": "ZNSwapV053",
+          "call": "ZNSwapV053(cls,@selector(init),@selector(zn53_init))",
+          "line": 2171,
+          "selectors": [
+            "init",
+            "zn53_init"
+          ]
+        },
+        {
+          "wrapper": "ZNSwapV053",
+          "call": "ZNSwapV053(cls,@selector(enabledForFeature:),@selector(zn40_enabledForFeature:))",
+          "line": 2172,
+          "selectors": [
+            "enabledForFeature:",
+            "zn40_enabledForFeature:"
+          ]
+        },
+        {
+          "wrapper": "ZNSwapV053",
+          "call": "ZNSwapV053(cls,@selector(setFeature:enabled:),@selector(zn40_setFeature:enabled:))",
+          "line": 2173,
+          "selectors": [
+            "setFeature:enabled:",
+            "zn40_setFeature:enabled:"
+          ]
+        },
+        {
+          "wrapper": "ZNSwapV053",
+          "call": "ZNSwapV053(cls,@selector(valueForFeature:fallback:),@selector(zn40_valueForFeature:fallback:))",
+          "line": 2174,
+          "selectors": [
+            "valueForFeature:fallback:",
+            "zn40_valueForFeature:fallback:"
+          ]
+        },
+        {
+          "wrapper": "ZNSwapV053",
+          "call": "ZNSwapV053(cls,@selector(setFeature:value:),@selector(zn40_setFeature:value:))",
+          "line": 2175,
+          "selectors": [
+            "setFeature:value:",
+            "zn40_setFeature:value:"
+          ]
+        },
+        {
+          "wrapper": "ZNSwapV053",
+          "call": "ZNSwapV053(cls,@selector(makeUI:),@selector(zn53_makeUI:))",
+          "line": 2176,
+          "selectors": [
+            "makeUI:",
+            "zn53_makeUI:"
+          ]
+        },
+        {
+          "wrapper": "ZNSwapV053",
+          "call": "ZNSwapV053(cls,@selector(tick:),@selector(zn53_tick:))",
+          "line": 2177,
+          "selectors": [
+            "tick:",
+            "zn53_tick:"
+          ]
+        },
+        {
+          "wrapper": "ZNSwapV053",
+          "call": "ZNSwapV053(cls,@selector(togglePanel:),@selector(zn53_togglePanel:))",
+          "line": 2178,
+          "selectors": [
+            "togglePanel:",
+            "zn53_togglePanel:"
+          ]
+        },
+        {
+          "wrapper": "ZNSwapV053",
+          "call": "ZNSwapV053(cls,@selector(renderPage),@selector(zn53_renderPage))",
+          "line": 2179,
+          "selectors": [
+            "renderPage",
+            "zn53_renderPage"
+          ]
+        },
+        {
+          "wrapper": "ZNSwapV053",
+          "call": "ZNSwapV053(cls,@selector(renderFullPage),@selector(zn53_renderFullPage))",
+          "line": 2180,
+          "selectors": [
+            "renderFullPage",
+            "zn53_renderFullPage"
+          ]
+        },
+        {
+          "wrapper": "ZNSwapV053",
+          "call": "ZNSwapV053(cls,@selector(fullSizeForWindow:),@selector(zn53_fullSizeForWindow:))",
+          "line": 2181,
+          "selectors": [
+            "fullSizeForWindow:",
+            "zn53_fullSizeForWindow:"
+          ]
+        },
+        {
+          "wrapper": "ZNSwapV053",
+          "call": "ZNSwapV053(cls,@selector(themeTapped:),@selector(zn53_themeTapped:))",
+          "line": 2182,
+          "selectors": [
+            "themeTapped:",
+            "zn53_themeTapped:"
+          ]
+        },
+        {
+          "wrapper": "ZNSwapV053",
+          "call": "ZNSwapV053(cls,@selector(zn40_button:selector:frame:),@selector(zn53_button:selector:frame:))",
+          "line": 2183,
+          "selectors": [
+            "zn40_button:selector:frame:",
+            "zn53_button:selector:frame:"
+          ]
+        },
+        {
+          "wrapper": "ZNSwapV053",
+          "call": "ZNSwapV053(cls,@selector(zn40_addInfoCard:lines:y:width:),@selector(zn53_addInfoCard:lines:y:width:))",
+          "line": 2184,
+          "selectors": [
+            "zn40_addInfoCard:lines:y:width:",
+            "zn53_addInfoCard:lines:y:width:"
+          ]
+        },
+        {
+          "wrapper": "ZNSwapV053",
+          "call": "ZNSwapV053(cls,@selector(zn40_selfTest:),@selector(zn53_selfTest:))",
+          "line": 2185,
+          "selectors": [
+            "zn40_selfTest:",
+            "zn53_selfTest:"
+          ]
+        },
+        {
+          "wrapper": "ZNSwapV053",
+          "call": "ZNSwapV053(cls,@selector(zn44_importJSON:),@selector(zn48_importJSON:))",
+          "line": 2186,
+          "selectors": [
+            "zn44_importJSON:",
+            "zn48_importJSON:"
+          ]
+        }
+      ],
+      "dispatch_once": false,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": false,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNModalSwap",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 2658,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {},
+      "method_lookups": [],
+      "wrapper_calls": [],
+      "dispatch_once": false,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": true,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNInstallRuntimeMenuModalShellDeferred",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 2664,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {
+        "cls": "NSClassFromString(@\"ZNRuntimeMenuControllerV040\")"
+      },
+      "method_lookups": [],
+      "wrapper_calls": [
+        {
+          "wrapper": "ZNModalSwap",
+          "call": "ZNModalSwap(cls, @selector(makeUI:), @selector(znmodal_makeUI:))",
+          "line": 2669,
+          "selectors": [
+            "makeUI:",
+            "znmodal_makeUI:"
+          ]
+        },
+        {
+          "wrapper": "ZNModalSwap",
+          "call": "ZNModalSwap(cls, @selector(attach:), @selector(znmodal_attach:))",
+          "line": 2670,
+          "selectors": [
+            "attach:",
+            "znmodal_attach:"
+          ]
+        },
+        {
+          "wrapper": "ZNModalSwap",
+          "call": "ZNModalSwap(cls, @selector(tick:), @selector(znmodal_tick:))",
+          "line": 2671,
+          "selectors": [
+            "tick:",
+            "znmodal_tick:"
+          ]
+        },
+        {
+          "wrapper": "ZNModalSwap",
+          "call": "ZNModalSwap(cls, @selector(show), @selector(znmodal_show))",
+          "line": 2672,
+          "selectors": [
+            "show",
+            "znmodal_show"
+          ]
+        },
+        {
+          "wrapper": "ZNModalSwap",
+          "call": "ZNModalSwap(cls, @selector(hide), @selector(znmodal_hide))",
+          "line": 2673,
+          "selectors": [
+            "hide",
+            "znmodal_hide"
+          ]
+        },
+        {
+          "wrapper": "ZNModalSwap",
+          "call": "ZNModalSwap(cls, @selector(isVisible), @selector(znmodal_isVisible))",
+          "line": 2674,
+          "selectors": [
+            "isVisible",
+            "znmodal_isVisible"
+          ]
+        },
+        {
+          "wrapper": "ZNModalSwap",
+          "call": "ZNModalSwap(cls, @selector(togglePanel:), @selector(znmodal_togglePanel:))",
+          "line": 2675,
+          "selectors": [
+            "togglePanel:",
+            "znmodal_togglePanel:"
+          ]
+        },
+        {
+          "wrapper": "ZNModalSwap",
+          "call": "ZNModalSwap(cls, @selector(closeTapped:), @selector(znmodal_closeTapped:))",
+          "line": 2676,
+          "selectors": [
+            "closeTapped:",
+            "znmodal_closeTapped:"
+          ]
+        }
+      ],
+      "dispatch_once": true,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": false,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZN50SwapInstanceMethod",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 3173,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {},
+      "method_lookups": [],
+      "wrapper_calls": [],
+      "dispatch_once": false,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": true,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNInstallFeatureGroupUIDeferred",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 3179,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {
+        "cls": "NSClassFromString(@\"ZNRuntimeMenuControllerV040\")"
+      },
+      "method_lookups": [],
+      "wrapper_calls": [
+        {
+          "wrapper": "ZN50SwapInstanceMethod",
+          "call": "ZN50SwapInstanceMethod(cls, @selector(renderFullPage), @selector(zn50_renderFullPage))",
+          "line": 3183,
+          "selectors": [
+            "renderFullPage",
+            "zn50_renderFullPage"
+          ]
+        },
+        {
+          "wrapper": "ZN50SwapInstanceMethod",
+          "call": "ZN50SwapInstanceMethod(cls, @selector(renderCompactPage), @selector(zn50_renderCompactPage))",
+          "line": 3184,
+          "selectors": [
+            "renderCompactPage",
+            "zn50_renderCompactPage"
+          ]
+        }
+      ],
+      "dispatch_once": false,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": false,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNInstallFeatureRuntimeControlsV2Deferred",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 3370,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {
+        "cls": "NSClassFromString(@\"ZNRuntimeMenuControllerV040\")"
+      },
+      "method_lookups": [
+        {
+          "api": "class_getInstanceMethod",
+          "class_expression": "cls",
+          "selector": "zn50_renderFeatureGroupsFull"
+        },
+        {
+          "api": "class_getInstanceMethod",
+          "class_expression": "cls",
+          "selector": "zn65fc_renderFull"
+        },
+        {
+          "api": "class_getInstanceMethod",
+          "class_expression": "cls",
+          "selector": "zn50_renderFeatureGroupsCompact"
+        },
+        {
+          "api": "class_getInstanceMethod",
+          "class_expression": "cls",
+          "selector": "zn65fc_renderCompact"
+        }
+      ],
+      "wrapper_calls": [],
+      "dispatch_once": true,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": true,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZN50BSwapInstanceMethod",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 4106,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {},
+      "method_lookups": [],
+      "wrapper_calls": [],
+      "dispatch_once": false,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": true,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNInstallFeatureBuilderUIDeferred",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 4112,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {
+        "cls": "NSClassFromString(@\"ZNRuntimeMenuControllerV040\")"
+      },
+      "method_lookups": [],
+      "wrapper_calls": [
+        {
+          "wrapper": "ZN50BSwapInstanceMethod",
+          "call": "ZN50BSwapInstanceMethod(cls, @selector(zn44_renderOther), @selector(zn50b_renderOther))",
+          "line": 4116,
+          "selectors": [
+            "zn44_renderOther",
+            "zn50b_renderOther"
+          ]
+        }
+      ],
+      "dispatch_once": false,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": false,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNInstallFeatureBuilderControlsV2Deferred",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 4355,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {
+        "cls": "NSClassFromString(@\"ZNRuntimeMenuControllerV040\")"
+      },
+      "method_lookups": [
+        {
+          "api": "class_getInstanceMethod",
+          "class_expression": "cls",
+          "selector": "zn50b_renderOther"
+        },
+        {
+          "api": "class_getInstanceMethod",
+          "class_expression": "cls",
+          "selector": "zn64fb_renderOther"
+        }
+      ],
+      "wrapper_calls": [],
+      "dispatch_once": true,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": true,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZN57MFSwapInstanceMethod",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 4764,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {},
+      "method_lookups": [],
+      "wrapper_calls": [],
+      "dispatch_once": false,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": true,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNInstallIL2CPPMethodFinderUIDeferred",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 4770,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {
+        "cls": "NSClassFromString(@\"ZNRuntimeMenuControllerV040\")"
+      },
+      "method_lookups": [],
+      "wrapper_calls": [
+        {
+          "wrapper": "ZN57MFSwapInstanceMethod",
+          "call": "ZN57MFSwapInstanceMethod(cls, @selector(zn40_baseCategories), @selector(zn57mf_baseCategories))",
+          "line": 4775,
+          "selectors": [
+            "zn40_baseCategories",
+            "zn57mf_baseCategories"
+          ]
+        },
+        {
+          "wrapper": "ZN57MFSwapInstanceMethod",
+          "call": "ZN57MFSwapInstanceMethod(cls, @selector(zn40_baseSymbols), @selector(zn57mf_baseSymbols))",
+          "line": 4776,
+          "selectors": [
+            "zn40_baseSymbols",
+            "zn57mf_baseSymbols"
+          ]
+        },
+        {
+          "wrapper": "ZN57MFSwapInstanceMethod",
+          "call": "ZN57MFSwapInstanceMethod(cls, @selector(renderFullPage), @selector(zn57mf_renderFullPage))",
+          "line": 4777,
+          "selectors": [
+            "renderFullPage",
+            "zn57mf_renderFullPage"
+          ]
+        },
+        {
+          "wrapper": "ZN57MFSwapInstanceMethod",
+          "call": "ZN57MFSwapInstanceMethod(cls, @selector(fullSizeForWindow:), @selector(zn57mf_fullSizeForWindow:))",
+          "line": 4778,
+          "selectors": [
+            "fullSizeForWindow:",
+            "zn57mf_fullSizeForWindow:"
+          ]
+        }
+      ],
+      "dispatch_once": true,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": false,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNInstallIL2CPPMethodFinderMenuBindingDeferred",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 4800,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {
+        "cls": "NSClassFromString(@\"ZNRuntimeMenuControllerV040\")"
+      },
+      "method_lookups": [
+        {
+          "api": "class_getInstanceMethod",
+          "class_expression": "cls",
+          "selector": "zn40_baseCategories"
+        },
+        {
+          "api": "class_getInstanceMethod",
+          "class_expression": "cls",
+          "selector": "zn58mfb_baseCategories"
+        },
+        {
+          "api": "class_getInstanceMethod",
+          "class_expression": "cls",
+          "selector": "zn40_baseSymbols"
+        },
+        {
+          "api": "class_getInstanceMethod",
+          "class_expression": "cls",
+          "selector": "zn58mfb_baseSymbols"
+        }
+      ],
+      "wrapper_calls": [],
+      "dispatch_once": true,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": true,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNInstallIL2CPPMethodFinderUXV2Deferred",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 4992,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {
+        "cls": "NSClassFromString(@\"ZNRuntimeMenuControllerV040\")"
+      },
+      "method_lookups": [
+        {
+          "api": "class_getInstanceMethod",
+          "class_expression": "cls",
+          "selector": "zn57mf_renderFinder"
+        },
+        {
+          "api": "class_getInstanceMethod",
+          "class_expression": "cls",
+          "selector": "zn58ux_renderFinder"
+        }
+      ],
+      "wrapper_calls": [],
+      "dispatch_once": true,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": true,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNInstallIL2CPPMethodFinderV3Deferred",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 5464,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {
+        "cls": "NSClassFromString(@\"ZNRuntimeMenuControllerV040\")"
+      },
+      "method_lookups": [
+        {
+          "api": "class_getInstanceMethod",
+          "class_expression": "cls",
+          "selector": "zn57mf_renderFinder"
+        },
+        {
+          "api": "class_getInstanceMethod",
+          "class_expression": "cls",
+          "selector": "zn60v3_renderFinder"
+        }
+      ],
+      "wrapper_calls": [],
+      "dispatch_once": true,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": true,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNInstallIL2CPPMethodFinderM2Deferred",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 6583,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {
+        "cls": "NSClassFromString(@\"ZNRuntimeMenuControllerV040\")"
+      },
+      "method_lookups": [
+        {
+          "api": "class_getInstanceMethod",
+          "class_expression": "cls",
+          "selector": "zn60v3_startSearch:"
+        },
+        {
+          "api": "class_getInstanceMethod",
+          "class_expression": "cls",
+          "selector": "zn61m2_startSearch:"
+        },
+        {
+          "api": "class_getInstanceMethod",
+          "class_expression": "cls",
+          "selector": "zn60v3_renderSearchAtWidth:"
+        },
+        {
+          "api": "class_getInstanceMethod",
+          "class_expression": "cls",
+          "selector": "zn61m2_renderSearchAtWidth:"
+        }
+      ],
+      "wrapper_calls": [],
+      "dispatch_once": true,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": true,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNInstallIL2CPPMethodFinderM21CancelUXDeferred",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 6681,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {
+        "cls": "NSClassFromString(@\"ZNRuntimeMenuControllerV040\")"
+      },
+      "method_lookups": [
+        {
+          "api": "class_getInstanceMethod",
+          "class_expression": "cls",
+          "selector": "zn60v3_renderSearchAtWidth:"
+        },
+        {
+          "api": "class_getInstanceMethod",
+          "class_expression": "cls",
+          "selector": "zn62m21_renderSearchAtWidth:"
+        }
+      ],
+      "wrapper_calls": [],
+      "dispatch_once": true,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": true,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNInstallIL2CPPMethodFinderM22StableCancelUXDeferred",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 6792,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {
+        "cls": "NSClassFromString(@\"ZNRuntimeMenuControllerV040\")"
+      },
+      "method_lookups": [
+        {
+          "api": "class_getInstanceMethod",
+          "class_expression": "cls",
+          "selector": "zn60v3_startSearch:"
+        },
+        {
+          "api": "class_getInstanceMethod",
+          "class_expression": "cls",
+          "selector": "zn63m22_startSearch:"
+        },
+        {
+          "api": "class_getInstanceMethod",
+          "class_expression": "cls",
+          "selector": "renderPage"
+        },
+        {
+          "api": "class_getInstanceMethod",
+          "class_expression": "cls",
+          "selector": "zn63m22_renderPage"
+        }
+      ],
+      "wrapper_calls": [],
+      "dispatch_once": true,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": true,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNInstallIL2CPPABIDetailUIDeferred",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 6927,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {
+        "cls": "NSClassFromString(@\"ZNRuntimeMenuControllerV040\")"
+      },
+      "method_lookups": [
+        {
+          "api": "class_getInstanceMethod",
+          "class_expression": "cls",
+          "selector": "zn60v3_renderDetailAtWidth:"
+        },
+        {
+          "api": "class_getInstanceMethod",
+          "class_expression": "cls",
+          "selector": "zn65abi_renderDetailAtWidth:"
+        }
+      ],
+      "wrapper_calls": [],
+      "dispatch_once": true,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": true,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNInstallRuntimeMethodCallFinderUIDeferred",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 7063,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {
+        "cls": "NSClassFromString(@\"ZNRuntimeMenuControllerV040\")"
+      },
+      "method_lookups": [
+        {
+          "api": "class_getInstanceMethod",
+          "class_expression": "cls",
+          "selector": "zn60v3_renderDetailAtWidth:"
+        },
+        {
+          "api": "class_getInstanceMethod",
+          "class_expression": "cls",
+          "selector": "znrmc_renderDetailAtWidth:"
+        }
+      ],
+      "wrapper_calls": [],
+      "dispatch_once": true,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": true,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNInstallRuntimeMethodCallBuilderUIDeferred",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 7431,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {
+        "cls": "NSClassFromString(@\"ZNRuntimeMenuControllerV040\")"
+      },
+      "method_lookups": [
+        {
+          "api": "class_getInstanceMethod",
+          "class_expression": "cls",
+          "selector": "zn50b_renderOther"
+        },
+        {
+          "api": "class_getInstanceMethod",
+          "class_expression": "cls",
+          "selector": "znrmc_renderOther"
+        }
+      ],
+      "wrapper_calls": [],
+      "dispatch_once": true,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": true,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNInstallRuntimeMethodCallFeatureUIDeferred",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 7580,
+      "source_call_graph_reachable_from_activation": false,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {
+        "cls": "NSClassFromString(@\"ZNRuntimeMenuControllerV040\")"
+      },
+      "method_lookups": [
+        {
+          "api": "class_getInstanceMethod",
+          "class_expression": "cls",
+          "selector": "zn50_renderFeatureGroupsFull"
+        },
+        {
+          "api": "class_getInstanceMethod",
+          "class_expression": "cls",
+          "selector": "znrmc_renderFeatureGroupsFull"
+        },
+        {
+          "api": "class_getInstanceMethod",
+          "class_expression": "cls",
+          "selector": "zn50_renderFeatureGroupsCompact"
+        },
+        {
+          "api": "class_getInstanceMethod",
+          "class_expression": "cls",
+          "selector": "znrmc_renderFeatureGroupsCompact"
+        }
+      ],
+      "wrapper_calls": [],
+      "dispatch_once": true,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": true,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNUXSwap",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 7939,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {},
+      "method_lookups": [],
+      "wrapper_calls": [],
+      "dispatch_once": false,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": true,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNInstallUXFixesV2Deferred",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 7945,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {
+        "cls": "NSClassFromString(@\"ZNRuntimeMenuControllerV040\")"
+      },
+      "method_lookups": [],
+      "wrapper_calls": [
+        {
+          "wrapper": "ZNUXSwap",
+          "call": "ZNUXSwap(cls, @selector(renderPage), @selector(znux_renderPage))",
+          "line": 7950,
+          "selectors": [
+            "renderPage",
+            "znux_renderPage"
+          ]
+        },
+        {
+          "wrapper": "ZNUXSwap",
+          "call": "ZNUXSwap(cls, @selector(zn44_buildBinary:), @selector(znux_buildBinary:))",
+          "line": 7951,
+          "selectors": [
+            "zn44_buildBinary:",
+            "znux_buildBinary:"
+          ]
+        },
+        {
+          "wrapper": "ZNUXSwap",
+          "call": "ZNUXSwap(cls, @selector(show), @selector(znux_show))",
+          "line": 7952,
+          "selectors": [
+            "show",
+            "znux_show"
+          ]
+        },
+        {
+          "wrapper": "ZNUXSwap",
+          "call": "ZNUXSwap(cls, @selector(hide), @selector(znux_hide))",
+          "line": 7953,
+          "selectors": [
+            "hide",
+            "znux_hide"
+          ]
+        },
+        {
+          "wrapper": "ZNUXSwap",
+          "call": "ZNUXSwap(cls, @selector(isVisible), @selector(znux_isVisible))",
+          "line": 7954,
+          "selectors": [
+            "isVisible",
+            "znux_isVisible"
+          ]
+        }
+      ],
+      "dispatch_once": true,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": false,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNM42Swap",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 8437,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {},
+      "method_lookups": [],
+      "wrapper_calls": [],
+      "dispatch_once": false,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": true,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNInstallMethodFinderM42UIDeferred",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 8443,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {
+        "cls": "NSClassFromString(@\"ZNRuntimeMenuControllerV040\")"
+      },
+      "method_lookups": [],
+      "wrapper_calls": [
+        {
+          "wrapper": "ZNM42Swap",
+          "call": "ZNM42Swap(cls, @selector(zn60v3_renderResultsAtWidth:), @selector(znm42_renderResultsAtWidth:))",
+          "line": 8448,
+          "selectors": [
+            "zn60v3_renderResultsAtWidth:",
+            "znm42_renderResultsAtWidth:"
+          ]
+        },
+        {
+          "wrapper": "ZNM42Swap",
+          "call": "ZNM42Swap(cls, @selector(znux_binaryPickerTapped:), @selector(znm42_binaryPickerTapped:))",
+          "line": 8449,
+          "selectors": [
+            "znux_binaryPickerTapped:",
+            "znm42_binaryPickerTapped:"
+          ]
+        }
+      ],
+      "dispatch_once": true,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": false,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNM43Swap",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 8888,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {},
+      "method_lookups": [],
+      "wrapper_calls": [],
+      "dispatch_once": false,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": true,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNInstallMethodFinderM43UIDeferred",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 8892,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {
+        "cls": "NSClassFromString(@\"ZNRuntimeMenuControllerV040\")"
+      },
+      "method_lookups": [],
+      "wrapper_calls": [
+        {
+          "wrapper": "ZNM43Swap",
+          "call": "ZNM43Swap(cls, @selector(zn60v3_renderSearchAtWidth:), @selector(znm43_renderSearchAtWidth:))",
+          "line": 8896,
+          "selectors": [
+            "zn60v3_renderSearchAtWidth:",
+            "znm43_renderSearchAtWidth:"
+          ]
+        },
+        {
+          "wrapper": "ZNM43Swap",
+          "call": "ZNM43Swap(cls, @selector(zn60v3_startSearch:), @selector(znm43_startSearch:))",
+          "line": 8897,
+          "selectors": [
+            "zn60v3_startSearch:",
+            "znm43_startSearch:"
+          ]
+        },
+        {
+          "wrapper": "ZNM43Swap",
+          "call": "ZNM43Swap(cls, @selector(zn60v3_renderResultsAtWidth:), @selector(znm43_renderResultsAtWidth:))",
+          "line": 8898,
+          "selectors": [
+            "zn60v3_renderResultsAtWidth:",
+            "znm43_renderResultsAtWidth:"
+          ]
+        },
+        {
+          "wrapper": "ZNM43Swap",
+          "call": "ZNM43Swap(cls, @selector(zn60v3_renderDetailAtWidth:), @selector(znm43_renderDetailAtWidth:))",
+          "line": 8899,
+          "selectors": [
+            "zn60v3_renderDetailAtWidth:",
+            "znm43_renderDetailAtWidth:"
+          ]
+        }
+      ],
+      "dispatch_once": true,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": false,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNM43PolishSwap",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 8959,
+      "source_call_graph_reachable_from_activation": false,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {},
+      "method_lookups": [],
+      "wrapper_calls": [],
+      "dispatch_once": false,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": true,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNInstallMethodFinderM43PolishDeferred",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 8965,
+      "source_call_graph_reachable_from_activation": false,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {
+        "cls": "NSClassFromString(@\"ZNRuntimeMenuControllerV040\")"
+      },
+      "method_lookups": [],
+      "wrapper_calls": [
+        {
+          "wrapper": "ZNM43PolishSwap",
+          "call": "ZNM43PolishSwap(cls, @selector(zn60v3_renderSearchAtWidth:), @selector(znm43p_renderSearchAtWidth:))",
+          "line": 8970,
+          "selectors": [
+            "zn60v3_renderSearchAtWidth:",
+            "znm43p_renderSearchAtWidth:"
+          ]
+        },
+        {
+          "wrapper": "ZNM43PolishSwap",
+          "call": "ZNM43PolishSwap(cls, @selector(zn60v3_renderResultsAtWidth:), @selector(znm43p_renderResultsAtWidth:))",
+          "line": 8971,
+          "selectors": [
+            "zn60v3_renderResultsAtWidth:",
+            "znm43p_renderResultsAtWidth:"
+          ]
+        }
+      ],
+      "dispatch_once": true,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": false,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNM44Swap",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 9230,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {},
+      "method_lookups": [],
+      "wrapper_calls": [],
+      "dispatch_once": false,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": true,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNInstallInstanceSelectionV2UIDeferred",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 9236,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {
+        "cls": "NSClassFromString(@\"ZNRuntimeMenuControllerV040\")"
+      },
+      "method_lookups": [],
+      "wrapper_calls": [
+        {
+          "wrapper": "ZNM44Swap",
+          "call": "ZNM44Swap(cls, @selector(znm43_testCandidate:), @selector(znm44_testCandidate:))",
+          "line": 9242,
+          "selectors": [
+            "znm43_testCandidate:",
+            "znm44_testCandidate:"
+          ]
+        },
+        {
+          "wrapper": "ZNM44Swap",
+          "call": "ZNM44Swap(cls, @selector(znrmc_executeAction:), @selector(znm44_executeAction:))",
+          "line": 9243,
+          "selectors": [
+            "znrmc_executeAction:",
+            "znm44_executeAction:"
+          ]
+        }
+      ],
+      "dispatch_once": true,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": false,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNM441Swap",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 9731,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {},
+      "method_lookups": [],
+      "wrapper_calls": [],
+      "dispatch_once": false,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": true,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNInstallM441HotfixDeferred",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 9737,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {
+        "menu": "NSClassFromString(@\"ZNRuntimeMenuControllerV040\")",
+        "engine": "ZNIL2CPPInvokeEngine.class"
+      },
+      "method_lookups": [],
+      "wrapper_calls": [
+        {
+          "wrapper": "ZNM441Swap",
+          "call": "ZNM441Swap(menu, @selector(zn44_endEditing:), @selector(znm441_endEditing:))",
+          "line": 9744,
+          "selectors": [
+            "zn44_endEditing:",
+            "znm441_endEditing:"
+          ]
+        },
+        {
+          "wrapper": "ZNM441Swap",
+          "call": "ZNM441Swap(engine,\n                   @selector(executeAssembly:namespace:className:method:argumentCount:argumentValues:error:),\n                   @selector(znm441_executeAssembly:namespace:className:method:argumentCount:argumentValues:error:))",
+          "line": 9747,
+          "selectors": [
+            "executeAssembly:namespace:className:method:argumentCount:argumentValues:error:",
+            "znm441_executeAssembly:namespace:className:method:argumentCount:argumentValues:error:"
+          ]
+        }
+      ],
+      "dispatch_once": true,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": false,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNM442Swap",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 9970,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {},
+      "method_lookups": [],
+      "wrapper_calls": [],
+      "dispatch_once": false,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": true,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNInstallM442SearchRestoreDeferred",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 9976,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {
+        "menu": "NSClassFromString(@\"ZNRuntimeMenuControllerV040\")"
+      },
+      "method_lookups": [],
+      "wrapper_calls": [
+        {
+          "wrapper": "ZNM442Swap",
+          "call": "ZNM442Swap(menu, @selector(zn60v3_renderSearchAtWidth:), @selector(znm442_renderSearchAtWidth:))",
+          "line": 9981,
+          "selectors": [
+            "zn60v3_renderSearchAtWidth:",
+            "znm442_renderSearchAtWidth:"
+          ]
+        },
+        {
+          "wrapper": "ZNM442Swap",
+          "call": "ZNM442Swap(menu, @selector(znm43_setSelectedAssembly:), @selector(znm442_setSelectedAssembly:))",
+          "line": 9982,
+          "selectors": [
+            "znm43_setSelectedAssembly:",
+            "znm442_setSelectedAssembly:"
+          ]
+        }
+      ],
+      "dispatch_once": true,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": false,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNM45Swap",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 10241,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {},
+      "method_lookups": [],
+      "wrapper_calls": [],
+      "dispatch_once": false,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": true,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNInstallM45AddressOwningMethodDeferred",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 10247,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {
+        "menu": "NSClassFromString(@\"ZNRuntimeMenuControllerV040\")"
+      },
+      "method_lookups": [],
+      "wrapper_calls": [
+        {
+          "wrapper": "ZNM45Swap",
+          "call": "ZNM45Swap(menu, @selector(znm442_submitSearch:), @selector(znm45_submitSearch:))",
+          "line": 10252,
+          "selectors": [
+            "znm442_submitSearch:",
+            "znm45_submitSearch:"
+          ]
+        },
+        {
+          "wrapper": "ZNM45Swap",
+          "call": "ZNM45Swap(menu, @selector(zn60v3_renderResultsAtWidth:), @selector(znm45_renderResultsAtWidth:))",
+          "line": 10253,
+          "selectors": [
+            "zn60v3_renderResultsAtWidth:",
+            "znm45_renderResultsAtWidth:"
+          ]
+        },
+        {
+          "wrapper": "ZNM45Swap",
+          "call": "ZNM45Swap(menu, @selector(zn60v3_renderDetailAtWidth:), @selector(znm45_renderDetailAtWidth:))",
+          "line": 10254,
+          "selectors": [
+            "zn60v3_renderDetailAtWidth:",
+            "znm45_renderDetailAtWidth:"
+          ]
+        }
+      ],
+      "dispatch_once": true,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": false,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNM46UISwap",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 10607,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {},
+      "method_lookups": [],
+      "wrapper_calls": [],
+      "dispatch_once": false,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": true,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNInstallM46FullSignatureUIDeferred",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 10613,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {
+        "menu": "NSClassFromString(@\"ZNRuntimeMenuControllerV040\")"
+      },
+      "method_lookups": [],
+      "wrapper_calls": [
+        {
+          "wrapper": "ZNM46UISwap",
+          "call": "ZNM46UISwap(menu, @selector(znm43_testCandidate:), @selector(znm46_testCandidate:))",
+          "line": 10618,
+          "selectors": [
+            "znm43_testCandidate:",
+            "znm46_testCandidate:"
+          ]
+        },
+        {
+          "wrapper": "ZNM46UISwap",
+          "call": "ZNM46UISwap(menu, @selector(zn60v3_createPatch:), @selector(znm46_createPatch:))",
+          "line": 10619,
+          "selectors": [
+            "zn60v3_createPatch:",
+            "znm46_createPatch:"
+          ]
+        },
+        {
+          "wrapper": "ZNM46UISwap",
+          "call": "ZNM46UISwap(menu, @selector(zn60v3_renderResultsAtWidth:), @selector(znm46_renderResultsAtWidth:))",
+          "line": 10620,
+          "selectors": [
+            "zn60v3_renderResultsAtWidth:",
+            "znm46_renderResultsAtWidth:"
+          ]
+        }
+      ],
+      "dispatch_once": true,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": false,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNM461Swap",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 10818,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {},
+      "method_lookups": [],
+      "wrapper_calls": [],
+      "dispatch_once": false,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": true,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNInstallM461PolishDeferred",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 10824,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {
+        "cls": "NSClassFromString(@\"ZNRuntimeMenuControllerV040\")"
+      },
+      "method_lookups": [],
+      "wrapper_calls": [
+        {
+          "wrapper": "ZNM461Swap",
+          "call": "ZNM461Swap(cls, @selector(renderPage), @selector(znm461_renderPage))",
+          "line": 10829,
+          "selectors": [
+            "renderPage",
+            "znm461_renderPage"
+          ]
+        },
+        {
+          "wrapper": "ZNM461Swap",
+          "call": "ZNM461Swap(cls, @selector(zn60v3_renderResultsAtWidth:), @selector(znm461_renderResultsAtWidth:))",
+          "line": 10830,
+          "selectors": [
+            "zn60v3_renderResultsAtWidth:",
+            "znm461_renderResultsAtWidth:"
+          ]
+        }
+      ],
+      "dispatch_once": true,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": false,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNM462UISwap",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 11106,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {},
+      "method_lookups": [],
+      "wrapper_calls": [],
+      "dispatch_once": false,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": true,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNInstallM462CandidateBindingUIDeferred",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 11112,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {
+        "cls": "NSClassFromString(@\"ZNRuntimeMenuControllerV040\")"
+      },
+      "method_lookups": [],
+      "wrapper_calls": [
+        {
+          "wrapper": "ZNM462UISwap",
+          "call": "ZNM462UISwap(cls, @selector(zn60v3_renderResultsAtWidth:), @selector(znm462_renderResultsAtWidth:))",
+          "line": 11117,
+          "selectors": [
+            "zn60v3_renderResultsAtWidth:",
+            "znm462_renderResultsAtWidth:"
+          ]
+        }
+      ],
+      "dispatch_once": true,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": false,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNM47ReceiverUISwap",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 11297,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {},
+      "method_lookups": [],
+      "wrapper_calls": [],
+      "dispatch_once": false,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": true,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNInstallM47ReceiverCaptureUIDeferred",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 11303,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {
+        "cls": "NSClassFromString(@\"ZNRuntimeMenuControllerV040\")"
+      },
+      "method_lookups": [],
+      "wrapper_calls": [
+        {
+          "wrapper": "ZNM47ReceiverUISwap",
+          "call": "ZNM47ReceiverUISwap(cls, @selector(zn60v3_renderResultsAtWidth:), @selector(znm47_renderResultsAtWidth:))",
+          "line": 11308,
+          "selectors": [
+            "zn60v3_renderResultsAtWidth:",
+            "znm47_renderResultsAtWidth:"
+          ]
+        }
+      ],
+      "dispatch_once": true,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": false,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNM47UISwap",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 11581,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {},
+      "method_lookups": [],
+      "wrapper_calls": [],
+      "dispatch_once": false,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": true,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNInstallM47MultiArgUIDeferred",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 11586,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {
+        "cls": "NSClassFromString(@\"ZNRuntimeMenuControllerV040\")"
+      },
+      "method_lookups": [],
+      "wrapper_calls": [
+        {
+          "wrapper": "ZNM47UISwap",
+          "call": "ZNM47UISwap(cls, @selector(zn60v3_renderResultsAtWidth:), @selector(znm47ma_renderResultsAtWidth:))",
+          "line": 11591,
+          "selectors": [
+            "zn60v3_renderResultsAtWidth:",
+            "znm47ma_renderResultsAtWidth:"
+          ]
+        },
+        {
+          "wrapper": "ZNM47UISwap",
+          "call": "ZNM47UISwap(cls, @selector(znm43_argumentValues:), @selector(znm47ma_argumentValues:))",
+          "line": 11592,
+          "selectors": [
+            "znm43_argumentValues:",
+            "znm47ma_argumentValues:"
+          ]
+        }
+      ],
+      "dispatch_once": true,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": false,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNM47BuilderSwap",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 11738,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {},
+      "method_lookups": [],
+      "wrapper_calls": [],
+      "dispatch_once": false,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": true,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNInstallM47BuilderArgsUIDeferred",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 11743,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {
+        "cls": "NSClassFromString(@\"ZNRuntimeMenuControllerV040\")"
+      },
+      "method_lookups": [],
+      "wrapper_calls": [
+        {
+          "wrapper": "ZNM47BuilderSwap",
+          "call": "ZNM47BuilderSwap(cls, @selector(zn50b_renderOther), @selector(znm47b_renderOther))",
+          "line": 11748,
+          "selectors": [
+            "zn50b_renderOther",
+            "znm47b_renderOther"
+          ]
+        }
+      ],
+      "dispatch_once": true,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": false,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNM47VersionSwap",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 11778,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {},
+      "method_lookups": [],
+      "wrapper_calls": [],
+      "dispatch_once": false,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": true,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNInstallM47VersionUIDeferred",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 11784,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {
+        "cls": "NSClassFromString(@\"ZNRuntimeMenuControllerV040\")"
+      },
+      "method_lookups": [],
+      "wrapper_calls": [
+        {
+          "wrapper": "ZNM47VersionSwap",
+          "call": "ZNM47VersionSwap(cls, @selector(tick:), @selector(znm47_tick:))",
+          "line": 11789,
+          "selectors": [
+            "tick:",
+            "znm47_tick:"
+          ]
+        }
+      ],
+      "dispatch_once": true,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": false,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZN49Swap",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 12071,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {},
+      "method_lookups": [],
+      "wrapper_calls": [],
+      "dispatch_once": false,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": true,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNInstallM49GenericInvokeEditableArgsDeferred",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 12077,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {
+        "cls": "NSClassFromString(@\"ZNRuntimeMenuControllerV040\")"
+      },
+      "method_lookups": [],
+      "wrapper_calls": [
+        {
+          "wrapper": "ZN49Swap",
+          "call": "ZN49Swap(cls, @selector(zn50_renderFeatureGroupsFull), @selector(zn49_renderFull))",
+          "line": 12084,
+          "selectors": [
+            "zn50_renderFeatureGroupsFull",
+            "zn49_renderFull"
+          ]
+        },
+        {
+          "wrapper": "ZN49Swap",
+          "call": "ZN49Swap(cls, @selector(zn50_renderFeatureGroupsCompact), @selector(zn49_renderCompact))",
+          "line": 12085,
+          "selectors": [
+            "zn50_renderFeatureGroupsCompact",
+            "zn49_renderCompact"
+          ]
+        }
+      ],
+      "dispatch_once": true,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": false,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNM54Swap",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 13080,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {},
+      "method_lookups": [],
+      "wrapper_calls": [],
+      "dispatch_once": false,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": true,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNInstallMethodFinderUnifiedUIDeferred",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 13086,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {
+        "cls": "NSClassFromString(@\"ZNRuntimeMenuControllerV040\")"
+      },
+      "method_lookups": [],
+      "wrapper_calls": [
+        {
+          "wrapper": "ZNM54Swap",
+          "call": "ZNM54Swap(cls, @selector(zn60v3_renderSearchAtWidth:), @selector(znm54_renderSearchAtWidth:))",
+          "line": 13091,
+          "selectors": [
+            "zn60v3_renderSearchAtWidth:",
+            "znm54_renderSearchAtWidth:"
+          ]
+        },
+        {
+          "wrapper": "ZNM54Swap",
+          "call": "ZNM54Swap(cls, @selector(zn60v3_renderResultsAtWidth:), @selector(znm54_renderResultsAtWidth:))",
+          "line": 13092,
+          "selectors": [
+            "zn60v3_renderResultsAtWidth:",
+            "znm54_renderResultsAtWidth:"
+          ]
+        },
+        {
+          "wrapper": "ZNM54Swap",
+          "call": "ZNM54Swap(cls, @selector(zn60v3_renderDetailAtWidth:), @selector(znm54_renderDetailAtWidth:))",
+          "line": 13093,
+          "selectors": [
+            "zn60v3_renderDetailAtWidth:",
+            "znm54_renderDetailAtWidth:"
+          ]
+        }
+      ],
+      "dispatch_once": true,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": false,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZN51Swap",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 13532,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {},
+      "method_lookups": [],
+      "wrapper_calls": [],
+      "dispatch_once": false,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": true,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNInstallM51RuntimeArgControlsImmediateChainDeferred",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 13537,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {
+        "menu": "NSClassFromString(@\"ZNRuntimeMenuControllerV040\")"
+      },
+      "method_lookups": [],
+      "wrapper_calls": [
+        {
+          "wrapper": "ZN51Swap",
+          "call": "ZN51Swap(menu, @selector(zn50b_renderOther), @selector(zn51_builderRender))",
+          "line": 13542,
+          "selectors": [
+            "zn50b_renderOther",
+            "zn51_builderRender"
+          ]
+        },
+        {
+          "wrapper": "ZN51Swap",
+          "call": "ZN51Swap(menu, @selector(zn60v3_renderResultsAtWidth:), @selector(zn51_finderRender:))",
+          "line": 13543,
+          "selectors": [
+            "zn60v3_renderResultsAtWidth:",
+            "zn51_finderRender:"
+          ]
+        },
+        {
+          "wrapper": "ZN51Swap",
+          "call": "ZN51Swap(menu, @selector(zn50_renderFeatureGroupsFull), @selector(zn51_runtimeFull))",
+          "line": 13544,
+          "selectors": [
+            "zn50_renderFeatureGroupsFull",
+            "zn51_runtimeFull"
+          ]
+        },
+        {
+          "wrapper": "ZN51Swap",
+          "call": "ZN51Swap(menu, @selector(zn50_renderFeatureGroupsCompact), @selector(zn51_runtimeCompact))",
+          "line": 13545,
+          "selectors": [
+            "zn50_renderFeatureGroupsCompact",
+            "zn51_runtimeCompact"
+          ]
+        },
+        {
+          "wrapper": "ZN51Swap",
+          "call": "ZN51Swap(ZNIL2CPPInvokeEngine.class, @selector(executeAction:error:), @selector(znm51_executeAction:error:))",
+          "line": 13547,
+          "selectors": [
+            "executeAction:error:",
+            "znm51_executeAction:error:"
+          ]
+        }
+      ],
+      "dispatch_once": true,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": false,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZN51SSwapSilentCustomerExecution",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 13671,
+      "source_call_graph_reachable_from_activation": false,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {
+        "cls": "NSClassFromString(@\"ZNRuntimeMenuControllerV040\")"
+      },
+      "method_lookups": [
+        {
+          "api": "class_getInstanceMethod",
+          "class_expression": "cls",
+          "selector": "zn51_runtimeExecute:"
+        },
+        {
+          "api": "class_getInstanceMethod",
+          "class_expression": "cls",
+          "selector": "zn51s_runtimeExecuteSilent:"
+        }
+      ],
+      "wrapper_calls": [],
+      "dispatch_once": false,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": true,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZN51SInstallSilentCustomerExecution",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 13681,
+      "source_call_graph_reachable_from_activation": false,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {},
+      "method_lookups": [],
+      "wrapper_calls": [
+        {
+          "wrapper": "ZN51SSwapSilentCustomerExecution",
+          "call": "ZN51SSwapSilentCustomerExecution()",
+          "line": 13684,
+          "selectors": []
+        }
+      ],
+      "dispatch_once": true,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": false,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNM52XSwap",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 15322,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {},
+      "method_lookups": [],
+      "wrapper_calls": [],
+      "dispatch_once": false,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": true,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNInstallM52ChainExecuteButtonDeferred",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 15327,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {
+        "menu": "NSClassFromString(@\"ZNRuntimeMenuControllerV040\")"
+      },
+      "method_lookups": [],
+      "wrapper_calls": [
+        {
+          "wrapper": "ZNM52XSwap",
+          "call": "ZNM52XSwap(menu, @selector(zn60v3_renderResultsAtWidth:), @selector(zn52x_renderResultsAtWidth:))",
+          "line": 15331,
+          "selectors": [
+            "zn60v3_renderResultsAtWidth:",
+            "zn52x_renderResultsAtWidth:"
+          ]
+        }
+      ],
+      "dispatch_once": true,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": false,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNM52HSwap",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 15497,
+      "source_call_graph_reachable_from_activation": false,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {},
+      "method_lookups": [],
+      "wrapper_calls": [],
+      "dispatch_once": false,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": true,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNInstallM52MethodSearchHistoryDeferred",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 15502,
+      "source_call_graph_reachable_from_activation": false,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {
+        "menu": "NSClassFromString(@\"ZNRuntimeMenuControllerV040\")"
+      },
+      "method_lookups": [],
+      "wrapper_calls": [
+        {
+          "wrapper": "ZNM52HSwap",
+          "call": "ZNM52HSwap(menu, @selector(znm43_startSearch:), @selector(znm52h_startM43Search:))",
+          "line": 15507,
+          "selectors": [
+            "znm43_startSearch:",
+            "znm52h_startM43Search:"
+          ]
+        },
+        {
+          "wrapper": "ZNM52HSwap",
+          "call": "ZNM52HSwap(menu, @selector(znm43_renderSearchAtWidth:), @selector(znm52h_renderM43SearchAtWidth:))",
+          "line": 15508,
+          "selectors": [
+            "znm43_renderSearchAtWidth:",
+            "znm52h_renderM43SearchAtWidth:"
+          ]
+        }
+      ],
+      "dispatch_once": true,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": false,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNM53Swap",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 15850,
+      "source_call_graph_reachable_from_activation": false,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {},
+      "method_lookups": [],
+      "wrapper_calls": [],
+      "dispatch_once": false,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": true,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNInstallM53ControlBindingDeferred",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 15855,
+      "source_call_graph_reachable_from_activation": false,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {
+        "menu": "NSClassFromString(@\"ZNRuntimeMenuControllerV040\")"
+      },
+      "method_lookups": [],
+      "wrapper_calls": [
+        {
+          "wrapper": "ZNM53Swap",
+          "call": "ZNM53Swap(menu, @selector(zn51_runtimeNumberChanged:), @selector(znm53_numberChanged:))",
+          "line": 15860,
+          "selectors": [
+            "zn51_runtimeNumberChanged:",
+            "znm53_numberChanged:"
+          ]
+        },
+        {
+          "wrapper": "ZNM53Swap",
+          "call": "ZNM53Swap(menu, @selector(zn51_runtimeSwitchChanged:), @selector(znm53_switchChanged:))",
+          "line": 15861,
+          "selectors": [
+            "zn51_runtimeSwitchChanged:",
+            "znm53_switchChanged:"
+          ]
+        },
+        {
+          "wrapper": "ZNM53Swap",
+          "call": "ZNM53Swap(menu, @selector(zn51_runtimeSliderChanged:), @selector(znm53_sliderChanged:))",
+          "line": 15862,
+          "selectors": [
+            "zn51_runtimeSliderChanged:",
+            "znm53_sliderChanged:"
+          ]
+        }
+      ],
+      "dispatch_once": true,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": false,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNInstallM55TypedControlBindingDeferred",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 16060,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {
+        "cls": "NSClassFromString(@\"ZNRuntimeMenuControllerV040\")"
+      },
+      "method_lookups": [
+        {
+          "api": "class_getInstanceMethod",
+          "class_expression": "cls",
+          "selector": "zn50b_renderOther"
+        },
+        {
+          "api": "class_getInstanceMethod",
+          "class_expression": "cls",
+          "selector": "znm55_builderRender"
+        }
+      ],
+      "wrapper_calls": [],
+      "dispatch_once": true,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": true,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNInstallM551RuntimeSliderStabilityDeferred",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 16152,
+      "source_call_graph_reachable_from_activation": false,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {
+        "cls": "NSClassFromString(@\"ZNRuntimeMenuControllerV040\")"
+      },
+      "method_lookups": [
+        {
+          "api": "class_getInstanceMethod",
+          "class_expression": "cls",
+          "selector": "zn51_runtimeSliderChanged:"
+        },
+        {
+          "api": "class_getInstanceMethod",
+          "class_expression": "cls",
+          "selector": "znm551_runtimeSliderChanged:"
+        }
+      ],
+      "wrapper_calls": [],
+      "dispatch_once": true,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": true,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNInstallM562SliderIsolationDeferred",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 16209,
+      "source_call_graph_reachable_from_activation": false,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {
+        "cls": "NSClassFromString(@\"ZNRuntimeMenuControllerV040\")"
+      },
+      "method_lookups": [
+        {
+          "api": "class_getInstanceMethod",
+          "class_expression": "cls",
+          "selector": "zn51_runtimeSliderChanged:"
+        },
+        {
+          "api": "class_getInstanceMethod",
+          "class_expression": "cls",
+          "selector": "znm562_sliderChangedIsolated:"
+        }
+      ],
+      "wrapper_calls": [],
+      "dispatch_once": true,
+      "type_encoding_used": false,
+      "has_imp_read": true,
+      "has_imp_write": true,
+      "has_exchange": false,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNInstallM57RuntimeOnlyBuilderGateDeferred",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 16292,
+      "source_call_graph_reachable_from_activation": false,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {
+        "cls": "NSClassFromString(@\"ZNRuntimeMenuControllerV040\")"
+      },
+      "method_lookups": [
+        {
+          "api": "class_getInstanceMethod",
+          "class_expression": "cls",
+          "selector": "zn50b_renderOther"
+        },
+        {
+          "api": "class_getInstanceMethod",
+          "class_expression": "cls",
+          "selector": "znm57_renderOtherWithRuntimeOnlyGate"
+        }
+      ],
+      "wrapper_calls": [],
+      "dispatch_once": true,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": true,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNM57Replace",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 16418,
+      "source_call_graph_reachable_from_activation": false,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {},
+      "method_lookups": [],
+      "wrapper_calls": [],
+      "dispatch_once": false,
+      "type_encoding_used": false,
+      "has_imp_read": true,
+      "has_imp_write": true,
+      "has_exchange": false,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNInstallM584SchemeALayoutDeferred",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 16893,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {
+        "cls": "NSClassFromString(@\"ZNRuntimeMenuControllerV040\")"
+      },
+      "method_lookups": [
+        {
+          "api": "class_getInstanceMethod",
+          "class_expression": "cls",
+          "selector": "layoutPanel"
+        },
+        {
+          "api": "class_getInstanceMethod",
+          "class_expression": "cls",
+          "selector": "znm584_layoutPanel"
+        },
+        {
+          "api": "class_getInstanceMethod",
+          "class_expression": "cls",
+          "selector": "layoutSidebar"
+        },
+        {
+          "api": "class_getInstanceMethod",
+          "class_expression": "cls",
+          "selector": "znm584_layoutSidebar"
+        },
+        {
+          "api": "class_getInstanceMethod",
+          "class_expression": "cls",
+          "selector": "zn51_renderRuntime:"
+        },
+        {
+          "api": "class_getInstanceMethod",
+          "class_expression": "cls",
+          "selector": "znm584_renderRuntime:"
+        }
+      ],
+      "wrapper_calls": [],
+      "dispatch_once": true,
+      "type_encoding_used": false,
+      "has_imp_read": true,
+      "has_imp_write": true,
+      "has_exchange": false,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNInstallM585UnifiedControlSemanticsDeferred",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 17170,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {
+        "workspace": "NSClassFromString(@\"ZNBinaryPatchWorkspace\")",
+        "controller": "NSClassFromString(@\"ZNRuntimeMenuControllerV040\")",
+        "builder": "NSClassFromString(@\"ZNStaticBinaryBuilder\")",
+        "meta": "object_getClass(builder)"
+      },
+      "method_lookups": [
+        {
+          "api": "class_getInstanceMethod",
+          "class_expression": "workspace",
+          "selector": "validateAll:"
+        },
+        {
+          "api": "class_getInstanceMethod",
+          "class_expression": "workspace",
+          "selector": "znm585_validateAll:"
+        },
+        {
+          "api": "class_getInstanceMethod",
+          "class_expression": "controller",
+          "selector": "zn64fb_renderOther"
+        },
+        {
+          "api": "class_getInstanceMethod",
+          "class_expression": "controller",
+          "selector": "znm585_renderOther"
+        },
+        {
+          "api": "class_getClassMethod",
+          "class_expression": "builder",
+          "selector": "buildWorkspace:outputs:report:error:"
+        },
+        {
+          "api": "class_getClassMethod",
+          "class_expression": "builder",
+          "selector": "znm585_buildWorkspace:outputs:report:error:"
+        }
+      ],
+      "wrapper_calls": [],
+      "dispatch_once": true,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": true,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNInstallM58UnifiedControlRuntimeDeferred",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 17664,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {
+        "cls": "NSClassFromString(@\"ZNRuntimeMenuControllerV040\")"
+      },
+      "method_lookups": [
+        {
+          "api": "class_getInstanceMethod",
+          "class_expression": "cls",
+          "selector": "zn51_renderRuntime:"
+        },
+        {
+          "api": "class_getInstanceMethod",
+          "class_expression": "cls",
+          "selector": "znm58_renderRuntime:"
+        }
+      ],
+      "wrapper_calls": [],
+      "dispatch_once": true,
+      "type_encoding_used": false,
+      "has_imp_read": true,
+      "has_imp_write": true,
+      "has_exchange": false,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNInstallM590UnifiedActionModelDeferred",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 17953,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {
+        "workspace": "NSClassFromString(@\"ZNBinaryPatchWorkspace\")",
+        "controller": "NSClassFromString(@\"ZNRuntimeMenuControllerV040\")"
+      },
+      "method_lookups": [
+        {
+          "api": "class_getInstanceMethod",
+          "class_expression": "workspace",
+          "selector": "validateAll:"
+        },
+        {
+          "api": "class_getInstanceMethod",
+          "class_expression": "workspace",
+          "selector": "znm590_validateAll:"
+        },
+        {
+          "api": "class_getInstanceMethod",
+          "class_expression": "controller",
+          "selector": "zn64fb_renderOther"
+        },
+        {
+          "api": "class_getInstanceMethod",
+          "class_expression": "controller",
+          "selector": "znm590_renderOther"
+        }
+      ],
+      "wrapper_calls": [],
+      "dispatch_once": true,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": true,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNInstallM591OffsetHookControlsDeferred",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 18233,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {
+        "controller": "NSClassFromString(@\"ZNRuntimeMenuControllerV040\")",
+        "binder": "NSClassFromString(@\"ZNM56StaticValueCellBinder\")"
+      },
+      "method_lookups": [
+        {
+          "api": "class_getInstanceMethod",
+          "class_expression": "controller",
+          "selector": "zn64fb_renderOther"
+        },
+        {
+          "api": "class_getInstanceMethod",
+          "class_expression": "controller",
+          "selector": "znm591_renderOther"
+        },
+        {
+          "api": "class_getInstanceMethod",
+          "class_expression": "binder",
+          "selector": "applyText:info:error:"
+        },
+        {
+          "api": "class_getInstanceMethod",
+          "class_expression": "binder",
+          "selector": "znm591_applyText:info:error:"
+        }
+      ],
+      "wrapper_calls": [],
+      "dispatch_once": true,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": true,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNM600Swap",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 18559,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {},
+      "method_lookups": [],
+      "wrapper_calls": [],
+      "dispatch_once": false,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": true,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNInstallM600UnifiedFeatureSurfaceDeferred",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 18561,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {
+        "binder": "NSClassFromString(@\"ZNM56StaticValueCellBinder\")",
+        "controller": "NSClassFromString(@\"ZNRuntimeMenuControllerV040\")"
+      },
+      "method_lookups": [],
+      "wrapper_calls": [
+        {
+          "wrapper": "ZNM600Swap",
+          "call": "ZNM600Swap(binder,@selector(applyText:info:error:),@selector(znm600_applyText:info:error:))",
+          "line": 18564,
+          "selectors": [
+            "applyText:info:error:",
+            "znm600_applyText:info:error:"
+          ]
+        },
+        {
+          "wrapper": "ZNM600Swap",
+          "call": "ZNM600Swap(controller,@selector(zn51_renderRuntime:),@selector(znm600_renderRuntime:))",
+          "line": 18566,
+          "selectors": [
+            "zn51_renderRuntime:",
+            "znm600_renderRuntime:"
+          ]
+        }
+      ],
+      "dispatch_once": true,
+      "type_encoding_used": false,
+      "has_imp_read": false,
+      "has_imp_write": false,
+      "has_exchange": false,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    },
+    {
+      "function": "ZNInstallM630HardCutUIDeferred",
+      "path": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+      "line": 19272,
+      "source_call_graph_reachable_from_activation": true,
+      "reachability_limit": "C function graph only; conditional branches and ObjC dispatch are unresolved",
+      "class_bindings": {
+        "cls": "NSClassFromString(@\"ZNRuntimeMenuControllerV040\")"
+      },
+      "method_lookups": [
+        {
+          "api": "class_getInstanceMethod",
+          "class_expression": "cls",
+          "selector": "renderFullPage"
+        },
+        {
+          "api": "class_getInstanceMethod",
+          "class_expression": "cls",
+          "selector": "renderCompactPage"
+        },
+        {
+          "api": "class_getInstanceMethod",
+          "class_expression": "cls",
+          "selector": "znm630_hardCutRenderCompactPage"
+        }
+      ],
+      "wrapper_calls": [],
+      "dispatch_once": true,
+      "type_encoding_used": false,
+      "has_imp_read": true,
+      "has_imp_write": true,
+      "has_exchange": false,
+      "review_status": "needs_selector_ownership_ABI_and_runtime_confirmation"
+    }
+  ],
+  "limitations": [
+    "This index does not establish necessity, actual installation order, runtime type encodings or original IMPs.",
+    "Non-void helper functions, ObjC method dispatch and callbacks can create additional edges.",
+    "Local variable class bindings are navigation aids, not semantic evaluation."
+  ]
+}
