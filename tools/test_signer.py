@@ -7,6 +7,8 @@ import struct
 import subprocess
 import sys
 import tempfile
+import plistlib
+import shutil
 
 binary = Path(sys.argv[1]).resolve()
 driver = Path(sys.argv[2]).resolve()
@@ -36,6 +38,11 @@ with tempfile.TemporaryDirectory(prefix='newmymenu-signer-') as folder:
     link = root / 'source-link'; link.symlink_to(binary)
     call(link, root / 'symlink-output', False)
     assert not (root / 'symlink-output').exists()
+    entitled = root / 'entitled.dylib'; shutil.copyfile(binary, entitled)
+    entitlements = root / 'entitlements.plist'; entitlements.write_bytes(plistlib.dumps({'get-task-allow': True}))
+    subprocess.run(['codesign', '--force', '--sign', '-', '--timestamp=none', '--entitlements', str(entitlements), str(entitled)], check=True)
+    refusal = call(entitled, root / 'entitled-output', False)
+    assert 'entitlements' in refusal.stderr and not (root / 'entitled-output').exists(), 'permissions must not be silently dropped'
     raw = binary.read_bytes()
     variants = {'truncated': raw[:25], 'wrong-arch': raw[:4] + struct.pack('<I', 0x1000007) + raw[8:],
                 'fat': b'\xca\xfe\xba\xbe' + raw[4:]}

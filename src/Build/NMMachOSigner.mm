@@ -174,6 +174,16 @@ static NSString *NMSignerExtractExistingIdentifier(const uint8_t *base, uint64_t
     return fallback;
 }
 
+static BOOL NMSignerHasEntitlements(const uint8_t *base,uint64_t size,const NMSignerSignLayout &layout) {
+    if(layout.signatureOffset>size||size-layout.signatureOffset<12)return NO;
+    const uint8_t *sig=base+layout.signatureOffset;
+    if(NMSignerReadBE32(sig)!=kNMSignerCSMagicEmbeddedSignature)return NO;
+    uint32_t total=NMSignerReadBE32(sig+4),count=NMSignerReadBE32(sig+8);
+    if(total<12||total>layout.signatureSize||total>size-layout.signatureOffset||count>(total-12)/8)return NO;
+    for(uint32_t i=0;i<count;i++){uint32_t slot=NMSignerReadBE32(sig+12+i*8);if(slot==5||slot==7)return YES;}
+    return NO;
+}
+
 static NSData *NMSignerBuildRequirements(void) {
     // Ad-hoc has no certificate chain. An empty requirements set lets Code Signing
     // Services derive the designated requirement from the CodeDirectory hash.
@@ -291,6 +301,7 @@ static BOOL NMSignerVerifyCodeDirectory(const uint8_t *base,
         if (error) *error = @"CodeDirectory 结构损坏";
         return NO;
     }
+    if(!(NMSignerReadBE32(blob+12)&0x2u)){if(error)*error=@"Missing ad-hoc CodeDirectory flag";return NO;}
     uint32_t length = NMSignerReadBE32(blob + 4);
     uint32_t hashOffset = NMSignerReadBE32(blob + 16);
     uint32_t nCode = NMSignerReadBE32(blob + 28);
@@ -418,6 +429,7 @@ static BOOL NMSignerSignWorkingFile(NSString *path, NSString *fallbackIdentifier
             localError = [NSString stringWithFormat:@"mmap 待重签 Mach-O 失败：errno=%d", errno];
         } else {
             if (NMSignerParseSignLayout(oldBase, oldSize, oldLayout, &localError)) {
+                if(NMSignerHasEntitlements(oldBase,oldSize,oldLayout))localError=@"Input contains entitlements; use the package signer rather than silently discarding permissions";
                 identifier = NMSignerExtractExistingIdentifier(oldBase, oldSize, oldLayout);
                 if (!identifier.length) identifier = fallbackIdentifier.length ? fallbackIdentifier : @"newmymenu.generated";
 
@@ -522,7 +534,7 @@ static BOOL NMSignerSignWorkingFile(NSString *path, NSString *fallbackIdentifier
     if (metadata) {
         NSMutableDictionary *result = [verifyMetadata mutableCopy] ?: [NSMutableDictionary dictionary];
         result[@"identifier"] = identifier ?: @"";
-        result[@"mode"] = @"zonoe-self-contained-adhoc";
+        result[@"mode"] = @"newmymenu-reused-adhoc";
         result[@"finalPackageResignRequired"] = @YES;
         *metadata = result;
     }
