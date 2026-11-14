@@ -75,3 +75,36 @@ jobs:
           name: runtime-audit-fixture-NOT-PRODUCT-${{ github.sha }}
           path: build/
           if-no-files-found: error
+
+  invoke-contract-audit:
+    runs-on: macos-15
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_16.4.app/Contents/Developer
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Read exact audited source
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          repository: a7987083/mymenu
+          ref: 7066edeaf9e47580c89440be670c517280534b69
+          path: .audit-source
+          persist-credentials: false
+      - name: Generate hash-verified source reproduction
+        run: |
+          set -euo pipefail
+          mkdir -p build/invoke-audit
+          python3 tools/generate_invoke_audit.py .audit-source build/invoke-audit/invoke-audit.mm
+      - name: Build actual M47 and entry methods against controlled boundaries
+        run: |
+          set -euo pipefail
+          xcrun clang++ -std=c++17 -fobjc-arc -fblocks -Wall -Wextra -Werror -framework Foundation -Wl,-export_dynamic build/invoke-audit/invoke-audit.mm -o build/invoke-audit/invoke-audit
+      - name: Reproduce known receiver contract defects
+        run: |
+          set -euo pipefail
+          build/invoke-audit/invoke-audit | tee build/invoke-audit/results.txt
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: invoke-contract-evidence-NOT-PRODUCT-${{ github.sha }}
+          path: build/invoke-audit/
+          if-no-files-found: error
