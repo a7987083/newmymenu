@@ -74,3 +74,5 @@
 - Run 43646718511: corrected fixture integer-to-pointer width via uintptr_t; explicitly linked CoreGraphics for CGPointZero/CGRectZero used by probe UI. Strict checks remain enabled.
 
 - Probe host now supports the UIApplicationDelegate window lifecycle when no UIScene exists, covering pre-scene Unity hosts without deprecated global windows enumeration. Device behavior remains unverified.
+
+- Run 43647062960: probe dylib build/strict verification passed, discovery fixture crashed at runtime. Enabled AddressSanitizer/debug symbols for discovery fixture to locate the first invalid access; no test skipped.
