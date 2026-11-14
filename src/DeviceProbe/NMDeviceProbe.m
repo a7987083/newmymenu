@@ -48,7 +48,7 @@ static CGFloat NMClamp(CGFloat x,CGFloat low,CGFloat high){return MAX(low,MIN(MA
     _query=[UITextField new];_query.backgroundColor=[UIColor colorWithWhite:.16 alpha:1];_query.textColor=UIColor.whiteColor;_query.font=[UIFont systemFontOfSize:13];_query.attributedPlaceholder=[[NSAttributedString alloc] initWithString:@"类名关键词，例如 Cheat / Player" attributes:@{NSForegroundColorAttributeName:[UIColor colorWithWhite:.65 alpha:1]}];_query.borderStyle=UITextBorderStyleRoundedRect;_query.delegate=self;_query.returnKeyType=UIReturnKeySearch;_query.autocorrectionType=UITextAutocorrectionTypeNo;_query.autocapitalizationType=UITextAutocapitalizationTypeNone;[_panel addSubview:_query];
     _refresh=[self button:@"检查 Runtime" action:@selector(refresh:)];_search=[self button:@"查找类" action:@selector(search:)];_back=[self button:@"‹ 类列表" action:@selector(back:)];_copy=[self button:@"复制报告" action:@selector(copyReport:)];_share=[self button:@"导出报告" action:@selector(shareReport:)];
     for(UIView *v in @[_refresh,_search,_back,_copy,_share])[_panel addSubview:v];_back.hidden=YES;
-    _table=[[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];_table.backgroundColor=UIColor.clearColor;_table.separatorColor=[UIColor colorWithWhite:.25 alpha:1];_table.dataSource=self;_table.delegate=self;_table.keyboardDismissMode=UIScrollViewKeyboardDismissModeOnDrag;_table.rowHeight=80;[_panel addSubview:_table];
+    _table=[[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];_table.backgroundColor=UIColor.clearColor;_table.separatorColor=[UIColor colorWithWhite:.25 alpha:1];_table.dataSource=self;_table.delegate=self;_table.keyboardDismissMode=UIScrollViewKeyboardDismissModeOnDrag;_table.rowHeight=80;[_table registerClass:UITableViewCell.class forCellReuseIdentifier:@"NMProbeRow"];[_panel addSubview:_table];
     [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(keyboard:) name:UIKeyboardWillChangeFrameNotification object:nil];
     [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(keyboard:) name:UIKeyboardWillHideNotification object:nil];
     return self;
@@ -110,16 +110,20 @@ static CGFloat NMClamp(CGFloat x,CGFloat low,CGFloat high){return MAX(low,MIN(MA
 - (void)back:(id)sender {(void)sender;[self search:nil];}
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {(void)tableView;(void)section;return (NSInteger)_rows.count;}
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"NMProbeRow"];if(!cell)cell=[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"NMProbeRow"];
-    NSDictionary *row=_rows[(NSUInteger)indexPath.row];cell.backgroundColor=UIColor.clearColor;cell.textLabel.textColor=UIColor.whiteColor;cell.textLabel.font=[UIFont systemFontOfSize:12 weight:UIFontWeightSemibold];cell.textLabel.numberOfLines=2;cell.detailTextLabel.textColor=[UIColor colorWithWhite:.7 alpha:1];cell.detailTextLabel.font=[UIFont systemFontOfSize:10];cell.detailTextLabel.numberOfLines=2;
-    cell.textLabel.text=_methodMode?row[@"method"]:row[@"fullType"];
-    cell.detailTextLabel.text=_methodMode?row[@"signature"]:[NSString stringWithFormat:@"%@ · %@",row[@"assembly"],row[@"namespace"]];cell.accessoryType=_methodMode?UITableViewCellAccessoryNone:UITableViewCellAccessoryDisclosureIndicator;return cell;
+    UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"NMProbeRow" forIndexPath:indexPath];
+    UIListContentConfiguration *content=cell.defaultContentConfiguration;
+    cell.backgroundColor=UIColor.clearColor;content.textProperties.color=UIColor.whiteColor;content.textProperties.font=[UIFont systemFontOfSize:12 weight:UIFontWeightSemibold];content.textProperties.numberOfLines=2;
+    content.secondaryTextProperties.color=[UIColor colorWithWhite:.7 alpha:1];content.secondaryTextProperties.font=[UIFont systemFontOfSize:10];content.secondaryTextProperties.numberOfLines=2;
+    if((NSUInteger)indexPath.row>=_rows.count){content.text=@"结果已更新";content.secondaryText=nil;cell.contentConfiguration=content;return cell;}
+    NSDictionary *row=_rows[(NSUInteger)indexPath.row];content.text=_methodMode?row[@"method"]:row[@"fullType"];
+    content.secondaryText=_methodMode?row[@"signature"]:[NSString stringWithFormat:@"%@ · %@",row[@"assembly"],row[@"namespace"]];
+    cell.contentConfiguration=content;cell.accessoryType=_methodMode?UITableViewCellAccessoryNone:UITableViewCellAccessoryDisclosureIndicator;return cell;
 }
 - (UIViewController *)topController {
     UIViewController *top=self.window.rootViewController;while(top.presentedViewController&&!top.presentedViewController.isBeingDismissed)top=top.presentedViewController;return top;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];NSDictionary *row=_rows[(NSUInteger)indexPath.row];
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];if((NSUInteger)indexPath.row>=_rows.count)return;NSDictionary *row=_rows[(NSUInteger)indexPath.row];
     if(!_methodMode){[self runQuery:nil classIdentity:row refresh:NO];return;}
     UIAlertController *alert=[UIAlertController alertControllerWithTitle:row[@"method"] message:row[@"signature"] preferredStyle:UIAlertControllerStyleAlert];
     [alert addAction:[UIAlertAction actionWithTitle:@"复制方法名" style:UIAlertActionStyleDefault handler:^(__unused UIAlertAction *a){UIPasteboard.generalPasteboard.string=row[@"method"];}]];

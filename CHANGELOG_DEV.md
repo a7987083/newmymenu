@@ -67,3 +67,6 @@
 - 描述符只存Foundation身份，不跨调用缓存Class/Method裸指针；Runtime变更/歧义/不完整导出明确拒绝。GCHandle/runtime_invoke只报告导出，不调用。
 - 新增自包含UIKit只读验证版：独立透明touch-through host、可拖动面板、类/方法列表、字段复制与JSON报告导出。没有复制旧UI或安装Swizzle/Dobby。
 - Core API3加入Discovery；新增受控C API fixture和独立Probe构建/签名/导出/依赖检查。当前未编译/运行，等待CI，设备未验证。
+
+- 首轮Probe CI Run43646420886在Discovery内部header的NSDictionary report参数缺少nullability处失败，后续编译/实机均未认定通过；补齐NS_ASSUME_NONNULL，不放宽警告。
+- Probe列表改用iOS14+ UIListContentConfiguration；fixture类型加独立前缀，避免与ObjC Runtime的Method类型冲突；列表事件检查当前快照边界。

@@ -4,10 +4,10 @@
 #include <stdlib.h>
 #include <string.h>
 static void check(BOOL ok,const char *message){if(!ok){fprintf(stderr,"FAIL discovery: %s\n",message);abort();}}
-struct Type {const char *name;};struct Method {const char *name;Type *ret;Type *params[2];uint32_t count,flags;};struct Klass {const char *name,*ns;Type *type;Method *method;};
-static Type clsType={"Game.CheatController"},playerType={"Game.Player"},intType={"System.Int32"},refType={"System.Int32&"},voidType={"System.Void"};
-static Method methods[]={ {"GetValue",&intType,{nullptr,nullptr},0,0x10},{"SetValue",&voidType,{&refType,nullptr},1,0} };
-static Klass classes[]={{"CheatController","Game",&clsType,methods},{"Player","Game",&playerType,methods},{"CheatController","Game",&clsType,methods}};
+struct NMFixtureType {const char *name;};struct NMFixtureMethod {const char *name;NMFixtureType *ret;NMFixtureType *params[2];uint32_t count,flags;};struct NMFixtureClass {const char *name,*ns;NMFixtureType *type;NMFixtureMethod *method;};
+static NMFixtureType clsType={"Game.CheatController"},playerType={"Game.Player"},intType={"System.Int32"},refType={"System.Int32&"},voidType={"System.Void"};
+static NMFixtureMethod methods[]={ {"GetValue",&intType,{nullptr,nullptr},0,0x10},{"SetValue",&voidType,{&refType,nullptr},1,0} };
+static NMFixtureClass classes[]={{"CheatController","Game",&clsType,methods},{"Player","Game",&playerType,methods},{"CheatController","Game",&clsType,methods}};
 static unsigned attached,detached,allocated,freed;static bool currentThread,notReady,changed,throwMetadata,ambiguous,attachFailure,changeDuringScan;
 static void *domainGet(){if(notReady)return nullptr;return (void *)(changed?0x2000:0x1000);}
 static const void **assemblies(const void *domain,size_t *count){(void)domain;static const void *values[]={(void *)0x3000};*count=1;return values;}
@@ -15,16 +15,16 @@ static const void *image(const void *assembly){(void)assembly;return (void *)0x4
 static const char *imageName(const void *p){(void)p;return "Assembly-CSharp.dll";}
 static size_t classCount(const void *p){(void)p;return ambiguous?3:2;}
 static void *getClass(const void *p,size_t i){(void)p;return &classes[i];}
-static const char *className(void *c){if(throwMetadata)[NSException raise:@"Fixture" format:@"metadata"];if(changeDuringScan)changed=true;return ((Klass *)c)->name;}
-static const char *classNS(void *c){return ((Klass *)c)->ns;}
-static const void *classType(void *c){return ((Klass *)c)->type;}
+static const char *className(void *c){if(throwMetadata)[NSException raise:@"Fixture" format:@"metadata"];if(changeDuringScan)changed=true;return ((NMFixtureClass *)c)->name;}
+static const char *classNS(void *c){return ((NMFixtureClass *)c)->ns;}
+static const void *classType(void *c){return ((NMFixtureClass *)c)->type;}
 static const void *classMethods(void *c,void **iter){(void)c;uintptr_t i=(uintptr_t)*iter;if(i==2)return nullptr;*iter=(void *)(i+1);return &methods[i];}
-static const char *methodName(const void *m){return ((Method *)m)->name;}
-static uint32_t paramCount(const void *m){return ((Method *)m)->count;}
-static const void *param(const void *m,uint32_t i){return ((Method *)m)->params[i];}
-static const void *returnType(const void *m){return ((Method *)m)->ret;}
-static uint32_t flags(const void *m,uint32_t *impl){*impl=0;return ((Method *)m)->flags;}
-static char *typeName(const void *t){allocated++;return strdup(((Type *)t)->name);}
+static const char *methodName(const void *m){return ((NMFixtureMethod *)m)->name;}
+static uint32_t paramCount(const void *m){return ((NMFixtureMethod *)m)->count;}
+static const void *param(const void *m,uint32_t i){return ((NMFixtureMethod *)m)->params[i];}
+static const void *returnType(const void *m){return ((NMFixtureMethod *)m)->ret;}
+static uint32_t flags(const void *m,uint32_t *impl){*impl=0;return ((NMFixtureMethod *)m)->flags;}
+static char *typeName(const void *t){allocated++;return strdup(((NMFixtureType *)t)->name);}
 static void freeMemory(void *p){freed++;free(p);}
 static void *threadCurrent(){return currentThread?(void *)0x5000:nullptr;}
 static void *threadAttach(void *d){(void)d;if(attachFailure)return nullptr;attached++;return (void *)0x5000;}
