@@ -1,11 +1,67 @@
-name: Source audit
+name: Source and Runtime audit
 on: [push, workflow_dispatch]
 permissions:
   contents: read
 jobs:
-  audit:
+  source-audit:
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
-      - name: Check audit provenance
-        run: test -f README.md
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Audit integrity tests
+        run: python3 -m unittest discover -s tests -v
+  runtime-audit:
+    runs-on: macos-15
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_16.4.app/Contents/Developer
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Verify pinned toolchain
+        run: |
+          set -euo pipefail
+          mkdir -p build
+          test -d "$DEVELOPER_DIR"
+          xcodebuild -version | tee build/toolchain.txt
+          test "$(xcrun --sdk iphoneos --show-sdk-version)" = 18.5
+          xcrun clang --version | tee -a build/toolchain.txt
+      - name: Static analysis
+        run: |
+          set -euo pipefail
+          xcrun clang --analyze -fobjc-arc -fblocks -std=c11 -framework Foundation tests/runtime_audit_fixture.m
+      - name: Real Objective-C Runtime experiments
+        run: |
+          set -euo pipefail
+          xcrun clang -fobjc-arc -fblocks -std=c11 -Wall -Wextra -Werror -framework Foundation tests/runtime_audit_fixture.m -o build/runtime-audit
+          build/runtime-audit | tee build/runtime-results.txt
+      - name: Build ARM64 audit fixture (not product dylib)
+        run: |
+          set -euo pipefail
+          SDK="$(xcrun --sdk iphoneos --show-sdk-path)"
+          xcrun --sdk iphoneos clang -isysroot "$SDK" -arch arm64 -miphoneos-version-min=14.0 -dynamiclib -fobjc-arc -fblocks -std=c11 -Wall -Wextra -Werror -fvisibility=hidden -DNM_AUDIT_DYLIB=1 -framework Foundation -install_name @rpath/NewMyMenuRuntimeAuditFixture.dylib tests/runtime_audit_fixture.m -o build/NewMyMenuRuntimeAuditFixture.dylib
+          codesign --force --sign - --timestamp=none build/NewMyMenuRuntimeAuditFixture.dylib
+      - name: Verify audit fixture
+        run: |
+          set -euo pipefail
+          OUT=build/NewMyMenuRuntimeAuditFixture.dylib
+          file "$OUT" | tee build/macho.txt
+          test "$(lipo -archs "$OUT")" = arm64
+          otool -L "$OUT" | tee build/dependencies.txt
+          python3 - <<'PY'
+          from pathlib import Path
+          rows=Path('build/dependencies.txt').read_text().splitlines()[2:]
+          for row in rows:
+              dep=row.strip().split(' (',1)[0]
+              if not dep.startswith(('/System/Library/Frameworks/Foundation.framework/','/usr/lib/')):
+                  raise SystemExit('Unexpected dependency: '+dep)
+          PY
+          nm -gU "$OUT" | tee build/exports.txt
+          grep -q '_NewMyMenuRuntimeAuditFixture$' build/exports.txt
+          codesign --verify --strict --verbose=4 "$OUT" 2>&1 | tee build/signature.txt
+          otool -l "$OUT" > build/load-commands.txt
+          grep -q LC_CODE_SIGNATURE build/load-commands.txt
+          shasum -a 256 "$OUT" | tee build/SHA256.txt
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: runtime-audit-fixture-NOT-PRODUCT-${{ github.sha }}
+          path: build/
+          if-no-files-found: error

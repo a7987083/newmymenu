@@ -1,0 +1,1062 @@
+[
+  {
+    "name": "Class 搜索",
+    "domain": "Method Finder",
+    "file": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+    "anchor": "- (void)znm54_submitSearch:",
+    "line": 12175,
+    "call_chain": "输入→HybridFinder zn64_searchClasses→ClassResults→最终 Renderer",
+    "data_flow": "输入→HybridFinder zn64_searchClasses→ClassResults→最终 Renderer",
+    "dependencies": [
+      "ZNUnifiedUI.mm"
+    ],
+    "status": "已实现但未验证",
+    "evidence": "固定HEAD源码入口及相邻实现；不等于运行通过",
+    "known_defects": "见 FINDINGS.md；未逐项完成动态回归",
+    "recommendation": "RuntimeDiscovery/MethodFinder；显式搜索快照替代 associated-object 分散状态",
+    "original_behavior": "源码所示路径，运行行为未验证",
+    "new_behavior": "尚未迁移",
+    "validation": "源码阅读；无设备回归",
+    "regression": "未验证"
+  },
+  {
+    "name": "Method 搜索",
+    "domain": "Method Finder",
+    "file": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+    "anchor": "- (void)znm54_dispatchMethodSearch:",
+    "line": 12176,
+    "call_chain": "submit→znm442_submitSearch→V3/HybridFinder→candidates",
+    "data_flow": "submit→znm442_submitSearch→V3/HybridFinder→candidates",
+    "dependencies": [
+      "ZNUnifiedUI.mm"
+    ],
+    "status": "已实现但未验证",
+    "evidence": "固定HEAD源码入口及相邻实现；不等于运行通过",
+    "known_defects": "见 FINDINGS.md；未逐项完成动态回归",
+    "recommendation": "保留 Assembly 优先/严格筛选的差异",
+    "original_behavior": "源码所示路径，运行行为未验证",
+    "new_behavior": "尚未迁移",
+    "validation": "源码阅读；无设备回归",
+    "regression": "未验证"
+  },
+  {
+    "name": "模糊匹配",
+    "domain": "Method Finder",
+    "file": "iosruntimepatchmenu/src/ZNIL2CPPHybridFinder.mm",
+    "anchor": "streamingCandidates:",
+    "line": 402,
+    "call_chain": "parsed query→streaming candidates→匹配与数量限制",
+    "data_flow": "parsed query→streaming candidates→匹配与数量限制",
+    "dependencies": [
+      "ZNIL2CPPHybridFinder.mm"
+    ],
+    "status": "已实现但未验证",
+    "evidence": "固定HEAD源码入口及相邻实现；不等于运行通过",
+    "known_defects": "见 FINDINGS.md；未逐项完成动态回归",
+    "recommendation": "需补实际输入输出 fixture，不凭名称认定匹配算法",
+    "original_behavior": "源码所示路径，运行行为未验证",
+    "new_behavior": "尚未迁移",
+    "validation": "源码阅读；无设备回归",
+    "regression": "未验证"
+  },
+  {
+    "name": "类与方法切换",
+    "domain": "Method Finder",
+    "file": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+    "anchor": "- (void)znm64_toggleMode:",
+    "line": 12177,
+    "call_chain": "清 token/selected/scroll→page0→render",
+    "data_flow": "清 token/selected/scroll→page0→render",
+    "dependencies": [
+      "ZNUnifiedUI.mm"
+    ],
+    "status": "已实现但未验证",
+    "evidence": "固定HEAD源码入口及相邻实现；不等于运行通过",
+    "known_defects": "见 FINDINGS.md；未逐项完成动态回归",
+    "recommendation": "单状态所有者",
+    "original_behavior": "源码所示路径，运行行为未验证",
+    "new_behavior": "尚未迁移",
+    "validation": "源码阅读；无设备回归",
+    "regression": "未验证"
+  },
+  {
+    "name": "搜索计数",
+    "domain": "Method Finder",
+    "file": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+    "anchor": "匹配 %lu 个类",
+    "line": 12486,
+    "call_chain": "results.count→status→render",
+    "data_flow": "results.count→status→render",
+    "dependencies": [
+      "ZNUnifiedUI.mm"
+    ],
+    "status": "已实现但未验证",
+    "evidence": "固定HEAD源码入口及相邻实现；不等于运行通过",
+    "known_defects": "见 FINDINGS.md；未逐项完成动态回归",
+    "recommendation": "计数与显示使用同一快照",
+    "original_behavior": "源码所示路径，运行行为未验证",
+    "new_behavior": "尚未迁移",
+    "validation": "源码阅读；无设备回归",
+    "regression": "未验证"
+  },
+  {
+    "name": "结果渲染",
+    "domain": "Method Finder",
+    "file": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+    "anchor": "- (void)zn52x_renderResultsAtWidth:",
+    "line": 13723,
+    "call_chain": "ClassMode→class renderer；否则 visible methods",
+    "data_flow": "ClassMode→class renderer；否则 visible methods",
+    "dependencies": [
+      "ZNUnifiedUI.mm"
+    ],
+    "status": "已实现但未验证",
+    "evidence": "固定HEAD源码入口及相邻实现；不等于运行通过",
+    "known_defects": "见 FINDINGS.md；未逐项完成动态回归",
+    "recommendation": "历史分流修复已在候选，实机回归未验证",
+    "original_behavior": "源码所示路径，运行行为未验证",
+    "new_behavior": "尚未迁移",
+    "validation": "源码阅读；无设备回归",
+    "regression": "未验证"
+  },
+  {
+    "name": "方法详情",
+    "domain": "Method Finder",
+    "file": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+    "anchor": "znm54_renderDetailAtWidth:",
+    "line": 12172,
+    "call_chain": "selected candidate→ABI→详情字段",
+    "data_flow": "selected candidate→ABI→详情字段",
+    "dependencies": [
+      "ZNUnifiedUI.mm"
+    ],
+    "status": "已实现但未验证",
+    "evidence": "固定HEAD源码入口及相邻实现；不等于运行通过",
+    "known_defects": "见 FINDINGS.md；未逐项完成动态回归",
+    "recommendation": "迁移单 Renderer",
+    "original_behavior": "源码所示路径，运行行为未验证",
+    "new_behavior": "尚未迁移",
+    "validation": "源码阅读；无设备回归",
+    "regression": "未验证"
+  },
+  {
+    "name": "参数与返回类型",
+    "domain": "Method Finder",
+    "file": "iosruntimepatchmenu/src/ZNIL2CPPABIMetadata.mm",
+    "anchor": "ZNIL2CPPDescribeMethodABI",
+    "line": 205,
+    "call_chain": "metadata→ABI descriptor→UI/Invoke",
+    "data_flow": "metadata→ABI descriptor→UI/Invoke",
+    "dependencies": [
+      "ZNIL2CPPABIMetadata.mm"
+    ],
+    "status": "已实现但未验证",
+    "evidence": "固定HEAD源码入口及相邻实现；不等于运行通过",
+    "known_defects": "见 FINDINGS.md；未逐项完成动态回归",
+    "recommendation": "复用分类，目标 Runtime ABI 另验",
+    "original_behavior": "源码所示路径，运行行为未验证",
+    "new_behavior": "尚未迁移",
+    "validation": "源码阅读；无设备回归",
+    "regression": "未验证"
+  },
+  {
+    "name": "单字段复制",
+    "domain": "Method Finder",
+    "file": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+    "anchor": "copyable",
+    "line": 13016,
+    "call_chain": "详情字段→button associated value→zn60v3_copyValue→pasteboard",
+    "data_flow": "详情字段→button associated value→zn60v3_copyValue→pasteboard",
+    "dependencies": [
+      "ZNUnifiedUI.mm"
+    ],
+    "status": "部分实现",
+    "evidence": "仅定位实现片段；完整功能/传递依赖尚未确认",
+    "known_defects": "见 FINDINGS.md；未逐项完成动态回归",
+    "recommendation": "验证空值/不可复制字段",
+    "original_behavior": "源码所示路径，运行行为未验证",
+    "new_behavior": "尚未迁移",
+    "validation": "源码阅读；无设备回归",
+    "regression": "未验证"
+  },
+  {
+    "name": "本地词典翻译",
+    "domain": "Method Finder",
+    "file": "iosruntimepatchmenu/src/ZNMethodTranslator.mm",
+    "anchor": "+ (NSString *)translateMethodName:",
+    "line": 100,
+    "call_chain": "name→分词/DP→词典→NSCache",
+    "data_flow": "name→分词/DP→词典→NSCache",
+    "dependencies": [
+      "ZNMethodTranslator.mm"
+    ],
+    "status": "已实现但未验证",
+    "evidence": "固定HEAD源码入口及相邻实现；不等于运行通过",
+    "known_defects": "见 FINDINGS.md；未逐项完成动态回归",
+    "recommendation": "可独立复用，保留词典许可",
+    "original_behavior": "源码所示路径，运行行为未验证",
+    "new_behavior": "尚未迁移",
+    "validation": "源码阅读；无设备回归",
+    "regression": "未验证"
+  },
+  {
+    "name": "滚动恢复",
+    "domain": "Method Finder",
+    "file": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+    "anchor": "ZNM64RestoreScrollOffset",
+    "line": 12144,
+    "call_chain": "scroll offset→页面切换→restore",
+    "data_flow": "scroll offset→页面切换→restore",
+    "dependencies": [
+      "ZNUnifiedUI.mm"
+    ],
+    "status": "已实现但未验证",
+    "evidence": "固定HEAD源码入口及相邻实现；不等于运行通过",
+    "known_defects": "见 FINDINGS.md；未逐项完成动态回归",
+    "recommendation": "主线程搜索状态",
+    "original_behavior": "源码所示路径，运行行为未验证",
+    "new_behavior": "尚未迁移",
+    "validation": "源码阅读；无设备回归",
+    "regression": "未验证"
+  },
+  {
+    "name": "搜索缓存与刷新",
+    "domain": "Method Finder",
+    "file": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+    "anchor": "ZNM613AnalysisCache",
+    "line": 14013,
+    "call_chain": "candidate identity→analysis cache→Renderer",
+    "data_flow": "candidate identity→analysis cache→Renderer",
+    "dependencies": [
+      "ZNUnifiedUI.mm"
+    ],
+    "status": "部分实现",
+    "evidence": "仅定位实现片段；完整功能/传递依赖尚未确认",
+    "known_defects": "见 FINDINGS.md；未逐项完成动态回归",
+    "recommendation": "缓存身份/模块世代失效待专项验证",
+    "original_behavior": "源码所示路径，运行行为未验证",
+    "new_behavior": "尚未迁移",
+    "validation": "源码阅读；无设备回归",
+    "regression": "未验证"
+  },
+  {
+    "name": "Method 解析",
+    "domain": "Runtime Method",
+    "file": "iosruntimepatchmenu/src/ZNIL2CPPResolver.mm",
+    "anchor": "resolveMethodAssembly:",
+    "line": 720,
+    "call_chain": "描述符→共享 class resolver→methodInfo",
+    "data_flow": "描述符→共享 class resolver→methodInfo",
+    "dependencies": [
+      "ZNIL2CPPResolver.mm"
+    ],
+    "status": "已实现但未验证",
+    "evidence": "固定HEAD源码入口及相邻实现；不等于运行通过",
+    "known_defects": "见 FINDINGS.md；未逐项完成动态回归",
+    "recommendation": "复用，禁止重写查找基础算法",
+    "original_behavior": "源码所示路径，运行行为未验证",
+    "new_behavior": "尚未迁移",
+    "validation": "源码阅读；无设备回归",
+    "regression": "未验证"
+  },
+  {
+    "name": "实例枚举",
+    "domain": "Runtime Method",
+    "file": "iosruntimepatchmenu/src/ZNIL2CPPInstanceResolver.mm",
+    "anchor": "candidateAddressesForAssembly:",
+    "line": 102,
+    "call_chain": "Class→liveness APIs→地址列表",
+    "data_flow": "Class→liveness APIs→地址列表",
+    "dependencies": [
+      "ZNIL2CPPInstanceResolver.mm"
+    ],
+    "status": "已实现但未验证",
+    "evidence": "固定HEAD源码入口及相邻实现；不等于运行通过",
+    "known_defects": "见 FINDINGS.md；未逐项完成动态回归",
+    "recommendation": "需 ReceiverLease，不能将地址当存活证明",
+    "original_behavior": "源码所示路径，运行行为未验证",
+    "new_behavior": "尚未迁移",
+    "validation": "源码阅读；无设备回归",
+    "regression": "未验证"
+  },
+  {
+    "name": "实例选择",
+    "domain": "Runtime Method",
+    "file": "iosruntimepatchmenu/src/ZNIL2CPPInstanceSelectionV2.mm",
+    "anchor": "znm44_selectInstanceAddress:",
+    "line": 96,
+    "call_chain": "地址校验→selection store→safety wrapper",
+    "data_flow": "地址校验→selection store→safety wrapper",
+    "dependencies": [
+      "ZNIL2CPPInstanceSelectionV2.mm"
+    ],
+    "status": "已实现但未验证",
+    "evidence": "固定HEAD源码入口及相邻实现；不等于运行通过",
+    "known_defects": "见 FINDINGS.md；未逐项完成动态回归",
+    "recommendation": "合并为单实例管理服务",
+    "original_behavior": "源码所示路径，运行行为未验证",
+    "new_behavior": "尚未迁移",
+    "validation": "源码阅读；无设备回归",
+    "regression": "未验证"
+  },
+  {
+    "name": "参数封送",
+    "domain": "Runtime Method",
+    "file": "iosruntimepatchmenu/src/ZNRuntimeArgumentMarshaller.mm",
+    "anchor": "ZNRuntime",
+    "line": 1,
+    "call_chain": "typed arguments→IL2CPP invoke params",
+    "data_flow": "typed arguments→IL2CPP invoke params",
+    "dependencies": [
+      "ZNRuntimeArgumentMarshaller.mm"
+    ],
+    "status": "部分实现",
+    "evidence": "仅定位实现片段；完整功能/传递依赖尚未确认",
+    "known_defects": "见 FINDINGS.md；未逐项完成动态回归",
+    "recommendation": "ByRef/结构单独 fixture",
+    "original_behavior": "源码所示路径，运行行为未验证",
+    "new_behavior": "尚未迁移",
+    "validation": "源码阅读；无设备回归",
+    "regression": "未验证"
+  },
+  {
+    "name": "实际方法调用",
+    "domain": "Runtime Method",
+    "file": "iosruntimepatchmenu/src/ZNIL2CPPInvokeEngine.mm",
+    "anchor": "executeAction:",
+    "line": 144,
+    "call_chain": "action→resolve→receiver→runtime_invoke",
+    "data_flow": "action→resolve→receiver→runtime_invoke",
+    "dependencies": [
+      "ZNIL2CPPInvokeEngine.mm"
+    ],
+    "status": "已实现但未验证",
+    "evidence": "固定HEAD源码入口及相邻实现；不等于运行通过",
+    "known_defects": "见 FINDINGS.md；未逐项完成动态回归",
+    "recommendation": "显式上下文替代 TLS",
+    "original_behavior": "源码所示路径，运行行为未验证",
+    "new_behavior": "尚未迁移",
+    "validation": "源码阅读；无设备回归",
+    "regression": "未验证"
+  },
+  {
+    "name": "返回值处理",
+    "domain": "Runtime Method",
+    "file": "iosruntimepatchmenu/src/ZNM48ReturnCapture.mm",
+    "anchor": "ZNInstallM48ReturnCaptureDeferred",
+    "line": 237,
+    "call_chain": "Invoke→return capture→UI",
+    "data_flow": "Invoke→return capture→UI",
+    "dependencies": [
+      "ZNM48ReturnCapture.mm"
+    ],
+    "status": "已实现但未验证",
+    "evidence": "固定HEAD源码入口及相邻实现；不等于运行通过",
+    "known_defects": "见 FINDINGS.md；未逐项完成动态回归",
+    "recommendation": "取消内部类自我 Swizzle",
+    "original_behavior": "源码所示路径，运行行为未验证",
+    "new_behavior": "尚未迁移",
+    "validation": "源码阅读；无设备回归",
+    "regression": "未验证"
+  },
+  {
+    "name": "异常错误反馈",
+    "domain": "Runtime Method",
+    "file": "iosruntimepatchmenu/src/ZNIL2CPPInvokeEngine.mm",
+    "anchor": "FAILED_RESOLVE",
+    "line": 233,
+    "call_chain": "NSError文字/exception→调用方→UI",
+    "data_flow": "NSError文字/exception→调用方→UI",
+    "dependencies": [
+      "ZNIL2CPPInvokeEngine.mm"
+    ],
+    "status": "已实现但未验证",
+    "evidence": "固定HEAD源码入口及相邻实现；不等于运行通过",
+    "known_defects": "见 FINDINGS.md；未逐项完成动态回归",
+    "recommendation": "统一 typed error，不吞失败",
+    "original_behavior": "源码所示路径，运行行为未验证",
+    "new_behavior": "尚未迁移",
+    "validation": "源码阅读；无设备回归",
+    "regression": "未验证"
+  },
+  {
+    "name": "多参数复杂结构",
+    "domain": "Runtime Method",
+    "file": "iosruntimepatchmenu/src/ZNComplexStructCodec.mm",
+    "anchor": "ZN",
+    "line": 1,
+    "call_chain": "ABI→codec→参数存储→invoke",
+    "data_flow": "ABI→codec→参数存储→invoke",
+    "dependencies": [
+      "ZNComplexStructCodec.mm"
+    ],
+    "status": "部分实现",
+    "evidence": "仅定位实现片段；完整功能/传递依赖尚未确认",
+    "known_defects": "见 FINDINGS.md；未逐项完成动态回归",
+    "recommendation": "已实现范围必须逐类型核验，不能标全面支持",
+    "original_behavior": "源码所示路径，运行行为未验证",
+    "new_behavior": "尚未迁移",
+    "validation": "源码阅读；无设备回归",
+    "regression": "未验证"
+  },
+  {
+    "name": "对象生命周期",
+    "domain": "Runtime Method",
+    "file": "iosruntimepatchmenu/src/ZNM462InstanceSafety.mm",
+    "anchor": "ZNM462ReleaseSelection",
+    "line": 52,
+    "call_chain": "selection→gchandle→target→free",
+    "data_flow": "selection→gchandle→target→free",
+    "dependencies": [
+      "ZNM462InstanceSafety.mm"
+    ],
+    "status": "已实现但未验证",
+    "evidence": "固定HEAD源码入口及相邻实现；不等于运行通过",
+    "known_defects": "见 FINDINGS.md；未逐项完成动态回归",
+    "recommendation": "同步范围缺口，见F03",
+    "original_behavior": "源码所示路径，运行行为未验证",
+    "new_behavior": "尚未迁移",
+    "validation": "源码阅读；无设备回归",
+    "regression": "未验证"
+  },
+  {
+    "name": "instanceIndex 契约",
+    "domain": "Runtime Method",
+    "file": "iosruntimepatchmenu/src/ZNRuntimeActionFormat.h",
+    "anchor": "ZNRuntimeActionDecodeInstanceIndex",
+    "line": 45,
+    "call_chain": "flags→record→action→enumeration[index-1]",
+    "data_flow": "flags→record→action→enumeration[index-1]",
+    "dependencies": [
+      "ZNRuntimeActionFormat.h"
+    ],
+    "status": "已实现但未验证",
+    "evidence": "固定HEAD源码入口及相邻实现；不等于运行通过",
+    "known_defects": "见 FINDINGS.md；未逐项完成动态回归",
+    "recommendation": "不是稳定身份，见F06",
+    "original_behavior": "源码所示路径，运行行为未验证",
+    "new_behavior": "尚未迁移",
+    "validation": "源码阅读；无设备回归",
+    "regression": "未验证"
+  },
+  {
+    "name": "安装 Hook",
+    "domain": "Native Hook",
+    "file": "iosruntimepatchmenu/src/ZNNativeHookBackend.mm",
+    "anchor": "installReplacementAtAddress:",
+    "line": 28,
+    "call_chain": "descriptor→runtime slot→DobbyHook",
+    "data_flow": "descriptor→runtime slot→DobbyHook",
+    "dependencies": [
+      "ZNNativeHookBackend.mm"
+    ],
+    "status": "已实现但未验证",
+    "evidence": "固定HEAD源码入口及相邻实现；不等于运行通过",
+    "known_defects": "见 FINDINGS.md；未逐项完成动态回归",
+    "recommendation": "与 ObjC Swizzle 分离",
+    "original_behavior": "源码所示路径，运行行为未验证",
+    "new_behavior": "尚未迁移",
+    "validation": "源码阅读；无设备回归",
+    "regression": "未验证"
+  },
+  {
+    "name": "Hook 参数传递",
+    "domain": "Native Hook",
+    "file": "iosruntimepatchmenu/src/ZNNativeHookRuntime.mm",
+    "anchor": "supportedInt32ArgumentIndicesForCandidate:",
+    "line": 1086,
+    "call_chain": "ABI→template→slot→replacement",
+    "data_flow": "ABI→template→slot→replacement",
+    "dependencies": [
+      "ZNNativeHookRuntime.mm"
+    ],
+    "status": "已实现但未验证",
+    "evidence": "固定HEAD源码入口及相邻实现；不等于运行通过",
+    "known_defects": "见 FINDINGS.md；未逐项完成动态回归",
+    "recommendation": "模板限制必须保留",
+    "original_behavior": "源码所示路径，运行行为未验证",
+    "new_behavior": "尚未迁移",
+    "validation": "源码阅读；无设备回归",
+    "regression": "未验证"
+  },
+  {
+    "name": "调用原函数",
+    "domain": "Native Hook",
+    "file": "iosruntimepatchmenu/src/ZNNativeHookBackend.mm",
+    "anchor": "DobbyHook",
+    "line": 36,
+    "call_chain": "replacement→original trampoline",
+    "data_flow": "replacement→original trampoline",
+    "dependencies": [
+      "ZNNativeHookBackend.mm"
+    ],
+    "status": "已实现但未验证",
+    "evidence": "固定HEAD源码入口及相邻实现；不等于运行通过",
+    "known_defects": "见 FINDINGS.md；未逐项完成动态回归",
+    "recommendation": "在途 trampoline 生命周期待证",
+    "original_behavior": "源码所示路径，运行行为未验证",
+    "new_behavior": "尚未迁移",
+    "validation": "源码阅读；无设备回归",
+    "regression": "未验证"
+  },
+  {
+    "name": "恢复 Hook",
+    "domain": "Native Hook",
+    "file": "iosruntimepatchmenu/src/ZNNativeHookRuntime.mm",
+    "anchor": "removeTemporaryHookForCandidate:",
+    "line": 1642,
+    "call_chain": "target ownership→DobbyDestroy→clear slots",
+    "data_flow": "target ownership→DobbyDestroy→clear slots",
+    "dependencies": [
+      "ZNNativeHookRuntime.mm"
+    ],
+    "status": "已实现但未验证",
+    "evidence": "固定HEAD源码入口及相邻实现；不等于运行通过",
+    "known_defects": "见 FINDINGS.md；未逐项完成动态回归",
+    "recommendation": "缺排空证据，F04",
+    "original_behavior": "源码所示路径，运行行为未验证",
+    "new_behavior": "尚未迁移",
+    "validation": "源码阅读；无设备回归",
+    "regression": "未验证"
+  },
+  {
+    "name": "Hook 返回值",
+    "domain": "Native Hook",
+    "file": "iosruntimepatchmenu/src/ZNNativeHookRuntime.mm",
+    "anchor": "returnBoolSlot",
+    "line": 1653,
+    "call_chain": "ABI→ReturnBool slot",
+    "data_flow": "ABI→ReturnBool slot",
+    "dependencies": [
+      "ZNNativeHookRuntime.mm"
+    ],
+    "status": "已实现但未验证",
+    "evidence": "固定HEAD源码入口及相邻实现；不等于运行通过",
+    "known_defects": "见 FINDINGS.md；未逐项完成动态回归",
+    "recommendation": "不泛化为任意返回值支持",
+    "original_behavior": "源码所示路径，运行行为未验证",
+    "new_behavior": "尚未迁移",
+    "validation": "源码阅读；无设备回归",
+    "regression": "未验证"
+  },
+  {
+    "name": "多 Hook 冲突",
+    "domain": "Native Hook",
+    "file": "iosruntimepatchmenu/src/ZNNativeHookRuntime.mm",
+    "anchor": "permanentOwner",
+    "line": 1655,
+    "call_chain": "action owner→reject temporary teardown",
+    "data_flow": "action owner→reject temporary teardown",
+    "dependencies": [
+      "ZNNativeHookRuntime.mm"
+    ],
+    "status": "已实现但未验证",
+    "evidence": "固定HEAD源码入口及相邻实现；不等于运行通过",
+    "known_defects": "见 FINDINGS.md；未逐项完成动态回归",
+    "recommendation": "需并发竞争 fixture",
+    "original_behavior": "源码所示路径，运行行为未验证",
+    "new_behavior": "尚未迁移",
+    "validation": "源码阅读；无设备回归",
+    "regression": "未验证"
+  },
+  {
+    "name": "Hook 生命周期",
+    "domain": "Native Hook",
+    "file": "iosruntimepatchmenu/src/ZNNativeHookLifecycleBootstrap.mm",
+    "anchor": "ZNInstall",
+    "line": null,
+    "call_chain": "bootstrap→runtime/scheduler",
+    "data_flow": "bootstrap→runtime/scheduler",
+    "dependencies": [
+      "ZNNativeHookLifecycleBootstrap.mm"
+    ],
+    "status": "无法确认",
+    "evidence": "需继续定位真实入口",
+    "known_defects": "见 FINDINGS.md；未逐项完成动态回归",
+    "recommendation": "生命周期状态机替代分散 bootstrap",
+    "original_behavior": "源码所示路径，运行行为未验证",
+    "new_behavior": "尚未迁移",
+    "validation": "源码阅读；无设备回归",
+    "regression": "未验证"
+  },
+  {
+    "name": "Static Patch",
+    "domain": "Build/Configuration",
+    "file": "iosruntimepatchmenu/src/ZNStaticBinaryBuilderV3.mm",
+    "anchor": "ZNStaticBinaryBuilderV3BuildWorkspace",
+    "line": 1126,
+    "call_chain": "workspace→static base",
+    "data_flow": "workspace→static base",
+    "dependencies": [
+      "ZNStaticBinaryBuilderV3.mm"
+    ],
+    "status": "已实现但未验证",
+    "evidence": "固定HEAD源码入口及相邻实现；不等于运行通过",
+    "known_defects": "见 FINDINGS.md；未逐项完成动态回归",
+    "recommendation": "优先复用并补 fixture",
+    "original_behavior": "源码所示路径，运行行为未验证",
+    "new_behavior": "尚未迁移",
+    "validation": "源码阅读；无设备回归",
+    "regression": "未验证"
+  },
+  {
+    "name": "Runtime Action",
+    "domain": "Build/Configuration",
+    "file": "iosruntimepatchmenu/src/ZNRuntimeActionBuilder.mm",
+    "anchor": "ZN",
+    "line": 1,
+    "call_chain": "record→action blob→build provider",
+    "data_flow": "record→action blob→build provider",
+    "dependencies": [
+      "ZNRuntimeActionBuilder.mm"
+    ],
+    "status": "部分实现",
+    "evidence": "仅定位实现片段；完整功能/传递依赖尚未确认",
+    "known_defects": "见 FINDINGS.md；未逐项完成动态回归",
+    "recommendation": "保持64字节entry及flag版本兼容",
+    "original_behavior": "源码所示路径，运行行为未验证",
+    "new_behavior": "尚未迁移",
+    "validation": "源码阅读；无设备回归",
+    "regression": "未验证"
+  },
+  {
+    "name": "Native Hook Action",
+    "domain": "Build/Configuration",
+    "file": "iosruntimepatchmenu/src/ZNNativeHookAction.mm",
+    "anchor": "ZN",
+    "line": 1,
+    "call_chain": "hook config→action→runtime",
+    "data_flow": "hook config→action→runtime",
+    "dependencies": [
+      "ZNNativeHookAction.mm"
+    ],
+    "status": "部分实现",
+    "evidence": "仅定位实现片段；完整功能/传递依赖尚未确认",
+    "known_defects": "见 FINDINGS.md；未逐项完成动态回归",
+    "recommendation": "保留模板ABI限制",
+    "original_behavior": "源码所示路径，运行行为未验证",
+    "new_behavior": "尚未迁移",
+    "validation": "源码阅读；无设备回归",
+    "regression": "未验证"
+  },
+  {
+    "name": "Static Prepared Hook",
+    "domain": "Build/Configuration",
+    "file": "iosruntimepatchmenu/src/ZNNativeHookStaticPrepatch.mm",
+    "anchor": "ZN",
+    "line": 1,
+    "call_chain": "prepared metadata→Mach-O prepatch",
+    "data_flow": "prepared metadata→Mach-O prepatch",
+    "dependencies": [
+      "ZNNativeHookStaticPrepatch.mm"
+    ],
+    "status": "部分实现",
+    "evidence": "仅定位实现片段；完整功能/传递依赖尚未确认",
+    "known_defects": "见 FINDINGS.md；未逐项完成动态回归",
+    "recommendation": "不能与Dobby恢复混同",
+    "original_behavior": "源码所示路径，运行行为未验证",
+    "new_behavior": "尚未迁移",
+    "validation": "源码阅读；无设备回归",
+    "regression": "未验证"
+  },
+  {
+    "name": "混合构建",
+    "domain": "Build/Configuration",
+    "file": "iosruntimepatchmenu/src/ZNBuildExecutor.mm",
+    "anchor": "ZNBuildExecutorBuildWorkspace",
+    "line": 20,
+    "call_chain": "manifest→prepare→base→emit→postprocess",
+    "data_flow": "manifest→prepare→base→emit→postprocess",
+    "dependencies": [
+      "ZNBuildExecutor.mm"
+    ],
+    "status": "已实现但未验证",
+    "evidence": "固定HEAD源码入口及相邻实现；不等于运行通过",
+    "known_defects": "见 FINDINGS.md；未逐项完成动态回归",
+    "recommendation": "单一build入口",
+    "original_behavior": "源码所示路径，运行行为未验证",
+    "new_behavior": "尚未迁移",
+    "validation": "源码阅读；无设备回归",
+    "regression": "未验证"
+  },
+  {
+    "name": "Manifest",
+    "domain": "Build/Configuration",
+    "file": "iosruntimepatchmenu/src/ZNBuildManifest.mm",
+    "anchor": "manifestForWorkspace:",
+    "line": 303,
+    "call_chain": "workspace snapshot→items/providers",
+    "data_flow": "workspace snapshot→items/providers",
+    "dependencies": [
+      "ZNBuildManifest.mm"
+    ],
+    "status": "已实现但未验证",
+    "evidence": "固定HEAD源码入口及相邻实现；不等于运行通过",
+    "known_defects": "见 FINDINGS.md；未逐项完成动态回归",
+    "recommendation": "与UI脱耦",
+    "original_behavior": "源码所示路径，运行行为未验证",
+    "new_behavior": "尚未迁移",
+    "validation": "源码阅读；无设备回归",
+    "regression": "未验证"
+  },
+  {
+    "name": "JSON 配置",
+    "domain": "Build/Configuration",
+    "file": "iosruntimepatchmenu/src/ZNPatchJSONImporter.mm",
+    "anchor": "ZN",
+    "line": 1,
+    "call_chain": "JSON→validation→workspace",
+    "data_flow": "JSON→validation→workspace",
+    "dependencies": [
+      "ZNPatchJSONImporter.mm"
+    ],
+    "status": "部分实现",
+    "evidence": "仅定位实现片段；完整功能/传递依赖尚未确认",
+    "known_defects": "见 FINDINGS.md；未逐项完成动态回归",
+    "recommendation": "错误返回必须保留",
+    "original_behavior": "源码所示路径，运行行为未验证",
+    "new_behavior": "尚未迁移",
+    "validation": "源码阅读；无设备回归",
+    "regression": "未验证"
+  },
+  {
+    "name": "配置导入",
+    "domain": "Build/Configuration",
+    "file": "iosruntimepatchmenu/src/ZNAuthoringJSONImport.mm",
+    "anchor": "ZN",
+    "line": 1,
+    "call_chain": "authoring JSON→typed model→store",
+    "data_flow": "authoring JSON→typed model→store",
+    "dependencies": [
+      "ZNAuthoringJSONImport.mm"
+    ],
+    "status": "部分实现",
+    "evidence": "仅定位实现片段；完整功能/传递依赖尚未确认",
+    "known_defects": "见 FINDINGS.md；未逐项完成动态回归",
+    "recommendation": "禁止静默替换失败",
+    "original_behavior": "源码所示路径，运行行为未验证",
+    "new_behavior": "尚未迁移",
+    "validation": "源码阅读；无设备回归",
+    "regression": "未验证"
+  },
+  {
+    "name": "配置导出",
+    "domain": "Build/Configuration",
+    "file": "iosruntimepatchmenu/src/ZNM551AuthoringPersistence.mm",
+    "anchor": "ZN",
+    "line": 4,
+    "call_chain": "store→snapshot→JSON/export",
+    "data_flow": "store→snapshot→JSON/export",
+    "dependencies": [
+      "ZNM551AuthoringPersistence.mm"
+    ],
+    "status": "部分实现",
+    "evidence": "仅定位实现片段；完整功能/传递依赖尚未确认",
+    "known_defects": "见 FINDINGS.md；未逐项完成动态回归",
+    "recommendation": "完整调用点尚待追踪",
+    "original_behavior": "源码所示路径，运行行为未验证",
+    "new_behavior": "尚未迁移",
+    "validation": "源码阅读；无设备回归",
+    "regression": "未验证"
+  },
+  {
+    "name": "Mach-O 修改",
+    "domain": "Build/Configuration",
+    "file": "iosruntimepatchmenu/src/ZNBinaryPatchWorkspace.mm",
+    "anchor": "ZN",
+    "line": 1,
+    "call_chain": "address conversion→workspace→builder",
+    "data_flow": "address conversion→workspace→builder",
+    "dependencies": [
+      "ZNBinaryPatchWorkspace.mm"
+    ],
+    "status": "部分实现",
+    "evidence": "仅定位实现片段；完整功能/传递依赖尚未确认",
+    "known_defects": "见 FINDINGS.md；未逐项完成动态回归",
+    "recommendation": "禁止重写成熟算法",
+    "original_behavior": "源码所示路径，运行行为未验证",
+    "new_behavior": "尚未迁移",
+    "validation": "源码阅读；无设备回归",
+    "regression": "未验证"
+  },
+  {
+    "name": "静态 Dispatch",
+    "domain": "Build/Configuration",
+    "file": "iosruntimepatchmenu/src/ZNStaticDispatchRuntime.mm",
+    "anchor": "ZN",
+    "line": 1,
+    "call_chain": "generated descriptors→dispatch→action",
+    "data_flow": "generated descriptors→dispatch→action",
+    "dependencies": [
+      "ZNStaticDispatchRuntime.mm"
+    ],
+    "status": "部分实现",
+    "evidence": "仅定位实现片段；完整功能/传递依赖尚未确认",
+    "known_defects": "见 FINDINGS.md；未逐项完成动态回归",
+    "recommendation": "需固定来源二进制fixture",
+    "original_behavior": "源码所示路径，运行行为未验证",
+    "new_behavior": "尚未迁移",
+    "validation": "源码阅读；无设备回归",
+    "regression": "未验证"
+  },
+  {
+    "name": "二进制签名",
+    "domain": "Build/Configuration",
+    "file": "iosruntimepatchmenu/src/ZNAdhocMachOSigner.mm",
+    "anchor": "ZN",
+    "line": 1,
+    "call_chain": "postprocess→signer",
+    "data_flow": "postprocess→signer",
+    "dependencies": [
+      "ZNAdhocMachOSigner.mm"
+    ],
+    "status": "部分实现",
+    "evidence": "仅定位实现片段；完整功能/传递依赖尚未确认",
+    "known_defects": "见 FINDINGS.md；未逐项完成动态回归",
+    "recommendation": "旧CI提取entitlements不等于验证",
+    "original_behavior": "源码所示路径，运行行为未验证",
+    "new_behavior": "尚未迁移",
+    "validation": "源码阅读；无设备回归",
+    "regression": "未验证"
+  },
+  {
+    "name": "生成校验",
+    "domain": "Build/Configuration",
+    "file": "iosruntimepatchmenu/src/ZNGeneratedBinaryPostprocess.mm",
+    "anchor": "ZN",
+    "line": 1,
+    "call_chain": "outputs→postprocess→verify",
+    "data_flow": "outputs→postprocess→verify",
+    "dependencies": [
+      "ZNGeneratedBinaryPostprocess.mm"
+    ],
+    "status": "部分实现",
+    "evidence": "仅定位实现片段；完整功能/传递依赖尚未确认",
+    "known_defects": "见 FINDINGS.md；未逐项完成动态回归",
+    "recommendation": "实际约束仍需单项审查",
+    "original_behavior": "源码所示路径，运行行为未验证",
+    "new_behavior": "尚未迁移",
+    "validation": "源码阅读；无设备回归",
+    "regression": "未验证"
+  },
+  {
+    "name": "菜单显隐",
+    "domain": "Developer UI",
+    "file": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+    "anchor": "ZonoePatchShow",
+    "line": 57,
+    "call_chain": "launcher→activation→menu→show/hide",
+    "data_flow": "launcher→activation→menu→show/hide",
+    "dependencies": [
+      "ZNUnifiedUI.mm"
+    ],
+    "status": "已实现但未验证",
+    "evidence": "固定HEAD源码入口及相邻实现；不等于运行通过",
+    "known_defects": "见 FINDINGS.md；未逐项完成动态回归",
+    "recommendation": "生命周期服务",
+    "original_behavior": "源码所示路径，运行行为未验证",
+    "new_behavior": "尚未迁移",
+    "validation": "源码阅读；无设备回归",
+    "regression": "未验证"
+  },
+  {
+    "name": "拖动布局",
+    "domain": "Developer UI",
+    "file": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+    "anchor": "kZNPanelPositionKey",
+    "line": 74,
+    "call_chain": "gesture→position→layout/defaults",
+    "data_flow": "gesture→position→layout/defaults",
+    "dependencies": [
+      "ZNUnifiedUI.mm"
+    ],
+    "status": "已实现但未验证",
+    "evidence": "固定HEAD源码入口及相邻实现；不等于运行通过",
+    "known_defects": "见 FINDINGS.md；未逐项完成动态回归",
+    "recommendation": "scene坐标需要设备测",
+    "original_behavior": "源码所示路径，运行行为未验证",
+    "new_behavior": "尚未迁移",
+    "validation": "源码阅读；无设备回归",
+    "regression": "未验证"
+  },
+  {
+    "name": "页面切换",
+    "domain": "Developer UI",
+    "file": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+    "anchor": "renderPage",
+    "line": 487,
+    "call_chain": "category/page→renderer",
+    "data_flow": "category/page→renderer",
+    "dependencies": [
+      "ZNUnifiedUI.mm"
+    ],
+    "status": "已实现但未验证",
+    "evidence": "固定HEAD源码入口及相邻实现；不等于运行通过",
+    "known_defects": "见 FINDINGS.md；未逐项完成动态回归",
+    "recommendation": "单Renderer路由",
+    "original_behavior": "源码所示路径，运行行为未验证",
+    "new_behavior": "尚未迁移",
+    "validation": "源码阅读；无设备回归",
+    "regression": "未验证"
+  },
+  {
+    "name": "输入键盘",
+    "domain": "Developer UI",
+    "file": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+    "anchor": "endEditing:",
+    "line": 1436,
+    "call_chain": "text field→action→endEditing",
+    "data_flow": "text field→action→endEditing",
+    "dependencies": [
+      "ZNUnifiedUI.mm"
+    ],
+    "status": "已实现但未验证",
+    "evidence": "固定HEAD源码入口及相邻实现；不等于运行通过",
+    "known_defects": "见 FINDINGS.md；未逐项完成动态回归",
+    "recommendation": "主线程UI，focus设备测",
+    "original_behavior": "源码所示路径，运行行为未验证",
+    "new_behavior": "尚未迁移",
+    "validation": "源码阅读；无设备回归",
+    "regression": "未验证"
+  },
+  {
+    "name": "滚动卡片",
+    "domain": "Developer UI",
+    "file": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+    "anchor": "cardAtY:",
+    "line": 348,
+    "call_chain": "results→views→contentHeight",
+    "data_flow": "results→views→contentHeight",
+    "dependencies": [
+      "ZNUnifiedUI.mm"
+    ],
+    "status": "已实现但未验证",
+    "evidence": "固定HEAD源码入口及相邻实现；不等于运行通过",
+    "known_defects": "见 FINDINGS.md；未逐项完成动态回归",
+    "recommendation": "禁止按标题扫描绑事件",
+    "original_behavior": "源码所示路径，运行行为未验证",
+    "new_behavior": "尚未迁移",
+    "validation": "源码阅读；无设备回归",
+    "regression": "未验证"
+  },
+  {
+    "name": "搜索结果显示",
+    "domain": "Developer UI",
+    "file": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+    "anchor": "znm64_renderClassResultsAtWidth:",
+    "line": 12181,
+    "call_chain": "snapshot→class/method cards",
+    "data_flow": "snapshot→class/method cards",
+    "dependencies": [
+      "ZNUnifiedUI.mm"
+    ],
+    "status": "已实现但未验证",
+    "evidence": "固定HEAD源码入口及相邻实现；不等于运行通过",
+    "known_defects": "见 FINDINGS.md；未逐项完成动态回归",
+    "recommendation": "回归F01",
+    "original_behavior": "源码所示路径，运行行为未验证",
+    "new_behavior": "尚未迁移",
+    "validation": "源码阅读；无设备回归",
+    "regression": "未验证"
+  },
+  {
+    "name": "功能编辑",
+    "domain": "Developer UI",
+    "file": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+    "anchor": "znrmc_instanceEditingEnded:",
+    "line": 7166,
+    "call_chain": "field→action store→snapshot",
+    "data_flow": "field→action store→snapshot",
+    "dependencies": [
+      "ZNUnifiedUI.mm"
+    ],
+    "status": "已实现但未验证",
+    "evidence": "固定HEAD源码入口及相邻实现；不等于运行通过",
+    "known_defects": "见 FINDINGS.md；未逐项完成动态回归",
+    "recommendation": "UI只提交配置command",
+    "original_behavior": "源码所示路径，运行行为未验证",
+    "new_behavior": "尚未迁移",
+    "validation": "源码阅读；无设备回归",
+    "regression": "未验证"
+  },
+  {
+    "name": "生成错误反馈",
+    "domain": "Developer UI",
+    "file": "iosruntimepatchmenu/src/ZNBuildExecutor.mm",
+    "anchor": "prepareError",
+    "line": 46,
+    "call_chain": "prepare/base/emit/postprocess error→UI",
+    "data_flow": "prepare/base/emit/postprocess error→UI",
+    "dependencies": [
+      "ZNBuildExecutor.mm"
+    ],
+    "status": "已实现但未验证",
+    "evidence": "固定HEAD源码入口及相邻实现；不等于运行通过",
+    "known_defects": "见 FINDINGS.md；未逐项完成动态回归",
+    "recommendation": "明确阶段与错误",
+    "original_behavior": "源码所示路径，运行行为未验证",
+    "new_behavior": "尚未迁移",
+    "validation": "源码阅读；无设备回归",
+    "regression": "未验证"
+  },
+  {
+    "name": "横竖屏",
+    "domain": "Developer UI",
+    "file": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+    "anchor": "orientation",
+    "line": null,
+    "call_chain": "notification→layout",
+    "data_flow": "notification→layout",
+    "dependencies": [
+      "ZNUnifiedUI.mm"
+    ],
+    "status": "无法确认",
+    "evidence": "仅定位实现片段；完整功能/传递依赖尚未确认",
+    "known_defects": "见 FINDINGS.md；未逐项完成动态回归",
+    "recommendation": "细节仅文本定位，未验证",
+    "original_behavior": "源码所示路径，运行行为未验证",
+    "new_behavior": "尚未迁移",
+    "validation": "源码阅读；无设备回归",
+    "regression": "未验证"
+  },
+  {
+    "name": "触摸穿透",
+    "domain": "Developer UI",
+    "file": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+    "anchor": "hitTest:",
+    "line": 2455,
+    "call_chain": "window hit test→interactive region",
+    "data_flow": "window hit test→interactive region",
+    "dependencies": [
+      "ZNUnifiedUI.mm"
+    ],
+    "status": "部分实现",
+    "evidence": "仅定位实现片段；完整功能/传递依赖尚未确认",
+    "known_defects": "见 FINDINGS.md；未逐项完成动态回归",
+    "recommendation": "scene/UI fixture与设备测",
+    "original_behavior": "源码所示路径，运行行为未验证",
+    "new_behavior": "尚未迁移",
+    "validation": "源码阅读；无设备回归",
+    "regression": "未验证"
+  },
+  {
+    "name": "多窗口",
+    "domain": "Developer UI",
+    "file": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+    "anchor": "UIWindowScene",
+    "line": 225,
+    "call_chain": "scene→host window→launcher/menu",
+    "data_flow": "scene→host window→launcher/menu",
+    "dependencies": [
+      "ZNUnifiedUI.mm"
+    ],
+    "status": "部分实现",
+    "evidence": "仅定位实现片段；完整功能/传递依赖尚未确认",
+    "known_defects": "见 FINDINGS.md；未逐项完成动态回归",
+    "recommendation": "销毁/rebind生命周期未验证",
+    "original_behavior": "源码所示路径，运行行为未验证",
+    "new_behavior": "尚未迁移",
+    "validation": "源码阅读；无设备回归",
+    "regression": "未验证"
+  }
+]
