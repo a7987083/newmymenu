@@ -70,3 +70,5 @@
 
 - 首轮Probe CI Run43646420886在Discovery内部header的NSDictionary report参数缺少nullability处失败，后续编译/实机均未认定通过；补齐NS_ASSUME_NONNULL，不放宽警告。
 - Probe列表改用iOS14+ UIListContentConfiguration；fixture类型加独立前缀，避免与ObjC Runtime的Method类型冲突；列表事件检查当前快照边界。
+
+- Run 43646718511: corrected fixture integer-to-pointer width via uintptr_t; explicitly linked CoreGraphics for CGPointZero/CGRectZero used by probe UI. Strict checks remain enabled.

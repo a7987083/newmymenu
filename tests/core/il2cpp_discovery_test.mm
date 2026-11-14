@@ -9,7 +9,7 @@ static NMFixtureType clsType={"Game.CheatController"},playerType={"Game.Player"}
 static NMFixtureMethod methods[]={ {"GetValue",&intType,{nullptr,nullptr},0,0x10},{"SetValue",&voidType,{&refType,nullptr},1,0} };
 static NMFixtureClass classes[]={{"CheatController","Game",&clsType,methods},{"Player","Game",&playerType,methods},{"CheatController","Game",&clsType,methods}};
 static unsigned attached,detached,allocated,freed;static bool currentThread,notReady,changed,throwMetadata,ambiguous,attachFailure,changeDuringScan;
-static void *domainGet(){if(notReady)return nullptr;return (void *)(changed?0x2000:0x1000);}
+static void *domainGet(){if(notReady)return nullptr;return (void *)(uintptr_t)(changed?0x2000:0x1000);}
 static const void **assemblies(const void *domain,size_t *count){(void)domain;static const void *values[]={(void *)0x3000};*count=1;return values;}
 static const void *image(const void *assembly){(void)assembly;return (void *)0x4000;}
 static const char *imageName(const void *p){(void)p;return "Assembly-CSharp.dll";}
