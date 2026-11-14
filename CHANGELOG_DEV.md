@@ -86,3 +86,5 @@
 
 - Finder Probe: replace parallel rows/snapshot/mode/generation ownership with private NMFinderSession. Class return restores the immutable class snapshot/report/scroll without Runtime rescan; fresh searches and Runtime refresh invalidate cache, stale callbacks cannot overwrite newer state. Added Foundation/ASan state regressions and UI/state analysis gates. Build/device status pending.
 - User screenshot of 4d9231c7 confirms the panel is visibly loaded on one device; real Runtime exports/class results/method signatures/keyboard/lifecycle not confirmed by this image.
+
+- 05840d7b / Run43649083590: 5 jobs通过；Finder ASan状态测试及现有回归通过，7份core+2份Probe分析零diagnostics；ARM64/导出/依赖/签名通过。Artifact14134789796已下载核对ZIP/dylib SHA及Mach-O。设备行为仍未验证；已提供新版只读dylib和滚动返回测试步骤。

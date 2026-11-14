@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "phase": "device_probe_ready_awaiting_real_ios_metadata_evidence",
+  "phase": "finder_state_probe_ready_awaiting_device_results",
   "branch": "main",
   "head_reference": "git rev-parse HEAD; CI github.sha",
   "source_head": "7066edeaf9e47580c89440be670c517280534b69",
@@ -10,8 +10,8 @@
     "passed": 16,
     "environment": "Linux Python",
     "source_snapshot_reproduced": true,
-    "ci_latest_source_head": "4d9231c7e7cc428a8c8947230970d37631c05afa",
-    "ci_run_id": 43647531696,
+    "ci_latest_source_head": "05840d7bde3183615e6d0866f3d4996915f928c6",
+    "ci_run_id": 43649083590,
     "ci_status": "success"
   },
   "product": {
@@ -39,7 +39,7 @@
     "sha256": "1223bf9df9cedb2eba66d781faab1459ec00e9b18ea8b23829daa89602f70b09"
   },
   "known_findings": "docs/audit/FINDINGS.md",
-  "next_task": "Receive DeviceProbe JSON/screenshots/crash evidence; verify real metadata/UI; then implement ABI-confirmed managed receiver/marshalling adapter through single coordinator. Native teardown and full Build/UI remain independent pending migrations.",
+  "next_task": "Collect real Runtime report and verify class/method metadata plus cached class scroll restoration; then implement global method search/detail/translation and ABI-confirmed managed invocation adapters. Full UI design/Native/Build remain pending.",
   "invoke_contract_audit": {
     "source_head": "7066edeaf9e47580c89440be670c517280534b69",
     "ci_head": "10efd671cbe0c5ca22ffb31aef71fbaaed4cc67e",
@@ -143,14 +143,43 @@
     "scope": "read-only Runtime/class/method UI and report export",
     "ci_status": "success",
     "compiled_ios_arm64": true,
-    "ci_source_head": "4d9231c7e7cc428a8c8947230970d37631c05afa",
-    "ci_run_id": 43647531696,
-    "artifact_id": 14133719131,
-    "sha256": "3b0ce6555c45360072257a1c701503fab9dfa9abcd6a7d0d1eb3a0709f93b3bc",
-    "build_report": "docs/builds/device-probe-4d9231c7.json",
+    "ci_source_head": "05840d7bde3183615e6d0866f3d4996915f928c6",
+    "ci_run_id": 43649083590,
+    "artifact_id": 14134789796,
+    "sha256": "b2699b16de7a83cb2fa6a7f8cb451b92861ccc7f74fc479c718b7e7c7bb7a370",
+    "build_report": "docs/builds/finder-05840d7b.json",
     "self_contained": true,
     "core_api_version": 3,
     "static_analysis_diagnostics": 0,
-    "device_instructions": "docs/DEVICE_VALIDATION.md"
-  }
+    "device_instructions": "docs/DEVICE_VALIDATION.md",
+    "static_analysis_reports": 2
+  },
+  "finder_state": {
+    "source_written": true,
+    "committed": true,
+    "compiled_ios_arm64": true,
+    "fixture_run": true,
+    "fixture_environment": "macOS Foundation/AddressSanitizer",
+    "ui_device_verified": false,
+    "ci_source_head": "05840d7bde3183615e6d0866f3d4996915f928c6",
+    "ci_run_id": 43649083590,
+    "single_snapshot_owner": true,
+    "cached_class_return": true,
+    "class_scroll_restore": true,
+    "stale_completion_test_passed": true,
+    "refresh_invalidation_test_passed": true,
+    "global_method_search": false,
+    "translation_ui": false
+  },
+  "device_observations": [
+    {
+      "build": "4d9231c7",
+      "evidence": "user photo displays matching build header and overlay in foreground game",
+      "panel_visible": true,
+      "runtime_metadata_verified": false,
+      "keyboard_verified": false,
+      "lifecycle_verified": false,
+      "scope": "single observed display only; not complete device verification"
+    }
+  ]
 }

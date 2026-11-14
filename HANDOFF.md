@@ -6,7 +6,17 @@
 源仓库 https://github.com/a7987083/mymenu 只读，未修改远程或历史。
 固定候选 `feat/method-finder-p5-detail-copy@7066edeaf9e47580c89440be670c517280534b69`；main7216b55，customer92d675e。所有远程分支SHA与源文件hash在docs/audit/source-inventory.json。
 
-## 当前最新状态：API3 / 只读 DeviceProbe
+## 当前最新：Finder单一页面状态与滚动恢复
+
+最新编译代码 `05840d7bde3183615e6d0866f3d4996915f928c6`，Run [43649083590](https://github.com/a7987083/newmymenu/actions/runs/43649083590) 五job通过。Artifact [14134789796](https://github.com/a7987083/newmymenu/actions/runs/43649083590/artifacts/14134789796)，SHA256 `b2699b16de7a83cb2fa6a7f8cb451b92861ccc7f74fc479c718b7e7c7bb7a370`。报告 `docs/builds/finder-05840d7b.json`。文档HEAD前进不改变二进制来源。
+
+`src/MethodFinder/NMFinderSession.{h,m}` 是Probe私有Foundation页面状态，所有读写在主线程；rows/count/mode来自同一冻结snapshot。请求开始生成generation；worker只负责Runtime读取；主线程提交时拒绝旧generation。进入类保存offset，方法页面返回直接恢复class snapshot/report/offset；新搜索或Runtime刷新清除缓存。UI不再保留独立_rows/_snapshot/_methodMode/generation副本。缓存只保留最近类页面，非无界索引。
+
+`make test-finder` 在macOS ASan实际运行：深层不可变快照、旧completion拒绝、返回位置/报告、失败后返回、零结果、count/rows不一致拒绝与刷新失效全部通过。Probe新增state和UI两份分析报告零diagnostics；原7份core分析及既有回归继续通过。Core API仍为3，无公开ABI变化，state只链接进Probe。
+
+用户4d9231c7照片仅确认旧Probe面板显示。最新05840d7b及真实Runtime/搜索/键盘/旋转等仍未实机验证。重点测试：向下滚动类列表→打开类→返回，应保持位置且不重新扫描；随后搜索另一关键词/刷新Runtime不得复用旧结果。仍为只读验证版，完整视觉设计、全局Method搜索、翻译UI、Invoke/Hook/Build未完成。
+
+## API3首轮只读 DeviceProbe（历史）
 
 最新编译代码 `4d9231c7e7cc428a8c8947230970d37631c05afa`，Run [43647531696](https://github.com/a7987083/newmymenu/actions/runs/43647531696) 五个 job 全部通过。文档提交之后 HEAD 会前进，二进制 source_head 保持此代码提交。
 

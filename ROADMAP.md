@@ -9,7 +9,7 @@
 
 ## 本轮 DeviceProbe
 
-RuntimeDiscovery 的同镜像导出绑定、线程所有权与元数据值复制已实现；自包含只读 UIKit 验证入口用于收集真实游戏证据。具体设备步骤见 [DEVICE_VALIDATION](docs/DEVICE_VALIDATION.md)。这不等于 MethodFinder/Invoke 的完整迁移。
+Finder单一不可变页面状态与类列表返回/滚动恢复已通过Foundation/ASan；UIKit设备恢复待验证。RuntimeDiscovery 的同镜像导出绑定、线程所有权与元数据值复制已实现；自包含只读 UIKit 验证入口用于收集真实游戏证据。具体设备步骤见 [DEVICE_VALIDATION](docs/DEVICE_VALIDATION.md)。这不等于 MethodFinder/Invoke 的完整迁移。
 
 ## 下一阶段
 

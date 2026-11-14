@@ -31,3 +31,5 @@ API2已新增[显式调用与Capture生命周期组件](docs/audit/EXECUTION_COR
 
 
 当前可实测的是 **只读 DeviceProbe**，不是完整开发端：类搜索、类内方法签名和报告导出。源码 `4d9231c7` 已通过 [五个CI job](https://github.com/a7987083/newmymenu/actions/runs/43647531696)，[下载Artifact](https://github.com/a7987083/newmymenu/actions/runs/43647531696/artifacts/14133719131)，[设备测试说明](docs/DEVICE_VALIDATION.md)，[机器构建报告](docs/builds/device-probe-4d9231c7.json)。真实游戏/设备行为未验证。
+
+最新Finder状态/返回恢复版 `05840d7b`：[CI](https://github.com/a7987083/newmymenu/actions/runs/43649083590)，[Artifact](https://github.com/a7987083/newmymenu/actions/runs/43649083590/artifacts/14134789796)，[构建报告](docs/builds/finder-05840d7b.json)。新增类列表缓存返回与滚动恢复，仍需设备验证，不是最终UI。
