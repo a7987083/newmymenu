@@ -33,3 +33,5 @@ API2已新增[显式调用与Capture生命周期组件](docs/audit/EXECUTION_COR
 当前可实测的是 **只读 DeviceProbe**，不是完整开发端：类搜索、类内方法签名和报告导出。源码 `4d9231c7` 已通过 [五个CI job](https://github.com/a7987083/newmymenu/actions/runs/43647531696)，[下载Artifact](https://github.com/a7987083/newmymenu/actions/runs/43647531696/artifacts/14133719131)，[设备测试说明](docs/DEVICE_VALIDATION.md)，[机器构建报告](docs/builds/device-probe-4d9231c7.json)。真实游戏/设备行为未验证。
 
 最新Finder状态/返回恢复版 `05840d7b`：[CI](https://github.com/a7987083/newmymenu/actions/runs/43649083590)，[Artifact](https://github.com/a7987083/newmymenu/actions/runs/43649083590/artifacts/14134789796)，[构建报告](docs/builds/finder-05840d7b.json)。新增类列表缓存返回与滚动恢复，仍需设备验证，不是最终UI。
+
+当前最新API4 `3115e2b3`：[CI五job通过](https://github.com/a7987083/newmymenu/actions/runs/43649811591)，[只读MethodFinder Artifact](https://github.com/a7987083/newmymenu/actions/runs/43649811591/artifacts/14135153726)。增加Class/Method关键词切换、原词典翻译、原始字段复制；[迁移/差异矩阵](docs/METHOD_FINDER.md)。不是完整表达式/RVA Finder，也没有Invoke/Hook/Build业务。实机未验证。

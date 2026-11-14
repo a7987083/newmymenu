@@ -18,10 +18,12 @@
 
 ## API3 / 只读 DeviceProbe 的验证边界
 
-- DeviceProbe 不是完整开发端。只提供 IL2CPP 类/方法元数据搜索和报告，没有全局 Method 搜索、词典翻译 UI、字段级完整详情、跨查询索引缓存、Invoke/实例、Native Hook 或混合 Build。
+- DeviceProbe 不是完整开发端。只提供 IL2CPP 类/方法元数据搜索和报告，现已增加有界全局 Method 关键词搜索、词典翻译与公开元数据字段复制；仍没有表达式/RVA完整查询、地址级详情、跨查询索引缓存、Invoke/实例、Native Hook 或混合 Build。
 - IL2CPP API 测试使用受控 C 函数表。真实游戏导出、ABI、Domain/线程行为必须依赖设备报告；缺导出或多个 Runtime 所有者明确拒绝绑定。
 - UIKit host 为 foreground UIScene window 或无 UIScene 时的 UIApplicationDelegate.window。多窗口、键盘、触摸穿透、旋转和前后台行为尚未实机验证。
 - 新实现错误对象曾在内层 autoreleasepool 后悬空，CI ASan 已复现并修复，原失败用例保留。静态分析的 NSError 可空通道已加守卫，分析器 findings 由显式 plist gate 拦截。
 - Probe 只保留最近一次操作报告，类与方法页面需分别导出。扫描上限会显示 truncated，不能当完整游戏索引。
 
 - 05840d7b已实现单一页面状态、最近类页面缓存及返回滚动位置恢复，Foundation/ASan通过；实际UIKit滚动恢复尚未设备验证。照片只证明4d9231c7面板显示，不证明Runtime搜索成功。
+
+- API4方法搜索目前为name contains关键词；原限定表达式/参数个数/RVA反查和类排名对等尚未迁移。详情仅复制公开元数据type name/static，不代表复杂结构封送或Invoke ABI已支持；不伪造原生地址。详细对照docs/METHOD_FINDER.md。

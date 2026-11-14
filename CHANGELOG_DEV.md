@@ -92,3 +92,5 @@
 - API4: single Discovery scan loop now supports bounded global method-name substring search; class expansion/global search share one method-signature copy function. UI Class/Method mode and private presentation fields integrate original offline translator and raw single-field copying. Original exact/canonical/RVA grammar and rank parity remain pending; no Invoke or native pointer fallback added. New fixture/ASan/presentation/analysis checks pending CI.
 
 - Detail copy audit: Class now copies the original simple class name, with a separate Type field for the fully qualified type. Namespace/name composition is not silently substituted for raw fields.
+
+- 3115e2b3 / Run43649811591五job通过：API4 Core和自包含Finder已编译；metadata/Finder/presentation ASan fixtures、既有原实现回归通过；7+3份静态分析零诊断；下载ZIP/dylib哈希与Mach-O复核通过。已更新迁移差异矩阵、构建报告、状态与接手文档。完整产品和本轮设备验证未完成。

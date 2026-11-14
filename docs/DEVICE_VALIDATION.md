@@ -39,3 +39,10 @@ make device-probe
 `test-discovery` 使用 AddressSanitizer 和受控 C 函数表，不等价真实 IL2CPP。`make device-probe` 先独立构建/验证 core，再构建自包含 UI dylib，严格检查 ARM64、安装名、SDK、部署目标、导出、动态依赖、签名与 SHA-256。
 
 最新版本05840d7b；`test-finder`验证Foundation状态，不能证明UIKit实际滚动表现。4d9231c7用户照片仅记录面板显示。
+
+
+## API4 / 3115e2b3新增验证
+
+替换旧Probe，只注入新单文件。Class模式搜索已知类后检查展开与返回位置；Method模式输入已知方法的部分名字，检查每条结果的所属类、签名和翻译。点方法后分别复制Class、Type、Method、Return、Arg等字段，确认值没有标签/翻译混入原字段；空值不应出现复制入口。分别导出Class和Method结果JSON。此版输入是关键词，不支持旧Class::Method/参数个数/RVA语法；不要把语法查询无结果当Invoke失败。
+
+macOS新增 `make test-presentation`。所有最新UI/剪贴板/真实Runtime行为仍需设备验证。

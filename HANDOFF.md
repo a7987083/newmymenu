@@ -6,7 +6,17 @@
 源仓库 https://github.com/a7987083/mymenu 只读，未修改远程或历史。
 固定候选 `feat/method-finder-p5-detail-copy@7066edeaf9e47580c89440be670c517280534b69`；main7216b55，customer92d675e。所有远程分支SHA与源文件hash在docs/audit/source-inventory.json。
 
-## 当前最新：Finder单一页面状态与滚动恢复
+## 当前最新：API4方法关键词搜索、详情与翻译
+
+编译代码 `3115e2b3638eb044c73761cd9cfef0428a52fa5e`，Run [43649811591](https://github.com/a7987083/newmymenu/actions/runs/43649811591) 五job通过。Probe [Artifact14135153726](https://github.com/a7987083/newmymenu/actions/runs/43649811591/artifacts/14135153726)，SHA256 `c8175ac64f294707aed12b89ba41aa5eb488c343f3a6d28fb56156b5beb06d6b`；Core Artifact14135965621，SHA256 `a69cffbf85b4fb08e89061df3e642afa084372439229b1f76af4ecadb614b5db`。报告docs/builds/*-3115e2b3.json。文档HEAD前进不改变二进制来源。
+
+- Discovery增加searchMethods公开方法，Core API4；类/方法关键词共用scanQuery，类展开/全局方法共用NMDLCopyMethod复制类型/static/owner。没有新增Runtime绑定/签名解析副本。
+- Probe Class/Method→同runQuery/同state/同table renderer。`src/MethodFinder/NMMethodPresentation.m`统一字段和subtitle，复用已验证Translator。Class原短名、Type完整类型，复制value不带label/格式/替换翻译。
+- `make test-discovery test-finder test-presentation`：macOS ASan fixture通过，含全局method contains/limit/no match/owner和字段/ByRef/翻译；原wire129/翻译12000回归继续通过。7份core+3份Probe分析零diagnostics。ZIP/二进制hash和Mach-O已下载复核；签名在macOS CI验证。
+- 实机状态：仅旧4d9231c7照片证实面板显示。当前版本Runtime/搜索/字段复制/键盘/生命周期均未验证。
+- 原表达式/参数个数/RVA/排名不由本关键词版替代，差异矩阵与下一步见docs/METHOD_FINDER.md。成熟Resolver/parser优先评估复用；仍没有Invoke/Hook/Build业务入口，不能称完整开发端验收。
+
+## Finder单一页面状态与滚动恢复（历史）
 
 最新编译代码 `05840d7bde3183615e6d0866f3d4996915f928c6`，Run [43649083590](https://github.com/a7987083/newmymenu/actions/runs/43649083590) 五job通过。Artifact [14134789796](https://github.com/a7987083/newmymenu/actions/runs/43649083590/artifacts/14134789796)，SHA256 `b2699b16de7a83cb2fa6a7f8cb451b92861ccc7f74fc479c718b7e7c7bb7a370`。报告 `docs/builds/finder-05840d7b.json`。文档HEAD前进不改变二进制来源。
 
