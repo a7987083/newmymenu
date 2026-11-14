@@ -6,7 +6,20 @@
 源仓库 https://github.com/a7987083/mymenu 只读，未修改远程或历史。
 固定候选 `feat/method-finder-p5-detail-copy@7066edeaf9e47580c89440be670c517280534b69`；main7216b55，customer92d675e。所有远程分支SHA与源文件hash在docs/audit/source-inventory.json。
 
-## 当前最新：API5命名表达式与类排名
+## 当前最新：ABI独立组件 API8
+
+已验证代码`1aab363abda06d2d3de61dbf3fd468d258b69bf8`，Run [43654350053](https://github.com/a7987083/newmymenu/actions/runs/43654350053)五job通过。Core Artifact14137721557；SHA256 `49dc035cf803b25e050e15cb014cfa8375a19ec54fe587c0a756c21bec7f8f08`。下载ZIP/hash/Mach-O/10份core分析报告已复核。报告docs/builds/abi-independent-1aab363a.json；历史d21ab48记录保留。集成清理仅移除已由生产core承担的重复signer对象/分析步骤，必要检查全部保留。
+
+用户范围：游戏ABI暂缓，不再阻塞独立组件；完成最终整合前不发送阶段dylib。
+
+- API6：Discovery4个公开查询入口增加NSProgress参数（不保留旧selector备用实现）；进入VM前、扫描、参数类型复制和发布前取消检查；finally清理owned线程/typename。NMFinderSession持有busy/generation；用户取消立即使旧completion失效，新请求清空旧snapshot。受控取消与Foundation状态fixture通过，UIKit实机未验证。
+- API7：include/NMBuildManifest.h、src/Build/NMBuildManifest.m。不可变Item/provider/Manifest，单一冻结configuration，collector异常/nil/error/重复/foreign ownership都明确失败；Manifest-only JSON严格往返。见docs/MANIFEST.md。原authoring/Patch兼容导入与生产prepare/emit尚未完成。
+- API8：include/NMMachOSigner.h、src/Build/NMMachOSigner.mm。复用原页哈希/CodeDirectory/SuperBlob，自包含副本签名、失败清理、禁止覆盖。独立codesign暴露并修复原flags=0及不可能满足的证书designated requirement；改为ad-hoc/cdhash身份。真实ARM64输入上严格验证通过；拒绝现存entitlements，保护不支持的权限保留，包级重签仍必须。见docs/SIGNER.md。
+- 命令：make test-manifest；make core；make test-signer（后者需已构建core，macOS ASan驱动使用真实ARM64文件，签名负例是真实MH_EXECUTE且先断言XML/DER slots存在）。固定Xcode16.4/SDK18.5不变。
+
+仍未完成SwizzleManager、完整配置/Static/Runtime/Native业务闭包和最终UI。ObjC Runtime fixture不需要游戏ABI，可继续；需要目标布局的managed/Native部分明确暂缓。不能把本次核心库构建当完整开发端或实机验收。
+
+## API5命名表达式与类排名（历史）
 
 编译代码 `09cae3ce4a5e05c58bb973faed1151d5f421c186`，Run43650787572五job通过。Core/Probe机器报告见docs/builds/*-09cae3ce.json。用户要求不再分发阶段dylib，本轮未进行中间交付。
 

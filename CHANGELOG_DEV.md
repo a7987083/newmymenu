@@ -116,3 +116,5 @@
 - Run43653952155: integrated core/Probe built and analyzed, but permission negative fixture had no entitlement slots after signing a dylib, so the refusal assertion was not testing the intended input. Replaced fixture with an actual iOS ARM64 MH_EXECUTE file and independently assert XML/DER slots exist before testing refusal. No production entitlement check relaxed.
 
 - Run43654155060: integrated API8 core/Probe, strict signing/designated requirement, real embedded-entitlement refusal, ASan failures and regression suite all passed. Post-integration cleanup removes the now-duplicate signer ARM64 object compilation/analyzer from test-signer; formal core build already owns those checks. No required check removed.
+
+- 1aab363a / Run43654350053最终五job通过：API8 ARM64 core/Probe构建、25/26导出与依赖/签名校验通过，10份core+3份UI/state/presentation分析零diagnostics；搜索取消/Manifest/JSON/原解析器等回归与独立codesign/权限拒绝负例通过。Core Artifact14137721557已下载核对ZIP/SHA/Mach-O；源码与产物一致。未发送中间dylib，未宣称完整产品或实机验证。

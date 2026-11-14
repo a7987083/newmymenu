@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "phase": "abi_independent_modules_in_progress",
+  "phase": "abi_independent_cancellation_manifest_signer_verified",
   "branch": "main",
   "head_reference": "git rev-parse HEAD; CI github.sha",
   "source_head": "7066edeaf9e47580c89440be670c517280534b69",
@@ -10,8 +10,8 @@
     "passed": 16,
     "environment": "Linux Python",
     "source_snapshot_reproduced": true,
-    "ci_latest_source_head": "09cae3ce4a5e05c58bb973faed1151d5f421c186",
-    "ci_run_id": 43650787572,
+    "ci_latest_source_head": "1aab363abda06d2d3de61dbf3fd468d258b69bf8",
+    "ci_run_id": 43654350053,
     "ci_status": "success"
   },
   "product": {
@@ -39,7 +39,7 @@
     "sha256": "1223bf9df9cedb2eba66d781faab1459ec00e9b18ea8b23829daa89602f70b09"
   },
   "known_findings": "docs/audit/FINDINGS.md",
-  "next_task": "Complete ABI-independent modules and their CI: cancellation, immutable Manifest/JSON, transactional reused signer; then ObjC Swizzle lifecycle, configuration/UI and independent Build. Game ABI adapters remain explicitly deferred.",
+  "next_task": "ABI-independent work remains: necessary ObjC Swizzle manager/lifecycle fixtures; legacy authoring/Patch config import and control models; independent Static Build/Mach-O pipeline; final DeveloperUI. Game ABI adapters explicitly deferred, no intermediate dylib delivery.",
   "invoke_contract_audit": {
     "source_head": "7066edeaf9e47580c89440be670c517280534b69",
     "ci_head": "10efd671cbe0c5ca22ffb31aef71fbaaed4cc67e",
@@ -77,20 +77,22 @@
     "ci_status": "success",
     "scope": [
       "offline translation",
-      "runtime action wire and checked ordinal codec",
+      "runtime wire/ordinal codec",
       "execution and capture contracts",
-      "read-only IL2CPP metadata discovery"
+      "read-only metadata/qualified query/ranking/cooperative cancellation",
+      "immutable Build Manifest/JSON",
+      "transactional offline ad-hoc signing"
     ],
-    "ci_source_head": "09cae3ce4a5e05c58bb973faed1151d5f421c186",
-    "ci_run_id": 43650787572,
+    "ci_source_head": "1aab363abda06d2d3de61dbf3fd468d258b69bf8",
+    "ci_run_id": 43654350053,
     "strict_verification": true,
     "ios_run": false,
-    "artifact_id": 14136121293,
-    "sha256": "57eb2827c2bcdf9380e2a58d8ee17996e7b4c3b96bd53c10fa70208a4c0da122",
+    "artifact_id": 14137721557,
+    "sha256": "49dc035cf803b25e050e15cb014cfa8375a19ec54fe587c0a756c21bec7f8f08",
     "static_analysis_diagnostics": 0,
-    "build_report": "docs/builds/foundation-core-09cae3ce.json",
-    "core_api_version": 5,
-    "static_analysis_files": 8
+    "build_report": "docs/builds/abi-independent-1aab363a.json",
+    "core_api_version": 8,
+    "static_analysis_files": 10
   },
   "execution_lifecycle_core": {
     "modified": true,
@@ -131,15 +133,17 @@
     "scope": "read-only metadata; no managed invocation or GCHandle",
     "ci_status": "success",
     "fixture_boundary": "controlled C API callbacks on macOS; AddressSanitizer enabled",
-    "ci_source_head": "09cae3ce4a5e05c58bb973faed1151d5f421c186",
-    "ci_run_id": 43650787572,
+    "ci_source_head": "1aab363abda06d2d3de61dbf3fd468d258b69bf8",
+    "ci_run_id": 43654350053,
     "static_analysis_diagnostics": 0,
     "global_method_keyword_search": true,
     "signature_copy_paths": 1,
     "named_method_expression": true,
     "qualified_assembly_namespace_class_arity": true,
     "ranked_class_search": true,
-    "nonzero_delta_address_lookup": false
+    "nonzero_delta_address_lookup": false,
+    "cooperative_cancellation": true,
+    "cancellation_fixture_passed": true
   },
   "device_probe": {
     "source_written": true,
@@ -149,13 +153,13 @@
     "scope": "read-only Runtime/class/method UI and report export",
     "ci_status": "success",
     "compiled_ios_arm64": true,
-    "ci_source_head": "09cae3ce4a5e05c58bb973faed1151d5f421c186",
-    "ci_run_id": 43650787572,
-    "artifact_id": 14136021351,
-    "sha256": "2328432d0ae46c94d1314429480a6a59865d395e3066f1ff5bc6289cfd4c722a",
-    "build_report": "docs/builds/device-probe-09cae3ce.json",
+    "ci_source_head": "1aab363abda06d2d3de61dbf3fd468d258b69bf8",
+    "ci_run_id": 43654350053,
+    "artifact_id": 14137371487,
+    "sha256": null,
+    "build_report": "CI only; not independently downloaded this run",
     "self_contained": true,
-    "core_api_version": 5,
+    "core_api_version": 8,
     "static_analysis_diagnostics": 0,
     "device_instructions": "docs/DEVICE_VALIDATION.md",
     "static_analysis_reports": 3,
@@ -168,8 +172,8 @@
     "fixture_run": true,
     "fixture_environment": "macOS Foundation/AddressSanitizer",
     "ui_device_verified": false,
-    "ci_source_head": "09cae3ce4a5e05c58bb973faed1151d5f421c186",
-    "ci_run_id": 43650787572,
+    "ci_source_head": "1aab363abda06d2d3de61dbf3fd468d258b69bf8",
+    "ci_run_id": 43654350053,
     "single_snapshot_owner": true,
     "cached_class_return": true,
     "class_scroll_restore": true,
@@ -182,7 +186,8 @@
     "presentation_fixture_passed": true,
     "named_expression_parity_cases": 10020,
     "late_exact_rank_regression_passed": true,
-    "cooperative_cancellation_implemented": true
+    "cooperative_cancellation_implemented": true,
+    "cancelled_late_completion_fixture_passed": true
   },
   "device_observations": [
     {
@@ -209,23 +214,33 @@
     "committed": true,
     "compiled_ios_arm64": true,
     "foundation_asan_fixture_passed": true,
-    "ci_source_head": "463584d",
-    "ci_run_id": 43652959430,
+    "ci_source_head": "1aab363abda06d2d3de61dbf3fd468d258b69bf8",
+    "ci_run_id": 43654350053,
     "immutable_items": true,
     "single_frozen_configuration": true,
     "errors_not_swallowed": true,
     "strict_manifest_json_roundtrip": true,
     "legacy_authoring_import": false,
-    "prepare_emit_backends_integrated": false
+    "prepare_emit_backends_integrated": false,
+    "ci_status": "success",
+    "static_analysis_diagnostics": 0
   },
   "signer": {
     "source_written": true,
     "committed": true,
-    "compiled": false,
-    "tested": false,
+    "compiled": true,
+    "tested": true,
     "source_reused": "docs/audit/signer-source.json",
     "transactional_copy": true,
-    "core_integration": false,
-    "ci_status": "pending"
+    "core_integration": true,
+    "ci_status": "success",
+    "compiled_ios_arm64": true,
+    "ci_source_head": "1aab363abda06d2d3de61dbf3fd468d258b69bf8",
+    "ci_run_id": 43654350053,
+    "codesign_strict_verified": true,
+    "designated_requirement_verified": true,
+    "permissions_not_silently_dropped": true,
+    "static_analysis_diagnostics": 0,
+    "device_verified": false
   }
 }
