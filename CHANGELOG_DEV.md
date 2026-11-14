@@ -98,3 +98,5 @@
 - Continued without intermediate binary delivery: API5 reuses fixed-source pure named expression parser; qualified assembly/namespace/class/exact method/arity filters feed the existing scan. Nonzero delta explicitly waits for address resolution. Added hash-verified original parser extraction and 10020 input/output/error parity cases under ASan; CI pending.
 
 - Class ranking regression: first-N truncation could discard a later exact class. Reused original exact/prefix/suffix/contains rank in the bounded candidate pool; final sort/limit runs after bounded scan. Added later-exact/limit-one fixture; namespace/type contains remains explicit lower-priority extension.
+
+- 09cae3ce / Run43650787572：五job通过；10020原纯解析器结果/错误对照、qualified owner/arity过滤及晚到exact排名回归通过；8+3分析零诊断。Core/Probe ARM64构建并下载复核哈希/Mach-O，签名在CI验证。按用户要求未分发本轮dylib。记录实际Runtime/ABI证据缺口，完整产品未完成。

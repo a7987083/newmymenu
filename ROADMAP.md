@@ -25,3 +25,7 @@ Finder单一不可变页面状态与类列表返回/滚动恢复已通过Foundat
 ## Finder后续验收顺序
 
 API4已接方法关键词/公开元数据详情/原词典/字段复制；矩阵见docs/METHOD_FINDER.md。下一批优先审计复用原表达式/parser，建立命名空间/assembly/参数个数与错误输入对照fixture，然后补排名、显式取消和地址查询，不凭关键词版成功删需求。真实Invoke接入仍需目标Runtime报告确认ABI/生命周期。
+
+## 连续推进与证据门槛
+
+API5 parser/qualified filters/排名已实际编译回归通过，不再中途发送验证版。Invoke/Native高风险接入先补版本匹配Runtime二进制/导出/日志证据，见docs/ABI_EVIDENCE_GATE.md；其余未迁移Configuration/Build/外部诊断仍保留在路线，不以该门槛表示它们已完成。

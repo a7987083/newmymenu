@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "phase": "method_finder_keyword_details_migrated_partial_parity",
+  "phase": "named_expression_and_ranked_discovery_verified_runtime_abi_evidence_needed",
   "branch": "main",
   "head_reference": "git rev-parse HEAD; CI github.sha",
   "source_head": "7066edeaf9e47580c89440be670c517280534b69",
@@ -10,8 +10,8 @@
     "passed": 16,
     "environment": "Linux Python",
     "source_snapshot_reproduced": true,
-    "ci_latest_source_head": "3115e2b3638eb044c73761cd9cfef0428a52fa5e",
-    "ci_run_id": 43649811591,
+    "ci_latest_source_head": "09cae3ce4a5e05c58bb973faed1151d5f421c186",
+    "ci_run_id": 43650787572,
     "ci_status": "success"
   },
   "product": {
@@ -39,7 +39,7 @@
     "sha256": "1223bf9df9cedb2eba66d781faab1459ec00e9b18ea8b23829daa89602f70b09"
   },
   "known_findings": "docs/audit/FINDINGS.md",
-  "next_task": "Migrate audited expression/parser and ranked search contracts with original-source parity fixtures; validate real metadata/UI report before managed Invoke adapters. Native teardown, necessary external Swizzle and Build remain pending.",
+  "next_task": "Obtain version-matched Runtime binary/report to validate managed/Native ABI; independent Configuration/Build audits may continue, but full product cannot be accepted without that evidence.",
   "invoke_contract_audit": {
     "source_head": "7066edeaf9e47580c89440be670c517280534b69",
     "ci_head": "10efd671cbe0c5ca22ffb31aef71fbaaed4cc67e",
@@ -81,16 +81,16 @@
       "execution and capture contracts",
       "read-only IL2CPP metadata discovery"
     ],
-    "ci_source_head": "3115e2b3638eb044c73761cd9cfef0428a52fa5e",
-    "ci_run_id": 43649811591,
+    "ci_source_head": "09cae3ce4a5e05c58bb973faed1151d5f421c186",
+    "ci_run_id": 43650787572,
     "strict_verification": true,
     "ios_run": false,
-    "artifact_id": 14135965621,
-    "sha256": "a69cffbf85b4fb08e89061df3e642afa084372439229b1f76af4ecadb614b5db",
+    "artifact_id": 14136121293,
+    "sha256": "57eb2827c2bcdf9380e2a58d8ee17996e7b4c3b96bd53c10fa70208a4c0da122",
     "static_analysis_diagnostics": 0,
-    "build_report": "docs/builds/foundation-core-3115e2b3.json",
-    "core_api_version": 4,
-    "static_analysis_files": 7
+    "build_report": "docs/builds/foundation-core-09cae3ce.json",
+    "core_api_version": 5,
+    "static_analysis_files": 8
   },
   "execution_lifecycle_core": {
     "modified": true,
@@ -131,11 +131,15 @@
     "scope": "read-only metadata; no managed invocation or GCHandle",
     "ci_status": "success",
     "fixture_boundary": "controlled C API callbacks on macOS; AddressSanitizer enabled",
-    "ci_source_head": "3115e2b3638eb044c73761cd9cfef0428a52fa5e",
-    "ci_run_id": 43649811591,
+    "ci_source_head": "09cae3ce4a5e05c58bb973faed1151d5f421c186",
+    "ci_run_id": 43650787572,
     "static_analysis_diagnostics": 0,
     "global_method_keyword_search": true,
-    "signature_copy_paths": 1
+    "signature_copy_paths": 1,
+    "named_method_expression": true,
+    "qualified_assembly_namespace_class_arity": true,
+    "ranked_class_search": true,
+    "nonzero_delta_address_lookup": false
   },
   "device_probe": {
     "source_written": true,
@@ -145,16 +149,17 @@
     "scope": "read-only Runtime/class/method UI and report export",
     "ci_status": "success",
     "compiled_ios_arm64": true,
-    "ci_source_head": "3115e2b3638eb044c73761cd9cfef0428a52fa5e",
-    "ci_run_id": 43649811591,
-    "artifact_id": 14135153726,
-    "sha256": "c8175ac64f294707aed12b89ba41aa5eb488c343f3a6d28fb56156b5beb06d6b",
-    "build_report": "docs/builds/device-probe-3115e2b3.json",
+    "ci_source_head": "09cae3ce4a5e05c58bb973faed1151d5f421c186",
+    "ci_run_id": 43650787572,
+    "artifact_id": 14136021351,
+    "sha256": "2328432d0ae46c94d1314429480a6a59865d395e3066f1ff5bc6289cfd4c722a",
+    "build_report": "docs/builds/device-probe-09cae3ce.json",
     "self_contained": true,
-    "core_api_version": 4,
+    "core_api_version": 5,
     "static_analysis_diagnostics": 0,
     "device_instructions": "docs/DEVICE_VALIDATION.md",
-    "static_analysis_reports": 3
+    "static_analysis_reports": 3,
+    "intermediate_delivery": false
   },
   "finder_state": {
     "source_written": true,
@@ -163,8 +168,8 @@
     "fixture_run": true,
     "fixture_environment": "macOS Foundation/AddressSanitizer",
     "ui_device_verified": false,
-    "ci_source_head": "3115e2b3638eb044c73761cd9cfef0428a52fa5e",
-    "ci_run_id": 43649811591,
+    "ci_source_head": "09cae3ce4a5e05c58bb973faed1151d5f421c186",
+    "ci_run_id": 43650787572,
     "single_snapshot_owner": true,
     "cached_class_return": true,
     "class_scroll_restore": true,
@@ -174,7 +179,9 @@
     "translation_ui": true,
     "global_method_search_scope": "bounded method-name contains keyword only; no canonical/RVA/argument selector grammar",
     "raw_detail_fields": true,
-    "presentation_fixture_passed": true
+    "presentation_fixture_passed": true,
+    "named_expression_parity_cases": 10020,
+    "late_exact_rank_regression_passed": true
   },
   "device_observations": [
     {
@@ -186,5 +193,14 @@
       "lifecycle_verified": false,
       "scope": "single observed display only; not complete device verification"
     }
-  ]
+  ],
+  "delivery_policy": "No further intermediate dylib delivery; final integrated product only",
+  "runtime_abi_gate": {
+    "status": "missing_target_evidence",
+    "report": "docs/ABI_EVIDENCE_GATE.md",
+    "target_runtime_binary_available": false,
+    "target_runtime_report_available": false,
+    "invoke_adapter_safe_to_claim_complete": false,
+    "native_adapter_safe_to_claim_complete": false
+  }
 }

@@ -27,3 +27,5 @@
 - 05840d7b已实现单一页面状态、最近类页面缓存及返回滚动位置恢复，Foundation/ASan通过；实际UIKit滚动恢复尚未设备验证。照片只证明4d9231c7面板显示，不证明Runtime搜索成功。
 
 - API4方法搜索目前为name contains关键词；原限定表达式/参数个数/RVA反查和类排名对等尚未迁移。详情仅复制公开元数据type name/static，不代表复杂结构封送或Invoke ABI已支持；不伪造原生地址。详细对照docs/METHOD_FINDER.md。
+
+- API5已补Named Expression与assembly/namespace/class/exact method/arity过滤，10020原解析器对照和类排名limit-one回归通过；非零delta/RVA地址路径仍未迁移。真实Runtime镜像/报告缺失，ABI证据缺口见docs/ABI_EVIDENCE_GATE.md，不能复制MethodInfo猜布局或raw receiver fallback后自称完成。

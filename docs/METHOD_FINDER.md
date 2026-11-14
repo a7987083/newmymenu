@@ -34,3 +34,7 @@ Class/Method模式与输入→唯一runQuery→Discovery.scanQuery(methods flag)
 `make test-presentation`：复用词典、原字段复制、ByRef文字保留、空值/占位符禁止复制、不伪造地址。
 
 三个fixture使用ASan；Probe UI/state/presentation均执行静态分析并以plist diagnostics gate判定。完整开发端与实机功能回归不能由这些测试替代。
+
+## API5后续补齐
+
+NamedExpression原算法与10020输入结果/错误已对照；Expression入口支持assembly/namespace/class/exact method/arity，非零delta拒绝进入VM。类结果已按exact/prefix/suffix/contains做有界候选排名，晚到exact/limit-one回归通过。前文表格描述API4迁移时点，完整RVA/offset地址查询、显式取消与真实设备回归仍待完成。

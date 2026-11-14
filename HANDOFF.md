@@ -6,7 +6,17 @@
 源仓库 https://github.com/a7987083/mymenu 只读，未修改远程或历史。
 固定候选 `feat/method-finder-p5-detail-copy@7066edeaf9e47580c89440be670c517280534b69`；main7216b55，customer92d675e。所有远程分支SHA与源文件hash在docs/audit/source-inventory.json。
 
-## 当前最新：API4方法关键词搜索、详情与翻译
+## 当前最新：API5命名表达式与类排名
+
+编译代码 `09cae3ce4a5e05c58bb973faed1151d5f421c186`，Run43650787572五job通过。Core/Probe机器报告见docs/builds/*-09cae3ce.json。用户要求不再分发阶段dylib，本轮未进行中间交付。
+
+- 私有src/MethodFinder/NMNamedExpression.m复用固定原纯解析算法；tools/generate_parser_parity.py仅从hash确认的原源提取parser用于测试，10020输入结果/错误对照通过ASan。
+- Discovery.searchMethodExpression经唯一scan循环落实assembly/namespace/class/exact method/arity；非零delta在进入VM前拒绝，等待地址resolver。
+- 类搜索候选池复用原exact/prefix/suffix/contains排名，修复达到limit后漏掉后续exact的问题；新增limit=1晚到exact回归通过。namespace/type附加contains是明确的扩展，不冒充原name-only语义。
+- 8份core/3份Probe分析零diagnostics，既有元数据/Finder/字段/执行/capture和原实现翻译12000、wire129回归通过；ARM64/签名/依赖/导出/hash通过。实机未验证。
+- 高风险接入需要真实Runtime证据：旧MethodInfo前两字fallback及GCHandle宽度声明不能仅凭源码认定适用于目标。详见docs/ABI_EVIDENCE_GATE.md。现有材料只有旧Probe面板照片，无目标镜像/报告。
+
+## API4方法关键词搜索、详情与翻译（历史）
 
 编译代码 `3115e2b3638eb044c73761cd9cfef0428a52fa5e`，Run [43649811591](https://github.com/a7987083/newmymenu/actions/runs/43649811591) 五job通过。Probe [Artifact14135153726](https://github.com/a7987083/newmymenu/actions/runs/43649811591/artifacts/14135153726)，SHA256 `c8175ac64f294707aed12b89ba41aa5eb488c343f3a6d28fb56156b5beb06d6b`；Core Artifact14135965621，SHA256 `a69cffbf85b4fb08e89061df3e642afa084372439229b1f76af4ecadb614b5db`。报告docs/builds/*-3115e2b3.json。文档HEAD前进不改变二进制来源。
 
