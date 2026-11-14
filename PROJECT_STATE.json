@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "phase": "source_audit_in_progress",
+  "phase": "foundation_modules_implementation",
   "branch": "main",
   "head_reference": "git rev-parse HEAD; CI github.sha",
   "source_head": "7066edeaf9e47580c89440be670c517280534b69",
@@ -15,13 +15,14 @@
     "ci_status": "success"
   },
   "product": {
-    "modified": false,
+    "modified": true,
     "committed": false,
     "compiled": false,
     "run": false,
     "device_verified": false,
     "regression_verified": false,
-    "artifact": null
+    "artifact": null,
+    "partial_source_only": true
   },
   "runtime_audit_fixture": {
     "source_written": true,
@@ -37,7 +38,7 @@
     "sha256": "1223bf9df9cedb2eba66d781faab1459ec00e9b18ea8b23829daa89602f70b09"
   },
   "known_findings": "docs/audit/FINDINGS.md",
-  "next_task": "Verify original capture timer reproduction; complete Native/Build effective dependency audit before business migration",
+  "next_task": "Run Foundation regression and ARM64 core CI; continue high-risk UI/Invoke/Native/Build audit separately",
   "invoke_contract_audit": {
     "source_head": "7066edeaf9e47580c89440be670c517280534b69",
     "ci_head": "10efd671cbe0c5ca22ffb31aef71fbaaed4cc67e",
@@ -60,5 +61,23 @@
     "run_environment": "macOS arm64 real libdispatch",
     "device_verified": false,
     "production_fixed": false
+  },
+  "foundation_core": {
+    "modified": true,
+    "committed": false,
+    "compiled_ios_arm64": false,
+    "run_ios": false,
+    "device_verified": false,
+    "menu_integration": false,
+    "portable_python_tests_passed": 15,
+    "portable_codec_run": true,
+    "wire_parity_run": true,
+    "foundation_run": false,
+    "baseline_regression": false,
+    "ci_status": "pending",
+    "scope": [
+      "offline translation",
+      "runtime action wire and checked ordinal codec"
+    ]
   }
 }

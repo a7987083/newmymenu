@@ -115,3 +115,38 @@ jobs:
           name: invoke-contract-evidence-NOT-PRODUCT-${{ github.sha }}
           path: build/invoke-audit/
           if-no-files-found: error
+
+  foundation-core:
+    runs-on: macos-15
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_16.4.app/Contents/Developer
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Read fixed baseline for regression only
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          repository: a7987083/mymenu
+          ref: 7066edeaf9e47580c89440be670c517280534b69
+          path: .audit-source
+          persist-credentials: false
+      - name: Portable and Foundation module tests
+        run: |
+          set -euo pipefail
+          make test-portable
+          make test-macos
+      - name: Regression against fixed original implementation
+        run: |
+          set -euo pipefail
+          make test-parity SOURCE_BASELINE=.audit-source
+      - name: Build and strictly verify ARM64 foundation core
+        run: |
+          set -euo pipefail
+          test "$(xcodebuild -version | head -n 1)" = 'Xcode 16.4'
+          make core
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: newmymenu-foundation-core-NOT-FULL-MENU-${{ github.sha }}
+          path: |
+            build/core/
+          if-no-files-found: error

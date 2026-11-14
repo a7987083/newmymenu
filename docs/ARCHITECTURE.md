@@ -1,6 +1,6 @@
 # 架构草案与迁移门槛
 
-当前仅审计与实验工程，尚未迁移业务。此设计不是功能验收。
+当前进入首批独立基础模块迁移：离线翻译与Action wire/checked codec，见decisions/0001。UI、Invoke、Native与Build尚未迁移；这不是全功能验收。
 
 ## 唯一职责
 

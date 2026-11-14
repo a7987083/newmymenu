@@ -42,3 +42,9 @@ CaptureSession旧timer会跨会话的假设已写原实现复现fixture，运行
 更新：10efd67的Run43634163884三个job全部通过，Capture旧timer跨会话错误实际复现（约0.543秒），证据artifact14129835094。
 更正前轮F06：开发端InstanceSelectionV2:133–167已含唯一实例auto-bind，不能因没有customer wrapper就判断缺功能。
 新增BUILD_BOUNDARIES：当前UI的C Executor路径绕过旧class-method builder Swizzle，但其他旧API使用者尚未排除。对生产仍没有任何修复或迁移，不得向用户提供审计fixture冒充最终菜单。
+
+## 首批基础模块源码
+
+新增src/MethodFinder/NMMethodTranslator.mm、include/NMRuntimeActionFormat.h、src/Configuration/NMRuntimeActionCodec.c、src/NMCore.c。设计先记录于docs/decisions/0001；Foundation core不依赖旧UI/Theos/Dobby，原仓库只用于回归test。
+`make test-portable`已在Linux运行（15 Python测试+C codec）；C++ wire parity已与固定原头比较129组entry字节。Foundation/ARM64结果必须等对应CI，不能预填。
+Native外部Swizzle边界见NATIVE_BOUNDARIES.md：SharedSite会Hook外部MdhpNuX及镜像扫描出的metaclass API，不能全部删除或认为全是内部装饰。它暂未迁入core，未丢弃功能清单中的诊断项。

@@ -1,0 +1,28 @@
+.PHONY: core test-portable test-macos test-parity
+CC ?= cc
+CXX ?= c++
+CORE_C = src/NMCore.c src/Configuration/NMRuntimeActionCodec.c
+WARN = -Wall -Wextra -Werror
+core:
+	bash scripts/build_core.sh
+
+test-portable:
+	python3 tools/generate_dictionary.py --check
+	python3 -m unittest discover -s tests -v
+	mkdir -p build/tests
+	$(CC) -std=c11 $(WARN) -Iinclude $(CORE_C) tests/core/action_codec_test.c -o build/tests/action-codec
+	build/tests/action-codec
+
+test-macos:
+	mkdir -p build/tests
+	xcrun clang++ -std=c++17 $(WARN) -fobjc-arc -fblocks -Iinclude -framework Foundation src/MethodFinder/NMMethodTranslator.mm tests/core/translator_test.mm -o build/tests/translator
+	build/tests/translator
+
+test-parity:
+	test -n "$(SOURCE_BASELINE)"
+	mkdir -p build/tests
+	$(CC) -std=c11 $(WARN) -Iinclude -c src/Configuration/NMRuntimeActionCodec.c -o build/tests/action-codec.o
+	$(CXX) -std=c++17 $(WARN) -Iinclude -I"$(SOURCE_BASELINE)/iosruntimepatchmenu/src" build/tests/action-codec.o tests/core/action_wire_parity_test.cpp -o build/tests/action-wire-parity
+	build/tests/action-wire-parity
+	xcrun clang++ -std=c++17 $(WARN) -fobjc-arc -fblocks -Iinclude -I"$(SOURCE_BASELINE)/iosruntimepatchmenu/src" -framework Foundation src/MethodFinder/NMMethodTranslator.mm "$(SOURCE_BASELINE)/iosruntimepatchmenu/src/ZNMethodTranslator.mm" tests/core/translator_parity_test.mm -o build/tests/translator-parity
+	build/tests/translator-parity resources/MethodTranslation.zh-CN.json

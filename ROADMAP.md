@@ -8,3 +8,5 @@
 6. 生成匹配源码HEAD的最终dylib、SHA256、依赖/签名/符号报告及Release。
 
 当前新增完成：Invoke五层职责/selector所有权源码链；M47接收器契约与ReceiverCapture跨会话timer两项真实隔离复现。下一验收门槛：完成Native/Build依赖边界与UI有效action/helper闭包，然后定稿InvocationRequest/ReceiverLease/CaptureSession再迁移。已确认开发端本身有唯一实例auto-bind，不重复实现该能力。
+
+首批模块阶段：离线翻译、wire layout与checked codec已写入独立src/include。源码闭包与设计见0001；本机可移植测试已通过。当前必须完成Foundation/原实现对照和ARM64 core构建；其成功不代表完整菜单。其他高风险模块仍按原迁移门槛推进。

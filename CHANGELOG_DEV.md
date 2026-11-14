@@ -28,3 +28,12 @@
 - 综合CI Run43634163884三job通过，ReceiverCapture原实现跨会话timeout缺陷实际复现（约0.543秒）；原始日志和生成源码已上传证据Artifact。
 - 修正前轮F06：开发端当前已包含唯一实例auto-bind，与customer只是实现位置不同，撤销由wrapper存在差异推导能力差异的表述。
 - 核对当前Build UI→C Executor→provider/base/emit/postprocess路径，记录旧class-method Swizzle不在当前UI必经路径、collector错误传播及store快照限制。
+
+## 首批独立基础模块
+
+- 先记录0001模块迁移设计及Native外部诊断Hook边界，未将高风险模块标为审计通过。
+- 迁入离线翻译算法、3000词条JSON、许可和确定性生成器；公开类改为NM，不保留ZN兼容别名或第二套算法。
+- 复用Action wire常量/64字节结构，公开checked ordinal codec替代不校验范围的inline入口，失败保持output不变、保留非序号flags。
+- 新增独立Makefile、ARM64 core构建脚本、Mach-O/依赖/导出/签名/SHA严格校验和Foundation/原实现回归测试。
+- 本机15项Python测试与C11 codec执行通过；C++测试首个错误为跨enum直接比较被Werror拦截，修正为显式uint32数值比较后，129组entry字节与原格式相同；没有放宽检查。
+- Foundation执行、ARM64核心库编译与对应CI尚待本次提交运行，未实机验证。

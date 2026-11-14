@@ -1,0 +1,52 @@
+{
+  "source_head": "7066edeaf9e47580c89440be670c517280534b69",
+  "files": [
+    {
+      "source": "iosruntimepatchmenu/src/ZNMethodTranslator.h",
+      "source_sha256": "b9be84f30be3434d90257971b7d5a99e74901fb8036b777cc20cd5b9372ded6f",
+      "destination": "include/NMMethodTranslator.h",
+      "destination_sha256": "8e7683950ec69073ed12fee418869512fa345a2a15d50b75d09f2e420c6915a7"
+    },
+    {
+      "source": "iosruntimepatchmenu/src/ZNMethodTranslator.mm",
+      "source_sha256": "cc9be067e797667e147cf3be62a82c7a32bed5444d32c6522f3e4225506c2905",
+      "destination": "src/MethodFinder/NMMethodTranslator.mm",
+      "destination_sha256": "eb23133a61f139ad902fcb69cb6613bf23f3393ab3f55b930c748f8f0c8dbbd0"
+    },
+    {
+      "source": "iosruntimepatchmenu/resources/MethodTranslation.zh-CN.json",
+      "source_sha256": "08a3a47ffcab19af6c8c6cf8a0f99aee3db0cf8377aac49afd88a54422424d1a",
+      "destination": "resources/MethodTranslation.zh-CN.json",
+      "destination_sha256": "08a3a47ffcab19af6c8c6cf8a0f99aee3db0cf8377aac49afd88a54422424d1a"
+    },
+    {
+      "source": "iosruntimepatchmenu/resources/DICTIONARY_LICENSE.md",
+      "source_sha256": "0df6fa70aa8c26825a52cd84d8de26e7637c0aea4627d855b61f3a50f4b01170",
+      "destination": "resources/DICTIONARY_LICENSE.md",
+      "destination_sha256": "d0e09905d9252e849d01fc192f2c40f402aa30f27d17b1bbd749cfff11a996e9"
+    },
+    {
+      "source": "iosruntimepatchmenu/scripts/generate_dictionary.py",
+      "source_sha256": "b9ffbefb667b6339127bdc1b783d346a7d4520f3c07f7ec861e36ab13ee36374",
+      "destination": "tools/generate_dictionary.py",
+      "destination_sha256": "ea1e9d692e9cf57ac6c06afacd5ec3bfb3e39c57eb35ac198505bb45370753ef"
+    },
+    {
+      "source": "iosruntimepatchmenu/src/ZNRuntimeActionFormat.h",
+      "source_sha256": "654286a49ec799a87fe0e173c1286fe5bc7f67e4cf34e5c7810c701ad41d828a",
+      "destination": "include/NMRuntimeActionFormat.h",
+      "destination_sha256": "72c11b4c1317791015b8432207c7a239f26038a4e74c1f0fb81a0194f22fdf17"
+    },
+    {
+      "source": "iosruntimepatchmenu/src/ZNMethodDictionary.generated.h",
+      "source_sha256": "60645286caef707aadb671a995b445be88127e15728585b907e1db7c31524fa2",
+      "destination": "src/MethodFinder/NMMethodDictionary.generated.h",
+      "destination_sha256": "d4d3a01fcb2d06d9caa314d6ed0fd19975554a0deff803646bf8bb2ede06a21b"
+    }
+  ],
+  "transformations": [
+    "NM namespace and file paths",
+    "checked ordinal codec replaces unchecked inline helpers",
+    "wire constant values/struct field layout retained"
+  ]
+}
