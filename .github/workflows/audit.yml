@@ -102,6 +102,13 @@ jobs:
         run: |
           set -euo pipefail
           build/invoke-audit/invoke-audit | tee build/invoke-audit/results.txt
+      - name: Generate and reproduce capture session timeout defect
+        run: |
+          set -euo pipefail
+          test "$(uname -m)" = arm64
+          python3 tools/generate_capture_audit.py .audit-source build/invoke-audit/capture-audit.mm
+          xcrun clang++ -std=c++17 -fobjc-arc -fblocks -Wall -Wextra -Werror -framework Foundation build/invoke-audit/capture-audit.mm -o build/invoke-audit/capture-audit
+          build/invoke-audit/capture-audit | tee build/invoke-audit/capture-results.txt
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:

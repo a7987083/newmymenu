@@ -16,3 +16,11 @@
 
 - CI Run43632817583在e0d897c通过：6项测试、固定源库存复现、真实Runtime实验及ARM64fixture检查。
 - 更正Native lifecycle具体constructor入口，定位UI旋转的bounds轮询路径；补记reconcile事件合并竞争窗口，未作运行复现声明。
+
+## 后续Invoke专项审计
+
+- 新增固定源hash验证的M47完整源码复现生成器与受控IL2CPP边界fixture，真实ObjC交换/入口方法不Mock。
+- 首次CI Run43633742775编译失败：原格式头两个static inline helper未使用，Werror拦截；新增编码往返测试修复，没有放宽警告。
+- Commit2386068的Run43633875936通过，实际复现/2、/8、/1 ByRef忽略instanceIndex和explicit receiver；/0及普通/1走基础入口。
+- 新增ReceiverCapture原实现的真实dispatch/timer复现fixture；Dobby边界使用替身，尚待对应CI确认。
+- 建立Invoke selector所有权/职责与重构边界，不修改原仓库，不把隔离复现当生产修复。

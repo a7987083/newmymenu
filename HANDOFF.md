@@ -32,3 +32,9 @@ Artifact名 `runtime-audit-fixture-NOT-PRODUCT-<sha>`。该产物不是最终开
 真实iOS回归需要设备，但此时仍有大量可由源码和CI推进的工作，不应提前宣称设备是唯一阻塞。
 
 补充：swizzle_audit.py已建立47wrapper/124函数/164调用索引，不等价实际Hook数量。固定Dobby的DobbyDestroy没有调用排空；不释放entry，不能误称trampoline已被它释放。详见SWIZZLE.md和F04。
+
+## Invoke专项新增证据
+
+INVOKE_OWNERSHIP.md包含实际5层selector链。CI Run43633875936以原M47完整实现及原基础入口隔离复现了receiver契约绕过：/2-/8和typed/1 ByRef绕过ordinal/explicit receiver；不是生产修复。
+CaptureSession旧timer会跨会话的假设已写原实现复现fixture，运行状态必须核对CI，不能预填通过。
+下步不要在M47内部再加一个隐藏TLS补丁；新执行入口必须先建立ReceiverLease/InvocationRequest，再交给共享marshaller后端。
