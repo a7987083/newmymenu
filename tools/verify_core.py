@@ -3,6 +3,7 @@
 import hashlib,json,struct,subprocess,sys
 from pathlib import Path
 EXPECTED_EXPORTS={'_NewMyMenuCoreGetAPIVersion','_NMRuntimeActionTryEncodeInstanceIndex','_NMRuntimeActionTryDecodeInstanceIndex','_OBJC_CLASS_$_NMMethodTranslator','_OBJC_METACLASS_$_NMMethodTranslator'}
+EXPECTED_EXPORTS |= {prefix+name for name in ('NMReceiverLease','NMInvocationRequest','NMInvocationCoordinator','NMCaptureToken','NMCaptureSessionManager') for prefix in ('_OBJC_CLASS_$_','_OBJC_METACLASS_$_')}
 ALLOWED_DEPS={'/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation','/System/Library/Frameworks/Foundation.framework/Foundation','/usr/lib/libobjc.A.dylib','/usr/lib/libSystem.B.dylib','/usr/lib/libc++.1.dylib'}
 def inspect(data):
  if len(data)<32:raise ValueError('truncated header')
@@ -46,7 +47,7 @@ def main(path):
  symbols={line.split()[-1] for line in exports.splitlines() if line.strip()}
  if symbols!=EXPECTED_EXPORTS:raise ValueError('export mismatch: '+repr(symbols^EXPECTED_EXPORTS))
  check=subprocess.run(['codesign','--verify','--strict','--verbose=4',str(path)],text=True,capture_output=True,check=True)
- result.update(exports=sorted(symbols),signature_verified=True,sha256=hashlib.sha256(path.read_bytes()).hexdigest(),product_scope='foundation modules only; no menu/invoke/hook/build',source_head=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip())
+ result.update(exports=sorted(symbols),signature_verified=True,sha256=hashlib.sha256(path.read_bytes()).hexdigest(),product_scope='foundation and execution/capture contracts; no menu or IL2CPP/Dobby/Build adapters',source_head=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip())
  path.with_name('verification.json').write_text(json.dumps(result,indent=2)+'\n')
  path.with_name('signature.txt').write_text(check.stdout+check.stderr)
  path.with_name('SHA256.txt').write_text(result['sha256']+'  '+path.name+'\n')

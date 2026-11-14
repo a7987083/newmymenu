@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "phase": "foundation_modules_implementation",
+  "phase": "execution_capture_contract_implementation",
   "branch": "main",
   "head_reference": "git rev-parse HEAD; CI github.sha",
   "source_head": "7066edeaf9e47580c89440be670c517280534b69",
@@ -39,7 +39,7 @@
     "sha256": "1223bf9df9cedb2eba66d781faab1459ec00e9b18ea8b23829daa89602f70b09"
   },
   "known_findings": "docs/audit/FINDINGS.md",
-  "next_task": "Design and implement explicit InvocationRequest/ReceiverLease and session-owned capture state after completing their dependency audit; integrate search/UI later",
+  "next_task": "Compile/run execution and capture lifecycle fixtures; verify ARM64 core; then integrate version-confirmed IL2CPP/Dobby adapters",
   "invoke_contract_audit": {
     "source_head": "7066edeaf9e47580c89440be670c517280534b69",
     "ci_head": "10efd671cbe0c5ca22ffb31aef71fbaaed4cc67e",
@@ -88,5 +88,21 @@
     "sha256": "c5047fa72ce5de73c8af5ede0b0bc00d354e95c8526f8932c5716ca670f9baee",
     "static_analysis_diagnostics": 0,
     "build_report": "docs/builds/foundation-f385c8a.json"
+  },
+  "execution_lifecycle_core": {
+    "modified": true,
+    "committed": false,
+    "compiled_ios_arm64": false,
+    "foundation_run": false,
+    "ci_status": "pending",
+    "core_api_version": 2,
+    "game_adapters_integrated": false,
+    "device_verified": false,
+    "scope": [
+      "immutable invocation request",
+      "owned receiver scope",
+      "single coordinator entry",
+      "token-owned capture state and acknowledged close"
+    ]
   }
 }

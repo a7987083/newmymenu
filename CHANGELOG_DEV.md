@@ -45,3 +45,11 @@
 - 修复后Run43638969924（源码f385c8a）四job通过：16项测试、12000翻译对照、129组wire字节对照、迁移源静态分析、ARM64 core编译及全部严格检查。
 - 实际下载Artifact14130499746，复核ZIP/dylib SHA、Mach-O以及三个静态分析plist无diagnostics。机器报告保存至docs/builds/foundation-f385c8a.json。
 - 只声明基础模块成功，完整菜单、执行引擎及iOS实机行为仍未验证。
+
+## Execution/Capture基础契约
+
+- 先记录0002设计，新增NMInvocationRequest、NMReceiverLease、NMInvocationCoordinator，以及带token/安装确认/安全关闭确认的CaptureSessionManager。
+- 所有arity/ByRef共用同一receiver入口；scope必须在原调用线程同步执行一次，拒绝迟到/重复/跨线程/空receiver；后端异常明确失败。
+- Capture旧事件/cancel/timer均绑定session；install未ack不复用，close失败保留ownership并允许retry。未ack后端不能强制释放。
+- 增加真实Foundation对象存活、1000并发调用、旧timeout隔离及install/close失败fixture；尚待macOS CI，不预填通过。
+- core API提升为2；增加的基础接口尚未连接IL2CPP/Dobby或旧UI，不宣称原游戏已修复。

@@ -26,3 +26,12 @@ test-parity:
 	build/tests/action-wire-parity
 	xcrun clang++ -std=c++17 $(WARN) -fobjc-arc -fblocks -Iinclude -I"$(SOURCE_BASELINE)/iosruntimepatchmenu/src" -framework Foundation src/MethodFinder/NMMethodTranslator.mm "$(SOURCE_BASELINE)/iosruntimepatchmenu/src/ZNMethodTranslator.mm" tests/core/translator_parity_test.mm -o build/tests/translator-parity
 	build/tests/translator-parity resources/MethodTranslation.zh-CN.json
+
+.PHONY: test-execution
+test-execution:
+	mkdir -p build/tests
+	for source in src/Execution/NMReceiverLease.m src/Execution/NMInvocationCoordinator.m src/NativeHook/NMCaptureSession.m; do xcrun clang -std=c11 $(WARN) -fobjc-arc -fblocks -Iinclude -c "$$source" -o "build/tests/$$(basename "$$source" .m).o" || exit $$?; done
+	xcrun clang++ -std=c++17 $(WARN) -fobjc-arc -fblocks -Iinclude -framework Foundation build/tests/NMReceiverLease.o build/tests/NMInvocationCoordinator.o build/tests/NMCaptureSession.o tests/core/execution_test.mm -o build/tests/execution
+	build/tests/execution
+	xcrun clang++ -std=c++17 $(WARN) -fobjc-arc -fblocks -Iinclude -framework Foundation build/tests/NMReceiverLease.o build/tests/NMInvocationCoordinator.o build/tests/NMCaptureSession.o tests/core/capture_session_test.mm -o build/tests/capture-session
+	build/tests/capture-session
