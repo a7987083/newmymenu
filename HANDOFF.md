@@ -1,50 +1,47 @@
-# 独立交接
+# newmymenu 当前交接
 
-## 基线
+## 仓库与基线
 
-源仓库 https://github.com/a7987083/mymenu 仅只读。
-候选 `feat/method-finder-p5-detail-copy@7066edeaf9e47580c89440be670c517280534b69`；不是已确认全部稳定的基线。
-原 main `7216b5524587f362622d833e3caf1244bbd3fda9`；customer `92d675e0a5164ae72c7b76e38aea349c4929301d`。
-新仓库 https://github.com/a7987083/newmymenu 分支 main。当前源码精确HEAD用 `git rev-parse HEAD`，CI产物名含源SHA。不可在同一commit的文件内自引用未知最终commit SHA。
+新仓库 https://github.com/a7987083/newmymenu ，main。当前工作树精确HEAD用`git rev-parse HEAD`；构建报告记录真实被编译代码HEAD，文档更新不能自称重新构建。
+源仓库 https://github.com/a7987083/mymenu 只读，未修改远程或历史。
+固定候选 `feat/method-finder-p5-detail-copy@7066edeaf9e47580c89440be670c517280534b69`；main7216b55，customer92d675e。所有远程分支SHA与源文件hash在docs/audit/source-inventory.json。
 
-## 当前架构/代码
+## 当前实现范围
 
-尚未迁移业务；架构草案见 docs/ARCHITECTURE.md。没有生产SwizzleManager。
-`tools/source_audit.py` 固定源码库存；`docs/audit/features.json` 53项功能/回归状态；`source-inventory.json` 原源码SHA与文本候选。
-关键调用链和根因见 FINDINGS.md，包括 ClassResults 与 candidates 数据源分流、M462 handle并发范围、Native slot teardown。
-真实Runtime实验位于 tests/runtime_audit_fixture.m，验证通用Runtime语义，不是目标菜单。
+已经迁移：
 
-## 构建/测试
+- include/NMMethodTranslator.h、src/MethodFinder/NMMethodTranslator.mm：沿用原翻译算法，只调整公开NM命名空间/路径；一个实现，没有ZN兼容别名。私有词典由tools/generate_dictionary.py从3000词条JSON确定生成，许可在resources。
+- include/NMRuntimeActionFormat.h：原wire magic/version/64-byte layout；src/Configuration/NMRuntimeActionCodec.c提供唯一checked ordinal编解码，0自动/1..128序号，不是稳定对象身份，拒绝无效flag组合。
+- src/NMCore.c：基础API版本1，没有自动初始化、UI或Hook。
 
-Linux：`python3 -m unittest discover -s tests -v`，当前6项通过，另已重建核对固定源SHA/162文件hash/API位置。
-macOS：workflow完整命令是唯一权威，Xcode16.4/iOS18.5，14.0 deployment target；审计fixture已在1db15a2通过真实Runtime执行、ARM64编译、签名与依赖检查；Run43632322407，详见docs/audit/CI_EVIDENCE.md。后续源码仍须核对对应SHA。
-审计fixture运行：clang ARC/Foundation后执行；iOS fixture仅编译/检查/签名，不运行。
-Artifact名 `runtime-audit-fixture-NOT-PRODUCT-<sha>`。该产物不是最终开发端dylib。
+设计先于迁移记录在docs/decisions/0001-foundation-migration.md。首批库完全不依赖原仓库、Theos、Dobby或旧UI；固定原仓库checkout只用于审计与回归test。
 
-## 状态/限制
+尚未迁移：菜单、搜索Renderer、Invoke/Receiver/Chain、Capture、Native、Static/Runtime生成业务。不能拿NewMyMenuCore.dylib替换旧开发端。
 
-未实机验证；未产品回归；未生产构建；完整源码审计仍进行中。不要在未完成Swizzle用途和依赖审计时复制整个ZNUnifiedUI或按文件名宣布功能完成。
+## 构建/测试/实际CI
 
-## 下一任务
+Linux：`make test-portable`；macOS：`make test-macos`；原实现回归：`make test-parity SOURCE_BASELINE=/path/to/mymenu`；ARM64：固定Xcode16.4/Build16F6，`DEVELOPER_DIR=/Applications/Xcode_16.4.app/Contents/Developer make core`。SDK必须18.5，deployment14.0。
 
-优先为325个文本候选补充：剔除注释/未编译来源、展开Swap wrapper调用、建立Class/SEL/types/原IMP/安装顺序/覆盖关系。特别核对最终Renderer及Invoke多层装饰的真实可达链。
-补齐53项弱锚点和Build/Native传递依赖；读取固定Dobby源码确认destroy是否排空在途trampoline。完成专项审计后再定稿和迁移业务。
-真实iOS回归需要设备，但此时仍有大量可由源码和CI推进的工作，不应提前宣称设备是唯一阻塞。
+被编译核心代码HEAD `f385c8a83b9fc41f6af5adcc89c19938f223f944`。
+Run https://github.com/a7987083/newmymenu/actions/runs/43638969924 四job全部通过。
+实际执行16项Python测试、C codec516组检查、Foundation翻译/1000并发、12000翻译原实现对照、129组wire字节对照、三个迁移源静态分析以及ARM64 core全部严格检查。
+Artifact https://github.com/a7987083/newmymenu/actions/runs/43638969924/artifacts/14130499746 。
+SHA256 c5047fa72ce5de73c8af5ede0b0bc00d354e95c8526f8932c5716ca670f9baee。
+详细导出/依赖/签名与ZIP hash见docs/builds/foundation-f385c8a.json；实际下载后核对了bytes/hash/Mach-O/分析plist。签名验证发生在macOS CI，不是在Linux本机。
+完整产品编译/运行/回归和iOS设备均未验证。
 
-补充：swizzle_audit.py已建立47wrapper/124函数/164调用索引，不等价实际Hook数量。固定Dobby的DobbyDestroy没有调用排空；不释放entry，不能误称trampoline已被它释放。详见SWIZZLE.md和F04。
+## 已证实的问题与关键调用链
 
-## Invoke专项新增证据
+- 搜索输入→HybridFinder→ClassResults，与方法candidates是不同状态。历史最终Renderer漏Class分流，7216b55已在最终入口修复；不能泛化为所有Swizzle引起空白。
+- Invoke预期安装链M52→M50→M48→M47；/0普通/1再进M46/基础入口，/2-/8与typed/1 ByRef在M47独立invoke，绕过ordinal和explicit receiver。固定源真实ObjC交换+受控IL2CPP边界已复现，生产未修复。
+- ReceiverCapture旧timeout不带session身份，A完成后B的15秒任务约0.543秒被A旧timer结束，真实dispatch已复现；Dobby是受控替身。
+- M462的GCHandle读取/释放范围缺少调用租约；DobbyDestroy没有排空在途调用。真实对象/设备影响未复现。
+- SharedSite确实Hook外部MdhpNuX及镜像扫描出的metaclass API，且含样本专用RVA；不能全部当内部UI装饰器删除。见NATIVE_BOUNDARIES.md。
+- 当前UI生成直接进C BuildExecutor，不经过旧class-method Builder Swizzle。provider collector吞异常和跨阶段store快照限制尚待业务fixture，见BUILD_BOUNDARIES.md。
+- 更正：开发端InstanceSelectionV2本身已有唯一实例auto-bind，不因customer有额外wrapper就认定开发端缺功能。
 
-INVOKE_OWNERSHIP.md包含实际5层selector链。CI Run43633875936以原M47完整实现及原基础入口隔离复现了receiver契约绕过：/2-/8和typed/1 ByRef绕过ordinal/explicit receiver；不是生产修复。
-CaptureSession旧timer会跨会话的假设已写原实现复现fixture，运行状态必须核对CI，不能预填通过。
-下步不要在M47内部再加一个隐藏TLS补丁；新执行入口必须先建立ReceiverLease/InvocationRequest，再交给共享marshaller后端。
+完整证据在INVOKE_OWNERSHIP、CAPTURE_LIFECYCLE、FINDINGS和CI_EVIDENCE。审计fixture编译结果不能等价真实IL2CPP/游戏/设备行为。
 
-更新：10efd67的Run43634163884三个job全部通过，Capture旧timer跨会话错误实际复现（约0.543秒），证据artifact14129835094。
-更正前轮F06：开发端InstanceSelectionV2:133–167已含唯一实例auto-bind，不能因没有customer wrapper就判断缺功能。
-新增BUILD_BOUNDARIES：当前UI的C Executor路径绕过旧class-method builder Swizzle，但其他旧API使用者尚未排除。对生产仍没有任何修复或迁移，不得向用户提供审计fixture冒充最终菜单。
+## 下一任务与禁止事项
 
-## 首批基础模块源码
-
-新增src/MethodFinder/NMMethodTranslator.mm、include/NMRuntimeActionFormat.h、src/Configuration/NMRuntimeActionCodec.c、src/NMCore.c。设计先记录于docs/decisions/0001；Foundation core不依赖旧UI/Theos/Dobby，原仓库只用于回归test。
-`make test-portable`已在Linux运行（15 Python测试+C codec）；C++ wire parity已与固定原头比较129组entry字节。Foundation/ARM64结果必须等对应CI，不能预填。
-Native外部Swizzle边界见NATIVE_BOUNDARIES.md：SharedSite会Hook外部MdhpNuX及镜像扫描出的metaclass API，不能全部删除或认为全是内部装饰。它暂未迁入core，未丢弃功能清单中的诊断项。
+按ROADMAP先完成Invoke/Receiver闭包，落实InvocationRequest/ReceiverLease/CaptureSession，然后迁移搜索/UI和Native/Build。不得一口气复制ZNUnifiedUI后补丁修复；不得靠丢弃ByRef/混合Build/必要外部诊断来宣称清债；不得将基础core当完整开发端交付。

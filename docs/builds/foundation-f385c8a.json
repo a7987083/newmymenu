@@ -1,0 +1,38 @@
+{
+  "architecture": "arm64",
+  "filetype": "MH_DYLIB",
+  "deployment": "14.0",
+  "sdk": "18.5",
+  "dependencies": [
+    "/System/Library/Frameworks/Foundation.framework/Foundation",
+    "/usr/lib/libc++.1.dylib",
+    "/usr/lib/libSystem.B.dylib",
+    "/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation",
+    "/usr/lib/libobjc.A.dylib"
+  ],
+  "install_name": "@rpath/NewMyMenuCore.dylib",
+  "exports": [
+    "_NMRuntimeActionTryDecodeInstanceIndex",
+    "_NMRuntimeActionTryEncodeInstanceIndex",
+    "_NewMyMenuCoreGetAPIVersion",
+    "_OBJC_CLASS_$_NMMethodTranslator",
+    "_OBJC_METACLASS_$_NMMethodTranslator"
+  ],
+  "signature_verified": true,
+  "sha256": "c5047fa72ce5de73c8af5ede0b0bc00d354e95c8526f8932c5716ca670f9baee",
+  "product_scope": "foundation modules only; no menu/invoke/hook/build",
+  "source_head": "f385c8a83b9fc41f6af5adcc89c19938f223f944",
+  "ci_run_id": 43638969924,
+  "ci_url": "https://github.com/a7987083/newmymenu/actions/runs/43638969924",
+  "artifact_id": 14130499746,
+  "artifact_url": "https://github.com/a7987083/newmymenu/actions/runs/43638969924/artifacts/14130499746",
+  "artifact_zip_sha256": "8f6a7bd34a65853622cd5c79985ec01331159d9b6138b9dbc65525d245bb3125",
+  "signature_verification_environment": "macOS CI",
+  "download_rechecked": true,
+  "static_analysis_diagnostics": 0,
+  "python_tests_passed": 16,
+  "translation_parity_cases": 12000,
+  "wire_parity_entries": 129,
+  "ios_run": false,
+  "device_verified": false
+}

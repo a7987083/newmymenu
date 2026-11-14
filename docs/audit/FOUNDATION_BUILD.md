@@ -25,3 +25,7 @@
 ## 证据边界
 
 首轮Foundation/wire回归已运行通过；首轮dylib不是已通过全部检查的交付物。修复后的完整静态分析、Mach-O/exports/signature/SHA验收必须以新Run为准。
+
+## 修复后实际结果
+
+f385c8a / Run43638969924四job全部通过，完整输出校验不再发生Broken pipe。3个迁移源静态分析无diagnostics。core通过全部架构/版本/exports/deps/signature/hash检查，12000翻译与129组wire回归通过，详见docs/builds/foundation-f385c8a.json。首次失败保留在历史，不改写。

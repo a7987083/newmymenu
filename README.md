@@ -24,3 +24,5 @@ Actions 的 macOS job 用真实 Objective-C Runtime 运行独立实验，然后�
 首批实现：`NMMethodTranslator`（离线翻译）与`NMRuntimeActionFormat/Codec`（原wire布局及checked ordinal codec）。独立构建：`make core`；本地可移植测试：`make test-portable`；macOS Foundation测试：`make test-macos`。与固定源比对：`make test-parity SOURCE_BASELINE=/path/to/mymenu`。
 
 `NewMyMenuCore.dylib`仅为基础模块库，没有菜单、搜索、Invoke、Native Hook或生成业务入口，不能替代旧开发端。模块设计与迁移边界见[0001](docs/decisions/0001-foundation-migration.md)。
+
+首批核心代码`f385c8a`已通过[CI](https://github.com/a7987083/newmymenu/actions/runs/43638969924)，构建报告见[foundation-f385c8a.json](docs/builds/foundation-f385c8a.json)。[核心库Artifact](https://github.com/a7987083/newmymenu/actions/runs/43638969924/artifacts/14130499746)仅含基础模块，不是完整开发端。

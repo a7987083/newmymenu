@@ -1,12 +1,19 @@
-# 路线与验收
+# 开发路线与验收
 
-1. 进行中：补齐53项功能真实调用链、传递依赖及弱锚点；确认全部必要 Swizzle target/selector/types/顺序/最终IMP。验收：没有把库存当已完成审计。
-2. 完成审计后定稿设计：UI单Renderer、ReceiverLease、必要外部Swizzle管理器、Native teardown策略。
-3. 按模块迁移：先独立模型/翻译/ABI与fixture，再发现/搜索/Invoke，再UI，再Hook/Build。每模块单独编译测试提交，不复制整个旧工程。
-4. CI：实际执行Runtime实验；业务迁移后增加对应fixture和ARM64产品构建。审计夹具不计产品构建成功。
-5. 功能对照回归与最终技术债审计；实机验证由真实设备完成，未执行不填通过。
-6. 生成匹配源码HEAD的最终dylib、SHA256、依赖/签名/符号报告及Release。
+## 已完成的明确范围
 
-当前新增完成：Invoke五层职责/selector所有权源码链；M47接收器契约与ReceiverCapture跨会话timer两项真实隔离复现。下一验收门槛：完成Native/Build依赖边界与UI有效action/helper闭包，然后定稿InvocationRequest/ReceiverLease/CaptureSession再迁移。已确认开发端本身有唯一实例auto-bind，不重复实现该能力。
+- 固定原开发端7066ede，建立功能/Swizzle库存和关键调用证据；不是完整动态IMP审计。
+- 实际隔离复现M47接收器契约绕过和Capture旧timeout跨会话问题。
+- 完成首批离线翻译与Action wire/checked codec的模块审计、设计、独立源码迁移、测试和ARM64 core构建。
+- f385c8a的Run43638969924四job通过；基础core机器报告位于docs/builds。
 
-首批模块阶段：离线翻译、wire layout与checked codec已写入独立src/include。源码闭包与设计见0001；本机可移植测试已通过。当前必须完成Foundation/原实现对照和ARM64 core构建；其成功不代表完整菜单。其他高风险模块仍按原迁移门槛推进。
+## 下一阶段
+
+1. 完成Invoke/Receiver依赖闭包，设计不可变InvocationRequest、完整调用范围ReceiverLease和显式chain session。验收：所有arity/ByRef消费同一receiver契约，不能再用隐藏TLS分流。
+2. 重写CaptureSession生命周期。验收：旧timeout/callback/cancel不能影响新session；teardown必须由backend确认安全后才允许释放/复用。
+3. RuntimeDiscovery/MethodFinder状态与单Renderer迁移。验收：count和卡片同一快照；类/方法切换、取消、滚动、复制与翻译保持行为。
+4. Native/Build迁移：临时Dobby、StaticPrepared及外部SharedSite诊断各自生命周期；BuildRequest冻结输入并显式传播错误。成熟Mach-O/ABI算法优先复用。
+5. 必要外部ObjC Hook进入统一SwizzleManager，完成真实Runtime冲突/继承/恢复fixture；不因旧版本装饰器多就删除有用外部诊断。
+6. 完整开发端ARM64 dylib构建、功能矩阵回归、技术债复审与真实iOS加载/交互验证，再交付Release。
+
+首批core成功不等于完整产品；未执行的设备/业务回归一直标未验证。

@@ -58,3 +58,19 @@ REPRO session A=0.5s completed; session B=15s wrongly ended by A stale timeout a
 
 证据Artifact https://github.com/a7987083/newmymenu/actions/runs/43634163884/artifacts/14129835094 ，ZIP SHA256 `d3057638be7370b0e325942f968f8bde5bf0849427581e3ca754c67a46c086f6`。
 包含hash provenance、生成源、macOS可执行文件和原始结果文本；不是产品dylib。IL2CPP/Dobby边界明确使用替身，未在真实游戏或iOS设备运行。
+
+## 首批独立基础模块：源码f385c8a，真实构建成功
+
+Run https://github.com/a7987083/newmymenu/actions/runs/43638969924 四个job均success，包括新增foundation-core。
+
+已实际执行：16项Python测试、C11 codec 516组往返/flags检查、Foundation翻译与1000次并发cache、129组原wire entry字节对照、12000组翻译变体原实现回归。三个迁移源文件的静态分析plist已下载核对，diagnostics均为空。
+
+独立ARM64 NewMyMenuCore.dylib完成编译、ad-hoc签名及严格校验：thin arm64/MH_DYLIB、iOS14.0 minimum/18.5 SDK、精确5项导出、系统依赖白名单、codesign --verify --strict。下载Artifact后再次核对ZIP hash、dylib hash、Mach-O和分析报告。
+
+- 代码HEAD `f385c8a83b9fc41f6af5adcc89c19938f223f944`
+- Artifact https://github.com/a7987083/newmymenu/actions/runs/43638969924/artifacts/14130499746
+- dylib SHA256 `c5047fa72ce5de73c8af5ede0b0bc00d354e95c8526f8932c5716ca670f9baee`
+- ZIP SHA256 `8f6a7bd34a65853622cd5c79985ec01331159d9b6138b9dbc65525d245bb3125`
+- 机器报告 docs/builds/foundation-f385c8a.json
+
+只完成基础模块，没有菜单/搜索/Invoke/Native/Static Build入口；完整产品未编译或运行。iOS加载、设备和UI回归未验证。

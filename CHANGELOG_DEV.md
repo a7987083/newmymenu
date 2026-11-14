@@ -41,3 +41,7 @@
 - 首轮core CI Run43638600632：Foundation、12000翻译变体、wire对照通过；ARM64编译/签名完成，依赖白名单拒绝CoreFoundation，整体失败。
 - 定位更早的CI异常：xcodebuild输出被head截断造成Broken pipe，改为完整输出/精确版本校验，不隐藏退出码。
 - 从真实artifact检查CFConstantStringClassReference的dylib ordinal，确认CoreFoundation实际链接来源后加入精确系统路径；仍拒绝未知依赖。增加迁移模块静态分析，去掉deprecated但默认等价的链接参数，没有开启允许未解析符号选项。
+
+- 修复后Run43638969924（源码f385c8a）四job通过：16项测试、12000翻译对照、129组wire字节对照、迁移源静态分析、ARM64 core编译及全部严格检查。
+- 实际下载Artifact14130499746，复核ZIP/dylib SHA、Mach-O以及三个静态分析plist无diagnostics。机器报告保存至docs/builds/foundation-f385c8a.json。
+- 只声明基础模块成功，完整菜单、执行引擎及iOS实机行为仍未验证。

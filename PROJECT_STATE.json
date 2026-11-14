@@ -7,22 +7,23 @@
   "source_repository_modified": false,
   "audit_tests": {
     "executed": true,
-    "passed": 9,
+    "passed": 16,
     "environment": "Linux Python",
     "source_snapshot_reproduced": true,
-    "ci_latest_source_head": "10efd671cbe0c5ca22ffb31aef71fbaaed4cc67e",
-    "ci_run_id": 43634163884,
+    "ci_latest_source_head": "f385c8a83b9fc41f6af5adcc89c19938f223f944",
+    "ci_run_id": 43638969924,
     "ci_status": "success"
   },
   "product": {
     "modified": true,
-    "committed": false,
+    "committed": true,
     "compiled": false,
     "run": false,
     "device_verified": false,
     "regression_verified": false,
     "artifact": null,
-    "partial_source_only": true
+    "partial_source_only": true,
+    "scope": "complete developer menu"
   },
   "runtime_audit_fixture": {
     "source_written": true,
@@ -38,7 +39,7 @@
     "sha256": "1223bf9df9cedb2eba66d781faab1459ec00e9b18ea8b23829daa89602f70b09"
   },
   "known_findings": "docs/audit/FINDINGS.md",
-  "next_task": "Run Foundation regression and ARM64 core CI; continue high-risk UI/Invoke/Native/Build audit separately",
+  "next_task": "Design and implement explicit InvocationRequest/ReceiverLease and session-owned capture state after completing their dependency audit; integrate search/UI later",
   "invoke_contract_audit": {
     "source_head": "7066edeaf9e47580c89440be670c517280534b69",
     "ci_head": "10efd671cbe0c5ca22ffb31aef71fbaaed4cc67e",
@@ -69,19 +70,23 @@
     "run_ios": false,
     "device_verified": false,
     "menu_integration": false,
-    "portable_python_tests_passed": 15,
+    "portable_python_tests_passed": 16,
     "portable_codec_run": true,
     "wire_parity_run": true,
     "foundation_run": true,
     "baseline_regression": true,
-    "ci_status": "failure_dependency_validation",
+    "ci_status": "success",
     "scope": [
       "offline translation",
       "runtime action wire and checked ordinal codec"
     ],
-    "ci_source_head": "cd7d6b8a87825248e7741ffc2ad4f4b5752599dc",
-    "ci_run_id": 43638600632,
-    "strict_verification": false,
-    "ios_run": false
+    "ci_source_head": "f385c8a83b9fc41f6af5adcc89c19938f223f944",
+    "ci_run_id": 43638969924,
+    "strict_verification": true,
+    "ios_run": false,
+    "artifact_id": 14130499746,
+    "sha256": "c5047fa72ce5de73c8af5ede0b0bc00d354e95c8526f8932c5716ca670f9baee",
+    "static_analysis_diagnostics": 0,
+    "build_report": "docs/builds/foundation-f385c8a.json"
   }
 }
