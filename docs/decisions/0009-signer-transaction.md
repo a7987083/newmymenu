@@ -7,3 +7,5 @@
 验证使用CI本项目真实ARM64 dylib、独立codesign严格校验，以及损坏header/segment、截断/架构/输出已存在/源symlink等负例。此模块不使用游戏Runtime ABI。
 
 首轮独立校验暴露原算法flags=0且无CMS的不一致。Apple原维护源码参考：Security/OSX/libsecurity_codesigning/lib/signer.cpp的ad-hoc路径添加kSecCodeSignatureAdhoc，xnu/osfmk/kern/cs_blobs.h的CS_ADHOC=0x2。仅修正目录标志，继续要求codesign --verify --strict独立通过，不能将内部hash通过记成签名通过。
+
+第二轮错误为certificate DR与ad-hoc矛盾，已替换成空requirements集合并验证系统cdhash指定要求。集成前增加entitlements拒绝策略：尚未支持的权限保留应显式报错，不能把它们从签名中默默删掉。见docs/SIGNER.md。

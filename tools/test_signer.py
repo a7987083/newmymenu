@@ -12,6 +12,7 @@ import shutil
 
 binary = Path(sys.argv[1]).resolve()
 driver = Path(sys.argv[2]).resolve()
+executable = Path(sys.argv[3]).resolve()
 def sha(p):
     return hashlib.sha256(p.read_bytes()).hexdigest()
 def call(source, output, expected):
@@ -38,9 +39,21 @@ with tempfile.TemporaryDirectory(prefix='newmymenu-signer-') as folder:
     link = root / 'source-link'; link.symlink_to(binary)
     call(link, root / 'symlink-output', False)
     assert not (root / 'symlink-output').exists()
-    entitled = root / 'entitled.dylib'; shutil.copyfile(binary, entitled)
+    entitled = root / 'entitled-executable'; shutil.copyfile(executable, entitled)
     entitlements = root / 'entitlements.plist'; entitlements.write_bytes(plistlib.dumps({'get-task-allow': True}))
     subprocess.run(['codesign', '--force', '--sign', '-', '--timestamp=none', '--entitlements', str(entitlements), str(entitled)], check=True)
+    content = entitled.read_bytes(); assert struct.unpack_from('<I', content, 12)[0] == 2, 'entitlements fixture must be MH_EXECUTE'
+    offset = 32; slots = []
+    for _ in range(struct.unpack_from('<I', content, 16)[0]):
+        cmd, size = struct.unpack_from('<II', content, offset)
+        if cmd == 0x1d:
+            start, length = struct.unpack_from('<II', content, offset + 8)
+            magic, total, count = struct.unpack_from('>III', content, start)
+            assert magic == 0xfade0cc0 and total <= length and 12 + count * 8 <= total
+            slots = [struct.unpack_from('>I', content, start + 12 + i * 8)[0] for i in range(count)]
+            break
+        offset += size
+    assert 5 in slots or 7 in slots, 'negative fixture did not actually embed entitlements'
     refusal = call(entitled, root / 'entitled-output', False)
     assert 'entitlements' in refusal.stderr and not (root / 'entitled-output').exists(), 'permissions must not be silently dropped'
     raw = binary.read_bytes()

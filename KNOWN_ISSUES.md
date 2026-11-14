@@ -29,3 +29,7 @@
 - API4方法搜索目前为name contains关键词；原限定表达式/参数个数/RVA反查和类排名对等尚未迁移。详情仅复制公开元数据type name/static，不代表复杂结构封送或Invoke ABI已支持；不伪造原生地址。详细对照docs/METHOD_FINDER.md。
 
 - API5已补Named Expression与assembly/namespace/class/exact method/arity过滤，10020原解析器对照和类排名limit-one回归通过；非零delta/RVA地址路径仍未迁移。真实Runtime镜像/报告缺失，ABI证据缺口见docs/ABI_EVIDENCE_GATE.md，不能复制MethodInfo猜布局或raw receiver fallback后自称完成。
+
+- 用户已暂缓游戏ABI；不再等待目标游戏作为整个工程继续的条件。Invoke/managed保活与依赖目标布局的Native/Prepared路径仍未完成。
+- Manifest JSON是newmymenu.manifest/schemaVersion1，不是原zonoe-authoring或Patch JSON兼容导入器；后者及prepare/emit业务尚未接入，不得把基础snapshot/JSON测试通过写成混合构建完成。
+- 签名器限定thin ARM64且需现存LC_CODE_SIGNATURE，拒绝带entitlements的输入，最终IPA身份/权限重签必须由包级签名流程承担；没有设备加载验证。旧签名器两项缺陷与本轮修复记录见docs/SIGNER.md。
