@@ -45,3 +45,9 @@ test-discovery:
 
 device-probe: core
 	bash scripts/build_device_probe.sh
+
+.PHONY: test-finder
+test-finder:
+	mkdir -p build/tests
+	xcrun clang -std=c11 $(WARN) -g -fsanitize=address -fobjc-arc -fblocks -Isrc/MethodFinder -framework Foundation src/MethodFinder/NMFinderSession.m tests/core/finder_session_test.m -o build/tests/finder-session
+	build/tests/finder-session

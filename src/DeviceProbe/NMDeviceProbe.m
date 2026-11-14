@@ -2,7 +2,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "NMCore.h"
 #import "NMIL2CPPDiscovery.h"
-#import "NMInvocationCoordinator.h"
+#import "NMFinderSession.h"
 #include <math.h>
 #ifndef NM_BUILD_SHA
 #define NM_BUILD_SHA "local"
@@ -11,7 +11,6 @@ __attribute__((visibility("default"))) const char *NewMyMenuDeviceProbeVersion(v
 static CGFloat NMClamp(CGFloat x,CGFloat low,CGFloat high){return MAX(low,MIN(MAX(low,high),x));}
 
 @interface NMProbeOverlay : UIView <UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate>
-@property(atomic,assign) NSUInteger generation;
 @end
 @interface NMProbeOverlay () {
     UIView *_panel,*_header;
@@ -19,11 +18,9 @@ static CGFloat NMClamp(CGFloat x,CGFloat low,CGFloat high){return MAX(low,MIN(MA
     UILabel *_title,*_status;
     UITextField *_query;
     UITableView *_table;
-    NSArray<NSDictionary *> *_rows;
-    NSDictionary *_snapshot,*_report;
+    NMFinderSession *_finder;
     NMIL2CPPDiscovery *_service;
     dispatch_queue_t _worker;
-    BOOL _methodMode;
     CGFloat _keyboardTop;
     CGPoint _panelOrigin,_floatCenter;
 }
@@ -37,7 +34,7 @@ static CGFloat NMClamp(CGFloat x,CGFloat low,CGFloat high){return MAX(low,MIN(MA
 - (instancetype)initWithFrame:(CGRect)frame {
     self=[super initWithFrame:frame];if(!self)return nil;
     self.autoresizingMask=UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;self.backgroundColor=UIColor.clearColor;
-    _worker=dispatch_queue_create("newmymenu.probe.metadata",DISPATCH_QUEUE_SERIAL);_rows=@[];_report=@{};
+    _worker=dispatch_queue_create("newmymenu.probe.metadata",DISPATCH_QUEUE_SERIAL);_finder=[NMFinderSession new];
     _floating=[self button:@"NM 验证" action:@selector(toggle:)];[self addSubview:_floating];
     [_floating addGestureRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(dragFloating:)]];
     _panel=[UIView new];_panel.backgroundColor=[UIColor colorWithRed:.035 green:.055 blue:.085 alpha:.98];_panel.layer.cornerRadius=12;_panel.layer.borderWidth=1;_panel.layer.borderColor=[UIColor colorWithRed:.1 green:.7 blue:.95 alpha:1].CGColor;_panel.clipsToBounds=YES;_panel.hidden=YES;[self addSubview:_panel];
@@ -79,59 +76,65 @@ static CGFloat NMClamp(CGFloat x,CGFloat low,CGFloat high){return MAX(low,MIN(MA
     [self setNeedsLayout];
 }
 - (BOOL)textFieldShouldReturn:(UITextField *)field {(void)field;[self search:nil];return YES;}
-- (void)setBusy:(BOOL)busy {_refresh.enabled=!busy;_search.enabled=!busy;_back.enabled=!busy;}
+- (void)setBusy:(BOOL)busy {_refresh.enabled=!busy;_search.enabled=!busy;_back.enabled=!busy;_table.userInteractionEnabled=!busy;}
 - (NSDictionary *)hostInfo {
     NSBundle *bundle=NSBundle.mainBundle;
     return @{@"bundleID":bundle.bundleIdentifier?:@"",@"appVersion":[bundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"]?:@"",@"build":[bundle objectForInfoDictionaryKey:@"CFBundleVersion"]?:@"",@"system":UIDevice.currentDevice.systemVersion?:@""};
 }
 - (void)runQuery:(NSString *)query classIdentity:(NSDictionary *)identity refresh:(BOOL)refresh {
-    [self endEditing:YES];NSUInteger generation=self.generation+1;self.generation=generation;[self setBusy:YES];_status.text=@"正在读取 Runtime 元数据…";
+    [self endEditing:YES];NSUInteger generation=[_finder beginRequestResetClasses:(refresh||!identity) classOffset:_table.contentOffset.y];[self setBusy:YES];_status.text=@"正在读取 Runtime 元数据…";
     NSDictionary *host=[self hostInfo];__weak NMProbeOverlay *weakSelf=self;
     dispatch_async(_worker,^{
-        NMProbeOverlay *owner=weakSelf;if(!owner||owner.generation!=generation)return;
+        NMProbeOverlay *owner=weakSelf;if(!owner)return;
         NSError *error=nil;NSDictionary *capabilities=[NMIL2CPPDiscovery loadedRuntimeCapabilities];
         if(refresh||!owner->_service)owner->_service=[NMIL2CPPDiscovery loadedRuntimeWithError:&error];
         NSDictionary *snapshot=nil;
         if(owner->_service&&!error){if(identity)snapshot=[owner->_service methodsForClass:identity limit:200 error:&error];else if(query)snapshot=[owner->_service searchClasses:query limit:200 error:&error];}
         NSDictionary *report=@{@"schemaVersion":@1,@"probeBuild":[NSString stringWithUTF8String:NM_BUILD_SHA],@"coreAPI":@(NewMyMenuCoreGetAPIVersion()),@"mode":@"read-only metadata; no runtime_invoke/GCHandle/Hook",@"host":host,@"capabilities":capabilities,@"runtime":owner->_service.runtimeReport?:@{},@"lastSnapshot":snapshot?:@{},@"error":error.localizedDescription?:@"",@"timestamp":[NSISO8601DateFormatter.new stringFromDate:NSDate.date]};
         dispatch_async(dispatch_get_main_queue(),^{
-            NMProbeOverlay *view=weakSelf;if(!view||view.generation!=generation)return;
-            [view setBusy:NO];view->_report=report;view->_snapshot=snapshot?:@{};view->_rows=[snapshot[@"results"] isKindOfClass:NSArray.class]?snapshot[@"results"]:@[];
-            view->_methodMode=[snapshot[@"kind"] isEqual:@"methods"];view->_back.hidden=!view->_methodMode;view->_query.hidden=view->_methodMode;
-            if(error)view->_status.text=[NSString stringWithFormat:@"读取失败：%@",error.localizedDescription];
-            else if(snapshot)view->_status.text=[NSString stringWithFormat:@"%@ %lu 项%@",view->_methodMode?@"方法":@"类",(unsigned long)view->_rows.count,[snapshot[@"truncated"] boolValue]?@" · 扫描受限/结果未完整":@""];
-            else view->_status.text=@"Runtime 导出已绑定；请输入类名搜索。";
-            [view->_table reloadData];[view setNeedsLayout];
+            NMProbeOverlay *view=weakSelf;if(!view)return;
+            if(![view->_finder acceptSnapshot:snapshot report:report generation:generation])return;
+            [view renderSessionRestoringOffset:NO];
         });
     });
 }
+- (void)renderSessionRestoringOffset:(BOOL)restore {
+    [self setBusy:NO];_back.hidden=!_finder.canReturnToClasses;_query.hidden=_finder.canReturnToClasses;
+    NSString *error=_finder.report[@"error"];
+    if(error.length)_status.text=[NSString stringWithFormat:@"读取失败：%@",error];
+    else if(_finder.snapshot[@"kind"])_status.text=[NSString stringWithFormat:@"%@ %lu 项%@",_finder.methodMode?@"方法":@"类",(unsigned long)_finder.rows.count,[_finder.snapshot[@"truncated"] boolValue]?@" · 扫描受限/结果未完整":@""];
+    else _status.text=@"Runtime 导出已绑定；请输入类名搜索。";
+    [_table reloadData];[self setNeedsLayout];[self layoutIfNeeded];[_table layoutIfNeeded];
+    CGFloat low=-_table.adjustedContentInset.top,high=MAX(low,_table.contentSize.height-_table.bounds.size.height+_table.adjustedContentInset.bottom);
+    [_table setContentOffset:CGPointMake(0,NMClamp(restore?_finder.classOffset:low,low,high)) animated:NO];
+}
 - (void)refresh:(id)sender {(void)sender;[self runQuery:nil classIdentity:nil refresh:YES];}
 - (void)search:(id)sender {(void)sender;NSString *query=[_query.text stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceAndNewlineCharacterSet];if(!query.length){_status.text=@"请输入类名关键词";return;}[self runQuery:query classIdentity:nil refresh:NO];}
-- (void)back:(id)sender {(void)sender;[self search:nil];}
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {(void)tableView;(void)section;return (NSInteger)_rows.count;}
+- (void)back:(id)sender {(void)sender;if([_finder returnToClasses])[self renderSessionRestoringOffset:YES];}
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {(void)tableView;(void)section;return (NSInteger)_finder.rows.count;}
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:@"NMProbeRow" forIndexPath:indexPath];
     UIListContentConfiguration *content=cell.defaultContentConfiguration;
     cell.backgroundColor=UIColor.clearColor;content.textProperties.color=UIColor.whiteColor;content.textProperties.font=[UIFont systemFontOfSize:12 weight:UIFontWeightSemibold];content.textProperties.numberOfLines=2;
     content.secondaryTextProperties.color=[UIColor colorWithWhite:.7 alpha:1];content.secondaryTextProperties.font=[UIFont systemFontOfSize:10];content.secondaryTextProperties.numberOfLines=2;
-    if((NSUInteger)indexPath.row>=_rows.count){content.text=@"结果已更新";content.secondaryText=nil;cell.contentConfiguration=content;return cell;}
-    NSDictionary *row=_rows[(NSUInteger)indexPath.row];content.text=_methodMode?row[@"method"]:row[@"fullType"];
-    content.secondaryText=_methodMode?row[@"signature"]:[NSString stringWithFormat:@"%@ · %@",row[@"assembly"],row[@"namespace"]];
-    cell.contentConfiguration=content;cell.accessoryType=_methodMode?UITableViewCellAccessoryNone:UITableViewCellAccessoryDisclosureIndicator;return cell;
+    if((NSUInteger)indexPath.row>=_finder.rows.count){content.text=@"结果已更新";content.secondaryText=nil;cell.contentConfiguration=content;return cell;}
+    NSDictionary *row=_finder.rows[(NSUInteger)indexPath.row];content.text=_finder.methodMode?row[@"method"]:row[@"fullType"];
+    content.secondaryText=_finder.methodMode?row[@"signature"]:[NSString stringWithFormat:@"%@ · %@",row[@"assembly"],row[@"namespace"]];
+    cell.contentConfiguration=content;cell.accessoryType=_finder.methodMode?UITableViewCellAccessoryNone:UITableViewCellAccessoryDisclosureIndicator;return cell;
 }
 - (UIViewController *)topController {
     UIViewController *top=self.window.rootViewController;while(top.presentedViewController&&!top.presentedViewController.isBeingDismissed)top=top.presentedViewController;return top;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];if((NSUInteger)indexPath.row>=_rows.count)return;NSDictionary *row=_rows[(NSUInteger)indexPath.row];
-    if(!_methodMode){[self runQuery:nil classIdentity:row refresh:NO];return;}
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];if((NSUInteger)indexPath.row>=_finder.rows.count)return;NSDictionary *row=_finder.rows[(NSUInteger)indexPath.row];
+    if(!_finder.methodMode){[self runQuery:nil classIdentity:row refresh:NO];return;}
     UIAlertController *alert=[UIAlertController alertControllerWithTitle:row[@"method"] message:row[@"signature"] preferredStyle:UIAlertControllerStyleAlert];
     [alert addAction:[UIAlertAction actionWithTitle:@"复制方法名" style:UIAlertActionStyleDefault handler:^(__unused UIAlertAction *a){UIPasteboard.generalPasteboard.string=row[@"method"];}]];
     [alert addAction:[UIAlertAction actionWithTitle:@"复制签名" style:UIAlertActionStyleDefault handler:^(__unused UIAlertAction *a){UIPasteboard.generalPasteboard.string=row[@"signature"];}]];
     [alert addAction:[UIAlertAction actionWithTitle:@"关闭" style:UIAlertActionStyleCancel handler:nil]];[[self topController] presentViewController:alert animated:YES completion:nil];
 }
 - (NSData *)reportData {
-    NSError *error=nil;NSData *data=[NSJSONSerialization dataWithJSONObject:_report options:NSJSONWritingPrettyPrinted|NSJSONWritingSortedKeys error:&error];
+    NSError *error=nil;NSData *data=[NSJSONSerialization dataWithJSONObject:_finder.report options:NSJSONWritingPrettyPrinted|NSJSONWritingSortedKeys error:&error];
     if(!data)_status.text=error.localizedDescription?:@"报告编码失败";return data;
 }
 - (void)copyReport:(id)sender {(void)sender;NSData *data=[self reportData];if(data){UIPasteboard.generalPasteboard.string=[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];_status.text=@"报告已复制，可直接粘贴回传。";}}

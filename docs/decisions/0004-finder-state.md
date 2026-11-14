@@ -1,0 +1,5 @@
+# 0004 Finder页面状态与返回位置
+
+先审计当前Probe：返回按钮调用search:重新枚举；table没有保存类列表偏移；_rows/_snapshot/_methodMode与generation并列维护。这是Probe的实际缺口，不将它混同原菜单历史Swizzle错误。
+
+将页面数据收敛为私有NMFinderSession（Foundation、主线程所有）：不可变snapshot派生rows/count/methodMode，generation丢弃旧请求，保留最近类快照/报告及滚动位置；返回不调用Runtime。新查询或Runtime刷新清除旧缓存；只保留一份类快照，不建立无限缓存。Worker仅持有Runtime服务，回主线程后提交session。UIKit保持唯一table renderer，不再拥有独立rows/mode/snapshot。受控Foundation测试验证乱序、零结果、不可变快照、返回缓存和刷新失效；UIKit/真实Runtime仍需设备验证。

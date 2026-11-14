@@ -83,3 +83,6 @@
 
 - `4d9231c7` / Run43647531696: 5 jobs全部通过。metadata ASan fixture、旧实现wire129/翻译12000对照、7份core分析和1份UI分析零diagnostics；Core API3与自包含只读DeviceProbe均已构建，ARM64/SDK/依赖/导出/签名/SHA256验证。Artifact下载hash与Mach-O复核通过。未运行UIKit/真实IL2CPP/设备。
 - 已交付设备测试文件 `newmymenu-DeviceProbe-4d9231c7-READONLY.dylib`，对应SHA256 `3b0ce6555c45360072257a1c701503fab9dfa9abcd6a7d0d1eb3a0709f93b3bc`；步骤见docs/DEVICE_VALIDATION.md。完整产品、Invoke/Hook/Build回归未验证。
+
+- Finder Probe: replace parallel rows/snapshot/mode/generation ownership with private NMFinderSession. Class return restores the immutable class snapshot/report/scroll without Runtime rescan; fresh searches and Runtime refresh invalidate cache, stale callbacks cannot overwrite newer state. Added Foundation/ASan state regressions and UI/state analysis gates. Build/device status pending.
+- User screenshot of 4d9231c7 confirms the panel is visibly loaded on one device; real Runtime exports/class results/method signatures/keyboard/lifecycle not confirmed by this image.
