@@ -1,0 +1,7 @@
+{
+  "repository": "a7987083/mymenu",
+  "head": "7066edeaf9e47580c89440be670c517280534b69",
+  "path": "iosruntimepatchmenu/src/ZNAdhocMachOSigner.mm",
+  "sha256": "caa952c9f82e6e59bf56b4cf535de0401f021c8ada5ab3686c5f965671ab6da5",
+  "reuse": "CodeDirectory/SuperBlob/page hash/self verification; renamed private implementation; hardened parser; transactional public wrapper"
+}

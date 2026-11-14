@@ -159,12 +159,15 @@ jobs:
         run: |
           set -euo pipefail
           make core
+      - name: Verify transactional reused Mach-O signer
+        run: make test-signer
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
           name: newmymenu-foundation-core-NOT-FULL-MENU-${{ github.sha }}
           path: |
             build/core/
+            build/signer-fixture/
           if-no-files-found: error
 
   device-probe:
