@@ -8,7 +8,7 @@ static NSString *NMText(id value){return [value isKindOfClass:NSString.class]?va
         [fields addObject:@{@"label":label,@"value":value,@"copyable":@(value.length>0&&![value isEqual:@"—"])}];
     };
     NSDictionary *identity=[method[@"classIdentity"] isKindOfClass:NSDictionary.class]?method[@"classIdentity"]:@{};
-    add(@"Assembly",NMText(identity[@"assembly"]));add(@"Namespace",NMText(identity[@"namespace"]));add(@"Class",NMText(identity[@"fullType"]));
+    add(@"Assembly",NMText(identity[@"assembly"]));add(@"Namespace",NMText(identity[@"namespace"]));add(@"Class",NMText(identity[@"class"]));add(@"Type",NMText(identity[@"fullType"]));
     NSString *name=NMText(method[@"method"]);add(@"Method",name);
     add(@"翻译",[NMMethodTranslator translateMethodName:name]?:@"");
     add(@"Signature",NMText(method[@"signature"]));add(@"Return",NMText(method[@"returnType"]));
