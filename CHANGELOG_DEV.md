@@ -72,3 +72,5 @@
 - Probe列表改用iOS14+ UIListContentConfiguration；fixture类型加独立前缀，避免与ObjC Runtime的Method类型冲突；列表事件检查当前快照边界。
 
 - Run 43646718511: corrected fixture integer-to-pointer width via uintptr_t; explicitly linked CoreGraphics for CGPointZero/CGRectZero used by probe UI. Strict checks remain enabled.
+
+- Probe host now supports the UIApplicationDelegate window lifecycle when no UIScene exists, covering pre-scene Unity hosts without deprecated global windows enumeration. Device behavior remains unverified.

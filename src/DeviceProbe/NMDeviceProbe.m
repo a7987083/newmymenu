@@ -157,6 +157,14 @@ static CGFloat NMClamp(CGFloat x,CGFloat low,CGFloat high){return MAX(low,MIN(MA
         if(![scene isKindOfClass:UIWindowScene.class]||scene.activationState!=UISceneActivationStateForegroundActive)continue;
         for(UIWindow *window in ((UIWindowScene *)scene).windows)if(window.isKeyWindow&&!window.hidden&&window.windowLevel==UIWindowLevelNormal)return window;
     }
+    // Unity titles may use the pre-scene UIApplicationDelegate window lifecycle.
+    if(UIApplication.sharedApplication.connectedScenes.count==0){
+        id<UIApplicationDelegate> delegate=UIApplication.sharedApplication.delegate;
+        if([delegate respondsToSelector:@selector(window)]){
+            UIWindow *window=delegate.window;
+            if(window.isKeyWindow&&!window.hidden&&window.windowLevel==UIWindowLevelNormal)return window;
+        }
+    }
     return nil;
 }
 - (void)refresh {
