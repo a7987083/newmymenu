@@ -30,3 +30,11 @@ Linux：3项审计测试通过。macOS15 ARM64：真实ObjC Runtime fixture执�
 静态分析收到 `-framework Foundation: linker input unused` 提示，未报告分析错误；不等于整个原工程静态分析通过。runner对固定Actions的Node20发出弃用提示并使用Node24运行，已记录；未随意升级依赖。
 
 后续工具/审计数据更新的CI必须单独核对，不把本Run归到其他HEAD上。
+
+## 第二轮：e0d897c，已实际通过
+
+Run https://github.com/a7987083/newmymenu/actions/runs/43632817583 ，两个job均success。
+source-audit增加固定原仓库checkout，6项测试通过，并重建匹配HEAD、全部文件hash和Runtime API位置。
+Runtime实验、ARM64fixture、签名与依赖检查再次成功，dylib SHA256与第一轮一致。
+Artifact https://github.com/a7987083/newmymenu/actions/runs/43632817583/artifacts/14128049232 ，ZIP SHA256 `9bd7ebfa1f549bc7d6f16caf88a5c8b439c793a750fc01b816d3d0e7077a51b1`。
+后续仅审计文档/状态记录提交不改变测试或fixture源码，不冒充该HEAD也执行过CI。

@@ -32,7 +32,7 @@
 | Native Hook | 恢复 Hook | iosruntimepatchmenu/src/ZNNativeHookRuntime.mm:1642 `removeTemporaryHookForCandidate:` | 已实现但未验证 / 尚未迁移 / 未验证 | 缺排空证据，F04 |
 | Native Hook | Hook 返回值 | iosruntimepatchmenu/src/ZNNativeHookRuntime.mm:1653 `returnBoolSlot` | 已实现但未验证 / 尚未迁移 / 未验证 | 不泛化为任意返回值支持 |
 | Native Hook | 多 Hook 冲突 | iosruntimepatchmenu/src/ZNNativeHookRuntime.mm:1655 `permanentOwner` | 已实现但未验证 / 尚未迁移 / 未验证 | 需并发竞争 fixture |
-| Native Hook | Hook 生命周期 | iosruntimepatchmenu/src/ZNNativeHookLifecycleBootstrap.mm:? `ZNInstallNativeHookLifecycleDeferred` | 无法确认 / 尚未迁移 / 未验证 | 生命周期状态机替代分散 bootstrap |
+| Native Hook | Hook 生命周期 | iosruntimepatchmenu/src/ZNNativeHookLifecycleBootstrap.mm:104 `ZNNativeHookEarlyLifecycleBootstrap` | 部分实现 / 尚未迁移 / 未验证 | 生命周期状态机替代分散 bootstrap |
 | Build/Configuration | Static Patch | iosruntimepatchmenu/src/ZNStaticBinaryBuilderV3.mm:1126 `ZNStaticBinaryBuilderV3BuildWorkspace` | 已实现但未验证 / 尚未迁移 / 未验证 | 优先复用并补 fixture |
 | Build/Configuration | Runtime Action | iosruntimepatchmenu/src/ZNRuntimeActionBuilder.mm:239 `ZNRuntimeActionEmbedIntoGeneratedOutputs` | 部分实现 / 尚未迁移 / 未验证 | 保持64字节entry及flag版本兼容 |
 | Build/Configuration | Native Hook Action | iosruntimepatchmenu/src/ZNNativeHookAction.mm:286 `addArgScaleInt32Candidate:` | 部分实现 / 尚未迁移 / 未验证 | 保留模板ABI限制 |
@@ -54,6 +54,6 @@
 | Developer UI | 搜索结果显示 | iosruntimepatchmenu/src/ZNUnifiedUI.mm:12181 `znm64_renderClassResultsAtWidth:` | 已实现但未验证 / 尚未迁移 / 未验证 | 回归F01 |
 | Developer UI | 功能编辑 | iosruntimepatchmenu/src/ZNUnifiedUI.mm:7166 `znrmc_instanceEditingEnded:` | 已实现但未验证 / 尚未迁移 / 未验证 | UI只提交配置command |
 | Developer UI | 生成错误反馈 | iosruntimepatchmenu/src/ZNBuildExecutor.mm:46 `prepareError` | 已实现但未验证 / 尚未迁移 / 未验证 | 明确阶段与错误 |
-| Developer UI | 横竖屏 | iosruntimepatchmenu/src/ZNUnifiedUI.mm:? `orientation` | 无法确认 / 尚未迁移 / 未验证 | 细节仅文本定位，未验证 |
+| Developer UI | 横竖屏 | iosruntimepatchmenu/src/ZNUnifiedUI.mm:548 `- (void)tick:(NSTimer *)timer` | 部分实现 / 尚未迁移 / 未验证 | 细节仅文本定位，未验证 |
 | Developer UI | 触摸穿透 | iosruntimepatchmenu/src/ZNUnifiedUI.mm:2455 `hitTest:` | 部分实现 / 尚未迁移 / 未验证 | scene/UI fixture与设备测 |
 | Developer UI | 多窗口 | iosruntimepatchmenu/src/ZNUnifiedUI.mm:225 `UIWindowScene` | 部分实现 / 尚未迁移 / 未验证 | 销毁/rebind生命周期未验证 |

@@ -49,3 +49,11 @@ ZNBuildExecutorBuildWorkspace 明确检查未恢复临时 Patch；Manifest → p
 ## F10 跨 dylib 并发修改 Runtime 的边界
 
 objc Runtime 没有提供公开 compare-and-swap IMP 所有权接口。管理器可串行化自身、检查当前 IMP 并拒绝已发现冲突，不能承诺阻止任意其他 dylib 在检查与写入之间竞争。安装必须限定受控初始化窗口；必要恢复必须限定受控静止窗口，不能包装成万能线程安全。
+
+## F11 Native lifecycle事件合并：源码竞态窗口，运行未验证
+
+ZNNativeHookLifecycleBootstrap.mm 的 requestReconcile 在 scheduled=YES 时合并新事件。worker用before count调用prepare，完成后把lastImageCount赋为当时的最新count，再比较当前count与lastImageCount。若image在prepare期间新增、回调因scheduled=YES被合并，且prepare未包含该新image，完成时赋最新count会掩盖这次新增，末尾比较相等而不重跑。尚未证明具体prepare在该窗口漏项，故标为需fixture验证的竞争路径。应以处理过的generation而非完成时最新count作为完成水位。
+
+## F12 旋转路径已定位，未声称不存在
+
+ZNUnifiedUI.mm:548 的tick按window bounds/safeArea变化调用layoutForWindow，并非使用orientation关键词注册旋转通知。因此关键词没有命中不能等价“没有旋转处理”。布局还经过多个装饰层，必须继续追踪最终IMP与hostWindow选择；实机旋转/多scene未验证。
