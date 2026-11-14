@@ -25,6 +25,7 @@ static void NMAuditExplicit(ZNIL2CPPInvokeEngine *engine,NSUInteger arity,BOOL b
  printf("REPRO explicit arity=%lu byRef=%d requested=B actual=%s\n",(unsigned long)arity,byRef,bypass?"A":"B");
 }
 int main(){@autoreleasepool{
+ for(uint32_t i=0;i<=128;i++)NMRequire(ZNRuntimeActionDecodeInstanceIndex(ZNRuntimeActionEncodeInstanceIndex(i))==i,"source instance ordinal wire helpers roundtrip");
  ZNIL2CPPInvokeEngine *engine=[ZNIL2CPPInvokeEngine new];
  Method original=class_getInstanceMethod(ZNIL2CPPInvokeEngine.class,@selector(executeAction:error:));
  Method replacement=class_getInstanceMethod(ZNIL2CPPInvokeEngine.class,@selector(znm47_executeAction:error:));
