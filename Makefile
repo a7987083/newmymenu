@@ -100,3 +100,11 @@ test-configuration-parity:
 	python3 tools/check_configuration_source.py "$(SOURCE_BASELINE)"
 	xcrun clang -std=c11 $(WARN) -g -fsanitize=address -fobjc-arc -fblocks -Isrc/Configuration -I"$(SOURCE_BASELINE)/iosruntimepatchmenu/src" -framework Foundation tests/core/configuration_identity_parity_test.m -o build/tests/configuration-identity-parity
 	build/tests/configuration-identity-parity
+
+.PHONY: test-patch-import-audit
+test-patch-import-audit:
+	test -n "$(SOURCE_BASELINE)"
+	mkdir -p build/tests
+	python3 tools/generate_patch_import_audit.py "$(SOURCE_BASELINE)" build/tests/original-patch-import-audit.m
+	xcrun clang -std=c11 $(WARN) -g -fsanitize=address -fobjc-arc -fblocks -framework Foundation build/tests/original-patch-import-audit.m -o build/tests/patch-import-audit
+	build/tests/patch-import-audit

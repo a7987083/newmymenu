@@ -147,6 +147,7 @@ jobs:
         run: |
           set -euo pipefail
           make test-parity SOURCE_BASELINE=.audit-source
+          make test-patch-import-audit SOURCE_BASELINE=.audit-source
       - name: Static analysis of migrated modules
         run: |
           set -euo pipefail

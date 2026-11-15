@@ -140,3 +140,5 @@
 - Configuration identity fields reject embedded NUL before any future C Runtime binding can truncate the intended method/type name. Added a JSON roundtrip negative case; display and argument string values remain unchanged.
 
 - Authoring JSON now bounds depth (64) and node count (65536) before recursive cache stripping and after normalization, in addition to 4 MiB/list limits. Added deep and large-node extension negatives; all failures remain outside the single store commit.
+
+- Patch migration pre-audit adds hash-verified original pure-helper fixture for address/byte numeric coercion, octal interpretation, invalid sibling omission and confidence-0.55 heuristic. Old workspace explicitly retains low-confidence labels/read validation; this fixture does not claim the old UI automatically applies candidates or that new Patch import is implemented. CI pending.
