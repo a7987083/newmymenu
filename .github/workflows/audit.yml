@@ -142,6 +142,7 @@ jobs:
           make test-patch-import
           make test-macho-address
           make test-static-plan
+          make test-static-variant-parity SOURCE_BASELINE=.audit-source
           python3 tools/generate_address_parity.py .audit-source
           cc -std=c11 -Wall -Wextra -Werror -fsanitize=address,undefined -Iinclude -c src/Build/NMMachOAddress.c -o build/tests/address-map.o
           c++ -std=c++17 -Wall -Wextra -Werror -fsanitize=address,undefined -Iinclude build/tests/address-parity.cpp build/tests/address-map.o -o build/tests/address-parity

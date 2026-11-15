@@ -127,3 +127,10 @@ test-static-plan:
 	xcrun clang -std=c11 $(WARN) -g -fsanitize=address,undefined -Iinclude -c src/Build/NMMachOAddress.c -o build/tests/plan-address.o
 	xcrun clang -std=c11 $(WARN) -g -fsanitize=address,undefined -fobjc-arc -fblocks -Iinclude -framework Foundation build/tests/plan-address.o src/Build/NMStaticPatchPlan.m tests/core/static_plan_test.m -o build/tests/static-plan
 	build/tests/static-plan
+
+.PHONY: test-static-variant-parity
+test-static-variant-parity:
+	python3 tools/generate_static_variant_parity.py "$(SOURCE_BASELINE)"
+	xcrun clang -std=c11 $(WARN) -g -fsanitize=address,undefined -fobjc-arc -fblocks -Iinclude -c src/Build/NMStaticPatchPlan.m -o build/tests/variant-plan.o
+	xcrun clang++ -std=c++17 $(WARN) -g -fsanitize=address,undefined -fobjc-arc -fblocks -Iinclude -Ibuild/tests -framework Foundation build/tests/plan-address.o build/tests/variant-plan.o tests/core/static_variant_parity_test.mm -o build/tests/static-variant-parity
+	build/tests/static-variant-parity

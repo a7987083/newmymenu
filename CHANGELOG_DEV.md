@@ -158,3 +158,5 @@
 - API13源码：不可变Static definition/physical plan，单图像快照/hash，原字节和instruction section验证、同址最大窗口/尾部补齐/variant去重、不同起点冲突及单次direct branch扫描。layout扩展instruction区域避免第二个parser，补section VM/file一致性检查。Linux portable/C地址测试通过；Foundation与ARM64等待CI，不执行文件写入。
 
 - Run43679881569：API13 Probe ARM64编译/分析通过；Foundation计划fixture编译被assert宏中的Objective-C数组字面量逗号阻断。生产代码未放宽检查，测试改用函数封装断言，保留全部用例后重跑。
+
+- 新增256/257逻辑容量边界与hash固定原ZNV3ComposedVariant的独立对照fixture（1000计划/2000变体，显式FileOffset和PreferredVA归一）。仅提取原纯NSData合成函数，不执行原Builder；结果待CI。

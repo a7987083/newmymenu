@@ -28,6 +28,6 @@ int main(int argc,char **argv){@autoreleasepool{
  image=fixture();w32((uint8_t *)image.mutableBytes+512,0x17ffffc0);check([NMStaticPatchPlan planForMachO:image definitions:@[definition(@"entry",image,256,8,0xd65f03c0)] error:&e]);
  image=fixture();w32((uint8_t *)image.mutableBytes+32+72+64,0);fails(image,@[a],5);
  image=fixture();w32((uint8_t *)image.mutableBytes+32+72+48,260);fails(image,@[a],3);
- NSMutableArray *many=[NSMutableArray array];for(NSUInteger i=0;i<257;i++)[many addObject:definition([NSString stringWithFormat:@"%lu",(unsigned long)i],fixture(),256,4,0xd65f03c0)];fails(fixture(),many,2);
+ NSMutableArray *many=[NSMutableArray array];for(NSUInteger i=0;i<257;i++)[many addObject:definition([NSString stringWithFormat:@"%lu",(unsigned long)i],fixture(),256,4,0xd65f03c0)];fails(fixture(),many,2);[many removeLastObject];p=[NMStaticPatchPlan planForMachO:fixture() definitions:many error:&e];check(p&&p.definitions.count==256&&p.physicalSites.count==1);
  puts("PASS: immutable Static plan, logical/physical aggregation, padded/deduplicated variants, original bytes, overlap, section consistency and seven direct-branch families in both directions; no emit");
 }return 0;}
