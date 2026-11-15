@@ -210,3 +210,4 @@
 - 补原始重点回归的UIKit边界测试：64类卡片实际渲染、方法详情原字段复制action、类列表返回offset恢复、count32/rows0拒绝误报。仅向唯一Finder state提交值快照；Runtime枚举fixture独立验证，未伪称真实游戏枚举/实机剪贴板点击。等待新CI。
 - API21候选补ABI独立的混合Static控件配置缺口（设计0025）：NMPatchImport保留行级control/valueType并支持继承/显式覆盖；顶部UI只做默认值；review逐条展示实际控件/类型/说明；唯一OfflineBuildRequest按行建模，复用现有物理计划/发射。Review schema3，v1/v2仅一次升级到同模型。新增边界/迁移、真实源fixture mixed Request及UIKit同址Switch/Number生成验证；未验证前不计完成。
 - Producer/consumer一致性：计划层提前拒绝同一显式feature group混用不同控件（Runtime本就拒绝），防止生成成功后才无法绑定；Imported保持逻辑独立，跨group混合控件正常保留。增加plan回归，未删除混合能力。
+- Run43775753260首错为新增UIKit测试assert宏误拆ObjC字典字面量逗号，补表达式括号保留全部用例；等待UIAlert实际完成呈现再截图。同步修正Finder空状态在未绑定_service时误报“已绑定”，改按真实服务状态显示，加入初始状态断言。
