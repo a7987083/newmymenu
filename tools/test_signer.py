@@ -21,7 +21,7 @@ def call(source, output, expected):
     if (r.returncode == 0) != expected:
         raise SystemExit(f'unexpected signer result: {r.returncode}: {r.stderr}')
     assert sha(source) == before, 'signer changed input'
-    assert not list(output.parent.glob('.newmymenu-sign-*')), 'temporary file leaked'
+    assert not list(output.parent.glob('.newmymenu-*')), 'temporary file leaked'
     return r
 with tempfile.TemporaryDirectory(prefix='newmymenu-signer-') as folder:
     root = Path(folder)
@@ -29,6 +29,7 @@ with tempfile.TemporaryDirectory(prefix='newmymenu-signer-') as folder:
     r = call(binary, signed, True)
     metadata = json.loads(r.stdout)
     assert metadata['finalPackageResignRequired'] is True
+    assert metadata['publication'] == 'fresh-never-write-mapped-inode'
     subprocess.run(['codesign', '--verify', '--strict', '--verbose=4', str(signed)], check=True)
     requirement = subprocess.run(['codesign', '--display', '-r-', str(signed)], capture_output=True, text=True, check=True)
     assert 'cdhash' in requirement.stdout + requirement.stderr, 'ad-hoc designated requirement must be hash-derived'

@@ -541,10 +541,25 @@ static BOOL NMSignerSignWorkingFile(NSString *path, NSString *fallbackIdentifier
     return YES;
 }
 
+// Both input staging and final publication use one bounded copy implementation.
+static BOOL NMSignerCopyFD(int source,int target,off_t length,NSError **error){
+    uint8_t bytes[65536];off_t copied=0;
+    while(copied<length){
+        ssize_t count=read(source,bytes,(size_t)MIN((off_t)sizeof bytes,length-copied));
+        if(count<0&&errno==EINTR)continue;
+        if(count<=0){if(error)*error=[NSError errorWithDomain:NSPOSIXErrorDomain code:count<0?errno:EIO userInfo:nil];return NO;}
+        ssize_t written=0;
+        while(written<count){ssize_t n=write(target,bytes+written,(size_t)(count-written));if(n<0&&errno==EINTR)continue;if(n<=0){if(error)*error=[NSError errorWithDomain:NSPOSIXErrorDomain code:n<0?errno:EIO userInfo:nil];return NO;}written+=n;}
+        copied+=count;
+    }
+    return YES;
+}
+
 @implementation NMMachOSigner
 + (NSDictionary *)signedCopyFromPath:(NSString *)input toPath:(NSString *)output error:(NSError **)error {
     if(![input isKindOfClass:NSString.class]||![output isKindOfClass:NSString.class]||!input.length||!output.length){if(error)*error=[NSError errorWithDomain:@"newmymenu.signer" code:1 userInfo:@{NSLocalizedDescriptionKey:@"Input/output paths are required"}];return nil;}
-    NSError *failure=nil;NSDictionary *result=nil;int source=-1,target=-1;NSString *temporary=nil;
+    for(NSString *path in @[input,output])if(path.length>4096||![path canBeConvertedToEncoding:NSUTF8StringEncoding]||[path rangeOfCharacterFromSet:[NSCharacterSet characterSetWithRange:NSMakeRange(0,1)]].location!=NSNotFound){if(error)*error=[NSError errorWithDomain:@"newmymenu.signer" code:1 userInfo:@{NSLocalizedDescriptionKey:@"Invalid input/output path"}];return nil;}
+    NSError *failure=nil;NSDictionary *result=nil;int source=-1,target=-1,signedSource=-1,publicationFD=-1;NSString *temporary=nil,*publication=nil;
     @try {
         source=open(input.fileSystemRepresentation,O_RDONLY|O_NOFOLLOW);
         struct stat before={};
@@ -558,17 +573,40 @@ static BOOL NMSignerSignWorkingFile(NSString *path, NSString *fallbackIdentifier
             else temporary=[[NSString alloc] initWithUTF8String:(char *)path.bytes];
         }
         if(!failure){
-            uint8_t bytes[65536];off_t copied=0;
-            while(copied<before.st_size){ssize_t n=read(source,bytes,(size_t)MIN((off_t)sizeof(bytes),before.st_size-copied));if(n<0&&errno==EINTR)continue;if(n<=0){failure=[NSError errorWithDomain:@"newmymenu.signer" code:3 userInfo:@{NSLocalizedDescriptionKey:@"Source changed or could not be read"}];break;}ssize_t written=0;while(written<n){ssize_t count=write(target,bytes+written,(size_t)(n-written));if(count<0&&errno==EINTR)continue;if(count<=0){failure=[NSError errorWithDomain:NSPOSIXErrorDomain code:errno userInfo:nil];break;}written+=count;}if(failure)break;copied+=n;}
+            NMSignerCopyFD(source,target,before.st_size,&failure);
             struct stat after={};if(!failure&&(fstat(source,&after)!=0||after.st_size!=before.st_size||after.st_mtimespec.tv_sec!=before.st_mtimespec.tv_sec||after.st_mtimespec.tv_nsec!=before.st_mtimespec.tv_nsec||after.st_ctimespec.tv_sec!=before.st_ctimespec.tv_sec||after.st_ctimespec.tv_nsec!=before.st_ctimespec.tv_nsec))failure=[NSError errorWithDomain:@"newmymenu.signer" code:3 userInfo:@{NSLocalizedDescriptionKey:@"Source changed during copy"}];
             if(!failure&&fchmod(target,before.st_mode&0777)!=0)failure=[NSError errorWithDomain:NSPOSIXErrorDomain code:errno userInfo:nil];
             if(!failure&&fsync(target)!=0)failure=[NSError errorWithDomain:NSPOSIXErrorDomain code:errno userInfo:nil];
         }
         if(target>=0){close(target);target=-1;}
         if(!failure){NSString *message=nil;NSDictionary *metadata=nil;if(!NMSignerSignWorkingFile(temporary,output.lastPathComponent,&metadata,&message))failure=[NSError errorWithDomain:@"newmymenu.signer" code:4 userInfo:@{NSLocalizedDescriptionKey:message?:@"Signing failed"}];else result=metadata;}
-        if(!failure){if(link(temporary.fileSystemRepresentation,output.fileSystemRepresentation)!=0)failure=[NSError errorWithDomain:NSPOSIXErrorDomain code:errno userInfo:nil];}
+        if(!failure){
+            // Never publish the write-mapped signing inode. A hard link preserves its VM history.
+            signedSource=open(temporary.fileSystemRepresentation,O_RDONLY|O_NOFOLLOW);
+            struct stat signedStat={};
+            if(signedSource<0||fstat(signedSource,&signedStat)!=0||signedStat.st_size<=0)failure=[NSError errorWithDomain:NSPOSIXErrorDomain code:(errno?errno:EIO) userInfo:nil];
+            if(!failure){
+                NSString *parent=output.stringByDeletingLastPathComponent.length?output.stringByDeletingLastPathComponent:@".";
+                NSMutableData *path=[[[parent stringByAppendingPathComponent:@".newmymenu-publish-XXXXXX"] dataUsingEncoding:NSUTF8StringEncoding] mutableCopy];uint8_t zero=0;[path appendBytes:&zero length:1];
+                publicationFD=mkstemp((char *)path.mutableBytes);
+                if(publicationFD<0)failure=[NSError errorWithDomain:NSPOSIXErrorDomain code:errno userInfo:nil];else publication=[[NSString alloc] initWithUTF8String:(char *)path.bytes];
+            }
+            if(!failure)NMSignerCopyFD(signedSource,publicationFD,signedStat.st_size,&failure);
+            if(!failure&&fchmod(publicationFD,before.st_mode&0777)!=0)failure=[NSError errorWithDomain:NSPOSIXErrorDomain code:errno userInfo:nil];
+            if(!failure&&fsync(publicationFD)!=0)failure=[NSError errorWithDomain:NSPOSIXErrorDomain code:errno userInfo:nil];
+            if(!failure){
+                // Read-only mapping cannot give the publication node writable VM pages.
+                const uint8_t *base=(const uint8_t *)mmap(NULL,(size_t)signedStat.st_size,PROT_READ,MAP_PRIVATE,publicationFD,0);
+                if(base==MAP_FAILED)failure=[NSError errorWithDomain:NSPOSIXErrorDomain code:errno userInfo:nil];
+                else{NSString *message=nil;NMSignerSignLayout layout={};if(!NMSignerParseSignLayout(base,(uint64_t)signedStat.st_size,layout,&message)||!NMSignerVerifyEmbeddedSignature(base,(uint64_t)signedStat.st_size,layout,NULL,&message))failure=[NSError errorWithDomain:@"newmymenu.signer" code:6 userInfo:@{NSLocalizedDescriptionKey:message?:@"Published bytes failed verification"}];munmap((void *)base,(size_t)signedStat.st_size);}
+            }
+            if(publicationFD>=0){close(publicationFD);publicationFD=-1;}
+            if(signedSource>=0){close(signedSource);signedSource=-1;}
+            if(!failure&&link(publication.fileSystemRepresentation,output.fileSystemRepresentation)!=0)failure=[NSError errorWithDomain:NSPOSIXErrorDomain code:errno userInfo:nil];
+            if(!failure){NSMutableDictionary *metadata=[result mutableCopy];metadata[@"publication"]=@"fresh-never-write-mapped-inode";result=[metadata copy];}
+        }
     }@catch(NSException *exception){failure=[NSError errorWithDomain:@"newmymenu.signer" code:5 userInfo:@{NSLocalizedDescriptionKey:exception.reason?:exception.name}];}
-    @finally{if(source>=0)close(source);if(target>=0)close(target);if(temporary.length)unlink(temporary.fileSystemRepresentation);}
+    @finally{if(source>=0)close(source);if(target>=0)close(target);if(signedSource>=0)close(signedSource);if(publicationFD>=0)close(publicationFD);if(temporary.length)unlink(temporary.fileSystemRepresentation);if(publication.length)unlink(publication.fileSystemRepresentation);}
     if(error)*error=failure;return failure?nil:result;
 }
 @end

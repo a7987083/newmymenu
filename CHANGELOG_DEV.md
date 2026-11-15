@@ -203,3 +203,4 @@
 - 源码复审发现Static功能说明缺口：原SnapshotProvider:114/V3Builder:1071存在，当前候选/definition未携带。已记录KNOWN_ISSUES/ROADMAP，未声称功能对等。
 - API20候选（设计0022先于实现）：Static featureDescription统一贯穿候选schema2/v1一次升级、immutable definition、Manifest/旧120-byte有效UTF8描述投影、Runtime快照与卡片。Imported按逻辑身份独立，显式group依逻辑顺序采用首成员说明；同步迁移唯一工厂selector，没有旧selector执行回退。加入说明继承/显式清空/别名冲突/上限/NUL、UTF8投影和同标题独立启停fixture。未实际CI验证。
 - Run43771959291首次保留Simulator退出阶段：start→emit→sign→dlopen，退出发生在dlopen返回前，尚无ips。fixture输出权限对齐真实OfflineBuildRequest的0755，并补宿主签名/加载器日志与prepared独立codesign/dyld_info诊断；不提前归因为签名或代码执行。
+- Simulator首个真实系统错误已取证：Run43772856742 / Artifact14185641183宿主AMFI拒绝offset0签名页(wpmapped:1)，同文件codesign/dyld_info均通过。设计0023后重构唯一Signer发布层：工作节点签名后复制到新节点、fsync、只读重新验签、独占link发布；保留签名算法，移除同写映射inode直接发布路径。两次复制共用helper，失败清理覆盖两个临时文件。是否解决加载拒绝等待CI，不绕过AMFI。
