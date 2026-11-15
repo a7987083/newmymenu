@@ -108,3 +108,9 @@ test-patch-import-audit:
 	python3 tools/generate_patch_import_audit.py "$(SOURCE_BASELINE)" build/tests/original-patch-import-audit.m
 	xcrun clang -std=c11 $(WARN) -g -fsanitize=address -fobjc-arc -fblocks -framework Foundation build/tests/original-patch-import-audit.m -o build/tests/patch-import-audit
 	build/tests/patch-import-audit
+
+.PHONY: test-patch-import
+test-patch-import:
+	mkdir -p build/tests
+	xcrun clang -std=c11 $(WARN) -g -fsanitize=address -fobjc-arc -fblocks -Iinclude -framework Foundation src/Configuration/NMPatchImport.m tests/core/patch_import_test.m -o build/tests/patch-import
+	build/tests/patch-import

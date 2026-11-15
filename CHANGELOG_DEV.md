@@ -142,3 +142,5 @@
 - Authoring JSON now bounds depth (64) and node count (65536) before recursive cache stripping and after normalization, in addition to 4 MiB/list limits. Added deep and large-node extension negatives; all failures remain outside the single store commit.
 
 - Patch migration pre-audit adds hash-verified original pure-helper fixture for address/byte numeric coercion, octal interpretation, invalid sibling omission and confidence-0.55 heuristic. Old workspace explicitly retains low-confidence labels/read validation; this fixture does not claim the old UI automatically applies candidates or that new Patch import is implemented. CI pending.
+
+- Patch candidate importer source: strict unsigned/byte validation, contradictory alias errors, preserved inheritance/weak hints and explicit octal review, whole-file failure for bad addressed records, bounded candidate/output expansion, and provenance-preserving normalized JSON. Candidate definitions/paths remain visible; no workspace or binary mutation. First ASan fixture/CI pending.

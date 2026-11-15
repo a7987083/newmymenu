@@ -139,6 +139,7 @@ jobs:
           make test-finder
           make test-manifest
           make test-configuration
+          make test-patch-import
           make test-configuration-parity SOURCE_BASELINE=.audit-source
           make test-swizzle
           make test-presentation
