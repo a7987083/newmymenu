@@ -39,3 +39,7 @@
 ## 离线配置的新边界
 
 API10/11仅迁移离线authoring与Patch候选。UI导入导出/持久化、实际目标绑定、Patch地址转换/原字节验证/冲突计划/写入和生产Build仍未完成。旧纯解析器数值强转与静默遗漏已在固定源fixture复现，新解析器严格拒绝；原仓库未修改。Foundation JSON不提供原始重复key的词法检测，不能把输入JSON当可信签名或完整来源证明。
+
+## Static地址边界
+
+原V3纯映射函数的va+length无检查溢出已通过hash固定原函数实际复现，新API12使用有界减法检查拒绝；原仓库不修改。layout解析只证明segment映射，不是完整Mach-O加载验证器；未知load command内部引用、重定位和静态注入安全仍由后续构建阶段验证。当前无Static Patch实际写入/生产计划，也没有实机结果。Linux LeakSanitizer在ptrace环境失败，普通本地测试与macOS CI sanitizer结果分别记录，不混淆。

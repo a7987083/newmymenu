@@ -6,7 +6,17 @@
 源仓库 https://github.com/a7987083/mymenu 只读，未修改远程或历史。
 固定候选 `feat/method-finder-p5-detail-copy@7066edeaf9e47580c89440be670c517280534b69`；main7216b55，customer92d675e。所有远程分支SHA与源文件hash在docs/audit/source-inventory.json。
 
-## 当前最新：API11 离线配置/Patch候选
+## 当前最新：API12 Static地址组件
+
+编译代码 `d851ea15b8007560922e6e63df0e6f510177aa66`，[Run43678664102](https://github.com/a7987083/newmymenu/actions/runs/43678664102)五job通过。Core Artifact14147113395，SHA256 `ba49469d69a71834d6b1afa40c06d766c0eadda8ac1f37a81097b90b05be8680`。已下载复核ZIP/dylib hash、source_head、Mach-O、39导出、14份核心分析零诊断；macOS CI严格codesign通过。报告docs/builds/static-address-d851ea15.json。此后文档HEAD前进不表示重新编译。
+
+唯一地址实现include/NMMachOAddress.h、src/Build/NMMachOAddress.c：复用固定原V3 segment公式，显式RVA/PreferredVA/FileOffset完整跨度映射；值快照、失败不改输出、溢出/重叠/截断/section/加密标记拒绝。无文件写入或UI Hook。边界见docs/STATIC_PATCH.md和决策0013。
+
+验证：make test-macho-address；python3 tools/generate_address_parity.py /path/to/fixed-source后按CI编译运行独立对照；核心构建后build/tests/macho-address build/core/NewMyMenuCore.dylib。ASan/UBSan、16384组原函数对照和实际ARM64输入均通过。Linux GCC LeakSanitizer受ptrace环境阻断，只标普通本地测试通过；未禁用CI检查。原va+length溢出已真实复现，新入口拒绝。
+
+下一步沿原V3逻辑→物理同起点聚合/最大窗口，补instruction/入分支证明及explicit expected bytes来源，再做不可变计划、冲突检测与事务式文件发布。当前没有Static写入/混合Build闭包或最终UI，实机未验证；游戏ABI暂缓，不发送阶段dylib。
+
+## API11 离线配置/Patch候选（历史）
 
 代码HEAD `42e61ea069070dc08498ba015203602a11418f54`，[Run43675322065](https://github.com/a7987083/newmymenu/actions/runs/43675322065)五job通过。Core Artifact14145951586，SHA256 `fcd68934a79a15213d54dc1a76bf869e238be356be63351ffccbef199024f818`。已下载并核对ZIP/dylib哈希、source_head、Mach-O、37项导出及13份核心分析报告零诊断；签名由macOS CI严格验证。机器报告docs/builds/configuration-42e61ea0.json。文档HEAD前进不代表重新编译。
 

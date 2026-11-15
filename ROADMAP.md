@@ -46,3 +46,9 @@ API5 parser/qualified filters/排名已实际编译回归通过，不再中途�
 ## API10/11 配置后续
 
 离线authoring身份10000组原实现对照、原子revision store、Patch严格数值与review往返已通过Foundation/ASan。下一步先审计复用原Static Patch地址转换/Mach-O校验和物理写入规划，冻结输入、检查原字节及重叠冲突，再接事务式文件发布；不新写已成熟的底层算法。游戏ABI保持暂缓。最终UI、混合Build与实机仍未验收。
+
+## Static地址阶段 API12
+
+固定原V3地址公式已分离为唯一有界C组件；正常映射16384组原函数对照、旧跨度溢出复现和真实ARM64布局检查通过首轮CI。详细边界见docs/STATIC_PATCH.md；加密标记/section补充用例以最新CI为准。
+
+下一步保留原逻辑→物理同起点聚合、最大窗口及不同起点重叠拒绝，补instruction/入分支证明与显式expected bytes来源，设计不可变Static构建计划。不得把地址映射通过当生成/签名/混合Build完成。
