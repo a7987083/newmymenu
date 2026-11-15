@@ -1,6 +1,6 @@
 # 当前接手入口：API19 prepared Static Runtime
 
-当前精确HEAD执行`git rev-parse HEAD`。截至93916b56，新增代码尚在CI，不能计为最终已验证版。上次五Job全通过为17878f28，Run43689802080。
+当前精确HEAD执行`git rev-parse HEAD`。API19核心8bb60d21已通过Run43770082803/foundation-core（59导出、22分析零诊断、真实ARM64 Runtime及既有回归）。Developer/Simulator仍进行中；上次五Job全通过仍为17878f28 / Run43689802080。完整报告docs/builds/static-runtime-8bb60d21.json。
 
 新增实现：include/NMStaticRuntime.h、src/Build/NMStaticRuntime.mm，契约和边界见docs/STATIC_RUNTIME.md。独立Static控件Renderer为src/DeveloperUI/NMStaticControlsView.m，主菜单现有查找/配置/构建/功能/状态五页。
 
@@ -10,7 +10,9 @@
 
 本地环境已恢复；HTTPS git push没有凭据，使用GitHub连接器create_tree/create_commit/update_ref(expected_sha)发布，然后git fetch/rebase同步；勿在源码或日志写token。原mymenu仍只读。
 
-下一任务：先处理CI首错至ARM64与Simulator真正通过；检查截图、整合文档/回归矩阵，做最终技术债复审。游戏ABI执行适配继续暂缓；设备未验证。用户要求不发中间dylib，只交最终整合候选，不能把CI成功当实机成功。
+额外失败：43769306253/43769727679绑定Image is not loaded，最终修正相对/绝对路径canonicalization后核心通过；fixture从真实nm读取符号，不预加载原图像。Simulator子进程与失败截图增加有界等待，确保异常能抵达Artifact收集。
+
+下一任务：先处理Simulator首错直至实际运行通过；检查截图、整合文档/回归矩阵，做最终技术债复审。游戏ABI执行适配继续暂缓；设备未验证。用户要求不发中间dylib，只交最终整合候选，不能把CI成功当实机成功。
 
 ---
 以下为之前的交接基线，冲突时以上述新入口和真实Git/CI为准。

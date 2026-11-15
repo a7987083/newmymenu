@@ -1,51 +1,15 @@
-# 已知问题
+# 当前真实限制
 
-- 审计尚未完成；53项中部分是实现片段，完整依赖闭包与全部Swizzle目标仍待验证。
-- 离线翻译、Action格式及执行/捕获契约组件已迁入；真实Runtime/Native adapter和完整菜单尚未迁移，不具备替换旧开发端条件。基础core的构建/测试独立记录，不等于完整产品验证。
-- 原代码GCHandle使用范围/释放竞争及Native teardown风险，见FINDINGS.md；尚未在实机复现。
-- 本机没有Apple SDK、clang或iOS设备。真实Runtime与ARM64实验由CI执行，状态见Actions；不能把实验结果当产品或实机结果。
-- UIKit/IL2CPP及第三方Hook并发没有真实运行验证。
+- 完整原开发端功能对等尚未验收。原53项库存描述固定审计时点；新实现和测试边界见docs/REGRESSION.md。禁止用基础库或审计fixture作为最终菜单交付。
+- 游戏ABI按要求暂缓：IL2CPP MethodInfo布局、GCHandle宽度/线程/存活、ByRef/结构体、多实例及返回值封送没有目标版本证据；Native Hook/Prepared Hook的ABI桥和安全拆卸尚未接入。不提供raw-pointer保活回退。
+- iOS实机未验证：加载、三指呼出、真实游戏搜索、键盘、触摸穿透、旋转、多窗口、前后台和Static执行仍需要最终候选设备验证。Simulator与macOS fixture结果不得标为实机结果。
+- SwizzleManager只能管理明确合作域内的调度/writer，不能拦住未知外部dylib的Runtime修改。继承默认拒绝；显式LocalSnapshot留下本地方法槽。外部SharedSite诊断尚未证明全部目标加入合作域，故不自动安装。
+- Loaded Static Runtime的镜像pin保持到进程结束；关闭功能恢复行为但不释放可能被在途调用使用的RX代码。不支持强制热卸载。外部重新映射/mprotect、ABA及直接改执行页不在并发证明内。
+- 多站点和数值/目标更新不是对任意外部writer或并发读者的全局原子事务；CAS失败尽力回滚，不覆盖第三方后续变化。对齐RW单元更新不写RX页。
+- Static构建仅支持明确检查过的thin ARM64布局和load-command allowlist，要求真实header slack、最终对齐LINKEDIT和未加密输入；未知内部引用拒绝。直接branch扫描不证明间接/跨镜像/动态生成引用安全。
+- 签名器要求现存LC_CODE_SIGNATURE，拒绝带entitlements输入；ad-hoc输出仍需包级IPA身份/权限重签。expected bytes来源标签不是可信来源认证。
+- Finder提供公开元数据类型名，不能据此推导Invoke ABI。RVA/offset反查及原地址级全部详情仍未对等；缓存有界并明确truncated。真实目标Runtime导出/Domain变化需要设备报告验证。
+- Foundation JSON不提供重复key词法证明；配置JSON不是签名信任边界。大图像读取/构建的设备峰值内存与耗时未实机测量。
+- 本机Linux没有Apple SDK；macOS/iOS构建由固定GitHub CI执行。本机LSan受ptrace阻断，普通C测试与macOS sanitizer结果分开记录。
 
-- M47多参数/ByRef分支绕过ordinal和explicit receiver，已在固定源隔离运行复现；生产未修复。
-- ReceiverCapture旧timeout结束新会话，已在真实dispatch隔离运行复现；生产未修复。
-- Build collector异常吞为空items及跨阶段全局store快照限制，详见BUILD_BOUNDARIES，业务运行影响未验证。
-
-- SharedSite实际包含外部Class/SEL的诊断Hook及样本固定RVA，不是全部内部UI装饰器；保留迁移项，首批core不包含它。
-
-- API2新增执行/捕获基础组件已通过Foundation和ARM64构建验证，但原M47/旧Capture UI未集成，旧源码缺陷仍保留在审计基线。
-- custom lease的managed存活/地址/线程保证和capture safe close必须由待实现adapter提供；当前没有默认raw pointer fallback或Dobby成功即ack的实现。
-- install/close永不ack时会话保持占用与自持有；无法证明安全时不强制释放。正常关闭/retry释放已实际测试。
-
-## API3 / 只读 DeviceProbe 的验证边界
-
-- DeviceProbe 不是完整开发端。只提供 IL2CPP 类/方法元数据搜索和报告，现已增加有界全局 Method 关键词搜索、词典翻译与公开元数据字段复制；仍没有表达式/RVA完整查询、地址级详情、跨查询索引缓存、Invoke/实例、Native Hook 或混合 Build。
-- IL2CPP API 测试使用受控 C 函数表。真实游戏导出、ABI、Domain/线程行为必须依赖设备报告；缺导出或多个 Runtime 所有者明确拒绝绑定。
-- UIKit host 为 foreground UIScene window 或无 UIScene 时的 UIApplicationDelegate.window。多窗口、键盘、触摸穿透、旋转和前后台行为尚未实机验证。
-- 新实现错误对象曾在内层 autoreleasepool 后悬空，CI ASan 已复现并修复，原失败用例保留。静态分析的 NSError 可空通道已加守卫，分析器 findings 由显式 plist gate 拦截。
-- Probe 只保留最近一次操作报告，类与方法页面需分别导出。扫描上限会显示 truncated，不能当完整游戏索引。
-
-- 05840d7b已实现单一页面状态、最近类页面缓存及返回滚动位置恢复，Foundation/ASan通过；实际UIKit滚动恢复尚未设备验证。照片只证明4d9231c7面板显示，不证明Runtime搜索成功。
-
-- API4方法搜索目前为name contains关键词；原限定表达式/参数个数/RVA反查和类排名对等尚未迁移。详情仅复制公开元数据type name/static，不代表复杂结构封送或Invoke ABI已支持；不伪造原生地址。详细对照docs/METHOD_FINDER.md。
-
-- API5已补Named Expression与assembly/namespace/class/exact method/arity过滤，10020原解析器对照和类排名limit-one回归通过；非零delta/RVA地址路径仍未迁移。真实Runtime镜像/报告缺失，ABI证据缺口见docs/ABI_EVIDENCE_GATE.md，不能复制MethodInfo猜布局或raw receiver fallback后自称完成。
-
-- 用户已暂缓游戏ABI；不再等待目标游戏作为整个工程继续的条件。Invoke/managed保活与依赖目标布局的Native/Prepared路径仍未完成。
-- Manifest JSON是newmymenu.manifest/schemaVersion1，不是原zonoe-authoring或Patch JSON兼容导入器；后者及prepare/emit业务尚未接入，不得把基础snapshot/JSON测试通过写成混合构建完成。
-- 签名器限定thin ARM64且需现存LC_CODE_SIGNATURE，拒绝带entitlements的输入，最终IPA身份/权限重签必须由包级签名流程承担；没有设备加载验证。旧签名器两项缺陷与本轮修复记录见docs/SIGNER.md。
-
-- SwizzleManager采用明确的合作式调度/写入契约，不能阻止任意第三方不合作的Runtime修改；实际SharedSite外部Hook尚未接入该域。继承默认拒绝，显式LocalSnapshot会留下本地方法槽，不是完整动态继承还原。无法持有代码镜像及block-backed IMP明确拒绝，详情docs/SWIZZLE_MANAGER.md。
-
-## 离线配置的新边界
-
-API10/11仅迁移离线authoring与Patch候选。UI导入导出/持久化、实际目标绑定、Patch地址转换/原字节验证/冲突计划/写入和生产Build仍未完成。旧纯解析器数值强转与静默遗漏已在固定源fixture复现，新解析器严格拒绝；原仓库未修改。Foundation JSON不提供原始重复key的词法检测，不能把输入JSON当可信签名或完整来源证明。
-
-## Static地址边界
-
-原V3纯映射函数的va+length无检查溢出已通过hash固定原函数实际复现，新API12使用有界减法检查拒绝；原仓库不修改。layout解析只证明segment映射，不是完整Mach-O加载验证器；未知load command内部引用、重定位和静态注入安全仍由后续构建阶段验证。当前无Static Patch实际写入/生产计划，也没有实机结果。Linux LeakSanitizer在ptrace环境失败，普通本地测试与macOS CI sanitizer结果分别记录，不混淆。
-
-## Static计划边界
-
-API13计划不包含emit/写入。expected-byte来源标签是调用者声明，只有与冻结图像比较实际执行，不自动升级成可信Runtime采集。direct scan覆盖原V3七类直接分支，不能证明间接跳转/跨镜像引用/动态生成代码；requiresRelocationValidation恒真。资源上限256逻辑、单定义64KiB、图像256MiB、replacement4MiB、合成16MiB及扫描64MiB，超限明确失败。
-
-首轮fixture的assert宏与ObjC数组字面量逗号冲突已修正为函数断言；没有删用例或放宽校验。layout扩展改变公开值结构大小，仅支持同一API13头/库配套，不承诺与旧API12二进制调用方结构布局兼容。当前无外部分发，最终整合才交付。
+原源码缺陷的复现/处置仍保留在docs/audit/FINDINGS、INVOKE_OWNERSHIP、CAPTURE_LIFECYCLE和BUILD_BOUNDARIES中。原仓库未修改，旧M47和Capture问题不能以新基础组件通过宣称原生产实现已修复。

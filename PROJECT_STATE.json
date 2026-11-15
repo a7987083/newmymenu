@@ -497,7 +497,18 @@
       }
     ],
     "device_verified": false,
-    "game_abi_deferred": true
+    "game_abi_deferred": true,
+    "native_runtime": {
+      "compiled_source_head": "8bb60d21bc4cdb806a504108a4c0c6f168c0682f",
+      "run_id": 43770082803,
+      "job_id": 132983804874,
+      "status": "success",
+      "analysis_reports": 22,
+      "concurrent_calls": 10000,
+      "toggle_cycles": 1000,
+      "device_verified": false
+    },
+    "integrated_simulator": "in progress; latest new UI draft/driver bounds require next CI"
   },
   "execution_environment": {
     "local_linux": "available again; git HTTPS push credential absent; connector commits with expected-head lease",

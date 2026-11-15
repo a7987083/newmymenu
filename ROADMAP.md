@@ -1,60 +1,9 @@
-# 开发路线与验收
+# 后续工作与验收
 
-## 已完成的明确范围
+1. 完成API19 loaded Static Runtime及UI集成CI。真实ARM64 fixture必须通过owner栈恢复、同组同站点、精确U64、浮点、Slider、冲突、元数据变化和并发调用；Simulator必须实际加载预埋库并由UI改变返回值。不能只以编译成功验收。
+2. 复核Simulator截图、焦点/键盘与页面布局；补适用的Finder/功能状态及窗口生命周期回归。真实iOS旋转、多窗口、前后台和加载不由Simulator静态截图代替。
+3. 对新仓库做最终技术债复审：单一执行入口、状态所有者、未使用路径、ABI/IMP转换、锁/重入/镜像与对象生命周期、失败释放。删除有证据的废代码，不把必要但未迁移的能力当无用代码。
+4. 汇总回归矩阵和源码/二进制/CI一致性报告，整理Release候选、Artifact、SHA256、Mach-O/依赖/签名及设备验证单。用户只收最终整合候选，不收阶段产物。
+5. 游戏ABI工作保持暂缓：待用户恢复范围后，以同版本真实二进制和运行证据接入IL2CPP Invoke/GCHandle、ByRef/复杂结构、多实例执行和Native/Prepared Hook；不猜MethodInfo布局或把DobbyDestroy当在途排空证明。
 
-- 固定原开发端7066ede，建立功能/Swizzle库存和关键调用证据；不是完整动态IMP审计。
-- 实际隔离复现M47接收器契约绕过和Capture旧timeout跨会话问题。
-- 完成首批离线翻译与Action wire/checked codec的模块审计、设计、独立源码迁移、测试和ARM64 core构建。
-- f385c8a的Run43638969924四job通过；基础core机器报告位于docs/builds。
-
-## 本轮 DeviceProbe
-
-Finder单一不可变页面状态与类列表返回/滚动恢复已通过Foundation/ASan；UIKit设备恢复待验证。RuntimeDiscovery 的同镜像导出绑定、线程所有权与元数据值复制已实现；自包含只读 UIKit 验证入口用于收集真实游戏证据。具体设备步骤见 [DEVICE_VALIDATION](docs/DEVICE_VALIDATION.md)。这不等于 MethodFinder/Invoke 的完整迁移。
-
-## 下一阶段
-
-1. InvocationRequest/ReceiverLease/Coordinator基础组件已实现并经Foundation验证。下一步接入版本明确的IL2CPP解析/线程/GCHandle/封送/返回adapter和显式chain session，保持所有arity使用同一契约。
-2. CaptureSessionManager新状态机已通过真实timer、失败/retry与释放测试。下一步接Native adapter；不能以DobbyDestroy成功代替在途调用排空。
-3. RuntimeDiscovery/MethodFinder状态与单Renderer迁移。验收：count和卡片同一快照；类/方法切换、取消、滚动、复制与翻译保持行为。
-4. Native/Build迁移：临时Dobby、StaticPrepared及外部SharedSite诊断各自生命周期；BuildRequest冻结输入并显式传播错误。成熟Mach-O/ABI算法优先复用。
-5. 必要外部ObjC Hook进入统一SwizzleManager，完成真实Runtime冲突/继承/恢复fixture；不因旧版本装饰器多就删除有用外部诊断。
-6. 完整开发端ARM64 dylib构建、功能矩阵回归、技术债复审与真实iOS加载/交互验证，再交付Release。
-
-首批core成功不等于完整产品；未执行的设备/业务回归一直标未验证。
-
-## Finder后续验收顺序
-
-API4已接方法关键词/公开元数据详情/原词典/字段复制；矩阵见docs/METHOD_FINDER.md。下一批优先审计复用原表达式/parser，建立命名空间/assembly/参数个数与错误输入对照fixture，然后补排名、显式取消和地址查询，不凭关键词版成功删需求。真实Invoke接入仍需目标Runtime报告确认ABI/生命周期。
-
-## 连续推进与证据门槛
-
-API5 parser/qualified filters/排名已实际编译回归通过，不再中途发送验证版。Invoke/Native高风险接入先补版本匹配Runtime二进制/导出/日志证据，见docs/ABI_EVIDENCE_GATE.md；其余未迁移Configuration/Build/外部诊断仍保留在路线，不以该门槛表示它们已完成。
-
-## ABI独立路线实际推进
-
-- 协作取消及取消后的generation失效已通过CI。
-- 不可变BuildItem/Manifest、唯一冻结配置、collector错误传播和Manifest-only JSON往返已通过Foundation/ASan与ARM64构建。离线authoring文档/原子store及Patch候选解析已迁移，尚未接最终UI和生产构建。
-- 复用签名器在独立codesign校验中暴露的ad-hoc标志/证书要求矛盾已根因修复；源文件保护、临时副本、不覆盖发布及损坏输入验证已实现。当前集成/权限拒绝负例以CI为准。
-- 接下来：已完成独立Swizzle组件/真实Runtime fixture及离线配置模型；下一步UI导入导出、独立Static Patch/Mach-O构建闭包及最终DeveloperUI。游戏ABI暂缓不是全局阻塞。
-
-## SwizzleManager独立组件
-
-统一manager/token已实现并接入API9核心：合作式调度、类型检查、原IMP/代码镜像所有权、重复/foreign/parent冲突拒绝、显式继承策略和恢复。真实ObjC Runtime fixture覆盖参数/返回/原IMP与并发/生命周期；不依赖游戏ABI。
-
-剩余：真实SharedSite诊断的调度适配不能仅填coordinated=YES；必须证明全部目标调用与writer参与同一域。未经证明不安装。参见docs/SWIZZLE_MANAGER.md，不能把组件测试通过当旧诊断功能已整体迁移。
-
-## API10/11 配置后续
-
-离线authoring身份10000组原实现对照、原子revision store、Patch严格数值与review往返已通过Foundation/ASan。下一步先审计复用原Static Patch地址转换/Mach-O校验和物理写入规划，冻结输入、检查原字节及重叠冲突，再接事务式文件发布；不新写已成熟的底层算法。游戏ABI保持暂缓。最终UI、混合Build与实机仍未验收。
-
-## Static地址阶段 API12
-
-固定原V3地址公式已分离为唯一有界C组件；正常映射16384组原函数对照、旧跨度溢出复现和真实ARM64布局检查通过首轮CI。详细边界见docs/STATIC_PATCH.md；加密标记/section补充用例以最新CI为准。
-
-下一步保留原逻辑→物理同起点聚合、最大窗口及不同起点重叠拒绝，补instruction/入分支证明与显式expected bytes来源，设计不可变Static构建计划。不得把地址映射通过当生成/签名/混合Build完成。
-
-## Static物理计划 API13
-
-不可变definition/plan已迁移：显式expected bytes来源、instruction/字节一致性、同起点聚合/最大窗口/补尾/变体去重、逻辑映射、不同起点重叠拒绝及直接分支内部目标扫描。Foundation/ASan/UBSan和实际ARM64输入通过首轮CI；最终原函数对照结果以PROJECT_STATE为准。
-
-下一步先审计复用原ARM64 relocate/variant写入的PC-relative/terminal规则，独立验证符号扩展/地址差及±范围，再接Thunk/Dispatch和文件事务。indirect/跨镜像/动态生成代码不是当前direct scan的证明范围，不能关闭requiresRelocationValidation来强行写入。
+已完成的基础与离线模块包括翻译、ordinal codec、显式执行/捕获契约、只读元数据、Finder状态与呈现、Manifest、配置、签名、地址/重定位/物理计划、Static emission与事务式离线发布、统一SwizzleManager。每项证据以docs/builds、实际Git/CI为准；“组件通过”不能升级为原53项功能全部对等。

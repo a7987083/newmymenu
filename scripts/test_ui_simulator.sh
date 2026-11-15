@@ -3,7 +3,7 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 source scripts/source_lists.sh
 mkdir -p build/developer-menu/ui-fixture build/ui-simulator
-xcrun simctl list runtimes -j > build/ui-simulator/runtimes.json
+python3 tools/run_simctl.py list runtimes -j > build/ui-simulator/runtimes.json
 RUNTIME=$(python3 - <<'PY'
 import json
 r=[x['identifier'] for x in json.load(open('build/ui-simulator/runtimes.json'))['runtimes'] if x.get('isAvailable') and x.get('version')=='18.5' and 'iOS' in x['identifier']]
@@ -36,24 +36,24 @@ codesign --force --sign - --timestamp=none "$APP/NMSimulatorStaticSource.dylib"
 python3 tools/fixture_symbols.py "$APP/NMSimulatorStaticSource.dylib" "$APP/FixtureSymbols.json"
 cp build/core/NewMyMenuCore.dylib "$APP/StaticFixture.bin"
 codesign --force --sign - --timestamp=none "$APP"
-DEVICE=$(xcrun simctl create NewMyMenu-UI-Fixture com.apple.CoreSimulator.SimDeviceType.iPhone-16 "$RUNTIME")
+DEVICE=$(python3 tools/run_simctl.py create NewMyMenu-UI-Fixture com.apple.CoreSimulator.SimDeviceType.iPhone-16 "$RUNTIME")
 CONTAINER=""
 cleanup_ui(){
   status=$?
   if [[ -n "$CONTAINER" && -d "$CONTAINER/Documents/ui-fixture" ]]; then cp "$CONTAINER/Documents/ui-fixture/"* build/developer-menu/ui-fixture/ 2>/dev/null || true;fi
-  if [[ "$status" != 0 ]]; then xcrun simctl io "$DEVICE" screenshot build/developer-menu/ui-fixture/failure.png >/dev/null 2>&1 || true;fi
-  xcrun simctl shutdown "$DEVICE" >/dev/null 2>&1 || true
-  xcrun simctl delete "$DEVICE" >/dev/null 2>&1 || true
+  if [[ "$status" != 0 ]]; then python3 tools/capture_simulator.py "$DEVICE" build/developer-menu/ui-fixture/failure.png >/dev/null 2>&1 || true;fi
+  python3 tools/run_simctl.py shutdown "$DEVICE" >/dev/null 2>&1 || true
+  python3 tools/run_simctl.py delete "$DEVICE" >/dev/null 2>&1 || true
   trap - EXIT
   exit "$status"
 }
 trap cleanup_ui EXIT
-xcrun simctl boot "$DEVICE"
-xcrun simctl bootstatus "$DEVICE" -b
-xcrun simctl install "$DEVICE" "$APP"
-xcrun simctl launch --console --terminate-running-process "$DEVICE" io.newmymenu.UIFixture > build/developer-menu/ui-fixture/launch.log 2>&1 &
+python3 tools/run_simctl.py boot "$DEVICE"
+python3 tools/run_simctl.py bootstatus "$DEVICE" -b
+python3 tools/run_simctl.py install "$DEVICE" "$APP"
+python3 tools/run_simctl.py launch --console --terminate-running-process "$DEVICE" io.newmymenu.UIFixture > build/developer-menu/ui-fixture/launch.log 2>&1 &
 LAUNCH=$!
-CONTAINER=$(xcrun simctl get_app_container "$DEVICE" io.newmymenu.UIFixture data)
+CONTAINER=$(python3 tools/run_simctl.py get_app_container "$DEVICE" io.newmymenu.UIFixture data)
 for iteration in $(seq 1 180); do
   for phase in build keyboard; do
     if [[ -f "$CONTAINER/Documents/ui-fixture/$phase-ready" && ! -f "$CONTAINER/Documents/ui-fixture/$phase-captured" ]]; then

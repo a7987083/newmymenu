@@ -194,3 +194,5 @@
 - Run43769003422真实ARM64 fixture首错为测试调用NMMachOResolveRange时传NULL输出；该既有API要求两个独立输出。修正fixture及新Runtime校验调用，保持API拒绝规则。新增Simulator实际加载预埋库、UI开关/精确U64输入/恢复断言；补同组共享站点有效状态与整数Slider取整。等待重跑。
 - Run43769306253：prepared绑定报Image is not loaded。fixture此前预加载原库以求符号，再加载相同install-name/UUID的预埋副本；不放宽运行时路径身份检查。改为构建时从真实nm符号生成fixture JSON，避免原库先进入dyld；是否解决绑定问题以重跑为准。另补Static键盘高度、逐卡反馈和只读范围检查。
 - Run43769727679仍复现绑定失败，排除原库预加载是充分修复。源码发现canonicalPath未将相对路径提升为绝对路径，而dyld路径为绝对路径；统一先拼接currentDirectory再规范化，并新增相对/绝对重复绑定同一镜像断言。等待真实CI确认，不放宽身份检查。
+- 8bb60d21核心Run43770082803/foundation-core成功：22分析零诊断、59导出、ARM64签名/依赖校验；真实prepared Runtime的owner-stack、同组共享、精确U64/F32/F64、Slider、外部/元数据冲突、10000并发调用/1000恢复通过。Core SHA256 0a31d9e5b34f08ec9dc46ebf18d5b776fb5350e0780abafad1e0c0242361b731；未实机。
+- UI复用按功能ID保存的card对象，保留其他卡片和失败输入草稿，避免一次操作重建全部控件导致焦点/输入丢失；补Simulator溢出拒绝/草稿/焦点测试。simctl和失败截图增加超时，保留失败日志与Artifact，不将超时作为成功。重写当前README/ROADMAP/KNOWN_ISSUES，历史审计库存不冒充现状。
