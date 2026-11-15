@@ -36,3 +36,9 @@ API5 parser/qualified filters/排名已实际编译回归通过，不再中途�
 - 不可变BuildItem/Manifest、唯一冻结配置、collector错误传播和Manifest-only JSON往返已通过Foundation/ASan与ARM64构建。旧authoring/Patch JSON导入尚未迁移。
 - 复用签名器在独立codesign校验中暴露的ad-hoc标志/证书要求矛盾已根因修复；源文件保护、临时副本、不覆盖发布及损坏输入验证已实现。当前集成/权限拒绝负例以CI为准。
 - 接下来：必要ObjC Swizzle生命周期与真实Runtime fixture、配置模型/UI导入导出、独立Static Patch/Mach-O构建闭包及最终DeveloperUI。游戏ABI暂缓不是全局阻塞。
+
+## SwizzleManager独立组件
+
+统一manager/token已实现并接入API9核心：合作式调度、类型检查、原IMP/代码镜像所有权、重复/foreign/parent冲突拒绝、显式继承策略和恢复。真实ObjC Runtime fixture覆盖参数/返回/原IMP与并发/生命周期；不依赖游戏ABI。
+
+剩余：真实SharedSite诊断的调度适配不能仅填coordinated=YES；必须证明全部目标调用与writer参与同一域。未经证明不安装。参见docs/SWIZZLE_MANAGER.md，不能把组件测试通过当旧诊断功能已整体迁移。

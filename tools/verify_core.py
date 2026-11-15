@@ -50,7 +50,7 @@ def main(path, device_probe=False):
  symbols={line.split()[-1] for line in exports.splitlines() if line.strip()}
  if symbols!=expected:raise ValueError('export mismatch: '+repr(symbols^expected))
  check=subprocess.run(['codesign','--verify','--strict','--verbose=4',str(path)],text=True,capture_output=True,check=True)
- result.update(exports=sorted(symbols),signature_verified=True,sha256=hashlib.sha256(path.read_bytes()).hexdigest(),product_scope='device read-only metadata probe; no Invoke/GCHandle/Hook/Build' if device_probe else 'foundation/contracts and read-only IL2CPP discovery; no game invoke/Hook/Build',source_head=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip())
+ result.update(exports=sorted(symbols),signature_verified=True,sha256=hashlib.sha256(path.read_bytes()).hexdigest(),product_scope='read-only device metadata UI with shared core; not the integrated developer product' if device_probe else 'modular foundation library; full developer product and device validation incomplete',source_head=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip())
  path.with_name('verification.json').write_text(json.dumps(result,indent=2)+'\n')
  path.with_name('signature.txt').write_text(check.stdout+check.stderr)
  path.with_name('SHA256.txt').write_text(result['sha256']+'  '+path.name+'\n')

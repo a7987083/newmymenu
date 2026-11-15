@@ -37,3 +37,5 @@ API2已新增[显式调用与Capture生命周期组件](docs/audit/EXECUTION_COR
 当前最新API4 `3115e2b3`：[CI五job通过](https://github.com/a7987083/newmymenu/actions/runs/43649811591)，[只读MethodFinder Artifact](https://github.com/a7987083/newmymenu/actions/runs/43649811591/artifacts/14135153726)。增加Class/Method关键词切换、原词典翻译、原始字段复制；[迁移/差异矩阵](docs/METHOD_FINDER.md)。不是完整表达式/RVA Finder，也没有Invoke/Hook/Build业务。实机未验证。
 
 ABI独立模块继续迁移：[Manifest冻结与严格JSON](docs/MANIFEST.md)、[离线签名器复用与输入保护](docs/SIGNER.md)。游戏ABI已按用户要求暂缓，不再作为全局停工条件。最终整合前不分发阶段dylib。
+
+[SwizzleManager契约与真实Runtime测试](docs/SWIZZLE_MANAGER.md)：统一状态与代码镜像所有权，在合作式调度条件下管理安装/恢复。未证明宿主调度条件的外部Hook不自动安装。

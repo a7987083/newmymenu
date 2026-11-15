@@ -128,3 +128,5 @@
 - Swizzle fixture evidence strengthened: every parallel scope must return success and an atomic counter proves all 1000 method calls ran (not merely dispatch attempts). Added 128 active-target/129th rejection boundary, complete cleanup and bounded diagnostic churn tests. Production implementation unchanged.
 
 - Pre-install target validation now rejects non-Class and already-metaclass inputs before object_getClass conversion, avoiding accidental double-metaclass targeting. Added a real Runtime negative case; no mutation occurs. Variadic methods explicitly remain outside the supported declaration contract because Runtime encodings do not prove ellipsis ABI.
+
+- Run43656315886: API9 full suite passed, including exact 1000 completed calls, 128/129 capacity boundary, cleanup and metaclass-input refusal. Build verifier scope text now describes a modular foundation library rather than obsolete no-Hook/no-Build wording, keeping evidence accurate as ObjC lifecycle/Manifest/signing components are added; no production binary behavior changed.
