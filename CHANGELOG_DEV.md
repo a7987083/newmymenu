@@ -205,3 +205,4 @@
 - Run43771959291首次保留Simulator退出阶段：start→emit→sign→dlopen，退出发生在dlopen返回前，尚无ips。fixture输出权限对齐真实OfflineBuildRequest的0755，并补宿主签名/加载器日志与prepared独立codesign/dyld_info诊断；不提前归因为签名或代码执行。
 - Simulator首个真实系统错误已取证：Run43772856742 / Artifact14185641183宿主AMFI拒绝offset0签名页(wpmapped:1)，同文件codesign/dyld_info均通过。设计0023后重构唯一Signer发布层：工作节点签名后复制到新节点、fsync、只读重新验签、独占link发布；保留签名算法，移除同写映射inode直接发布路径。两次复制共用helper，失败清理覆盖两个临时文件。是否解决加载拒绝等待CI，不绕过AMFI。
 - Static UI复审消除全量控件创建：单一UITableView复用card，只有快照/按ID草稿/反馈由UI持有；同步操作只更新可见cell保留焦点，worker提交时重新读当前Runtime状态防旧快照覆盖新操作。新增4096行虚拟化、滚动复用草稿、恢复真实快照且不改变引擎的UIKit测试；真实执行测试仍独立保留。待CI验证。
+- Run43773948728首错：最终只读校验传const字节给旧parse/verify可写指针声明，C++拒绝。确认两函数只读取输入后统一改为const接口及内部只读struct指针，未用const_cast、未改回可写映射；同步重跑。

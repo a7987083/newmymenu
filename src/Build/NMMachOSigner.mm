@@ -66,12 +66,12 @@ static void NMSignerWriteBE64(uint8_t *p, uint64_t value) {
     memcpy(p, &value, sizeof(value));
 }
 
-static BOOL NMSignerParseSignLayout(uint8_t *base, uint64_t size, NMSignerSignLayout &layout, NSString **error) {
+static BOOL NMSignerParseSignLayout(const uint8_t *base, uint64_t size, NMSignerSignLayout &layout, NSString **error) {
     if (size < sizeof(struct mach_header_64)) {
         if (error) *error = @"Mach-O 太小";
         return NO;
     }
-    struct mach_header_64 *mh = (struct mach_header_64 *)base;
+    const struct mach_header_64 *mh = (const struct mach_header_64 *)base;
     if (mh->magic != MH_MAGIC_64 || mh->cputype != CPU_TYPE_ARM64) {
         if (error) *error = @"ad-hoc signer 当前仅支持 thin arm64/arm64e Mach-O";
         return NO;
@@ -88,26 +88,26 @@ static BOOL NMSignerParseSignLayout(uint8_t *base, uint64_t size, NMSignerSignLa
     layout.execFileStart = UINT64_MAX;
     layout.execFlags = (mh->filetype == MH_EXECUTE) ? 1ULL : 0ULL;
 
-    uint8_t *cursor = base + sizeof(*mh);
-    uint8_t *limit = base + commandEnd;
+    const uint8_t *cursor = base + sizeof(*mh);
+    const uint8_t *limit = base + commandEnd;
     for (uint32_t i = 0; i < mh->ncmds; i++) {
         if (cursor + sizeof(struct load_command) > limit) {
             if (error) *error = @"load command 损坏";
             return NO;
         }
-        struct load_command *lc = (struct load_command *)cursor;
+        const struct load_command *lc = (const struct load_command *)cursor;
         if (lc->cmdsize < sizeof(struct load_command) || (lc->cmdsize & 7u) || lc->cmdsize > (uint64_t)(limit-cursor)) {
             if (error) *error = @"load command size 损坏";
             return NO;
         }
         if (lc->cmd == LC_CODE_SIGNATURE && lc->cmdsize >= sizeof(struct linkedit_data_command)) {
-            struct linkedit_data_command *sig = (struct linkedit_data_command *)cursor;
+            const struct linkedit_data_command *sig = (const struct linkedit_data_command *)cursor;
             if(layout.codeSignatureCommandOffset!=UINT64_MAX){if(error)*error=@"Duplicate LC_CODE_SIGNATURE";return NO;}
             layout.codeSignatureCommandOffset = (uint64_t)(cursor - base);
             layout.signatureOffset = sig->dataoff;
             layout.signatureSize = sig->datasize;
         } else if (lc->cmd == LC_SEGMENT_64 && lc->cmdsize >= sizeof(struct segment_command_64)) {
-            struct segment_command_64 *seg = (struct segment_command_64 *)cursor;
+            const struct segment_command_64 *seg = (const struct segment_command_64 *)cursor;
             if(seg->fileoff>size||seg->filesize>size-seg->fileoff||seg->nsects>(lc->cmdsize-sizeof(*seg))/sizeof(struct section_64)){if(error)*error=@"Invalid segment file/section range";return NO;}
             if (strncmp(seg->segname, SEG_LINKEDIT, 16) == 0) {
                 if(layout.linkeditCommandOffset!=UINT64_MAX){if(error)*error=@"Duplicate __LINKEDIT";return NO;}
@@ -345,7 +345,7 @@ static BOOL NMSignerVerifyCodeDirectory(const uint8_t *base,
     return YES;
 }
 
-static BOOL NMSignerVerifyEmbeddedSignature(uint8_t *base,
+static BOOL NMSignerVerifyEmbeddedSignature(const uint8_t *base,
                                       uint64_t fileSize,
                                       const NMSignerSignLayout &layout,
                                       NSDictionary **metadata,
