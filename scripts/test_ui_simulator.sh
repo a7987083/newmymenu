@@ -34,7 +34,17 @@ PY
 cp build/core/NewMyMenuCore.dylib "$APP/StaticFixture.bin"
 codesign --force --sign - --timestamp=none "$APP"
 DEVICE=$(xcrun simctl create NewMyMenu-UI-Fixture com.apple.CoreSimulator.SimDeviceType.iPhone-16 "$RUNTIME")
-trap 'xcrun simctl shutdown "$DEVICE" >/dev/null 2>&1 || true;xcrun simctl delete "$DEVICE" >/dev/null 2>&1 || true' EXIT
+CONTAINER=""
+cleanup_ui(){
+  status=$?
+  if [[ -n "$CONTAINER" && -d "$CONTAINER/Documents/ui-fixture" ]]; then cp "$CONTAINER/Documents/ui-fixture/"* build/developer-menu/ui-fixture/ 2>/dev/null || true;fi
+  if [[ "$status" != 0 ]]; then xcrun simctl io "$DEVICE" screenshot build/developer-menu/ui-fixture/failure.png >/dev/null 2>&1 || true;fi
+  xcrun simctl shutdown "$DEVICE" >/dev/null 2>&1 || true
+  xcrun simctl delete "$DEVICE" >/dev/null 2>&1 || true
+  trap - EXIT
+  exit "$status"
+}
+trap cleanup_ui EXIT
 xcrun simctl boot "$DEVICE"
 xcrun simctl bootstatus "$DEVICE" -b
 xcrun simctl install "$DEVICE" "$APP"

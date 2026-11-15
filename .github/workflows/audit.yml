@@ -143,6 +143,7 @@ jobs:
           make test-macho-address
           make test-static-plan
           make test-arm64-relocation
+          make test-static-values SOURCE_BASELINE=.audit-source
           make test-relocation-parity SOURCE_BASELINE=.audit-source
           make test-static-variant-parity SOURCE_BASELINE=.audit-source
           python3 tools/generate_address_parity.py .audit-source

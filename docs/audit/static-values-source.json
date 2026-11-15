@@ -1,0 +1,7 @@
+{
+  "repository": "a7987083/mymenu",
+  "commit": "7066edeaf9e47580c89440be670c517280534b69",
+  "path": "iosruntimepatchmenu/src/ZNStaticValueCellV1.mm",
+  "sha256": "6dbcd3f6ecf330ea898a8987d58908fedf7454b44a2c022975c17dc4f2a604f6",
+  "reuse": "MOVZ/MOVK and scalar FMOV immediate expansion; reserved W halfwords, type/register constraints checked"
+}

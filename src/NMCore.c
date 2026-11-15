@@ -1,2 +1,2 @@
 #include "NMCore.h"
-uint32_t NewMyMenuCoreGetAPIVersion(void) { return 16u; }
+uint32_t NewMyMenuCoreGetAPIVersion(void) { return 17u; }

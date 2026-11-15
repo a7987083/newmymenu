@@ -181,3 +181,11 @@ test-static-loaded-image:
 	codesign --force --sign - --timestamp=none build/tests/NMStaticSourceFixture.dylib
 	xcrun clang++ -std=c++17 $(WARN) -g -fsanitize=address,undefined -fobjc-arc -fblocks -Iinclude -Isrc/Build -framework Foundation build/tests/plan-address.o build/tests/plan-relocation.o build/tests/code-plan.o src/Build/NMStaticCodePayload.mm src/Build/NMChainedFixupsPrivate.mm src/Build/NMStaticBinaryImage.mm src/Build/NMMachOSigner.mm tests/core/static_loaded_image_test.mm -o build/tests/static-loaded-image
 	build/tests/static-loaded-image build/tests/NMStaticSourceFixture.dylib build/static-image-fixture/host-loaded
+
+.PHONY: test-static-values
+test-static-values:
+	$(CC) -std=c11 $(WARN) -g -fsanitize=address,undefined -Iinclude src/Build/NMStaticValues.c tests/core/static_values_test.c -o build/tests/static-values
+	build/tests/static-values
+	python3 tools/generate_static_value_parity.py "$(SOURCE_BASELINE)"
+	$(CC) -std=c11 $(WARN) -g -fsanitize=address,undefined -Iinclude src/Build/NMStaticValues.c build/tests/static-value-parity.c -o build/tests/static-value-parity
+	build/tests/static-value-parity

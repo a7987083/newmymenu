@@ -1,0 +1,5 @@
+#include "NMStaticValues.h"
+#include <assert.h>
+#include <stdio.h>
+#include <string.h>
+int main(void){uint32_t words[]={0xd2824680u,0xf2b579a0u,0xd65f03c0u};NMStaticImmediate r={0};assert(NMStaticDecodeImmediate(words,sizeof words,NMStaticValueAuto,&r)&&r.type==NMStaticValueI64&&r.reg==0&&r.bits==0xabcd1234&&r.consumedInstructions==2);assert(!NMStaticDecodeImmediate(words,sizeof words,NMStaticValueI32,&r));uint32_t bad=0x52c00000u;assert(!NMStaticDecodeImmediate(&bad,4,NMStaticValueAuto,&r));bad=0x5280001fu;assert(!NMStaticDecodeImmediate(&bad,4,0,&r));for(unsigned i=0;i<256;i++){uint32_t s=0x1e201000u|(i<<13),d=s|0x00400000u;assert(NMStaticDecodeImmediate(&s,4,NMStaticValueF32,&r)&&r.type==NMStaticValueF32);float f;uint32_t bits=(uint32_t)r.bits;memcpy(&f,&bits,4);assert(f!=0);assert(NMStaticDecodeImmediate(&d,4,NMStaticValueF64,&r)&&r.type==NMStaticValueF64);double v;memcpy(&v,&r.bits,8);assert((double)f==v);assert(!NMStaticDecodeImmediate(&s,4,NMStaticValueF64,&r));}puts("PASS: exact MOVZ/MOVK composition and all 512 scalar FP immediates, width/type/register/length refusals");return 0;}

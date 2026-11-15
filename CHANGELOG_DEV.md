@@ -178,3 +178,5 @@
 - Run43684503704五job通过：单一DeveloperMenu四页已实际ARM64编译/签名/静态分析，旧Probe入口删除；UIKit交互仍未验证。增加固定18.5 Simulator App contract、截图和未安装runtime的真实状态记录；将三种目标构建/核心分析收敛为一份显式源清单，并校验实现完整性/对象名唯一。模拟器结果待CI。
 
 - Run43685036578：Core/API16完整构建链及20份分析通过，17项portable检查通过；UI模拟器启动成功但fixture在配置初始草稿处失败。根因为UI对emptyDocument调用禁止空导出的API并忽略nil；改为明确空草稿模板，不放宽空导入/导出清空保护。fixture改用明确非空配置做应用/保存回归，并验证空模板仍被拒绝。新增真实dyld加载准备后macOS ARM64文件的切换/卸载fixture。Core Artifact14149878306已下载核对hash/Mach-O/分析plist，UI结果不伪报通过。
+
+- Run43685791466：真实dyld加载准备后的macOS ARM64文件，OFF=7/ON=42、1000次切换/恢复与卸载通过。Simulator配置应用/拒绝/保存已推进通过，fixture错误地假设document picker一定是最顶层Controller；改为在实际controller树查找并等待存在，失败时保留截图/产物，不删UI断言。Static数值解码沿原算法迁移，Linux普通C覆盖MOVZ/MOVK及512 FP立即数通过；加入固定源对照和sanitizer CI，尚未声明数值控件整合完成。
