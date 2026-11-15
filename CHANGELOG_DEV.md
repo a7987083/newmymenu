@@ -160,3 +160,5 @@
 - Run43679881569：API13 Probe ARM64编译/分析通过；Foundation计划fixture编译被assert宏中的Objective-C数组字面量逗号阻断。生产代码未放宽检查，测试改用函数封装断言，保留全部用例后重跑。
 
 - 新增256/257逻辑容量边界与hash固定原ZNV3ComposedVariant的独立对照fixture（1000计划/2000变体，显式FileOffset和PreferredVA归一）。仅提取原纯NSData合成函数，不执行原Builder；结果待CI。
+
+- 63f3e06 / Run43679985650五job通过，计划ASan/UBSan与真实ARM64输入通过。3f4c53a8 / Run43680151665加入1000计划/2000原合成结果对照及256/257容量后再次五job通过；15份core及3份Probe分析零诊断，core44/probe45导出/依赖/签名通过。Core Artifact14147852562已下载核对ZIP/dylib哈希、source_head、Mach-O和分析plist。交接/路线/状态同步；尚无emit/write、最终UI或实机验证，未分发阶段dylib。

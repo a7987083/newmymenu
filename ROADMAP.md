@@ -52,3 +52,9 @@ API5 parser/qualified filters/排名已实际编译回归通过，不再中途�
 固定原V3地址公式已分离为唯一有界C组件；正常映射16384组原函数对照、旧跨度溢出复现和真实ARM64布局检查通过首轮CI。详细边界见docs/STATIC_PATCH.md；加密标记/section补充用例以最新CI为准。
 
 下一步保留原逻辑→物理同起点聚合、最大窗口及不同起点重叠拒绝，补instruction/入分支证明与显式expected bytes来源，设计不可变Static构建计划。不得把地址映射通过当生成/签名/混合Build完成。
+
+## Static物理计划 API13
+
+不可变definition/plan已迁移：显式expected bytes来源、instruction/字节一致性、同起点聚合/最大窗口/补尾/变体去重、逻辑映射、不同起点重叠拒绝及直接分支内部目标扫描。Foundation/ASan/UBSan和实际ARM64输入通过首轮CI；最终原函数对照结果以PROJECT_STATE为准。
+
+下一步先审计复用原ARM64 relocate/variant写入的PC-relative/terminal规则，独立验证符号扩展/地址差及±范围，再接Thunk/Dispatch和文件事务。indirect/跨镜像/动态生成代码不是当前direct scan的证明范围，不能关闭requiresRelocationValidation来强行写入。

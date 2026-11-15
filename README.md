@@ -1,6 +1,6 @@
 # newmymenu
 
-当前范围：独立基础组件API12（离线配置/原子store、Patch候选、离线地址映射、Swizzle生命周期、Manifest、签名和只读Finder），完整开发端尚未完成。游戏ABI接入按要求暂缓；最终UI、Static写入闭包和整合回归继续推进，不发送阶段dylib。最新构建证据见HANDOFF.md和PROJECT_STATE.json，以下早期Probe链接仅为历史。
+当前范围：独立基础组件API13（离线配置/原子store、Patch候选、离线地址映射与物理计划、Swizzle生命周期、Manifest、签名和只读Finder），完整开发端尚未完成。游戏ABI接入按要求暂缓；最终UI、Static写入闭包和整合回归继续推进，不发送阶段dylib。最新构建证据见HANDOFF.md和PROJECT_STATE.json，以下早期Probe链接仅为历史。
 
 
 独立 iOS ARM64 开发端重构工程，目前处于源码审计、基础模块及只读 Runtime/UI 验证阶段，**尚未实现原开发端功能对等，也没有最终菜单 dylib**。

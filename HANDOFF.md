@@ -6,7 +6,21 @@
 源仓库 https://github.com/a7987083/mymenu 只读，未修改远程或历史。
 固定候选 `feat/method-finder-p5-detail-copy@7066edeaf9e47580c89440be670c517280534b69`；main7216b55，customer92d675e。所有远程分支SHA与源文件hash在docs/audit/source-inventory.json。
 
-## 当前最新：API12 Static地址组件
+## 当前最新：API13 Static物理计划
+
+编译代码 `3f4c53a8541ae793f17d953af9230b014e73dff5`，[Run43680151665](https://github.com/a7987083/newmymenu/actions/runs/43680151665)五job通过。Core Artifact14147852562，SHA256 `cf805713d3b9a654bbc40b922a2e3a8c226a586ea95d72f346d5da455ac9d057`。已下载复核ZIP/dylib hash、source_head、Mach-O、44项导出、15份核心分析零诊断；macOS CI严格codesign通过。报告docs/builds/static-plan-3f4c53a8.json。后续文档HEAD不是二进制来源。
+
+核心位置include/NMStaticPatchPlan.h、src/Build/NMStaticPatchPlan.m；原代码hash及复用决策见audit/static-plan-source.json、decisions/0014。不可变definition要求显式expected bytes和来源标签，plan只读单一冻结图像，比较原字节/校验instruction区域、同起点最大窗口聚合、补原尾部并去重variant、保留逻辑身份映射，拒绝不同起点重叠。直接branch只扫描一次，复用原掩码并修正负数左移/加法风险，二分匹配内部目标。
+
+layout在原C parser中增加instruction区域和section VM/file对应关系，不增加并行parser。公开值结构已扩展，API12头与API13库不能混用。当前无外部产品交付，最终只使用配套头/库。
+
+验证命令：make test-static-plan；make test-static-variant-parity SOURCE_BASELINE=/path/to/fixed-source；make core后build/tests/static-plan build/core/NewMyMenuCore.dylib。Foundation/ASan/UBSan实际通过：七类direct分支正负偏移/入口允许，原字节/section/重叠/变体/不可变性，256/257容量，真实ARM64图像。1000计划/2000合成结果与hash提取的原纯NSData函数一致，不执行旧Builder。
+
+首轮Run43679881569失败原因是测试assert宏误拆ObjC数组逗号；63f3e06修正函数断言后五job通过，3f4c53a8继续加入对照/容量测试再通过；未删检查。
+
+next：审计复用原ARM64 relocate/variant PC-relative和terminal规则，独立证明符号扩展/目标差/范围，再做Thunk/Dispatch/segment emit与事务式文件发布。requiresRelocationValidation恒真，当前无emit/write入口；indirect/跨镜像/动态代码不在direct scan证明内。最终UI/完整Build/设备仍未验证，游戏ABI暂缓，不发阶段dylib。
+
+## API12 Static地址组件（历史）
 
 编译代码 `d851ea15b8007560922e6e63df0e6f510177aa66`，[Run43678664102](https://github.com/a7987083/newmymenu/actions/runs/43678664102)五job通过。Core Artifact14147113395，SHA256 `ba49469d69a71834d6b1afa40c06d766c0eadda8ac1f37a81097b90b05be8680`。已下载复核ZIP/dylib hash、source_head、Mach-O、39导出、14份核心分析零诊断；macOS CI严格codesign通过。报告docs/builds/static-address-d851ea15.json。此后文档HEAD前进不表示重新编译。
 

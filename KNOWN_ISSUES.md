@@ -43,3 +43,9 @@ API10/11仅迁移离线authoring与Patch候选。UI导入导出/持久化、实�
 ## Static地址边界
 
 原V3纯映射函数的va+length无检查溢出已通过hash固定原函数实际复现，新API12使用有界减法检查拒绝；原仓库不修改。layout解析只证明segment映射，不是完整Mach-O加载验证器；未知load command内部引用、重定位和静态注入安全仍由后续构建阶段验证。当前无Static Patch实际写入/生产计划，也没有实机结果。Linux LeakSanitizer在ptrace环境失败，普通本地测试与macOS CI sanitizer结果分别记录，不混淆。
+
+## Static计划边界
+
+API13计划不包含emit/写入。expected-byte来源标签是调用者声明，只有与冻结图像比较实际执行，不自动升级成可信Runtime采集。direct scan覆盖原V3七类直接分支，不能证明间接跳转/跨镜像引用/动态生成代码；requiresRelocationValidation恒真。资源上限256逻辑、单定义64KiB、图像256MiB、replacement4MiB、合成16MiB及扫描64MiB，超限明确失败。
+
+首轮fixture的assert宏与ObjC数组字面量逗号冲突已修正为函数断言；没有删用例或放宽校验。layout扩展改变公开值结构大小，仅支持同一API13头/库配套，不承诺与旧API12二进制调用方结构布局兼容。当前无外部分发，最终整合才交付。
