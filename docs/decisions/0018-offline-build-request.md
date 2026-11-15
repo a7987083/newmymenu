@@ -1,0 +1,9 @@
+# 离线构建请求和发布
+
+NMOfflineBuildRequest串联候选导入→显式地址种类→实际文件expected bytes→不可变plan→owned image→既有签名器→报告。唯一执行入口generateInNewDirectory；preview/request不写文件。所有条目必须匹配所选target，混合target整份拒绝，不忽略target字段悄悄在同一文件上执行。main别名仅能对当前App同名主程序解析。
+
+定义ID与title/group分离，保留实际功能名/分组。Static ABI固定UTF8字段在字符边界截断，拒绝无法编码的NSString；不能继续旧固定字节拷贝截断中文的行为。完整标题/分组在review/report保留。
+
+只有reviewAcknowledged显式为真才生成；source字节及hash固定，目录用原子mkdir独占声明，不复用或删除既有目录。失败/取消清理私有目录，成功仅发布signed binary和JSON report，不留unsigned备用路径；Mach-O输出统一可执行0755。签名后、结果提交前再次检查取消。已提交结果之后的取消由UI代次/结果管理处理，不能声称原子阻止任意时刻的取消竞态。
+
+输入只读NSData，不打开原文件可写。报告区分内部签名校验/CI独立验证/设备未验证。此模块不自动执行Runtime/Native配置，不把caller提供的expected-byte来源标签当认证，也不替代最终包重签。

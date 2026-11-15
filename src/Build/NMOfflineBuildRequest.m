@@ -1,0 +1,37 @@
+#import "NMOfflineBuildRequest.h"
+#import "NMPatchImport.h"
+#import "NMMachOSigner.h"
+#include <errno.h>
+#include <string.h>
+#include <sys/stat.h>
+static NSError *NMOBError(NSInteger code,NSString *message){return [NSError errorWithDomain:@"newmymenu.offline-build" code:code userInfo:@{NSLocalizedDescriptionKey:message}];}
+static NSData *NMOBHex(NSString *hex){NSMutableData *bytes=[NSMutableData dataWithLength:hex.length/2];uint8_t *p=bytes.mutableBytes;const char *s=hex.UTF8String;for(NSUInteger i=0;i<bytes.length;i++){unsigned a=(unsigned)(s[i*2]<='9'?s[i*2]-'0':s[i*2]-'A'+10),b=(unsigned)(s[i*2+1]<='9'?s[i*2+1]-'0':s[i*2+1]-'A'+10);p[i]=(uint8_t)(a*16+b);}return [bytes copy];}
+static NSString *NMOBBytes(NSData *data){NSMutableString *s=[NSMutableString string];const uint8_t *p=data.bytes;for(NSUInteger i=0;i<data.length;i++)[s appendFormat:@"%02X",p[i]];return [s copy];}
+@interface NMOfflineBuildRequest ()
+- (instancetype)initSource:(NSData *)source plan:(NMStaticPatchPlan *)plan rows:(NSArray *)rows warnings:(NSArray *)warnings;
+@end
+@implementation NMOfflineBuildRequest { NSData *_source; }
+- (instancetype)initSource:(NSData *)source plan:(NMStaticPatchPlan *)plan rows:(NSArray *)rows warnings:(NSArray *)warnings{self=[super init];if(self){_source=[source copy];_plan=plan;_reviewRows=[rows copy];_warnings=[warnings copy];}return self;}
++ (instancetype)requestWithSource:(NSData *)source name:(NSString *)name patchJSON:(NSData *)patchJSON kind:(NMMachOAddressKind)kind error:(NSError **)error{
+ if(error)*error=nil;if(![source isKindOfClass:NSData.class]||!source.length||source.length>256*1024*1024||![name isKindOfClass:NSString.class]||!name.length||name.length>512||kind<1||kind>3){if(error)*error=NMOBError(1,@"Select a supported binary and explicit address kind");return nil;}
+ NSData *frozen=[source copy];NMPatchImportDocument *import=[NMPatchImportDocument documentFromJSONData:patchJSON error:error];if(!import)return nil;NMMachOLayout layout;if(!NMMachOReadLayout(frozen.bytes,frozen.length,&layout)){if(error)*error=NMOBError(2,@"Unsupported binary layout");return nil;}
+ NSMutableArray *definitions=[NSMutableArray array],*rows=[NSMutableArray array];NSUInteger i=0;
+ for(NSDictionary *candidate in import.candidates){NSString *target=candidate[@"target"];NSString *selected=name.lastPathComponent;BOOL mainAlias=([target caseInsensitiveCompare:@"main"]==NSOrderedSame||[target caseInsensitiveCompare:@"main executable"]==NSOrderedSame)&&[selected isEqual:NSBundle.mainBundle.executableURL.lastPathComponent];if(target.length&&[target.lastPathComponent caseInsensitiveCompare:selected]!=NSOrderedSame&&!mainAlias){if(error)*error=NMOBError(9,@"JSON target differs from selected binary; mixed-target input must be split explicitly");return nil;}if(definitions.count>=256){if(error)*error=NMOBError(3,@"Static build accepts at most 256 logical patches");return nil;}uint64_t address=0,off=0,rva=0;NSScanner *scanner=[NSScanner scannerWithString:candidate[@"offset"]];unsigned long long decoded=0;if(![scanner scanHexLongLong:&decoded]||!scanner.isAtEnd){if(error)*error=NMOBError(3,@"Canonical address decoding failed");return nil;}address=decoded;NSData *enabled=NMOBHex(candidate[@"enabled"]);
+  if(!NMMachOResolveRange(&layout,kind,address,enabled.length,&off,&rva)){if(error)*error=NMOBError(3,@"Candidate range cannot map to the selected binary");return nil;}
+  NSString *title=[candidate[@"title"] length]?candidate[@"title"]:[NSString stringWithFormat:@"Patch %lu",(unsigned long)i+1],*group=[candidate[@"group"] length]?candidate[@"group"]:@"Imported";NSData *expected=[frozen subdataWithRange:NSMakeRange((NSUInteger)off,enabled.length)];NSString *identifier=[NSString stringWithFormat:@"%lu:%@",(unsigned long)i,title];NMStaticPatchDefinition *d=[NMStaticPatchDefinition definitionWithIdentifier:identifier title:title group:group kind:kind address:address expected:expected replacement:enabled evidence:[NSString stringWithFormat:@"Offline file snapshot: %@",name] error:error];if(!d)return nil;
+  [definitions addObject:d];[rows addObject:@{@"identifier":identifier,@"title":title,@"group":group,@"input":candidate[@"offset"],@"rva":[NSString stringWithFormat:@"0x%llX",(unsigned long long)rva],@"fileOffset":@(off),@"expected":NMOBBytes(expected),@"replacement":candidate[@"enabled"],@"requiresReview":candidate[@"requiresReview"]}];i++;
+ }
+ NMStaticPatchPlan *plan=[NMStaticPatchPlan planForMachO:frozen definitions:definitions error:error];if(!plan)return nil;return [[self alloc] initSource:frozen plan:plan rows:rows warnings:import.warnings];
+}
+- (NSDictionary *)generateInNewDirectory:(NSString *)directory reviewAcknowledged:(BOOL)review nonce:(uint64_t)nonce progress:(NSProgress *)progress error:(NSError **)error{
+ if(error)*error=nil;if(!review){if(error)*error=NMOBError(4,@"Review original/replacement bytes before generating");return nil;}if(progress.cancelled){if(error)*error=NMOBError(5,@"Cancelled before generation");return nil;}
+ NMStaticBinaryImage *image=[NMStaticBinaryImage imageForSource:_source plan:_plan nonce:nonce error:error];if(!image)return nil;if(progress.cancelled){if(error)*error=NMOBError(5,@"Cancelled; no files published");return nil;}
+ // Atomic mkdir claims ownership. Never remove/reuse a caller's existing directory.
+ if(![directory isKindOfClass:NSString.class]||!directory.length||mkdir(directory.fileSystemRepresentation,0700)!=0){if(error)*error=NMOBError(6,@"Output directory already exists or cannot be created");return nil;}
+ NSFileManager *fm=NSFileManager.defaultManager;BOOL success=NO;NSDictionary *result=nil;
+ @try{NSString *input=[directory stringByAppendingPathComponent:@"prepared-unsigned.macho"],*output=[directory stringByAppendingPathComponent:@"prepared-signed.macho"],*report=[directory stringByAppendingPathComponent:@"build-report.json"];
+  do{if(![image.image writeToFile:input options:NSDataWritingWithoutOverwriting error:error])break;NSDictionary *signedResult=[NMMachOSigner signedCopyFromPath:input toPath:output error:error];if(!signedResult)break;if(progress.cancelled){if(error)*error=NMOBError(5,@"Cancelled before publishing build result");break;}NSMutableDictionary *details=[image.report mutableCopy];details[@"signature"]=signedResult;details[@"signed"]=@YES;details[@"signatureVerification"]=@"Internal CodeDirectory validation; independent codesign is CI evidence, not an iOS device result";details[@"reviewRows"]=_reviewRows;details[@"warnings"]=_warnings;details[@"nonce"]=@(nonce);details[@"deviceVerified"]=@NO;NSData *json=[NSJSONSerialization dataWithJSONObject:details options:NSJSONWritingPrettyPrinted|NSJSONWritingSortedKeys error:error];if(!json||![json writeToFile:report options:NSDataWritingWithoutOverwriting error:error])break;if(chmod(output.fileSystemRepresentation,0755)!=0){if(error)*error=NMOBError(7,@"Failed setting executable output permissions");break;}if(![fm removeItemAtPath:input error:error])break;if(progress.cancelled){if(error)*error=NMOBError(5,@"Cancelled before result commit");break;}result=@{@"binary":output,@"report":report,@"sourceSHA256":_plan.sourceSHA256};success=YES;}while(0);
+ }@catch(NSException *exception){if(error)*error=NMOBError(8,exception.reason?:exception.name);result=nil;success=NO;}@finally{if(!success){NSError *cleanup=nil;if(![fm removeItemAtPath:directory error:&cleanup]&&error&&!*error)*error=cleanup;}}
+ return result;
+}
+@end

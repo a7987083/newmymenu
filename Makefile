@@ -163,3 +163,14 @@ test-static-image: test-static-code
 	codesign --verify --strict --verbose=4 build/static-image-fixture/prepared-signed.dylib
 	xcrun dyld_info -validate_only build/static-image-fixture/prepared-signed.dylib > build/static-image-fixture/dyld-validation.txt 2>&1
 	python3 tools/check_dyld_validation.py build/static-image-fixture/dyld-validation.txt
+
+.PHONY: test-offline-build
+test-offline-build:
+	xcrun clang -std=c11 $(WARN) -g -fsanitize=address,undefined -fobjc-arc -fblocks -Iinclude -c src/Configuration/NMPatchImport.m -o build/tests/offline-import.o
+	xcrun clang -std=c11 $(WARN) -g -fsanitize=address,undefined -fobjc-arc -fblocks -Iinclude -c src/Build/NMOfflineBuildRequest.m -o build/tests/offline-request.o
+	xcrun clang -std=c11 $(WARN) -g -fsanitize=address,undefined -fobjc-arc -fblocks -Iinclude -c tests/core/offline_build_test.m -o build/tests/offline-test.o
+	xcrun clang++ -std=c++17 $(WARN) -g -fsanitize=address,undefined -fobjc-arc -fblocks -Iinclude -Isrc/Build -framework Foundation build/tests/plan-address.o build/tests/plan-relocation.o build/tests/code-plan.o build/tests/offline-import.o build/tests/offline-request.o build/tests/offline-test.o src/Build/NMStaticCodePayload.mm src/Build/NMChainedFixupsPrivate.mm src/Build/NMStaticBinaryImage.mm src/Build/NMMachOSigner.mm -o build/tests/offline-build
+	build/tests/offline-build build/core/NewMyMenuCore.dylib build/static-image-fixture
+	codesign --verify --strict --verbose=4 build/static-image-fixture/offline-output/prepared-signed.macho
+	xcrun dyld_info -validate_only build/static-image-fixture/offline-output/prepared-signed.macho > build/static-image-fixture/offline-output/dyld-validation.txt 2>&1
+	python3 tools/check_dyld_validation.py build/static-image-fixture/offline-output/dyld-validation.txt
