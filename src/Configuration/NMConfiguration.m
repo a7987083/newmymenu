@@ -20,6 +20,12 @@ static BOOL NMCSignedInteger(id value){
 static BOOL NMCBoolean(id value){return [value isKindOfClass:NSNumber.class]&&CFGetTypeID((__bridge CFTypeRef)value)==CFBooleanGetTypeID();}
 static NSData *NMCEncode(id object,NSError **error){NSData *data=[NSJSONSerialization dataWithJSONObject:object options:NSJSONWritingSortedKeys error:error];if(data.length>4*1024*1024){if(error)*error=NMCError(1,@"Configuration exceeds 4 MiB");return nil;}if(data&&error)*error=nil;return data;}
 static NSArray *NMCBinaryKeys(void){return @[@"methodInfo",@"methodPointer",@"rva",@"rvaText",@"imageBase",@"preparedDescriptor",@"preparedRVA",@"preparedUUID",@"preparedStaticKnown",@"preparedIsStatic",@"preparedCodecGetterRVA",@"preparedCodecSetterRVA",@"staticPrepatch",@"staticHookSlotRVA",@"staticTrampolineRVA",@"staticCodeCaveRVA",@"staticDisplacedInstruction",@"fallbackRVA",@"fallbackUUID"];}
+static BOOL NMCBoundedTree(id value,NSUInteger depth,NSUInteger *nodes){
+    if(depth>64||*nodes>=65536)return NO;(*nodes)++;
+    if([value isKindOfClass:NSDictionary.class]){for(id key in value)if(!NMCBoundedTree(value[key],depth+1,nodes))return NO;}
+    else if([value isKindOfClass:NSArray.class]){for(id child in value)if(!NMCBoundedTree(child,depth+1,nodes))return NO;}
+    return YES;
+}
 static id NMCSanitize(id value,NSMutableSet *warnings){
     if([value isKindOfClass:NSDictionary.class]){NSMutableDictionary *out=[NSMutableDictionary dictionary];for(NSString *key in value){if([NMCBinaryKeys() containsObject:key]){[warnings addObject:[@"Discarded binary-specific cache: " stringByAppendingString:key]];continue;}out[key]=NMCSanitize(value[key],warnings);}return [out copy];}
     if([value isKindOfClass:NSArray.class]){NSMutableArray *out=[NSMutableArray array];for(id child in value)[out addObject:NMCSanitize(child,warnings)];return [out copy];}return value;
@@ -79,6 +85,7 @@ static BOOL NMCTemplate(NSDictionary *r){
 + (instancetype)normalizeRoot:(NSDictionary *)root warnings:(NSMutableSet *)warnings error:(NSError **)error {
     NSArray *methods=root[@"runtimeMethods"]?:@[],*hooks=root[@"nativeHooks"]?:@[];
     if(![methods isKindOfClass:NSArray.class]||![hooks isKindOfClass:NSArray.class]||methods.count>256||hooks.count>256){if(error)*error=NMCError(3,@"Configuration lists must contain at most 256 records each");return nil;}
+    NSUInteger nodes=0;if(!NMCBoundedTree(root,0,&nodes)){if(error)*error=NMCError(14,@"Configuration exceeds depth 64 or 65536 JSON nodes");return nil;}
     NSMutableArray *cleanMethods=[NSMutableArray array],*cleanHooks=[NSMutableArray array];NSMutableSet *features=[NSMutableSet set],*nativeKeys=[NSMutableSet set],*nativeIDs=[NSMutableSet set];
     for(NSUInteger domain=0;domain<2;domain++)for(id input in (domain?hooks:methods)){
         if(![input isKindOfClass:NSDictionary.class]){if(error)*error=NMCError(4,@"Authoring record is not a dictionary");return nil;}
@@ -98,6 +105,8 @@ static BOOL NMCTemplate(NSDictionary *r){
             uint32_t action=[r[@"actionID"] unsignedIntValue];while([nativeIDs containsObject:@(action)])action=action==UINT32_MAX?1:action+1;r[@"actionID"]=@(action);[nativeIDs addObject:@(action)];[cleanHooks addObject:[r copy]];
         }
     }
+    NSDictionary *envelope=@{@"format":@"newmymenu.authoring",@"schemaVersion":@1,@"runtimeMethods":cleanMethods,@"nativeHooks":cleanHooks};nodes=0;
+    if(!NMCBoundedTree(envelope,0,&nodes)){if(error)*error=NMCError(14,@"Normalized configuration exceeds JSON complexity bounds");return nil;}
     NSDictionary *payload=@{@"runtimeMethods":cleanMethods,@"nativeHooks":cleanHooks};NSData *data=NMCEncode(payload,error);if(!data)return nil;
     NSDictionary *frozen=[NSJSONSerialization JSONObjectWithData:data options:0 error:error];if(!frozen)return nil;if(error)*error=nil;
     return [[self alloc] initRoot:frozen warnings:[[warnings allObjects] sortedArrayUsingSelector:@selector(compare:)]];

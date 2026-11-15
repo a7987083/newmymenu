@@ -138,3 +138,5 @@
 - Run43657953374: offline authoring/store ASan fixture and 10000 original feature-identity parity cases passed. Core API10 integration adds document/snapshot/store exports and production ARM64/static-analysis checks. Added exact unsigned sentinel/ID-wrap and optional codec-field/arity validation cases. Runtime target validation and Patch candidate import remain explicitly pending.
 
 - Configuration identity fields reject embedded NUL before any future C Runtime binding can truncate the intended method/type name. Added a JSON roundtrip negative case; display and argument string values remain unchanged.
+
+- Authoring JSON now bounds depth (64) and node count (65536) before recursive cache stripping and after normalization, in addition to 4 MiB/list limits. Added deep and large-node extension negatives; all failures remain outside the single store commit.

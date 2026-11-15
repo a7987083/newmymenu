@@ -45,6 +45,10 @@ int main(void){@autoreleasepool{
  NMConfigurationDocument *ids=doc(@[],@[hook(@1,@1),hook(@1,@3)]);check([ids.nativeHooks[1][@"actionID"] intValue]==2,"generated Native ID collision remapped deterministically");
  check(![NMConfigurationDocument documentFromJSONData:encode(root(@[],@[])) error:&error]&&[NMConfigurationDocument.emptyDocument JSONDataWithError:&error]==nil,"empty import/export cannot accidentally clear workspace");
  NSMutableDictionary *badRoot=[root(@[method(@"A",@"1")],@[]) mutableCopy];badRoot[@"schemaVersion"]=@YES;check(![NMConfigurationDocument documentFromJSONData:encode(badRoot) error:&error],"bool schema version rejected");
+ id nested=@0;for(NSUInteger n=0;n<70;n++)nested=@{@"nested":nested};invalid=method(@"Deep",@"1");invalid[@"extension"]=nested;
+ check(![NMConfigurationDocument documentFromJSONData:encode(root(@[invalid],@[])) error:&error]&&error.code==14,"deep extension data is rejected before recursive normalization");
+ NSMutableArray *tooMany=[NSMutableArray arrayWithCapacity:66000];for(NSUInteger n=0;n<66000;n++)[tooMany addObject:@0];invalid=method(@"Large",@"1");invalid[@"extension"]=tooMany;
+ check(![NMConfigurationDocument documentFromJSONData:encode(root(@[invalid],@[])) error:&error]&&error.code==14,"byte-size limit alone cannot permit unbounded JSON nodes");
  NMConfigurationStore *store=[NMConfigurationStore new];check(store.snapshot.revision==0&&!store.snapshot.document.requiresTargetValidation,"empty workspace initialized");
  check([store commitDocument:legacy mode:NMConfigurationImportReplace expectedRevision:0 error:&error]&&store.snapshot.revision==1,"single document commit");
  NMConfigurationSnapshot *before=store.snapshot;invalid=method(@"LastInvalid",@"2");invalid[@"argumentValues"]=@[];
