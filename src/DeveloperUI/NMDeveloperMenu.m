@@ -228,7 +228,7 @@ static CGFloat NMClamp(CGFloat x,CGFloat low,CGFloat high){return MAX(low,MIN(MA
 
 @end
 
-@interface NMDeveloperHost : NSObject
+@interface NMDeveloperHost : NSObject <UIGestureRecognizerDelegate>
 + (instancetype)shared;
 - (void)start;
 @end
@@ -236,6 +236,9 @@ static CGFloat NMClamp(CGFloat x,CGFloat low,CGFloat high){return MAX(low,MIN(MA
     NMDeveloperOverlay *_overlay;
     __weak UIWindow *_preferredWindow;
     NSTimer *_timer;
+    UILongPressGestureRecognizer *_menuGesture;
+    CGPoint _gestureOrigin;
+    BOOL _gestureToggled;
 }
 + (instancetype)shared {static NMDeveloperHost *host;static dispatch_once_t once;dispatch_once(&once,^{host=[NMDeveloperHost new];});return host;}
 - (UIWindow *)foregroundWindow {
@@ -259,9 +262,14 @@ static CGFloat NMClamp(CGFloat x,CGFloat low,CGFloat high){return MAX(low,MIN(MA
     if(UIApplication.sharedApplication.applicationState!=UIApplicationStateActive)return;
     UIWindow *window=[self foregroundWindow];if(!window)return;
     if(!_overlay)_overlay=[[NMDeveloperOverlay alloc] initWithFrame:window.bounds];
+    if(!_menuGesture){_menuGesture=[[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(menuGesture:)];_menuGesture.numberOfTouchesRequired=3;_menuGesture.minimumPressDuration=.25;_menuGesture.allowableMovement=30;_menuGesture.cancelsTouchesInView=NO;_menuGesture.delegate=self;}
+    if(_menuGesture.view!=window){[_menuGesture.view removeGestureRecognizer:_menuGesture];[window addGestureRecognizer:_menuGesture];}
     if(_overlay.superview!=window){[_overlay removeFromSuperview];_overlay.frame=window.bounds;[window addSubview:_overlay];}
     _overlay.hidden=[_overlay ownsPresentedController];if(!_overlay.hidden)[window bringSubviewToFront:_overlay];[_overlay setNeedsLayout];
 }
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gesture shouldReceiveTouch:(UITouch *)touch {(void)gesture;return ![_overlay ownsPresentedController]&&![touch.view isDescendantOfView:_overlay];}
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)a shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)b {(void)a;(void)b;return YES;}
+- (void)menuGesture:(UILongPressGestureRecognizer *)gesture {if(gesture.state==UIGestureRecognizerStateBegan){_gestureOrigin=[gesture locationInView:gesture.view];_gestureToggled=NO;}else if(gesture.state==UIGestureRecognizerStateChanged&&!_gestureToggled){CGPoint point=[gesture locationInView:gesture.view];CGFloat dx=point.x-_gestureOrigin.x,dy=point.y-_gestureOrigin.y;if(fabs(dy)>=32&&fabs(dy)>fabs(dx)*1.2){_gestureToggled=YES;[_overlay toggle:nil];}}}
 - (void)active:(NSNotification *)notification {
     if([notification.object isKindOfClass:UIWindow.class]){UIWindow *window=notification.object;if(window.windowLevel==UIWindowLevelNormal)_preferredWindow=window;}[self refresh];
     if(!_timer){__weak NMDeveloperHost *weak=self;_timer=[NSTimer scheduledTimerWithTimeInterval:0.75 repeats:YES block:^(__unused NSTimer *timer){[weak refresh];}];}
