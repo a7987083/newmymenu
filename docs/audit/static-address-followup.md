@@ -1,0 +1,9 @@
+# Static地址迁移前的源码检查
+
+固定原源7066ede，ZNAnyImageAddressResolver.mm SHA256: `cacebb8da06cc5b9cbd00ba3b20bcbd7300763cbb773ae78e63bbb1ebb5b3f29`。
+
+已检查入口ZNInstallAnyImageAddressResolverDeferred及ZNARResolve/ParseLayout/SegmentForPreferred/SegmentForRuntime/FileOffsetToPreferred/PreferredToFileOffset。该层读取已加载Mach-O，经ModuleManager获取base/slide，不是离线文件解析器。ZNBinaryPatchWorkspaceAddressV2还用validateAll:交换保存用户原文本；新数据模型应分别持有原输入和规范化结果，避免为UI状态再做交换。
+
+复用评估：RVA以实际__TEXT.vmaddr为基准，file offset通过segment.filesize换算，不按地址外形猜基址，这些语义应保留。现有segment端点使用vmaddr+vmsize、fileoff+filesize，runtime加法亦有直接相加；离线迁移须先验证区间不溢出、文件范围有效、映射无歧义，并验证整个Patch跨度而非仅起始地址。源码形态是待验证风险，尚未建立该模块动态漏洞复现，不应称已修复。
+
+下一步：审计ZNPatchCore和Static Builder现有离线实现，选择单一可复用解析入口；用真实ARM64测试Mach-O和损坏布局测试证明地址转换/原字节/冲突计划，再迁移事务式写入。禁止照搬loaded-memory parser来解析任意文件，也不重复实现成熟底层算法。本记录不代表Static Build完成。

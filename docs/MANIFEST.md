@@ -12,7 +12,7 @@ items/metadata/configuration在后续源字典变化后保持不变；计数与a
 
 Manifest自身交换格式为`format=newmymenu.manifest`、`schemaVersion=1`、`items`数组。item精确包含provider/kind/identifier/domain/metadata；schema和domain拒绝bool、非法数字、未知键、错误类型和重复身份。输入/导出4MiB限制，provider最多128个、items最多4096个。metadata仅限JSON字典且深复制；未知provider payload不在这里解释。
 
-这不是旧zonoe-authoring或Patch JSON的兼容解析器；原业务配置格式、control模型和UI导入导出仍待单独迁移。不能据此声称Static/Runtime/Native混合构建已完成。
+这不是旧zonoe-authoring或Patch JSON的兼容解析器；离线authoring/control模型现已迁移，见CONFIGURATION.md；Patch候选见PATCH_IMPORT.md；最终UI导入导出与生产provider仍待接入。不能据此声称Static/Runtime/Native混合构建已完成。
 
 ## 真实测试
 

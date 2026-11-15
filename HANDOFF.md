@@ -6,7 +6,18 @@
 源仓库 https://github.com/a7987083/mymenu 只读，未修改远程或历史。
 固定候选 `feat/method-finder-p5-detail-copy@7066edeaf9e47580c89440be670c517280534b69`；main7216b55，customer92d675e。所有远程分支SHA与源文件hash在docs/audit/source-inventory.json。
 
-## 当前最新：API9 SwizzleManager组件
+## 当前最新：API11 离线配置/Patch候选
+
+代码HEAD `42e61ea069070dc08498ba015203602a11418f54`，[Run43675322065](https://github.com/a7987083/newmymenu/actions/runs/43675322065)五job通过。Core Artifact14145951586，SHA256 `fcd68934a79a15213d54dc1a76bf869e238be356be63351ffccbef199024f818`。已下载并核对ZIP/dylib哈希、source_head、Mach-O、37项导出及13份核心分析报告零诊断；签名由macOS CI严格验证。机器报告docs/builds/configuration-42e61ea0.json。文档HEAD前进不代表重新编译。
+
+- API10：NMConfigurationDocument/Snapshot/Store，唯一离线Runtime/Native配置模型及revision原子提交。10000组原身份对照、参数/控件/链/序号保留、过期缓存清理和并发旧revision拒绝通过ASan。见docs/CONFIGURATION.md。
+- API11：NMPatchImportDocument，候选解析与实际二进制操作分离。严格数值/字节/别名/同级错误拒绝、4096容量/4MiB扩展预算和弱候选/前导零review往返通过ASan。固定原纯parser缺陷已真实复现；见docs/PATCH_IMPORT.md。
+- 命令：make test-configuration test-patch-import；make test-configuration-parity test-patch-import-audit SOURCE_BASELINE=/path/to/fixed-source；make core。固定Xcode16.4/16F6、SDK18.5、iOS14.0。
+- Run43675212392静态分析失败被保留：无format旧JSON可能向nonnull查询传nil；42e61ea补空值分支后整套重跑通过，没有放宽检查。
+- UI/持久化、真实目标验证、Static地址/原字节/冲突规划/文件写入及生产Build provider未完成。游戏ABI暂缓；未实机验证，不发中间dylib。
+- 下一任务：按docs/audit/static-address-followup.md先比较原离线Static解析入口，复用成熟地址算法，补边界证据后迁移；不要把已加载内存parser当任意文件parser。
+
+## API9 SwizzleManager组件（历史）
 
 已验证代码 `72189bd714a20c7fe5cfd43b9cd8cd89a4b05b5f`，Run [43656577480](https://github.com/a7987083/newmymenu/actions/runs/43656577480)五job通过。Core Artifact14138715984；SHA256 `d71cbbf88421663ebf8717aa67eb7d52687a7fa81909534c0913b189f3e227b1`。下载ZIP/hash/Mach-O/29导出与11份core分析报告已复核；报告docs/builds/swizzle-72189bd7.json。文档HEAD前进不表示重编译，二进制来源保持上述代码提交。无中间dylib交付。
 
@@ -28,7 +39,7 @@
 - API8：include/NMMachOSigner.h、src/Build/NMMachOSigner.mm。复用原页哈希/CodeDirectory/SuperBlob，自包含副本签名、失败清理、禁止覆盖。独立codesign暴露并修复原flags=0及不可能满足的证书designated requirement；改为ad-hoc/cdhash身份。真实ARM64输入上严格验证通过；拒绝现存entitlements，保护不支持的权限保留，包级重签仍必须。见docs/SIGNER.md。
 - 命令：make test-manifest；make core；make test-signer（后者需已构建core，macOS ASan驱动使用真实ARM64文件，签名负例是真实MH_EXECUTE且先断言XML/DER slots存在）。固定Xcode16.4/SDK18.5不变。
 
-仍未完成SwizzleManager、完整配置/Static/Runtime/Native业务闭包和最终UI。ObjC Runtime fixture不需要游戏ABI，可继续；需要目标布局的managed/Native部分明确暂缓。不能把本次核心库构建当完整开发端或实机验收。
+SwizzleManager独立组件已完成；完整配置UI/Static/Runtime/Native业务闭包和最终UI仍未完成。ObjC Runtime fixture不需要游戏ABI，可继续；需要目标布局的managed/Native部分明确暂缓。不能把本次核心库构建当完整开发端或实机验收。
 
 ## API5命名表达式与类排名（历史）
 
@@ -119,4 +130,4 @@ SHA256 c5047fa72ce5de73c8af5ede0b0bc00d354e95c8526f8932c5716ca670f9baee。
 
 ## 下一任务与禁止事项
 
-按ROADMAP先完成Invoke/Receiver闭包，落实InvocationRequest/ReceiverLease/CaptureSession，然后迁移搜索/UI和Native/Build。不得一口气复制ZNUnifiedUI后补丁修复；不得靠丢弃ByRef/混合Build/必要外部诊断来宣称清债；不得将基础core当完整开发端交付。
+按ROADMAP继续ABI独立的Static Patch地址转换/规划/文件发布及最终UI；InvocationRequest/ReceiverLease/CaptureSession和搜索状态已有独立组件，游戏Invoke/Native adapter明确暂缓。不得一口气复制ZNUnifiedUI后补丁修复；不得靠丢弃ByRef/混合Build/必要外部诊断来宣称清债；不得将基础core当完整开发端交付。

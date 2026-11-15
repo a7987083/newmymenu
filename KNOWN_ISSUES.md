@@ -35,3 +35,7 @@
 - 签名器限定thin ARM64且需现存LC_CODE_SIGNATURE，拒绝带entitlements的输入，最终IPA身份/权限重签必须由包级签名流程承担；没有设备加载验证。旧签名器两项缺陷与本轮修复记录见docs/SIGNER.md。
 
 - SwizzleManager采用明确的合作式调度/写入契约，不能阻止任意第三方不合作的Runtime修改；实际SharedSite外部Hook尚未接入该域。继承默认拒绝，显式LocalSnapshot会留下本地方法槽，不是完整动态继承还原。无法持有代码镜像及block-backed IMP明确拒绝，详情docs/SWIZZLE_MANAGER.md。
+
+## 离线配置的新边界
+
+API10/11仅迁移离线authoring与Patch候选。UI导入导出/持久化、实际目标绑定、Patch地址转换/原字节验证/冲突计划/写入和生产Build仍未完成。旧纯解析器数值强转与静默遗漏已在固定源fixture复现，新解析器严格拒绝；原仓库未修改。Foundation JSON不提供原始重复key的词法检测，不能把输入JSON当可信签名或完整来源证明。

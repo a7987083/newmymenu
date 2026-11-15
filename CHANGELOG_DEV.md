@@ -144,3 +144,9 @@
 - Patch migration pre-audit adds hash-verified original pure-helper fixture for address/byte numeric coercion, octal interpretation, invalid sibling omission and confidence-0.55 heuristic. Old workspace explicitly retains low-confidence labels/read validation; this fixture does not claim the old UI automatically applies candidates or that new Patch import is implemented. CI pending.
 
 - Patch candidate importer source: strict unsigned/byte validation, contradictory alias errors, preserved inheritance/weak hints and explicit octal review, whole-file failure for bad addressed records, bounded candidate/output expansion, and provenance-preserving normalized JSON. Candidate definitions/paths remain visible; no workspace or binary mutation. First ASan fixture/CI pending.
+
+- 918f0e2 / Run43674986757：Patch候选Foundation/ASan通过，旧纯解析器缺陷fixture真实复现；API10五job通过。
+- 873566b 集成Patch为API11；Run43675212392在静态分析发现无format旧JSON向nonnull containsObject:传nil，检查保持失败。42e61ea新增显式空值分支，重跑全部适用CI，不放宽检查。
+- 新增离线配置/Patch候选边界文档，更新Static地址迁移前源码检查；未实现或声称生产Patch写入。
+
+- 42e61ea / Run43675322065五job通过：API11 core/Probe ARM64、37/38导出、依赖/签名通过；13份core和3份UI分析零诊断。Core Artifact14145951586已下载复核ZIP/dylib SHA、Mach-O和编译source_head。离线配置与Patch测试/原实现对照通过；未实机验证、未交付阶段dylib。状态与交接同步，最终产品仍未完成。
