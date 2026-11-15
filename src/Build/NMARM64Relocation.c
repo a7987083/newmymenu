@@ -45,3 +45,5 @@ NMARM64RelocationStatus NMARM64RelocateInstruction(uint32_t insn,uint64_t from,u
  }
  *out=result;return NMARM64RelocationOK;
 }
+
+bool NMARM64EncodeADRP(uint64_t from,uint64_t to,uint32_t reg,uint32_t *out){uint64_t imm=0;if(!out||reg>31||(from&3)||!delta(from&~UINT64_C(4095),to&~UINT64_C(4095),21,12,&imm))return false;*out=0x90000000u|((uint32_t)(imm&3u)<<29)|((uint32_t)(imm>>2)<<5)|reg;return true;}

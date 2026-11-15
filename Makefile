@@ -149,3 +149,9 @@ test-relocation-parity:
 	xcrun clang++ -std=c++17 $(WARN) -g -fsanitize=address,undefined -fobjc-arc -Iinclude -Ibuild/tests -framework Foundation build/tests/relocation-new.o tests/core/relocation_parity_test.mm -o build/tests/relocation-parity
 	build/tests/relocation-parity
 	python3 tools/check_original_relocation_ub.py
+
+.PHONY: test-static-code
+test-static-code: test-static-plan
+	xcrun clang -std=c11 $(WARN) -g -fsanitize=address,undefined -fobjc-arc -fblocks -Iinclude -c src/Build/NMStaticPatchPlan.m -o build/tests/code-plan.o
+	xcrun clang++ -std=c++17 $(WARN) -g -fsanitize=address,undefined -fobjc-arc -fblocks -Iinclude -Isrc/Build -framework Foundation build/tests/plan-address.o build/tests/plan-relocation.o build/tests/code-plan.o src/Build/NMStaticCodePayload.mm tests/core/static_code_test.mm -o build/tests/static-code
+	build/tests/static-code

@@ -17,10 +17,10 @@ static BOOL NMSPText(id s){return [s isKindOfClass:NSString.class]&&[s length]&&
 @end
 static uint32_t NMSPRead32(const uint8_t *p){return (uint32_t)p[0]|(uint32_t)p[1]<<8|(uint32_t)p[2]<<16|(uint32_t)p[3]<<24;}
 @interface NMStaticPatchPlan ()
-- (instancetype)initDefinitions:(NSArray *)definitions sites:(NSArray *)sites mapping:(NSArray *)mapping source:(NSData *)source;
+- (instancetype)initDefinitions:(NSArray *)definitions sites:(NSArray *)sites mapping:(NSArray *)mapping source:(NSData *)source imageBase:(uint64_t)imageBase;
 @end
 @implementation NMStaticPatchPlan
-- (instancetype)initDefinitions:(NSArray *)definitions sites:(NSArray *)sites mapping:(NSArray *)mapping source:(NSData *)source {self=[super init];if(self){_definitions=[definitions copy];_physicalSites=[sites copy];_logicalToPhysical=[mapping copy];_sourceLength=source.length;unsigned char digest[CC_SHA256_DIGEST_LENGTH];CC_SHA256(source.bytes,(CC_LONG)source.length,digest);NSMutableString *hex=[NSMutableString string];for(NSUInteger i=0;i<sizeof digest;i++)[hex appendFormat:@"%02x",digest[i]];_sourceSHA256=[hex copy];}return self;}
+- (instancetype)initDefinitions:(NSArray *)definitions sites:(NSArray *)sites mapping:(NSArray *)mapping source:(NSData *)source imageBase:(uint64_t)imageBase {self=[super init];if(self){_definitions=[definitions copy];_physicalSites=[sites copy];_logicalToPhysical=[mapping copy];_sourceLength=source.length;_imageBase=imageBase;unsigned char digest[CC_SHA256_DIGEST_LENGTH];CC_SHA256(source.bytes,(CC_LONG)source.length,digest);NSMutableString *hex=[NSMutableString string];for(NSUInteger i=0;i<sizeof digest;i++)[hex appendFormat:@"%02x",digest[i]];_sourceSHA256=[hex copy];}return self;}
 - (BOOL)requiresRelocationValidation{return YES;}
 + (instancetype)planForMachO:(NSData *)source definitions:(NSArray<NMStaticPatchDefinition *> *)definitions error:(NSError **)error {
  if(error)*error=nil;
@@ -61,6 +61,6 @@ static uint32_t NMSPRead32(const uint8_t *p){return (uint32_t)p[0]|(uint32_t)p[1
   NSUInteger low=0,high=sites.count;while(low<high){NSUInteger mid=low+(high-low)/2;if(starts[mid]<=target)low=mid+1;else high=mid;}
   if(low&&target>starts[low-1]&&target-starts[low-1]<lengths[low-1]){if(error)*error=NMSPError(8,@"Direct branch enters a physical window interior");return nil;}
  }}
- return [[self alloc] initDefinitions:input sites:sites mapping:mapping source:image];
+ return [[self alloc] initDefinitions:input sites:sites mapping:mapping source:image imageBase:layout.imageBase];
 }
 @end

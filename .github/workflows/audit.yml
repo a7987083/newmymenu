@@ -141,7 +141,7 @@ jobs:
           make test-configuration
           make test-patch-import
           make test-macho-address
-          make test-static-plan
+          make test-static-code
           make test-arm64-relocation
           make test-relocation-parity SOURCE_BASELINE=.audit-source
           make test-static-variant-parity SOURCE_BASELINE=.audit-source

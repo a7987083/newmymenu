@@ -23,6 +23,7 @@ __attribute__((visibility("default")))
 @property(nonatomic,copy,readonly) NSArray<NSNumber *> *logicalToPhysical;
 @property(nonatomic,copy,readonly) NSString *sourceSHA256;
 @property(nonatomic,readonly) NSUInteger sourceLength;
+@property(nonatomic,readonly) uint64_t imageBase;
 @property(nonatomic,readonly) BOOL requiresRelocationValidation;
 + (nullable instancetype)planForMachO:(NSData *)source definitions:(NSArray<NMStaticPatchDefinition *> *)definitions error:(NSError * _Nullable * _Nullable)error;
 @end
