@@ -42,17 +42,17 @@ def inspect(data, *, install_name='@rpath/NewMyMenuCore.dylib', allowed_deps=Non
  if identities!=[install_name]:raise ValueError('unexpected install name')
  if not deps or any(x not in allowed_deps for x in deps):raise ValueError('unexpected dependencies: '+repr(deps))
  return dict(architecture='arm64',filetype='MH_DYLIB',deployment='14.0',sdk='18.5',dependencies=deps,install_name=identities[0])
-def main(path, device_probe=False):
- allowed=ALLOWED_DEPS|{'/System/Library/Frameworks/UIKit.framework/UIKit','/System/Library/Frameworks/QuartzCore.framework/QuartzCore','/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics'} if device_probe else ALLOWED_DEPS
- result=inspect(path.read_bytes(),install_name='@rpath/NewMyMenuDeviceProbe.dylib' if device_probe else '@rpath/NewMyMenuCore.dylib',allowed_deps=allowed)
- expected=EXPECTED_EXPORTS|{'_NewMyMenuDeviceProbeVersion'} if device_probe else EXPECTED_EXPORTS
+def main(path, developer_menu=False):
+ allowed=ALLOWED_DEPS|{'/System/Library/Frameworks/UIKit.framework/UIKit','/System/Library/Frameworks/QuartzCore.framework/QuartzCore','/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics','/System/Library/Frameworks/UniformTypeIdentifiers.framework/UniformTypeIdentifiers'} if developer_menu else ALLOWED_DEPS
+ result=inspect(path.read_bytes(),install_name='@rpath/NewMyMenuDeveloper.dylib' if developer_menu else '@rpath/NewMyMenuCore.dylib',allowed_deps=allowed)
+ expected=EXPECTED_EXPORTS|{'_NewMyMenuDeveloperVersion'} if developer_menu else EXPECTED_EXPORTS
  exports=subprocess.check_output(['nm','-gU',str(path)],text=True)
  symbols={line.split()[-1] for line in exports.splitlines() if line.strip()}
  if symbols!=expected:raise ValueError('export mismatch: '+repr(symbols^expected))
  check=subprocess.run(['codesign','--verify','--strict','--verbose=4',str(path)],text=True,capture_output=True,check=True)
- result.update(exports=sorted(symbols),signature_verified=True,sha256=hashlib.sha256(path.read_bytes()).hexdigest(),product_scope='read-only device metadata UI with shared core; not the integrated developer product' if device_probe else 'modular foundation library; full developer product and device validation incomplete',source_head=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip())
+ result.update(exports=sorted(symbols),signature_verified=True,sha256=hashlib.sha256(path.read_bytes()).hexdigest(),product_scope='developer integration UI with offline configuration/Static build; game execution and device validation incomplete' if developer_menu else 'modular foundation library; full developer product and device validation incomplete',source_head=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip())
  path.with_name('verification.json').write_text(json.dumps(result,indent=2)+'\n')
  path.with_name('signature.txt').write_text(check.stdout+check.stderr)
  path.with_name('SHA256.txt').write_text(result['sha256']+'  '+path.name+'\n')
  print(json.dumps(result,ensure_ascii=False))
-if __name__=='__main__':main(Path(sys.argv[1]), '--device-probe' in sys.argv[2:])
+if __name__=='__main__':main(Path(sys.argv[1]), '--developer-menu' in sys.argv[2:])

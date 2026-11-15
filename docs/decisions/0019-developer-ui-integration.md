@@ -1,0 +1,11 @@
+# 单一Developer UI整合
+
+将原只读Probe的唯一overlay迁移为DeveloperMenu，而不是并行保留第二套菜单/Renderer。旧DeviceProbe源码和构建入口删除，历史提交/构建报告不改。Finder仍消费NMFinderSession同一snapshot和同一table renderer，保留模式、滚动、取消与字段复制。
+
+增加原生四页：查找、Runtime/Native离线配置编辑/导入/应用/保存/恢复/导出、Static二进制选择/JSON候选/显式地址种类/原新字节预览/人工确认/后台生成/导出、真实状态说明。所有底层执行通过已测配置store及NMOfflineBuildRequest，不在UI中解析ABI或修改Mach-O。文档picker复制文件后读取固定快照；旧完成通过代次拒绝，取消不发布旧结果。
+
+编辑JSON是draft，校验并应用才进入单一store；保存和导出只在成功应用后进行。自动恢复不能覆盖用户已编辑/提交的新状态。最终App内临时输出由结果owner管理，换输入/新构建清理旧私有结果；分享期间overlay让位给自己展示的Controller，不因为游戏自身常驻presented Controller永久隐藏。
+
+只跟随宿主实际window/safe area，不强迫旋转游戏；优先最近key window和当前window以避免多scene枚举导致菜单跳动。键盘输入配Done附件并在文本编辑时扩展输入区域。UIKit实际交互/旋转/设备仍需实际验证，编译/静态分析不代替这些结果。
+
+当前Runtime Invoke/Native游戏执行按用户要求暂缓；不能用UI标签把未接入写成完成。配置保存与Static构建是实际路径，不用禁用检查或假成功占位。

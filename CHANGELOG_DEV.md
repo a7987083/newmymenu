@@ -172,3 +172,5 @@
 - Run43682380848五job通过：真实macOS ARM64生成Dispatch/fragment实际执行OFF=7、shared ON=42/99，1000次切换/恢复和W^X页面通过。继续生产接入Payload与owned-segment图像；审计Apple dyld后补chained starts重建和load-command显式校验，新增真实iOS ARM64输入→签名→dyld_info独立验证，结果待CI。尚未交付或宣称实机。
 
 - Run43682960666：owned图像、重建chained starts、既有签名器、独立codesign/dyld_info验证及宿主真实ARM64切换全部通过，19份分析零诊断。加入离线request/预览/显式review/唯一目录发布；title/group与ID分离，UTF8安全截断，mixed-target拒绝。完整请求/文件发布测试等待CI；不宣称最终UI或设备完成。
+
+- Run43683682500五job通过：离线request完整签名发布、review/cancel/no-overwrite/target拒绝及中文元数据测试通过。将唯一Probe前端迁移为DeveloperMenu四页，接配置store和离线构建request；删除旧Probe源码/构建入口，UI编译/交互等待新CI，游戏ABI仍暂缓。
