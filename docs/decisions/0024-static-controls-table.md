@@ -1,0 +1,7 @@
+# Static卡片的视图和输入生命周期
+
+复审发现原Static Renderer为每个功能创建整套UIView，最大16镜像×256逻辑项时可产生数万控件。改为UIKit UITableView复用单一NMStaticControlCell/Row，不保留旧全量ScrollView路径。
+
+Runtime继续是唯一实际执行状态所有者；UI只持不可变快照、按feature ID保存的输入草稿和反馈。相同身份的刷新仅更新可见cell，避免重建第一响应者；复用时重新按ID填充草稿；键盘改变可用高度后滚动当前输入框到可见区域。回调复制到局部strong block以覆盖同步重配置期间的执行。
+
+worker只做镜像绑定；主线程真正提交时重新读Runtime.snapshot，避免worker旧快照覆盖期间的新操作。测试继续以真实prepared Simulator函数返回值验证，不能用Mock状态替代实际执行。新增UI内存/滚动及设备行为仍需实际回归，不能因视图复用就宣称设备通过。
