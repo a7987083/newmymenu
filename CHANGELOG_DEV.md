@@ -174,3 +174,5 @@
 - Run43682960666：owned图像、重建chained starts、既有签名器、独立codesign/dyld_info验证及宿主真实ARM64切换全部通过，19份分析零诊断。加入离线request/预览/显式review/唯一目录发布；title/group与ID分离，UTF8安全截断，mixed-target拒绝。完整请求/文件发布测试等待CI；不宣称最终UI或设备完成。
 
 - Run43683682500五job通过：离线request完整签名发布、review/cancel/no-overwrite/target拒绝及中文元数据测试通过。将唯一Probe前端迁移为DeveloperMenu四页，接配置store和离线构建request；删除旧Probe源码/构建入口，UI编译/交互等待新CI，游戏ABI仍暂缓。
+
+- Run43684503704五job通过：单一DeveloperMenu四页已实际ARM64编译/签名/静态分析，旧Probe入口删除；UIKit交互仍未验证。增加固定18.5 Simulator App contract、截图和未安装runtime的真实状态记录；将三种目标构建/核心分析收敛为一份显式源清单，并校验实现完整性/对象名唯一。模拟器结果待CI。

@@ -1,0 +1,7 @@
+# UIKit模拟器验证与源码清单
+
+固定iOS18.5模拟器存在时，构建独立测试App并实际启动DeveloperMenu。通过UIKit公开事件/文档picker delegate执行配置正确/错误应用、保存、二进制读取、Patch预览/签名生成、键盘focus/Done和触摸穿透，保存页面截图及JSON结果。输入二进制是独立iOS ARM64 core，作为数据资源，测试App本身编译成Simulator平台；不把iOS dylib在macOS直接加载。
+
+没有18.5 Simulator runtime时必须生成unavailable.json标记executed=false和缺失原因；SDK存在不等于有可运行runtime，不伪造测试成功。物理设备、多scene、真实游戏Runtime及系统分享接收方仍未验证，模拟器结果不能覆盖这些状态。
+
+Core/Developer/Simulator统一使用scripts/source_lists.sh显式源码清单，解决独立长链接列表容易漏模块/重复维护的问题。portable完整性测试验证src的所有实现恰好编译一次且对象名无冲突。静态分析也消费同一清单，适用检查没有删减。

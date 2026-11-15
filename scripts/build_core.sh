@@ -13,18 +13,11 @@ if Path('build/core/toolchain.txt').read_text().splitlines() != ['Xcode 16.4', '
 PYCODE
 xcrun clang --version >> build/core/toolchain.txt
 BASE=(-isysroot "$SDK" -arch arm64 -miphoneos-version-min=14.0 -Oz -fvisibility=hidden -Wall -Wextra -Werror -Iinclude)
-xcrun --sdk iphoneos clang "${BASE[@]}" -std=c11 -c src/NMCore.c -o build/core/NMCore.o
-xcrun --sdk iphoneos clang "${BASE[@]}" -std=c11 -c src/Configuration/NMRuntimeActionCodec.c -o build/core/NMRuntimeActionCodec.o
-xcrun --sdk iphoneos clang++ "${BASE[@]}" -std=c++17 -fobjc-arc -fblocks -c src/MethodFinder/NMMethodTranslator.mm -o build/core/NMMethodTranslator.o
-xcrun --sdk iphoneos clang++ "${BASE[@]}" -std=c++17 -fobjc-arc -fblocks -c src/Build/NMMachOSigner.mm -o build/core/NMMachOSigner.o
-xcrun --sdk iphoneos clang "${BASE[@]}" -std=c11 -c src/Build/NMMachOAddress.c -o build/core/NMMachOAddress.o
-xcrun --sdk iphoneos clang "${BASE[@]}" -std=c11 -c src/Build/NMARM64Relocation.c -o build/core/NMARM64Relocation.o
-for source in src/Build/NMStaticCodePayload.mm src/Build/NMChainedFixupsPrivate.mm src/Build/NMStaticBinaryImage.mm; do
-    xcrun --sdk iphoneos clang++ "${BASE[@]}" -std=c++17 -fobjc-arc -fblocks -Isrc/Build -c "$source" -o "build/core/$(basename "$source" .mm).o"
-done
-for source in src/Execution/NMReceiverLease.m src/Execution/NMInvocationCoordinator.m src/NativeHook/NMCaptureSession.m src/RuntimeDiscovery/NMIL2CPPDiscovery.m src/MethodFinder/NMNamedExpression.m src/Build/NMBuildManifest.m src/Swizzle/NMSwizzleManager.m src/Configuration/NMConfiguration.m src/Configuration/NMPatchImport.m src/Build/NMStaticPatchPlan.m src/Build/NMOfflineBuildRequest.m; do
-    xcrun --sdk iphoneos clang "${BASE[@]}" -std=c11 -fobjc-arc -fblocks -c "$source" -o "build/core/$(basename "$source" .m).o"
-done
-xcrun --sdk iphoneos clang++ -isysroot "$SDK" -arch arm64 -miphoneos-version-min=14.0 -dynamiclib -framework Foundation -install_name @rpath/NewMyMenuCore.dylib build/core/NMCore.o build/core/NMMachOAddress.o build/core/NMARM64Relocation.o build/core/NMRuntimeActionCodec.o build/core/NMMethodTranslator.o build/core/NMReceiverLease.o build/core/NMInvocationCoordinator.o build/core/NMCaptureSession.o build/core/NMIL2CPPDiscovery.o build/core/NMNamedExpression.o build/core/NMBuildManifest.o build/core/NMMachOSigner.o build/core/NMSwizzleManager.o build/core/NMConfiguration.o build/core/NMPatchImport.o build/core/NMStaticPatchPlan.o build/core/NMOfflineBuildRequest.o build/core/NMStaticCodePayload.o build/core/NMChainedFixupsPrivate.o build/core/NMStaticBinaryImage.o -o build/core/NewMyMenuCore.dylib
+source scripts/source_lists.sh
+OBJECTS=()
+for input in "${NM_C_SOURCES[@]}"; do object="build/core/$(basename "$input" .c).o";xcrun --sdk iphoneos clang "${BASE[@]}" -std=c11 -c "$input" -o "$object";OBJECTS+=("$object");done
+for input in "${NM_M_SOURCES[@]}"; do object="build/core/$(basename "$input" .m).o";xcrun --sdk iphoneos clang "${BASE[@]}" -std=c11 -fobjc-arc -fblocks -c "$input" -o "$object";OBJECTS+=("$object");done
+for input in "${NM_MM_SOURCES[@]}"; do object="build/core/$(basename "$input" .mm).o";xcrun --sdk iphoneos clang++ "${BASE[@]}" -std=c++17 -fobjc-arc -fblocks -Isrc/Build -c "$input" -o "$object";OBJECTS+=("$object");done
+xcrun --sdk iphoneos clang++ -isysroot "$SDK" -arch arm64 -miphoneos-version-min=14.0 -dynamiclib -framework Foundation -install_name @rpath/NewMyMenuCore.dylib "${OBJECTS[@]}" -o build/core/NewMyMenuCore.dylib
 codesign --force --sign - --timestamp=none build/core/NewMyMenuCore.dylib
 python3 tools/verify_core.py build/core/NewMyMenuCore.dylib
