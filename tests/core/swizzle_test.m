@@ -59,7 +59,9 @@ int main(void){@autoreleasepool{
  check(![manager restoreToken:instanceToken error:&error]&&error.code==12,"concurrent active call refuses restore");
  check(install(manager,NMSWParent.class,@selector(pair:count:),NO,@selector(replacementPair:count:),0,&error)==nil&&error.code==4,"concurrent active call refuses install");
  dispatch_semaphore_signal(resume);check(dispatch_semaphore_wait(done,dispatch_time(DISPATCH_TIME_NOW,3*NSEC_PER_SEC))==0,"worker exits scope");
- dispatch_apply(1000,dispatch_get_global_queue(QOS_CLASS_DEFAULT,0),^(size_t n){@autoreleasepool{[manager performInvocation:^{NMSWParent *obj=[NMSWParent new];check([obj value:(NSInteger)n]==(NSInteger)n+11,"parallel original chain stays intact");} error:NULL];}});
+ _Atomic(unsigned) calls=0;_Atomic(unsigned) *completed=&calls;
+ dispatch_apply(1000,dispatch_get_global_queue(QOS_CLASS_DEFAULT,0),^(size_t n){@autoreleasepool{check([manager performInvocation:^{NMSWParent *obj=[NMSWParent new];check([obj value:(NSInteger)n]==(NSInteger)n+11,"parallel original chain stays intact");atomic_fetch_add(completed,1);} error:NULL],"parallel dispatch scope cannot be silently skipped");}});
+ check(atomic_load(&calls)==1000,"all 1000 parallel method calls actually completed");
  Method active=class_getInstanceMethod(NMSWParent.class,@selector(value:));method_setImplementation(active,(IMP)foreignValue);
  check(![manager restoreToken:instanceToken error:&error]&&error.code==14&&method_getImplementation(active)==(IMP)foreignValue,"foreign IMP conflict is identified without overwriting it");
  method_setImplementation(active,instanceToken.replacementImplementation);check([manager restoreToken:instanceToken error:&error]&&!error&&instanceToken.state==NMSwizzleStateRestored,"restore after explicit conflict resolution");
@@ -74,6 +76,10 @@ int main(void){@autoreleasepool{
  [manager performInvocation:^{NMSWPair result=[[NMSWParent new] pair:2.5 count:7];check(result.value==5.5&&result.count==11,"real ObjC aggregate return ABI");} error:NULL];check([manager restoreToken:pair error:&error],"aggregate method restored");
  check(![manager performInvocation:^{[NSException raise:@"Fixture" format:@"dispatch failure"];} error:&error]&&error.code==15,"exception reports failure and releases dispatch scope");
  NMSwizzleToken *again=install(manager,NMSWParent.class,@selector(pair:count:),NO,@selector(replacementPair:count:),0,&error);check(again&&[manager restoreToken:again error:&error],"gate remains usable after exception");
- check(manager.diagnostics.count>0&&manager.diagnostics.count<=128,"diagnostics are bounded and observable");
+ NSMutableArray<NMSwizzleToken *> *many=[NSMutableArray array];
+ const char *types=method_getTypeEncoding(class_getInstanceMethod(NMSWParent.class,@selector(value:)));
+ for(NSUInteger i=0;i<129;i++){SEL selector=NSSelectorFromString([NSString stringWithFormat:@"nm_fixture_capacity_%lu:",(unsigned long)i]);check(class_addMethod(NMSWParent.class,selector,(IMP)foreignValue,types),"capacity fixture owns a new target slot");NMSwizzleToken *token=install(manager,NMSWParent.class,selector,NO,@selector(replacementValue:),0,&error);if(i<128){check(token&&!error,"bounded registry accepts supported capacity");[many addObject:token];}else check(!token&&error.code==6,"one more active selector is rejected without mutation");}
+ for(NMSwizzleToken *token in many)check([manager restoreToken:token error:&error],"all capacity-owned targets restore cleanly");[many removeAllObjects];
+ check(manager.diagnostics.count==128,"diagnostic retention remains bounded across install/restore churn");
  puts("PASS: actual ObjC instance/class/aggregate ABI, original IMP, duplicate/type/foreign conflicts, inheritance policy, concurrent/reentrant refusal, restore and object release");
  }return 0;}

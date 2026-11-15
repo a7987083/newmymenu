@@ -33,3 +33,5 @@
 - 用户已暂缓游戏ABI；不再等待目标游戏作为整个工程继续的条件。Invoke/managed保活与依赖目标布局的Native/Prepared路径仍未完成。
 - Manifest JSON是newmymenu.manifest/schemaVersion1，不是原zonoe-authoring或Patch JSON兼容导入器；后者及prepare/emit业务尚未接入，不得把基础snapshot/JSON测试通过写成混合构建完成。
 - 签名器限定thin ARM64且需现存LC_CODE_SIGNATURE，拒绝带entitlements的输入，最终IPA身份/权限重签必须由包级签名流程承担；没有设备加载验证。旧签名器两项缺陷与本轮修复记录见docs/SIGNER.md。
+
+- SwizzleManager采用明确的合作式调度/写入契约，不能阻止任意第三方不合作的Runtime修改；实际SharedSite外部Hook尚未接入该域。继承默认拒绝，显式LocalSnapshot会留下本地方法槽，不是完整动态继承还原。无法持有代码镜像及block-backed IMP明确拒绝，详情docs/SWIZZLE_MANAGER.md。

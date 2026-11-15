@@ -124,3 +124,5 @@
 - Run43655309286: first real ObjC Runtime/ASan SwizzleManager fixture passed instance/class/aggregate ABI, original IMP, inheritance, active/reentrant refusal, foreign/parent conflict and receiver release. Core API9 integration now adds manager/token exports, formal ARM64 compile/static analysis. Additional controlled block-IMP rejection and simultaneous instance/metaclass ownership tests retain the same lifecycle contract.
 
 - Swizzle token now pins target/replacement Class and original/replacement IMP images; unmapped/dynamic/block-backed implementations are refused. Precise token/candidate lifetimes defer image release until after the exclusive gate unlocks, including failed installation. No block/free or image-unload fallback introduced.
+
+- Swizzle fixture evidence strengthened: every parallel scope must return success and an atomic counter proves all 1000 method calls ran (not merely dispatch attempts). Added 128 active-target/129th rejection boundary, complete cleanup and bounded diagnostic churn tests. Production implementation unchanged.
