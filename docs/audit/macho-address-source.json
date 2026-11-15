@@ -1,0 +1,7 @@
+{
+  "repository": "a7987083/mymenu",
+  "commit": "7066edeaf9e47580c89440be670c517280534b69",
+  "path": "iosruntimepatchmenu/src/ZNStaticBinaryBuilderV3.mm",
+  "sha256": "dc6721bd5203f14488908ee00dcc5b10ad058cfc71bebebb8da6988edeab5983",
+  "reuse": "segment __TEXT base and RVA-to-file formulas; new bounded range validation replaces unchecked sums"
+}

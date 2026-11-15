@@ -150,3 +150,5 @@
 - 新增离线配置/Patch候选边界文档，更新Static地址迁移前源码检查；未实现或声称生产Patch写入。
 
 - 42e61ea / Run43675322065五job通过：API11 core/Probe ARM64、37/38导出、依赖/签名通过；13份core和3份UI分析零诊断。Core Artifact14145951586已下载复核ZIP/dylib SHA、Mach-O和编译source_head。离线配置与Patch测试/原实现对照通过；未实机验证、未交付阶段dylib。状态与交接同步，最终产品仍未完成。
+
+- API12 Static地址映射源码：基于固定原V3 segment公式分离唯一有界C模块。普通本地fixture和16384组原函数对照通过，真实复现旧span溢出。Linux sanitizer因ptrace/LeakSanitizer环境失败，未标通过；CI保留ASan/UBSan及真实ARM64输入检查。源码待CI验证，不执行Patch写入。

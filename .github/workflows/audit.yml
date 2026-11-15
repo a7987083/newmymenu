@@ -140,6 +140,11 @@ jobs:
           make test-manifest
           make test-configuration
           make test-patch-import
+          make test-macho-address
+          python3 tools/generate_address_parity.py .audit-source
+          cc -std=c11 -Wall -Wextra -Werror -fsanitize=address,undefined -Iinclude -c src/Build/NMMachOAddress.c -o build/tests/address-map.o
+          c++ -std=c++17 -Wall -Wextra -Werror -fsanitize=address,undefined -Iinclude build/tests/address-parity.cpp build/tests/address-map.o -o build/tests/address-parity
+          build/tests/address-parity
           make test-configuration-parity SOURCE_BASELINE=.audit-source
           make test-swizzle
           make test-presentation
@@ -155,6 +160,7 @@ jobs:
           mkdir -p build/core
           xcrun clang --analyze -std=c11 -Wall -Wextra -Werror -Iinclude src/NMCore.c -o build/core/NMCore-analysis.plist
           xcrun clang --analyze -std=c11 -Wall -Wextra -Werror -Iinclude src/Configuration/NMRuntimeActionCodec.c -o build/core/NMRuntimeActionCodec-analysis.plist
+          xcrun clang --analyze -std=c11 -Wall -Wextra -Werror -Iinclude src/Build/NMMachOAddress.c -o build/core/NMMachOAddress-analysis.plist
           xcrun clang++ --analyze -std=c++17 -fobjc-arc -fblocks -Wall -Wextra -Werror -Iinclude src/MethodFinder/NMMethodTranslator.mm -o build/core/NMMethodTranslator-analysis.plist
           xcrun clang++ --analyze -std=c++17 -fobjc-arc -fblocks -Wall -Wextra -Werror -Iinclude src/Build/NMMachOSigner.mm -o build/core/NMMachOSigner-analysis.plist
           for source in src/Execution/NMReceiverLease.m src/Execution/NMInvocationCoordinator.m src/NativeHook/NMCaptureSession.m src/RuntimeDiscovery/NMIL2CPPDiscovery.m src/MethodFinder/NMNamedExpression.m src/Build/NMBuildManifest.m src/Swizzle/NMSwizzleManager.m src/Configuration/NMConfiguration.m src/Configuration/NMPatchImport.m; do
@@ -166,7 +172,10 @@ jobs:
           set -euo pipefail
           make core
       - name: Verify transactional reused Mach-O signer
-        run: make test-signer
+        run: |
+          set -euo pipefail
+          make test-signer
+          build/tests/macho-address build/core/NewMyMenuCore.dylib
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:

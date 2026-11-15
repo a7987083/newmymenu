@@ -114,3 +114,9 @@ test-patch-import:
 	mkdir -p build/tests
 	xcrun clang -std=c11 $(WARN) -g -fsanitize=address -fobjc-arc -fblocks -Iinclude -framework Foundation src/Configuration/NMPatchImport.m tests/core/patch_import_test.m -o build/tests/patch-import
 	build/tests/patch-import
+
+.PHONY: test-macho-address
+test-macho-address:
+	mkdir -p build/tests
+	$(CC) -std=c11 $(WARN) -g -fsanitize=address,undefined -Iinclude src/Build/NMMachOAddress.c tests/core/macho_address_test.c -o build/tests/macho-address
+	build/tests/macho-address
