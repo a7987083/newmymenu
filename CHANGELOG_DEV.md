@@ -190,3 +190,4 @@
 - 执行环境断开后切换GitHub connector/CI继续，无本地编译能力被伪报。Run43688515706首错为NSError输出空检查；Simulator截图约23秒超过15秒fixture I/O确认。补标准空保护，截图CLI单独限60秒、确认90秒，保留产品交互断言。交接记录最后完整成功546fb05b及未提交Runtime草稿，不把草稿计作完成。
 
 - API19候选：新增进程级NMStaticRuntime及真实ARM64加载fixture，统一prepared Static镜像pin、按物理站点owner-stack、CAS冲突拒绝与typed RW cell更新；值范围转换单一C实现，Slider工厂拒绝非法最大值。Linux portable和普通C值测试通过；本机LSan受ptrace阻断，macOS ASan/UBSan及iOS构建等待CI，不计入已通过。
+- Run43768726795首错：iOS18.5公开SDK明确拒绝mach_vm.h。改用现有公开vm_read_overwrite/vm_region_64及对应vm类型，保留内存读取/写权限检查；同步加强源branch、owned RX字节及dispatch模板校验，接入独立Static功能页。等待重跑，不放宽SDK或检查。
