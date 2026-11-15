@@ -51,6 +51,8 @@ static BOOL NMCTemplate(NSDictionary *r){
     if(!NMCInteger(r[@"actionID"],UINT32_MAX)||![r[@"actionID"] unsignedIntValue]||!NMCInteger(r[@"templateKind"],5)||![r[@"templateKind"] unsignedIntValue])return NO;
     NSUInteger argc=[r[@"argumentCount"] unsignedIntegerValue],kind=[r[@"templateKind"] unsignedIntegerValue];
     for(NSString *key in @[@"argumentIndex",@"callbackArgumentIndex",@"fieldArgumentIndex",@"fieldOffset",@"codecGetterArgumentCount",@"codecSetterArgumentCount"])if(r[key]&&!NMCInteger(r[key],UINT64_MAX))return NO;
+    for(NSString *key in @[@"codecGetterArgumentCount",@"codecSetterArgumentCount"])if(r[key]&&!NMCInteger(r[key],NM_RUNTIME_ACTION_MAX_ARGUMENTS))return NO;
+    for(NSString *key in @[@"fieldArgumentMode",@"fieldCodec",@"codecAssembly",@"codecNamespace",@"codecClass",@"codecGetterMethod",@"codecSetterMethod"])if(r[key]&&!NMCString(r[key],NO))return NO;
     for(NSString *key in @[@"callbackValue",@"skipOriginal",@"returnBoolValue"])if(r[key]&&!NMCBoolean(r[key]))return NO;
     for(NSString *key in @[@"min",@"max",@"default"]){id value=r[key];if(value&&!NMCSignedInteger(value))return NO;}
     if(r[@"min"]&&r[@"max"]&&[r[@"min"] compare:r[@"max"]]==NSOrderedDescending)return NO;

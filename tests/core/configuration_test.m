@@ -35,6 +35,11 @@ int main(void){@autoreleasepool{
  h=hook(@1,@3);check(doc(@[],@[h]).nativeHooks.count==1,"return bool template portable shape");
  h=hook(@1,@4);h[@"fieldArgumentIndex"]=@0;h[@"fieldArgumentMode"]=@"indirect-pointer";h[@"fieldCodec"]=@"secure-long-accessor";h[@"codecClass"]=@"SecureLong";h[@"codecGetterMethod"]=@"Get";h[@"codecSetterMethod"]=@"Set";check(doc(@[],@[h]).nativeHooks.count==1,"legacy field codec descriptor preserved without execution");
  h=hook(@1,@5);h[@"fieldArgumentIndex"]=@0;h[@"fieldArgumentMode"]=@"indirect-pointer";h[@"fieldCodec"]=@"codestage-obscured-int";h[@"codecClass"]=@"CodeStage.AntiCheat.ObscuredTypes.ObscuredInt&";h[@"fieldOffset"]=@0;check(doc(@[],@[h]).nativeHooks.count==1,"complex codec portable type mapping");h[@"fieldOffset"]=@4;check(![NMConfigurationDocument documentFromJSONData:encode(root(@[],@[h])) error:&error],"whole-struct descriptor cannot import nonzero field offset");
+ h=hook(@1,@3);h[@"callbackArgumentIndex"]=@(UINT64_MAX);h[@"fieldArgumentIndex"]=@(UINT64_MAX);
+ check([doc(@[],@[h]).nativeHooks[0][@"fieldArgumentIndex"] unsignedLongLongValue]==UINT64_MAX,"legacy unused index sentinel survives JSON without precision loss");
+ h[@"codecSetterArgumentCount"]=@9;check(![NMConfigurationDocument documentFromJSONData:encode(root(@[],@[h])) error:&error],"codec method arity cannot exceed the action contract");
+ h=hook(@1,@1);h[@"codecClass"]=@42;check(![NMConfigurationDocument documentFromJSONData:encode(root(@[],@[h])) error:&error],"known optional codec fields are still type checked");
+ check([doc(@[],@[hook(@(UINT32_MAX),@1),hook(@(UINT32_MAX),@3)]).nativeHooks[1][@"actionID"] intValue]==1,"Native ID collision wraps at UINT32_MAX deterministically");
  NMConfigurationDocument *ids=doc(@[],@[hook(@1,@1),hook(@1,@3)]);check([ids.nativeHooks[1][@"actionID"] intValue]==2,"generated Native ID collision remapped deterministically");
  check(![NMConfigurationDocument documentFromJSONData:encode(root(@[],@[])) error:&error]&&[NMConfigurationDocument.emptyDocument JSONDataWithError:&error]==nil,"empty import/export cannot accidentally clear workspace");
  NSMutableDictionary *badRoot=[root(@[method(@"A",@"1")],@[]) mutableCopy];badRoot[@"schemaVersion"]=@YES;check(![NMConfigurationDocument documentFromJSONData:encode(badRoot) error:&error],"bool schema version rejected");
