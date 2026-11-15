@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "phase": "prepared_static_runtime_ci",
+  "phase": "static_feature_metadata_api20_ci",
   "branch": "main",
   "head_reference": "git rev-parse HEAD; CI github.sha",
   "source_head": "7066edeaf9e47580c89440be670c517280534b69",
@@ -479,7 +479,7 @@
     "game_abi_required": false
   },
   "current_work": {
-    "code_head": "93916b565388715a47a8fdd40a9abdf26f0e70e4",
+    "code_head": "git rev-parse HEAD; latest CI source_head",
     "runtime": "process-pinned prepared image owner-stack and typed cells; CI pending",
     "ui": "five pages including loaded Static controls; Simulator dynamic fixture pending",
     "last_complete_ci": 43689802080,
@@ -508,7 +508,22 @@
       "toggle_cycles": 1000,
       "device_verified": false
     },
-    "integrated_simulator": "in progress; latest new UI draft/driver bounds require next CI"
+    "integrated_simulator": "in progress; latest new UI draft/driver bounds require next CI",
+    "api_version": 20,
+    "feature_metadata": {
+      "implemented": true,
+      "compiled": false,
+      "verified": false,
+      "description_pipeline": "candidate schema2 -> immutable definition -> Manifest + 120-byte UTF8 projection -> Runtime snapshot -> card",
+      "imported_identity": "per logical patch, not display title",
+      "design": "docs/decisions/0022-static-feature-metadata.md"
+    },
+    "simulator_failure": {
+      "run_id": 43771959291,
+      "stage": "dlopen before return",
+      "cause": "unconfirmed; host loader/signature evidence pending",
+      "device_verified": false
+    }
   },
   "execution_environment": {
     "local_linux": "available again; git HTTPS push credential absent; connector commits with expected-head lease",

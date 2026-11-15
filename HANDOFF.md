@@ -1,3 +1,11 @@
+# API20待验增量
+
+新增Static说明闭环与Imported同标题独立，设计docs/decisions/0022-static-feature-metadata.md；候选schema2，v1仅一次升级为同模型；唯一definition工厂新增featureDescription参数，全部调用方同步。原源码说明/分组证据已核对固定7066ede及hash。尚未计作CI通过。
+
+截至d69aa79 / Run43771959291，核心仍通过，Simulator退出点为dlopen返回前，stage文件已收集；没有ips，app-process日志没有首错。下一轮收集host log及prepared codesign/dyld_info；fixture权限与生产发布0755一致。不得声称已定位签名根因或已执行Static UI。
+
+以下为API19接手记录，状态与最新CI冲突时以最新证据为准。
+
 # 当前接手入口：API19 prepared Static Runtime
 
 当前精确HEAD执行`git rev-parse HEAD`。API19核心8bb60d21已通过Run43770082803/foundation-core（59导出、22分析零诊断、真实ARM64 Runtime及既有回归）。Developer/Simulator仍进行中；上次五Job全通过仍为17878f28 / Run43689802080。完整报告docs/builds/static-runtime-8bb60d21.json。

@@ -13,3 +13,5 @@
 UI：DeveloperUI/NMStaticControlsView为单一Renderer，使用Runtime快照展示所有者/实际生效/外部冲突；输入与应用在同一卡片，结果反馈按功能ID保留。整数Slider取整，焦点通知交由overlay统一处理键盘可用高度。UI无第二套执行状态。
 
 RW指针CAS避免撕裂和覆盖已观察到的外部变化；生成的普通LDR读路径不提供跨多个站点/值的线性一致性，不能用同一条UI成功提示推导所有并发读者在同一时刻切换。所有可达代码保持pin且不可变，恢复不回收代码。
+
+API20：描述catalog flag必需；full description是唯一文本源，128-byte描述表的120-byte UTF8前缀必须一致。Imported按逻辑patch身份保留独立项，显式group成员按logicalIndex排序，说明取第一成员，与固定原Snapshot行为一致。工厂头/库必须配套。

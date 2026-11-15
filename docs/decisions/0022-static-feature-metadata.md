@@ -1,0 +1,11 @@
+# Static功能元数据闭环
+
+审计基线7066ede：ZNStaticBinaryBuilderV3.mm:1067-1080把每个row.featureDescription编码为最多120字节有效UTF8前缀；ZNFeatureSnapshotProvider.mm:76-134显式group折叠、Imported默认每个patch独立，并采用第一成员说明。文件hash：Builder dc6721bd5203f14488908ee00dcc5b10ad058cfc71bebebb8da6988edeab5983，Snapshot 79a2919ed90c123e0227853e5d3587384755f7d2f0710fb75594a185f84e4cb9。
+
+新源码审计发现两处ABI独立缺口：候选/definition未保留description，formal description表仅空壳；Runtime把Imported下同title的patch错误折叠。迁移采用一个featureDescription字段，从Patch候选→不可变definition→同一个Manifest/full description及旧128-byte描述表的120-byte UTF8投影→Runtime快照→卡片。描述表只是派生wire投影，不保留第二个可编辑状态。
+
+候选review输出schema2，schema1仅在唯一入口一次升级为空说明后进入同一内部模型，不保留第二套执行引擎。说明最多4096 UTF16单元、有效UTF8、拒NUL，允许空串显式清除继承说明。保留原group第一成员说明；Imported以逻辑patch身份独立，不按显示title合并。
+
+核心API20同步更新所有调用方，不保留旧工厂备用selector。prepared header新增description schema flag，Runtime明确拒绝旧缺字段catalog而非静默丢说明；旧原仓库文件不改动。
+
+验收：候选导入/导出及v1升级、说明别名冲突/NUL/上限、完整说明与UTF8前缀一致性、同标题Imported独立、显式group第一成员说明、真实ARM64控制及Simulator卡片回归。未实际通过前保持未验证。

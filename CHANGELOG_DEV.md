@@ -201,3 +201,5 @@
 - Runtime schema复审：用CFBoolean类型身份拒绝布尔型整数元数据，沿用现有Configuration/Manifest规则，不依赖NSNumber.objCType与BOOL编码是否相同。ARM64 fixture直接编译一次实际Runtime实现，增加bool/分数/负索引拒绝，以及I32/U32/I64边界、NUL输入和失败不改输出检查；不新增生产测试API或复制解析算法。
 - Run43771008979与43771267000分别在simctl list(90s)/install(90s)超时，均未抵达新增动态执行；冷启动I/O预算调整为list180s/install240s，仍保持boot240s/launch360s和Job20min总上限，业务断言等待不变。安装前增加完整app深度签名验证，不跳过Simulator。
 - 源码复审发现Static功能说明缺口：原SnapshotProvider:114/V3Builder:1071存在，当前候选/definition未携带。已记录KNOWN_ISSUES/ROADMAP，未声称功能对等。
+- API20候选（设计0022先于实现）：Static featureDescription统一贯穿候选schema2/v1一次升级、immutable definition、Manifest/旧120-byte有效UTF8描述投影、Runtime快照与卡片。Imported按逻辑身份独立，显式group依逻辑顺序采用首成员说明；同步迁移唯一工厂selector，没有旧selector执行回退。加入说明继承/显式清空/别名冲突/上限/NUL、UTF8投影和同标题独立启停fixture。未实际CI验证。
+- Run43771959291首次保留Simulator退出阶段：start→emit→sign→dlopen，退出发生在dlopen返回前，尚无ips。fixture输出权限对齐真实OfflineBuildRequest的0755，并补宿主签名/加载器日志与prepared独立codesign/dyld_info诊断；不提前归因为签名或代码执行。
