@@ -1,0 +1,20 @@
+{
+  "repository": "a7987083/mymenu",
+  "commit": "7066edeaf9e47580c89440be670c517280534b69",
+  "path": "iosruntimepatchmenu/src/ZNStaticBinaryBuilderV3.mm",
+  "sha256": "dc6721bd5203f14488908ee00dcc5b10ad058cfc71bebebb8da6988edeab5983",
+  "reuse": [
+    "instruction-section flags and executable segment policy",
+    "same-start physical maximum window aggregation",
+    "original-byte comparison",
+    "composed variant prefix replacement and deduplication",
+    "direct B/BL, B.cond, CBZ/CBNZ, TBZ/TBNZ inbound interior masks",
+    "different-start overlap refusal"
+  ],
+  "changes": [
+    "bounded ranges and explicit expected-byte source label",
+    "single image snapshot and SHA256",
+    "single direct branch scan with binary search physical sites",
+    "unsigned sign-extension arithmetic avoids shifting negative signed values"
+  ]
+}

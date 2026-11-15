@@ -120,3 +120,10 @@ test-macho-address:
 	mkdir -p build/tests
 	$(CC) -std=c11 $(WARN) -g -fsanitize=address,undefined -Iinclude src/Build/NMMachOAddress.c tests/core/macho_address_test.c -o build/tests/macho-address
 	build/tests/macho-address
+
+.PHONY: test-static-plan
+test-static-plan:
+	mkdir -p build/tests
+	xcrun clang -std=c11 $(WARN) -g -fsanitize=address,undefined -Iinclude -c src/Build/NMMachOAddress.c -o build/tests/plan-address.o
+	xcrun clang -std=c11 $(WARN) -g -fsanitize=address,undefined -fobjc-arc -fblocks -Iinclude -framework Foundation build/tests/plan-address.o src/Build/NMStaticPatchPlan.m tests/core/static_plan_test.m -o build/tests/static-plan
+	build/tests/static-plan

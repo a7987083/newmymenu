@@ -1,0 +1,11 @@
+# 不可变Static物理计划
+
+先核对原V3 832–915与ZNV3InstructionRange/InboundInterior/ComposedVariant，再迁移逻辑→物理映射。来源hash见audit/static-plan-source.json。相同起点必须保留所有逻辑定义，物理覆盖窗口取最大长度；短replacement以完整original尾部补齐，内容相同的variant去重但不丢逻辑身份。不同起点重叠拒绝。
+
+NMStaticPatchDefinition要求显式expected bytes及证据标签；标签是调用者声明，不是可信认证。NMStaticPatchPlan只读单一冻结NSData，按同一图像做layout/字节/branch检查和hash。API13扩展layout快照收集instruction section，检查section文件/VM对应、执行标志、非LINKEDIT/非header及对齐；下游不新增第二个Mach-O parser。
+
+直接分支掩码复用原V3，使用无符号有界符号扩展，避免原负数左移。扫描一次，以物理起点二分查询内部目标；来源在窗口内的branch也按原策略保守拒绝。只验证磁盘显式direct branch，不证明indirect、运行时生成代码、跨镜像引用或重定位安全。requiresRelocationValidation恒为YES，不能把计划当写入授权。
+
+上限：256逻辑定义，256MiB图像，单定义64KiB，4MiBreplacement，16MiB合成预算，64MiB指令扫描。输出definitions/physicalSites/variants/mapping不可变；失败不发布半套计划。不导入旧UI/全局workspace或执行Hook。不加入临时Static写入路径，下一步继续复用原重定位/Dispatch/Thunk而非直接覆写指令冒充完成。
+
+Foundation/ASan/UBSan、实际ARM64 core输入和回归以CI实际结论为准。最终菜单、emit/混合构建和实机仍未验证。

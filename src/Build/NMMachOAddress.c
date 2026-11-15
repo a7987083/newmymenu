@@ -14,7 +14,16 @@ static bool valid(const NMMachOLayout *l){
   if(!strcmp(s->name,"__TEXT")){if(s->vmaddr!=l->imageBase||s->fileoff||s->filesize<l->commandEnd)return false;text++;}
   for(size_t j=0;j<i;j++){const NMMachOSegment *t=l->segments+j;if(overlap(s->vmaddr,s->vmsize,t->vmaddr,t->vmsize)||overlap(s->fileoff,s->filesize,t->fileoff,t->filesize))return false;}
  }
- return text==1;
+ if(text!=1||l->instructionCount>NM_MACHO_MAX_INSTRUCTION_RANGES)return false;
+ for(size_t i=0;i<l->instructionCount;i++){
+  const NMMachOInstructionRegion *r=l->instructions+i;
+  if(!r->length||(r->rva&3)||(r->fileoff&3)||(r->length&3)||!bounded(l->imageBase,r->rva,UINT64_MAX)||!bounded(r->fileoff,r->length,l->fileSize))return false;
+  uint64_t va=l->imageBase+r->rva;bool found=false;
+  for(size_t j=0;j<l->count;j++){const NMMachOSegment *s=l->segments+j;if((s->protection&4)&&strcmp(s->name,"__LINKEDIT")&&va>=s->vmaddr&&bounded(va-s->vmaddr,r->length,s->filesize)&&r->fileoff==s->fileoff+(va-s->vmaddr)&&r->fileoff>=l->commandEnd)found=true;}
+  if(!found)return false;
+  for(size_t j=0;j<i;j++)if(overlap(r->rva,r->length,l->instructions[j].rva,l->instructions[j].length))return false;
+ }
+ return true;
 }
 bool NMMachOReadLayout(const void *bytes,size_t length,NMMachOLayout *output){
  if(!bytes||!output||length<32)return false;
@@ -33,12 +42,19 @@ bool NMMachOReadLayout(const void *bytes,size_t length,NMMachOLayout *output){
    // Preserve segment-based mapping; validate sections instead of relying on them as ranges.
    for(uint32_t j=0;j<sections;j++){const unsigned char *sec=c+72+(uint64_t)j*80;uint64_t va=u64(sec+32),n=u64(sec+40);uint32_t off=u32(sec+48),kind=u32(sec+64)&255;
     if(va<s->vmaddr||!bounded(va-s->vmaddr,n,s->vmsize))return false;
-    if(kind!=1&&kind!=12&&kind!=18&&n){if(off<s->fileoff||!bounded(off-s->fileoff,n,s->filesize)||!bounded(off,n,length))return false;}
+    if(kind!=1&&kind!=12&&kind!=18&&n){if(off<s->fileoff||!bounded(off-s->fileoff,n,s->filesize)||!bounded(off,n,length)||off-s->fileoff!=va-s->vmaddr)return false;
+     if((s->protection&4)&&(u32(sec+64)&0x80000400u)){
+      if(l.instructionCount==NM_MACHO_MAX_INSTRUCTION_RANGES)return false;
+      NMMachOInstructionRegion *r=l.instructions+l.instructionCount++;r->rva=va;r->fileoff=off;r->length=n;
+     }
+    }
    }
   }else if(cmd==0x2c){if(size<24||u32(c+16))return false;}
   at+=size;
  }
- if(at!=l.commandEnd||!valid(&l))return false;
+ if(at!=l.commandEnd)return false;
+ for(size_t i=0;i<l.instructionCount;i++){if(l.instructions[i].rva<l.imageBase)return false;l.instructions[i].rva-=l.imageBase;}
+ if(!valid(&l))return false;
  *output=l;return true;
 }
 bool NMMachOResolveRange(const NMMachOLayout *l,NMMachOAddressKind kind,uint64_t address,uint64_t length,uint64_t *offset,uint64_t *rva){
@@ -54,5 +70,11 @@ bool NMMachOResolveRange(const NMMachOLayout *l,NMMachOAddressKind kind,uint64_t
   uint64_t preferred=s->vmaddr+delta;if(preferred<l->imageBase)return false;
   *offset=s->fileoff+delta;*rva=preferred-l->imageBase;return true;
  }
+ return false;
+}
+
+bool NMMachOIsInstructionRange(const NMMachOLayout *l,uint64_t rva,uint64_t length){
+ if(!length||(rva&3)||(length&3)||!valid(l))return false;
+ for(size_t i=0;i<l->instructionCount;i++){const NMMachOInstructionRegion *r=l->instructions+i;if(rva>=r->rva&&bounded(rva-r->rva,length,r->length))return true;}
  return false;
 }

@@ -154,3 +154,5 @@
 - API12 Static地址映射源码：基于固定原V3 segment公式分离唯一有界C模块。普通本地fixture和16384组原函数对照通过，真实复现旧span溢出。Linux sanitizer因ptrace/LeakSanitizer环境失败，未标通过；CI保留ASan/UBSan及真实ARM64输入检查。源码待CI验证，不执行Patch写入。
 
 - 5a60d0d首轮API12五job通过；d851ea15新增真实parser的cryptid/section边界用例，Run43678664102五job再次通过。ASan/UBSan、16384组原映射对照/溢出复现、实际ARM64布局输入通过；14份core及3份Probe分析零诊断。Core Artifact14147113395已下载核对ZIP/dylib哈希、39项导出和Mach-O。状态与交接同步；未实际写入Patch、未实机验证、无阶段dylib交付。
+
+- API13源码：不可变Static definition/physical plan，单图像快照/hash，原字节和instruction section验证、同址最大窗口/尾部补齐/variant去重、不同起点冲突及单次direct branch扫描。layout扩展instruction区域避免第二个parser，补section VM/file一致性检查。Linux portable/C地址测试通过；Foundation与ARM64等待CI，不执行文件写入。
