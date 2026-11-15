@@ -186,3 +186,5 @@
 - Run43686304743五job通过，Simulator实际完成配置应用/错误拒绝/保存、document picker读取、预览和签名生成、键盘focus/Done、触摸穿透；Artifact14150603385的result.json及截图已下载核对。视觉检查发现选中segment白底白字和弹窗关闭后截图取早；统一选中色、隐藏展开时悬浮按钮，fixture加实际可见性及系统屏幕捕获握手。数值生成采用独立cell并嵌入既有NMBuildManifest完整名称/分组，保留原GeneratedData V1描述表/空ActionHeader契约，未占用reserved。新值单元实际执行结果待CI。
 
 - Run43687721904：numeric/catalog整合在编译阶段暴露strong NSError输出指针不能直接转传autoreleasing参数，改用局部NSError再赋值到collector强输出，保持错误生存期和全部检查；数值实际执行尚未跑到。补回独立三指按住后上下滑呼出/隐藏，使用window手势/Delegate不Swizzle，保留点击悬浮入口；真实三指仍未设备验证。
+
+- 执行环境断开后切换GitHub connector/CI继续，无本地编译能力被伪报。Run43688515706首错为NSError输出空检查；Simulator截图约23秒超过15秒fixture I/O确认。补标准空保护，截图CLI单独限60秒、确认90秒，保留产品交互断言。交接记录最后完整成功546fb05b及未提交Runtime草稿，不把草稿计作完成。

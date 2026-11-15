@@ -1,157 +1,44 @@
 # newmymenu 当前交接
 
-## 仓库与基线
+当前以 `git rev-parse HEAD` 或 GitHub main ref 为准，文档提交不是二进制 source_head。原 a7987083/mymenu 仅只读，固定基线 `7066edeaf9e47580c89440be670c517280534b69`；分支和审计证据见 docs/audit。
 
-新仓库 https://github.com/a7987083/newmymenu ，main。当前工作树精确HEAD用`git rev-parse HEAD`；构建报告记录真实被编译代码HEAD，文档更新不能自称重新构建。
-源仓库 https://github.com/a7987083/mymenu 只读，未修改远程或历史。
-固定候选 `feat/method-finder-p5-detail-copy@7066edeaf9e47580c89440be670c517280534b69`；main7216b55，customer92d675e。所有远程分支SHA与源文件hash在docs/audit/source-inventory.json。
+## 当前事实与继续方式
 
-## 当前最新：API13 Static物理计划
+- 最后完整成功：`546fb05b5b3998a27b87e7d453e8a27739b01e2c` / Run43686304743，五job通过。Developer Artifact14150603385，SHA256 `20bee9cfa33e549cce807bc50460d471ab054ed909375ea929368d151f10de12`。已下载核对ZIP/dylib/Mach-O；Simulator result.json实际通过配置、picker读取、预览/签名生成、keyboard focus/Done、触摸穿透。物理设备未验证。窗口截图发现选中项对比度与拍摄时机问题，后续源码已修正，系统截图等待重跑。
+- API18 数值cell/catalog源码已在main，尚不能标实际执行通过。Run43687721904先暴露collector强NSError输出转传autoreleasing参数；4dadd345修正为局部NSError后又被Analyzer要求输出指针空值保护。最新修正保持Analyzer不变。
+- Run43688515706的Simulator已走到系统build截图；simctl截图实际约23秒，fixture仅给15秒I/O确认导致超时。最新单独限制截图CLI为60秒，App确认等90秒；业务UI等待/断言未删改，不以放宽产品检查掩盖问题。
+- 本地执行环境已断开。此后通过GitHub connector编辑和macOS CI持续推进。旧本地工作树曾存在未提交NMStaticRuntime草稿及一次执行结果不确定的修改，不视为已提交或可用；恢复本地后先保留该工作树，再用独立checkout跟随main，禁止盲目reset覆盖草稿。
 
-编译代码 `3f4c53a8541ae793f17d953af9230b014e73dff5`，[Run43680151665](https://github.com/a7987083/newmymenu/actions/runs/43680151665)五job通过。Core Artifact14147852562，SHA256 `cf805713d3b9a654bbc40b922a2e3a8c226a586ea95d72f346d5da455ac9d057`。已下载复核ZIP/dylib hash、source_head、Mach-O、44项导出、15份核心分析零诊断；macOS CI严格codesign通过。报告docs/builds/static-plan-3f4c53a8.json。后续文档HEAD不是二进制来源。
+## 已完成且有实际证据的模块
 
-核心位置include/NMStaticPatchPlan.h、src/Build/NMStaticPatchPlan.m；原代码hash及复用决策见audit/static-plan-source.json、decisions/0014。不可变definition要求显式expected bytes和来源标签，plan只读单一冻结图像，比较原字节/校验instruction区域、同起点最大窗口聚合、补原尾部并去重variant、保留逻辑身份映射，拒绝不同起点重叠。直接branch只扫描一次，复用原掩码并修正负数左移/加法风险，二分匹配内部目标。
+- 单一MethodFinder状态/Renderer、关键词与表达式/排名/取消/滚动、字段复制和原词典；真实IL2CPP元数据仍只有受控API fixture，游戏设备未验证。
+- InvocationRequest/ReceiverLease/Coordinator、CaptureSession状态组件；真实游戏Invoke/GCHandle/Dobby关闭适配暂缓。
+- SwizzleManager合作式调度/原IMP与代码镜像所有权、冲突/继承/恢复，真实ObjC Runtime fixture；样本专用SharedSite外部诊断不自动安装，见SWIZZLE_MANAGER和NATIVE_BOUNDARIES。
+- NMConfigurationDocument/Store离线Runtime/Native描述、原子revision提交，10000原身份对照；NMPatchImport严格候选与review来源。
+- NMMachOAddress及单一ARM64 relocation模块：16384映射、23997独立目标检查、24000原函数对照、旧负数左移UBSan复现。
+- NMStaticPatchPlan逻辑→物理聚合/原字节/冲突/direct branch；2000原合成对照。
+- NMStaticCodePayload复用V3 fragment/thunk；宿主ARM64 OFF=7/shared ON=42/99及1000切换通过。
+- NMStaticBinaryImage独占RX/RW segment、chained-start重建；实际iOS ARM64输出经签名、codesign和dyld_info验证。实际macOS prepared dylib也经dyld加载，OFF/ON执行/恢复/卸载通过。
+- NMOfflineBuildRequest人工review、target匹配、取消、新目录独占发布、内部签名、报告、中文安全截断和不覆盖通过。
+- 唯一DeveloperMenu已替代旧Probe：四页查找/配置/构建/状态，项目保存/恢复、系统文件选择、预览、后台生成和导出。来源清单 scripts/source_lists.sh 驱动Core/UI/Simulator和分析，17个portable测试含实现完整性。
 
-layout在原C parser中增加instruction区域和section VM/file对应关系，不增加并行parser。公开值结构已扩展，API12头与API13库不能混用。当前无外部产品交付，最终只使用配套头/库。
+## 当前关键源码
 
-验证命令：make test-static-plan；make test-static-variant-parity SOURCE_BASELINE=/path/to/fixed-source；make core后build/tests/static-plan build/core/NewMyMenuCore.dylib。Foundation/ASan/UBSan实际通过：七类direct分支正负偏移/入口允许，原字节/section/重叠/变体/不可变性，256/257容量，真实ARM64图像。1000计划/2000合成结果与hash提取的原纯NSData函数一致，不执行旧Builder。
+`src/Build/NMStaticCodePayload.mm`：numeric同源逻辑分离ON代码/cell，普通byte变体仍去重；requirements统一预算。完整名称/分组复用NMBuildManifest catalog，保留GeneratedData V1描述表/零ActionHeader，不占reserved。API18该路径尚待当前CI真正跑到执行fixture。
 
-首轮Run43679881569失败原因是测试assert宏误拆ObjC数组逗号；63f3e06修正函数断言后五job通过，3f4c53a8继续加入对照/容量测试再通过；未删检查。
+`src/DeveloperUI/NMDeveloperMenu.m`：唯一overlay，普通Delegate和window三指long-press+上下滑呼出；不Swizzle。键盘Done/编辑区适配、代次拒绝旧完成、自己展示modal时让位；实际三指/旋转/多scene需设备测试。
 
-next：审计复用原ARM64 relocate/variant PC-relative和terminal规则，独立证明符号扩展/目标差/范围，再做Thunk/Dispatch/segment emit与事务式文件发布。requiresRelocationValidation恒真，当前无emit/write入口；indirect/跨镜像/动态代码不在direct scan证明内。最终UI/完整Build/设备仍未验证，游戏ABI暂缓，不发阶段dylib。
+## 构建与测试
 
-## API12 Static地址组件（历史）
+固定Xcode16.4/16F6、SDK18.5、iOS14.0，不任意升级。make core；make developer-menu。CI audit.yml 五job，Simulator脚本 tests/ui/main.m + scripts/test_ui_simulator.sh，物理设备状态独立记录。
 
-编译代码 `d851ea15b8007560922e6e63df0e6f510177aa66`，[Run43678664102](https://github.com/a7987083/newmymenu/actions/runs/43678664102)五job通过。Core Artifact14147113395，SHA256 `ba49469d69a71834d6b1afa40c06d766c0eadda8ac1f37a81097b90b05be8680`。已下载复核ZIP/dylib hash、source_head、Mach-O、39导出、14份核心分析零诊断；macOS CI严格codesign通过。报告docs/builds/static-address-d851ea15.json。此后文档HEAD前进不表示重新编译。
+核心命令见Makefile：test-portable；test-swizzle；test-configuration / test-configuration-parity；test-patch-import；test-static-plan / test-static-variant-parity；test-arm64-relocation / test-relocation-parity；test-static-values；test-static-image；test-offline-build；test-static-loaded-image；test-static-numeric。原源对照需要 SOURCE_BASELINE 指向固定原checkout。host fixtures不能等价iOS设备。
 
-唯一地址实现include/NMMachOAddress.h、src/Build/NMMachOAddress.c：复用固定原V3 segment公式，显式RVA/PreferredVA/FileOffset完整跨度映射；值快照、失败不改输出、溢出/重叠/截断/section/加密标记拒绝。无文件写入或UI Hook。边界见docs/STATIC_PATCH.md和决策0013。
+## 下一任务
 
-验证：make test-macho-address；python3 tools/generate_address_parity.py /path/to/fixed-source后按CI编译运行独立对照；核心构建后build/tests/macho-address build/core/NewMyMenuCore.dylib。ASan/UBSan、16384组原函数对照和实际ARM64输入均通过。Linux GCC LeakSanitizer受ptrace环境阻断，只标普通本地测试通过；未禁用CI检查。原va+length溢出已真实复现，新入口拒绝。
+1. 获取新CI第一处真实错误，先完成API18六类型cell隔离/RW更新/OFF恢复与系统截图复核；不关闭检查。
+2. 实现受强镜像pin保护的loaded Static runtime：完整Manifest名称分组、per physical owner stack、last enabled wins/restore prior owner、foreign target CAS冲突、typed cell输入、页面控制。未提交草稿不能直接宣称已迁移。
+3. 保留所有不依赖游戏ABI的功能继续回归，处理运行时控制UI、配置/混合build差异与技术债，更新状态/矩阵/交接。
+4. 游戏ABI按用户要求暂缓；不得因此停掉独立工作，也不得假设MethodInfo/GCHandle/Native签名。最后才交付整合dylib，不发送阶段二进制。
 
-下一步沿原V3逻辑→物理同起点聚合/最大窗口，补instruction/入分支证明及explicit expected bytes来源，再做不可变计划、冲突检测与事务式文件发布。当前没有Static写入/混合Build闭包或最终UI，实机未验证；游戏ABI暂缓，不发送阶段dylib。
-
-## API11 离线配置/Patch候选（历史）
-
-代码HEAD `42e61ea069070dc08498ba015203602a11418f54`，[Run43675322065](https://github.com/a7987083/newmymenu/actions/runs/43675322065)五job通过。Core Artifact14145951586，SHA256 `fcd68934a79a15213d54dc1a76bf869e238be356be63351ffccbef199024f818`。已下载并核对ZIP/dylib哈希、source_head、Mach-O、37项导出及13份核心分析报告零诊断；签名由macOS CI严格验证。机器报告docs/builds/configuration-42e61ea0.json。文档HEAD前进不代表重新编译。
-
-- API10：NMConfigurationDocument/Snapshot/Store，唯一离线Runtime/Native配置模型及revision原子提交。10000组原身份对照、参数/控件/链/序号保留、过期缓存清理和并发旧revision拒绝通过ASan。见docs/CONFIGURATION.md。
-- API11：NMPatchImportDocument，候选解析与实际二进制操作分离。严格数值/字节/别名/同级错误拒绝、4096容量/4MiB扩展预算和弱候选/前导零review往返通过ASan。固定原纯parser缺陷已真实复现；见docs/PATCH_IMPORT.md。
-- 命令：make test-configuration test-patch-import；make test-configuration-parity test-patch-import-audit SOURCE_BASELINE=/path/to/fixed-source；make core。固定Xcode16.4/16F6、SDK18.5、iOS14.0。
-- Run43675212392静态分析失败被保留：无format旧JSON可能向nonnull查询传nil；42e61ea补空值分支后整套重跑通过，没有放宽检查。
-- UI/持久化、真实目标验证、Static地址/原字节/冲突规划/文件写入及生产Build provider未完成。游戏ABI暂缓；未实机验证，不发中间dylib。
-- 下一任务：按docs/audit/static-address-followup.md先比较原离线Static解析入口，复用成熟地址算法，补边界证据后迁移；不要把已加载内存parser当任意文件parser。
-
-## API9 SwizzleManager组件（历史）
-
-已验证代码 `72189bd714a20c7fe5cfd43b9cd8cd89a4b05b5f`，Run [43656577480](https://github.com/a7987083/newmymenu/actions/runs/43656577480)五job通过。Core Artifact14138715984；SHA256 `d71cbbf88421663ebf8717aa67eb7d52687a7fa81909534c0913b189f3e227b1`。下载ZIP/hash/Mach-O/29导出与11份core分析报告已复核；报告docs/builds/swizzle-72189bd7.json。文档HEAD前进不表示重编译，二进制来源保持上述代码提交。无中间dylib交付。
-
-- 核心位置：include/NMSwizzleManager.h、src/Swizzle/NMSwizzleManager.m；设计0010，契约与限制见docs/SWIZZLE_MANAGER.md。sharedManager是唯一registry owner，目标Class/metaclass+SEL唯一，保留精确原IMP与实际replacement Method签名，不做通用IMP调用/参数封送。
-- 所有调用与竞争writer必须参与同一合作域；performInvocation持读scope，安装/恢复try-write，活动或重入直接拒绝。未知外部dylib不受此锁约束，不提供跨第三方CAS保证。原SharedSite诊断没有自动接入，不能盲填coordinated=YES。
-- 继承默认拒绝；显式LocalSnapshot不污染父类，但恢复后本地方法槽仍在。父IMP变化拒绝恢复。输入仅普通Class，禁止误传metaclass造成二次转换；block或无可持有代码镜像的IMP拒绝。
-- token持有两Class/两IMP代码镜像，失败候选与恢复token释放在独占scope退出后。state/原IMP/日志有明确owner，没有隐藏UI全局状态。非变参声明是前提，Runtime type encoding不证明未知ellipsis ABI。
-- `make test-swizzle`实际macOS ObjC Runtime/ASan：instance/class、NSInteger/double/结构体返回、原IMP/_cmd、签名/重复/foreign/parent冲突、继承、对象释放、活动线程/重入拒绝、恰好1000次已完成调用、128/129容量及清理、异常scope恢复全部通过。正式ARM64编译/静态分析、既有回归及独立签名测试通过。
-- iOS设备、外部真实诊断与完整开发端仍未验证。游戏ABI按用户要求暂缓；继续配置/Static Build/UI等独立功能，不再因此停工。
-
-## ABI独立组件 API8（历史）
-
-已验证代码`1aab363abda06d2d3de61dbf3fd468d258b69bf8`，Run [43654350053](https://github.com/a7987083/newmymenu/actions/runs/43654350053)五job通过。Core Artifact14137721557；SHA256 `49dc035cf803b25e050e15cb014cfa8375a19ec54fe587c0a756c21bec7f8f08`。下载ZIP/hash/Mach-O/10份core分析报告已复核。报告docs/builds/abi-independent-1aab363a.json；历史d21ab48记录保留。集成清理仅移除已由生产core承担的重复signer对象/分析步骤，必要检查全部保留。
-
-用户范围：游戏ABI暂缓，不再阻塞独立组件；完成最终整合前不发送阶段dylib。
-
-- API6：Discovery4个公开查询入口增加NSProgress参数（不保留旧selector备用实现）；进入VM前、扫描、参数类型复制和发布前取消检查；finally清理owned线程/typename。NMFinderSession持有busy/generation；用户取消立即使旧completion失效，新请求清空旧snapshot。受控取消与Foundation状态fixture通过，UIKit实机未验证。
-- API7：include/NMBuildManifest.h、src/Build/NMBuildManifest.m。不可变Item/provider/Manifest，单一冻结configuration，collector异常/nil/error/重复/foreign ownership都明确失败；Manifest-only JSON严格往返。见docs/MANIFEST.md。原authoring/Patch兼容导入与生产prepare/emit尚未完成。
-- API8：include/NMMachOSigner.h、src/Build/NMMachOSigner.mm。复用原页哈希/CodeDirectory/SuperBlob，自包含副本签名、失败清理、禁止覆盖。独立codesign暴露并修复原flags=0及不可能满足的证书designated requirement；改为ad-hoc/cdhash身份。真实ARM64输入上严格验证通过；拒绝现存entitlements，保护不支持的权限保留，包级重签仍必须。见docs/SIGNER.md。
-- 命令：make test-manifest；make core；make test-signer（后者需已构建core，macOS ASan驱动使用真实ARM64文件，签名负例是真实MH_EXECUTE且先断言XML/DER slots存在）。固定Xcode16.4/SDK18.5不变。
-
-SwizzleManager独立组件已完成；完整配置UI/Static/Runtime/Native业务闭包和最终UI仍未完成。ObjC Runtime fixture不需要游戏ABI，可继续；需要目标布局的managed/Native部分明确暂缓。不能把本次核心库构建当完整开发端或实机验收。
-
-## API5命名表达式与类排名（历史）
-
-编译代码 `09cae3ce4a5e05c58bb973faed1151d5f421c186`，Run43650787572五job通过。Core/Probe机器报告见docs/builds/*-09cae3ce.json。用户要求不再分发阶段dylib，本轮未进行中间交付。
-
-- 私有src/MethodFinder/NMNamedExpression.m复用固定原纯解析算法；tools/generate_parser_parity.py仅从hash确认的原源提取parser用于测试，10020输入结果/错误对照通过ASan。
-- Discovery.searchMethodExpression经唯一scan循环落实assembly/namespace/class/exact method/arity；非零delta在进入VM前拒绝，等待地址resolver。
-- 类搜索候选池复用原exact/prefix/suffix/contains排名，修复达到limit后漏掉后续exact的问题；新增limit=1晚到exact回归通过。namespace/type附加contains是明确的扩展，不冒充原name-only语义。
-- 8份core/3份Probe分析零diagnostics，既有元数据/Finder/字段/执行/capture和原实现翻译12000、wire129回归通过；ARM64/签名/依赖/导出/hash通过。实机未验证。
-- 高风险接入需要真实Runtime证据：旧MethodInfo前两字fallback及GCHandle宽度声明不能仅凭源码认定适用于目标。详见docs/ABI_EVIDENCE_GATE.md。现有材料只有旧Probe面板照片，无目标镜像/报告。
-
-## API4方法关键词搜索、详情与翻译（历史）
-
-编译代码 `3115e2b3638eb044c73761cd9cfef0428a52fa5e`，Run [43649811591](https://github.com/a7987083/newmymenu/actions/runs/43649811591) 五job通过。Probe [Artifact14135153726](https://github.com/a7987083/newmymenu/actions/runs/43649811591/artifacts/14135153726)，SHA256 `c8175ac64f294707aed12b89ba41aa5eb488c343f3a6d28fb56156b5beb06d6b`；Core Artifact14135965621，SHA256 `a69cffbf85b4fb08e89061df3e642afa084372439229b1f76af4ecadb614b5db`。报告docs/builds/*-3115e2b3.json。文档HEAD前进不改变二进制来源。
-
-- Discovery增加searchMethods公开方法，Core API4；类/方法关键词共用scanQuery，类展开/全局方法共用NMDLCopyMethod复制类型/static/owner。没有新增Runtime绑定/签名解析副本。
-- Probe Class/Method→同runQuery/同state/同table renderer。`src/MethodFinder/NMMethodPresentation.m`统一字段和subtitle，复用已验证Translator。Class原短名、Type完整类型，复制value不带label/格式/替换翻译。
-- `make test-discovery test-finder test-presentation`：macOS ASan fixture通过，含全局method contains/limit/no match/owner和字段/ByRef/翻译；原wire129/翻译12000回归继续通过。7份core+3份Probe分析零diagnostics。ZIP/二进制hash和Mach-O已下载复核；签名在macOS CI验证。
-- 实机状态：仅旧4d9231c7照片证实面板显示。当前版本Runtime/搜索/字段复制/键盘/生命周期均未验证。
-- 原表达式/参数个数/RVA/排名不由本关键词版替代，差异矩阵与下一步见docs/METHOD_FINDER.md。成熟Resolver/parser优先评估复用；仍没有Invoke/Hook/Build业务入口，不能称完整开发端验收。
-
-## Finder单一页面状态与滚动恢复（历史）
-
-最新编译代码 `05840d7bde3183615e6d0866f3d4996915f928c6`，Run [43649083590](https://github.com/a7987083/newmymenu/actions/runs/43649083590) 五job通过。Artifact [14134789796](https://github.com/a7987083/newmymenu/actions/runs/43649083590/artifacts/14134789796)，SHA256 `b2699b16de7a83cb2fa6a7f8cb451b92861ccc7f74fc479c718b7e7c7bb7a370`。报告 `docs/builds/finder-05840d7b.json`。文档HEAD前进不改变二进制来源。
-
-`src/MethodFinder/NMFinderSession.{h,m}` 是Probe私有Foundation页面状态，所有读写在主线程；rows/count/mode来自同一冻结snapshot。请求开始生成generation；worker只负责Runtime读取；主线程提交时拒绝旧generation。进入类保存offset，方法页面返回直接恢复class snapshot/report/offset；新搜索或Runtime刷新清除缓存。UI不再保留独立_rows/_snapshot/_methodMode/generation副本。缓存只保留最近类页面，非无界索引。
-
-`make test-finder` 在macOS ASan实际运行：深层不可变快照、旧completion拒绝、返回位置/报告、失败后返回、零结果、count/rows不一致拒绝与刷新失效全部通过。Probe新增state和UI两份分析报告零diagnostics；原7份core分析及既有回归继续通过。Core API仍为3，无公开ABI变化，state只链接进Probe。
-
-用户4d9231c7照片仅确认旧Probe面板显示。最新05840d7b及真实Runtime/搜索/键盘/旋转等仍未实机验证。重点测试：向下滚动类列表→打开类→返回，应保持位置且不重新扫描；随后搜索另一关键词/刷新Runtime不得复用旧结果。仍为只读验证版，完整视觉设计、全局Method搜索、翻译UI、Invoke/Hook/Build未完成。
-
-## API3首轮只读 DeviceProbe（历史）
-
-最新编译代码 `4d9231c7e7cc428a8c8947230970d37631c05afa`，Run [43647531696](https://github.com/a7987083/newmymenu/actions/runs/43647531696) 五个 job 全部通过。文档提交之后 HEAD 会前进，二进制 source_head 保持此代码提交。
-
-- 自包含 DeviceProbe Artifact [14133719131](https://github.com/a7987083/newmymenu/actions/runs/43647531696/artifacts/14133719131)，SHA256 `3b0ce6555c45360072257a1c701503fab9dfa9abcd6a7d0d1eb3a0709f93b3bc`。只注入此一个 probe，不另加 Core。build report: `docs/builds/device-probe-4d9231c7.json`。
-- Core API3 Artifact14134279302；SHA256 `da325b58e77890322febbe133805d6f0a1ddfb310a94c95c2339b838845b7048`；report `docs/builds/foundation-core-4d9231c7.json`。API3新增NMIL2CPPDiscovery，原wire布局与执行组件契约未改。
-- 7份core和1份UI分析报告零diagnostics；增加显式plist gate，不能只靠clang --analyze退出码。实际下载重新核对ZIP/dylib哈希、Mach-O和分析报告；签名验证发生在macOS CI。
-- RuntimeDiscovery: `src/RuntimeDiscovery/NMIL2CPPDiscovery.m`、私有API表，公开 `include/NMIL2CPPDiscovery.h`。loadedRuntimeCapabilities→同镜像绑定→withMetadata线程scope→类快照→完整identity重定位→方法值快照。无原生Class/Method指针跨操作缓存。
-- `src/DeviceProbe/NMDeviceProbe.m`：constructor仅dispatch主线程host；foreground window/delegate window→透明overlay→唯一table renderer；serial worker结果用generation校验。没有Swizzle/Hook/managed invoke安装。
-- `make test-discovery` 已在macOS ASan实际运行，覆盖搜索/签名、线程/分配释放、异常、歧义、Domain变化与stale descriptor。真实目标IL2CPP ABI/导出与UIKit运行仍未验证，步骤见 [DEVICE_VALIDATION](docs/DEVICE_VALIDATION.md)。
-- 修复证据：Run43647225475在歧义错误路径objc_retain崩溃；内部NSError**隐式autoreleasing在内层pool后writeback。私有通道改NSError* __strong*后ASan原用例通过。公有NSError**契约不变。
-
-完整开发端尚未完成；Probe不包含Invoke/GCHandle、Native Hook/恢复、Build、完整MethodFinder状态/缓存/翻译UI。不能用Probe成功宣称功能对等。等待设备元数据/交互报告后，先确认目标API/生命周期，再接managed adapter；不猜GCHandle宽度/布局。
-
-## API2执行组件的首次通过记录（历史）
-
-最新被验证代码`ae7f607d2f938bcc29ac545dffcfd09bb15c5292`，Run43643448325四job通过，Artifact14133306387。基础版f385c8a结果作为历史保留，不是最新core。
-新增include/NMReceiverLease.h、NMInvocationCoordinator.h、NMCaptureSession.h，对应src/Execution/*.m、src/NativeHook/NMCaptureSession.m。设计见0002，实际语义/测试/限制见EXECUTION_CORE.md，报告docs/builds/execution-ae7f607.json。
-`make test-execution`实际运行统一receiver、1000并发、真实对象lease、token/ack session、close失败/retry与资源/manager释放。core API版本2，ARM64签名/依赖/15导出全部通过，6个分析报告无diagnostics。
-真实IL2CPP/Dobby/旧UI未接入，完整产品及设备未验证。下一任务是版本明确的managed adapter和显式线程/GCHandle/封送，不能将managed指针强转id或重新引入TLS分流；Native safe-close必须有后端证据。
-
-## 首批基础实现范围与历史证据
-
-已经迁移：
-
-- include/NMMethodTranslator.h、src/MethodFinder/NMMethodTranslator.mm：沿用原翻译算法，只调整公开NM命名空间/路径；一个实现，没有ZN兼容别名。私有词典由tools/generate_dictionary.py从3000词条JSON确定生成，许可在resources。
-- include/NMRuntimeActionFormat.h：原wire magic/version/64-byte layout；src/Configuration/NMRuntimeActionCodec.c提供唯一checked ordinal编解码，0自动/1..128序号，不是稳定对象身份，拒绝无效flag组合。
-- src/NMCore.c：当前API版本3，没有自动初始化、UI或Hook。
-
-设计先于迁移记录在docs/decisions/0001-foundation-migration.md。首批库完全不依赖原仓库、Theos、Dobby或旧UI；固定原仓库checkout只用于审计与回归test。
-
-尚未集成：菜单、搜索Renderer、真实IL2CPP Invoke/Receiver/Chain与Native Capture/Hook adapter、Static/Runtime生成业务。不能拿NewMyMenuCore.dylib替换旧开发端。
-
-## 构建/测试/实际CI
-
-Linux：`make test-portable`；macOS：`make test-macos`；原实现回归：`make test-parity SOURCE_BASELINE=/path/to/mymenu`；ARM64：固定Xcode16.4/Build16F6，`DEVELOPER_DIR=/Applications/Xcode_16.4.app/Contents/Developer make core`。SDK必须18.5，deployment14.0。
-
-被编译核心代码HEAD `f385c8a83b9fc41f6af5adcc89c19938f223f944`。
-Run https://github.com/a7987083/newmymenu/actions/runs/43638969924 四job全部通过。
-实际执行16项Python测试、C codec516组检查、Foundation翻译/1000并发、12000翻译原实现对照、129组wire字节对照、三个迁移源静态分析以及ARM64 core全部严格检查。
-Artifact https://github.com/a7987083/newmymenu/actions/runs/43638969924/artifacts/14130499746 。
-SHA256 c5047fa72ce5de73c8af5ede0b0bc00d354e95c8526f8932c5716ca670f9baee。
-详细导出/依赖/签名与ZIP hash见docs/builds/foundation-f385c8a.json；实际下载后核对了bytes/hash/Mach-O/分析plist。签名验证发生在macOS CI，不是在Linux本机。
-完整产品编译/运行/回归和iOS设备均未验证。
-
-## 已证实的问题与关键调用链
-
-- 搜索输入→HybridFinder→ClassResults，与方法candidates是不同状态。历史最终Renderer漏Class分流，7216b55已在最终入口修复；不能泛化为所有Swizzle引起空白。
-- Invoke预期安装链M52→M50→M48→M47；/0普通/1再进M46/基础入口，/2-/8与typed/1 ByRef在M47独立invoke，绕过ordinal和explicit receiver。固定源真实ObjC交换+受控IL2CPP边界已复现，生产未修复。
-- ReceiverCapture旧timeout不带session身份，A完成后B的15秒任务约0.543秒被A旧timer结束，真实dispatch已复现；Dobby是受控替身。
-- M462的GCHandle读取/释放范围缺少调用租约；DobbyDestroy没有排空在途调用。真实对象/设备影响未复现。
-- SharedSite确实Hook外部MdhpNuX及镜像扫描出的metaclass API，且含样本专用RVA；不能全部当内部UI装饰器删除。见NATIVE_BOUNDARIES.md。
-- 当前UI生成直接进C BuildExecutor，不经过旧class-method Builder Swizzle。provider collector吞异常和跨阶段store快照限制尚待业务fixture，见BUILD_BOUNDARIES.md。
-- 更正：开发端InstanceSelectionV2本身已有唯一实例auto-bind，不因customer有额外wrapper就认定开发端缺功能。
-
-完整证据在INVOKE_OWNERSHIP、CAPTURE_LIFECYCLE、FINDINGS和CI_EVIDENCE。审计fixture编译结果不能等价真实IL2CPP/游戏/设备行为。
-
-## 下一任务与禁止事项
-
-按ROADMAP继续ABI独立的Static Patch地址转换/规划/文件发布及最终UI；InvocationRequest/ReceiverLease/CaptureSession和搜索状态已有独立组件，游戏Invoke/Native adapter明确暂缓。不得一口气复制ZNUnifiedUI后补丁修复；不得靠丢弃ByRef/混合Build/必要外部诊断来宣称清债；不得将基础core当完整开发端交付。
+旧API1–16机器报告保留在docs/builds，不能把其source_head混作当前已编译HEAD。所有历史Commit不改写，原仓库不修改。

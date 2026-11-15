@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "phase": "developer_ui_simulator_empty_state_fix_pending_ci",
+  "phase": "numeric_static_ci_fixes_remote_execution",
   "branch": "main",
   "head_reference": "git rev-parse HEAD; CI github.sha",
   "source_head": "7066edeaf9e47580c89440be670c517280534b69",
@@ -39,7 +39,7 @@
     "sha256": "1223bf9df9cedb2eba66d781faab1459ec00e9b18ea8b23829daa89602f70b09"
   },
   "known_findings": "docs/audit/FINDINGS.md",
-  "next_task": "Finish Simulator UI contract and inspect screenshots; validate actual dyld-loaded host prepared image, then typed Static value controls/runtime selection lifecycle and complete remaining ABI-independent feature regression. Game Invoke/Native ABI adapters remain deferred; no intermediate dylib delivery.",
+  "next_task": "Continue remote GitHub/CI: verify numeric value-cell execution and system screenshots after bounded I/O fix; implement loaded Static runtime owner-stack/value lifecycle and UI controls with actual prepared-image fixtures; finish ABI-independent regression/debt audit/docs. Runtime Invoke/Native game ABI remain deferred. Do not ship an intermediate dylib.",
   "invoke_contract_audit": {
     "source_head": "7066edeaf9e47580c89440be670c517280534b69",
     "ci_head": "10efd671cbe0c5ca22ffb31aef71fbaaed4cc67e",
@@ -383,10 +383,10 @@
     "source_written": true,
     "committed": true,
     "compiled_ios_arm64": true,
-    "ci_source_head": "86c12c3fb8f09f90c266c3d79e9b01b470df82ab",
-    "ci_run_id": 43685036578,
-    "ci_status": "failure in UI Simulator step; binary compile/analyze succeeded",
-    "core_api_version": 16,
+    "ci_source_head": "546fb05b5b3998a27b87e7d453e8a27739b01e2c",
+    "ci_run_id": 43686304743,
+    "ci_status": "success",
+    "core_api_version": 17,
     "pages": [
       "Finder",
       "offline Runtime/Native configuration",
@@ -396,9 +396,12 @@
     "legacy_probe_implementation_removed": true,
     "static_analysis_reports": 3,
     "device_verified": false,
-    "ui_simulator_status": "empty-project initialization/export-contract mismatch; fix source written, pending CI",
+    "ui_simulator_status": "UI contract passed at 546fb05b; later system screenshot acknowledgement exceeded its I/O budget, not a product UI timeout",
     "game_invoke_native_adapters": false,
-    "intermediate_delivery": false
+    "intermediate_delivery": false,
+    "simulator_programmatic_contract_passed": true,
+    "artifact_id": 14150603385,
+    "sha256": "20bee9cfa33e549cce807bc50460d471ab054ed909375ea929368d151f10de12"
   },
   "relocation": {
     "source_written": true,
@@ -456,5 +459,23 @@
     "title_group_utf8_preserved": true,
     "signed_binary_and_report_produced": true,
     "ui_device_verified": false
+  },
+  "current_execution_environment": {
+    "local_environment": "unavailable after connection loss",
+    "mode": "GitHub connector edits and macOS/iOS Simulator CI continue",
+    "uncommitted_static_runtime_draft": "not committed, not compiled, not counted complete"
+  },
+  "numeric_static": {
+    "source_written": true,
+    "committed": true,
+    "production_execution_verified": false,
+    "latest_source_head": "4dadd3458ad15bd41056b52a3c91c9704340d409",
+    "ci_run_id": 43688515706,
+    "ci_status": "failure; analyzer guard and Simulator screenshot I/O timing fixes submitted next",
+    "first_actual_errors": [
+      "Nullable NSError collector output requires a null check",
+      "simctl screenshot took about 23 seconds while fixture acknowledgement budget was 15 seconds"
+    ],
+    "game_abi_required": false
   }
 }

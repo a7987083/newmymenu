@@ -54,7 +54,7 @@ CONTAINER=$(xcrun simctl get_app_container "$DEVICE" io.newmymenu.UIFixture data
 for iteration in $(seq 1 180); do
   for phase in build keyboard; do
     if [[ -f "$CONTAINER/Documents/ui-fixture/$phase-ready" && ! -f "$CONTAINER/Documents/ui-fixture/$phase-captured" ]]; then
-      xcrun simctl io "$DEVICE" screenshot "build/developer-menu/ui-fixture/$phase-system.png"
+      python3 tools/capture_simulator.py "$DEVICE" "build/developer-menu/ui-fixture/$phase-system.png"
       touch "$CONTAINER/Documents/ui-fixture/$phase-captured"
     fi
   done
