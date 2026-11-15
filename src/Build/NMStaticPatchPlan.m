@@ -31,11 +31,13 @@ static uint32_t NMSPRead32(const uint8_t *p){return (uint32_t)p[0]|(uint32_t)p[1
  // Frozen input is the only byte owner used for mapping, comparison, scan and hash.
  NSData *image=[source copy];NSArray *input=[definitions copy];NMMachOLayout layout;
  if(!NMMachOReadLayout(image.bytes,image.length,&layout)){if(error)*error=NMSPError(3,@"Unsupported or malformed Mach-O layout");return nil;}
- NSMutableSet *identifiers=[NSMutableSet set];NSMutableDictionary<NSNumber *,NSMutableArray *> *groups=[NSMutableDictionary dictionary];NSMutableArray *logicalRVAs=[NSMutableArray array];NSUInteger budget=0;
+ NSMutableSet *identifiers=[NSMutableSet set];NSMutableDictionary<NSString *,NSNumber *> *groupControls=[NSMutableDictionary dictionary];NSMutableDictionary<NSNumber *,NSMutableArray *> *groups=[NSMutableDictionary dictionary];NSMutableArray *logicalRVAs=[NSMutableArray array];NSUInteger budget=0;
  for(id value in input){
   if([value class]!=NMStaticPatchDefinition.class){if(error)*error=NMSPError(1,@"Definitions must be concrete immutable factory values");return nil;}
   NMStaticPatchDefinition *d=value;
   if((unsigned)d.controlType>3||(unsigned)d.valueType>6||!NMSPText(d.identifier)||!NMSPText(d.title)||!NMSPText(d.group)||!NMSPText(d.expectedBytesSource)||!d.expectedBytes.length||d.expectedBytes.length>65536||(d.expectedBytes.length&3)||d.replacementBytes.length!=d.expectedBytes.length||d.addressKind<1||d.addressKind>3){if(error)*error=NMSPError(1,@"Invalid immutable definition fields");return nil;}
+  NSString *featureGroup=[d.group stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceAndNewlineCharacterSet].lowercaseString;
+  if(featureGroup.length&&![featureGroup isEqual:@"imported"]){NSNumber *existing=groupControls[featureGroup];if(existing&&existing.unsignedIntegerValue!=d.controlType){if(error)*error=NMSPError(4,@"One feature group cannot mix control kinds; use distinct feature groups");return nil;}groupControls[featureGroup]=@(d.controlType);}
   if([identifiers containsObject:d.identifier]){if(error)*error=NMSPError(4,@"Duplicate logical identifier");return nil;}[identifiers addObject:d.identifier];
   if(d.replacementBytes.length>4*1024*1024-budget){if(error)*error=NMSPError(2,@"Replacement budget exceeds 4 MiB");return nil;}budget+=d.replacementBytes.length;
   uint64_t off=0,rva=0;
