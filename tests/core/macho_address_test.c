@@ -14,6 +14,8 @@ int main(int argc,char **argv){if(argc==2){FILE *f=fopen(argv[1],"rb");assert(f)
  off=77;rva=88;assert(!NMMachOResolveRange(&l,NMMachOAddressRVA,0x11ff,2,&off,&rva));assert(off==77&&rva==88);
  assert(!NMMachOResolveRange(&l,NMMachOAddressRVA,UINT64_MAX,4,&off,&rva));assert(!NMMachOResolveRange(&l,NMMachOAddressRVA,1,UINT64_MAX,&off,&rva));assert(!NMMachOResolveRange(&l,NMMachOAddressFileOffset,1024,1,&off,&rva));assert(!NMMachOResolveRange(&l,4,0,4,&off,&rva));assert(!NMMachOResolveRange(&l,1,0,0,&off,&rva));
  fixture(b);w64(b+32+24,UINT64_MAX-256);bad(b);fixture(b);w64(b+104+24,0x100000100);bad(b);fixture(b);w64(b+104+40,400);bad(b);fixture(b);w64(b+104+48,UINT64_MAX);bad(b);fixture(b);w32(b+20,152);bad(b);fixture(b);w32(b+36,71);bad(b);fixture(b);w32(b+32+64,1);bad(b);fixture(b);w32(b+4,7);bad(b);fixture(b);w32(b+12,12);bad(b);
- for(size_t n=0;n<176;n++)assert(!NMMachOReadLayout(b,n,&l));
+ fixture(b);w32(b+16,3);w32(b+20,168);w32(b+176,0x2c);w32(b+180,24);w32(b+192,1);bad(b);w32(b+192,0);assert(NMMachOReadLayout(b,1024,&l));
+ fixture(b);w32(b+16,1);w32(b+20,152);w32(b+36,152);w32(b+96,1);unsigned char *sec=b+104;w64(sec+32,0x100000100);w64(sec+40,4);w32(sec+48,256);assert(NMMachOReadLayout(b,1024,&l));w64(sec+40,UINT64_MAX);bad(b);
+ fixture(b);for(size_t n=0;n<176;n++)assert(!NMMachOReadLayout(b,n,&l));
  fixture(b);assert(NMMachOReadLayout(b,1024,&l));l.count=129;assert(!NMMachOResolveRange(&l,1,0,4,&off,&rva));
  puts("PASS: unaligned ARM64 layout, full-span RVA/VA/file mapping, zero-fill, overflow, overlap, truncation and unchanged failure outputs");return 0;}
