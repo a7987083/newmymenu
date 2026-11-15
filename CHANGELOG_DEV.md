@@ -162,3 +162,5 @@
 - 新增256/257逻辑容量边界与hash固定原ZNV3ComposedVariant的独立对照fixture（1000计划/2000变体，显式FileOffset和PreferredVA归一）。仅提取原纯NSData合成函数，不执行原Builder；结果待CI。
 
 - 63f3e06 / Run43679985650五job通过，计划ASan/UBSan与真实ARM64输入通过。3f4c53a8 / Run43680151665加入1000计划/2000原合成结果对照及256/257容量后再次五job通过；15份core及3份Probe分析零诊断，core44/probe45导出/依赖/签名通过。Core Artifact14147852562已下载核对ZIP/dylib哈希、source_head、Mach-O和分析plist。交接/路线/状态同步；尚无emit/write、最终UI或实机验证，未分发阶段dylib。
+
+- ARM64 relocation源码迁移：原字段/范围/terminal算法保留，有界unsigned运算取代负数左移/有符号地址差；PreferredVA用于ADRP，BC.cond明确拒绝。StaticPlan直接branch解码归入同一模块，删除重复实现。Linux普通C的23997个目标保真/边界用例通过；原函数对照、UBSan旧缺陷复现和ARM64构建待CI。

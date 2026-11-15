@@ -125,12 +125,27 @@ test-macho-address:
 test-static-plan:
 	mkdir -p build/tests
 	xcrun clang -std=c11 $(WARN) -g -fsanitize=address,undefined -Iinclude -c src/Build/NMMachOAddress.c -o build/tests/plan-address.o
-	xcrun clang -std=c11 $(WARN) -g -fsanitize=address,undefined -fobjc-arc -fblocks -Iinclude -framework Foundation build/tests/plan-address.o src/Build/NMStaticPatchPlan.m tests/core/static_plan_test.m -o build/tests/static-plan
+	xcrun clang -std=c11 $(WARN) -g -fsanitize=address,undefined -Iinclude -c src/Build/NMARM64Relocation.c -o build/tests/plan-relocation.o
+	xcrun clang -std=c11 $(WARN) -g -fsanitize=address,undefined -fobjc-arc -fblocks -Iinclude -framework Foundation build/tests/plan-address.o build/tests/plan-relocation.o src/Build/NMStaticPatchPlan.m tests/core/static_plan_test.m -o build/tests/static-plan
 	build/tests/static-plan
 
 .PHONY: test-static-variant-parity
 test-static-variant-parity:
 	python3 tools/generate_static_variant_parity.py "$(SOURCE_BASELINE)"
 	xcrun clang -std=c11 $(WARN) -g -fsanitize=address,undefined -fobjc-arc -fblocks -Iinclude -c src/Build/NMStaticPatchPlan.m -o build/tests/variant-plan.o
-	xcrun clang++ -std=c++17 $(WARN) -g -fsanitize=address,undefined -fobjc-arc -fblocks -Iinclude -Ibuild/tests -framework Foundation build/tests/plan-address.o build/tests/variant-plan.o tests/core/static_variant_parity_test.mm -o build/tests/static-variant-parity
+	xcrun clang++ -std=c++17 $(WARN) -g -fsanitize=address,undefined -fobjc-arc -fblocks -Iinclude -Ibuild/tests -framework Foundation build/tests/plan-address.o build/tests/plan-relocation.o build/tests/variant-plan.o tests/core/static_variant_parity_test.mm -o build/tests/static-variant-parity
 	build/tests/static-variant-parity
+
+.PHONY: test-arm64-relocation
+test-arm64-relocation:
+	mkdir -p build/tests
+	$(CC) -std=c11 $(WARN) -g -fsanitize=address,undefined -Iinclude src/Build/NMARM64Relocation.c tests/core/arm64_relocation_test.c -o build/tests/arm64-relocation
+	build/tests/arm64-relocation
+
+.PHONY: test-relocation-parity
+test-relocation-parity:
+	python3 tools/generate_relocation_parity.py "$(SOURCE_BASELINE)"
+	xcrun clang -std=c11 $(WARN) -g -fsanitize=address,undefined -Iinclude -c src/Build/NMARM64Relocation.c -o build/tests/relocation-new.o
+	xcrun clang++ -std=c++17 $(WARN) -g -fsanitize=address,undefined -fobjc-arc -Iinclude -Ibuild/tests -framework Foundation build/tests/relocation-new.o tests/core/relocation_parity_test.mm -o build/tests/relocation-parity
+	build/tests/relocation-parity
+	python3 tools/check_original_relocation_ub.py

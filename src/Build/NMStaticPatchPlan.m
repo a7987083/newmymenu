@@ -1,4 +1,5 @@
 #import "NMStaticPatchPlan.h"
+#import "NMARM64Relocation.h"
 #import <CommonCrypto/CommonDigest.h>
 #include <string.h>
 static NSError *NMSPError(NSInteger code,NSString *text){return [NSError errorWithDomain:@"newmymenu.static-plan" code:code userInfo:@{NSLocalizedDescriptionKey:text}];}
@@ -14,17 +15,6 @@ static BOOL NMSPText(id s){return [s isKindOfClass:NSString.class]&&[s length]&&
  return [[self alloc] initIdentifier:identifier kind:kind address:address expected:expected replacement:replacement evidence:evidence];
 }
 @end
-// Original V3 direct-branch masks; unsigned bounds replace signed left-shift/addition.
-static BOOL NMSPDirectTarget(uint32_t insn,uint64_t pc,uint64_t *target){
- uint64_t imm=0;unsigned bits=0;
- if((insn&0x7c000000u)==0x14000000u){imm=insn&0x3ffffffu;bits=26;}
- else if((insn&0xff000010u)==0x54000000u||(insn&0x7e000000u)==0x34000000u){imm=(insn>>5)&0x7ffffu;bits=19;}
- else if((insn&0x7e000000u)==0x36000000u){imm=(insn>>5)&0x3fffu;bits=14;}
- else return NO;
- if(imm&(UINT64_C(1)<<(bits-1))){uint64_t delta=((UINT64_C(1)<<bits)-imm)*4;if(pc<delta)return NO;*target=pc-delta;}
- else{uint64_t delta=imm*4;if(delta>UINT64_MAX-pc)return NO;*target=pc+delta;}
- return YES;
-}
 static uint32_t NMSPRead32(const uint8_t *p){return (uint32_t)p[0]|(uint32_t)p[1]<<8|(uint32_t)p[2]<<16|(uint32_t)p[3]<<24;}
 @interface NMStaticPatchPlan ()
 - (instancetype)initDefinitions:(NSArray *)definitions sites:(NSArray *)sites mapping:(NSArray *)mapping source:(NSData *)source;
@@ -66,7 +56,7 @@ static uint32_t NMSPRead32(const uint8_t *p){return (uint32_t)p[0]|(uint32_t)p[1
  }
  uint64_t scanBytes=0;for(size_t i=0;i<layout.instructionCount;i++){if(layout.instructions[i].length>64*1024*1024-scanBytes){if(error)*error=NMSPError(2,@"Instruction scan exceeds 64 MiB");return nil;}scanBytes+=layout.instructions[i].length;}
  const uint8_t *bytes=image.bytes;
- for(size_t i=0;i<layout.instructionCount;i++){NMMachOInstructionRegion region=layout.instructions[i];for(uint64_t at=0;at<region.length;at+=4){uint64_t target=0;if(!NMSPDirectTarget(NMSPRead32(bytes+region.fileoff+at),region.rva+at,&target))continue;
+ for(size_t i=0;i<layout.instructionCount;i++){NMMachOInstructionRegion region=layout.instructions[i];for(uint64_t at=0;at<region.length;at+=4){uint64_t target=0;if(!NMARM64DirectBranchTarget(NMSPRead32(bytes+region.fileoff+at),region.rva+at,&target))continue;
   // Single scan; binary search physical starts instead of rescanning the image per site.
   NSUInteger low=0,high=sites.count;while(low<high){NSUInteger mid=low+(high-low)/2;if(starts[mid]<=target)low=mid+1;else high=mid;}
   if(low&&target>starts[low-1]&&target-starts[low-1]<lengths[low-1]){if(error)*error=NMSPError(8,@"Direct branch enters a physical window interior");return nil;}
