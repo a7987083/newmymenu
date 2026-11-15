@@ -1,0 +1,11 @@
+{
+  "repository": "a7987083/mymenu",
+  "head": "7066edeaf9e47580c89440be670c517280534b69",
+  "files": {
+    "ZNAuthoringJSONImport.mm": "8d7056bc3bc7c4cad8d7a71385ccea47f667971bc572b144597a448b75699fd6",
+    "ZNAuthoringRuntimeFeatureIdentity.h": "3e6ed4734d49c2c02250689787fbc2b24e2e1defb203fefec30f714823df6f70",
+    "ZNNativeHookAction.mm": "c7f0945d28033270e258832a3850e0c28d134ebdb3d86778620018f8814bc1a8",
+    "ZNPatchJSONImporter.mm": "6316e671694b536566bf1526b095676066de255a81def0d051e2755e02f59204"
+  },
+  "reuse": "runtime feature identity helper unchanged except NM prefix; portable field/template contracts retained; runtime lookups/global stores not migrated"
+}

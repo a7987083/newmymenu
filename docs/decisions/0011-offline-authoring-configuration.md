@@ -1,0 +1,11 @@
+# 0011 便携配置的离线文档与原子提交
+
+审计固定7066ede的ZNAuthoringJSONImport.mm、ZNAuthoringRuntimeFeatureIdentity.h、ZNNativeHookAction.mm与ZNPatchJSONImporter.mm。旧Authoring导入虽预检，但方法/控件/chain/native随后逐项写两个store，后续失败没有rollback；schema/argc的integerValue还可把bool/小数误作整数。Patch路径另有弱置信度猜测，不能直接当明确作者意图。
+
+本批先实现便携Runtime/Native authoring文档，不调用Resolver、Invoke或Hook。读取原zonoe-authoring/schemaVersion1；新导出newmymenu.authoring/schemaVersion1，并保留instanceIndex（旧导出遗漏）。文档深冻结、完整类型/模板/参数形状校验，旧prepared/RVA/pointer缓存递归移除并返回warnings；目标始终未验证。旧格式导出若不能表达当前语义（例如非零instanceIndex）明确拒绝，不静默丢失。
+
+Runtime功能身份复用原helper的title/description/values/control/chain语义；method定位改用结构化字段组合而不是有分隔符碰撞的描述字符串。Native身份保留方法+模板+参数索引约束，精确参数类型参与区分同arity重载，actionID冲突依原行为增量重分配，不作为语义身份。
+
+NMConfigurationStore只拥有一个document+revision快照。导入/合并先离线构造完整candidate，再CAS一次提交；失败/并发旧revision不改变任何状态，没有一半方法一半Hook的可见状态。不把离线验证当目标ABI通过；后续激活还需Runtime adapter验证。
+
+Patch候选归一化与UI文件选择分开迁移，本模块不冒充已支持所有Patch JSON或已有执行后端。

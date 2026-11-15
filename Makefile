@@ -86,3 +86,17 @@ test-swizzle:
 	mkdir -p build/tests
 	xcrun clang -std=c11 $(WARN) -g -fsanitize=address -fobjc-arc -fblocks -Iinclude -framework Foundation src/Swizzle/NMSwizzleManager.m tests/core/swizzle_test.m -o build/tests/swizzle
 	build/tests/swizzle
+
+.PHONY: test-configuration
+test-configuration:
+	mkdir -p build/tests
+	xcrun clang -std=c11 $(WARN) -g -fsanitize=address -fobjc-arc -fblocks -Iinclude -framework Foundation src/Configuration/NMConfiguration.m tests/core/configuration_test.m -o build/tests/configuration
+	build/tests/configuration
+
+.PHONY: test-configuration-parity
+test-configuration-parity:
+	test -n "$(SOURCE_BASELINE)"
+	mkdir -p build/tests
+	python3 tools/check_configuration_source.py "$(SOURCE_BASELINE)"
+	xcrun clang -std=c11 $(WARN) -g -fsanitize=address -fobjc-arc -fblocks -Isrc/Configuration -I"$(SOURCE_BASELINE)/iosruntimepatchmenu/src" -framework Foundation tests/core/configuration_identity_parity_test.m -o build/tests/configuration-identity-parity
+	build/tests/configuration-identity-parity
