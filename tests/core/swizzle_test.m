@@ -37,6 +37,7 @@ static NSInteger foreignValue(id obj,SEL sel,NSInteger x){(void)obj;(void)sel;re
 static NMSwizzleToken *install(NMSwizzleManager *m,Class cls,SEL sel,BOOL meta,SEL replacement,NMSwizzleInheritance inheritance,NSError **error){return [m installClass:cls selector:sel classMethod:meta replacementClass:NMSWReplacement.class replacementSelector:replacement inheritance:inheritance dispatchIsCoordinated:YES error:error];}
 int main(void){@autoreleasepool{
  NMSwizzleManager *manager=NMSwizzleManager.sharedManager;check(manager!=nil,"singleton gate initialized");NSError *error=nil;
+ check([manager installClass:object_getClass(NMSWParent.class) selector:@selector(classValue:) classMethod:YES replacementClass:NMSWReplacement.class replacementSelector:@selector(replacementClassValue:) inheritance:0 dispatchIsCoordinated:YES error:&error]==nil&&error.code==3,"already-metaclass input is rejected before double metaclass targeting");
  IMP baseline=method_getImplementation(class_getInstanceMethod(NMSWParent.class,@selector(value:)));
  check([manager installClass:NMSWParent.class selector:@selector(value:) classMethod:NO replacementClass:NMSWReplacement.class replacementSelector:@selector(replacementValue:) inheritance:0 dispatchIsCoordinated:NO error:&error]==nil&&error.code==3,"uncoordinated external dispatch is rejected");
  check(install(manager,NMSWParent.class,@selector(value:),NO,@selector(badValue:),0,&error)==nil&&error.code==7,"wrong argument ABI rejected");

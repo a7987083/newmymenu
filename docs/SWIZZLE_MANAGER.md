@@ -5,7 +5,7 @@
 ## 安装与执行契约
 
 1. 全部目标消息调用经同一sharedManager.performInvocation读scope；所有竞争写入必须遵循同一协调域。安装方必须显式确认此条件，未确认返回错误，不做降级安装。
-2. 原Method和replacement Method从真实class/metaclass取出。NSMethodSignature逐个比较return/arguments编码，不调用任意强转通用IMP。manager保存精确原IMP；replacement按编译器已知类型调用它并使用token.selector保留原_cmd语义。
+2. 入参只接受普通Class，拒绝直接传入metaclass造成二次object_getClass取错目标；随后从真实class/metaclass取出原Method和replacement Method。NSMethodSignature逐个比较return/arguments编码，不调用任意强转通用IMP。manager保存精确原IMP；replacement按编译器已知类型调用它并使用token.selector保留原_cmd语义。
 3. try-write安装/恢复：活动读scope或其他mutation存在时直接拒绝，不阻塞等待，不在自己的Hook内部恢复造成死锁。
 4. registry以runtime Class/metaclass+SEL唯一所有；重复安装拒绝。恢复检查当前IMP及继承owner的IMP；foreign/parent改变时拒绝覆盖其链。
 5. token用dladdr/RTLD_NOLOAD持有两类及两IMP镜像，拒绝无法持有的动态地址和externally owned block-backed IMP。失败候选与restore token保持到写scope退出后再释放，避免dlclose在锁内重入。
@@ -30,3 +30,5 @@ Class Method对metaclass执行相同规则。恢复token只可成功一次，成
 - 真实receiver释放、异常后的scope释放和继续使用、可观察诊断，以及128/129容量边界和安装/恢复诊断滚动保留。
 
 正式core执行iOS ARM64编译、独立静态分析及导出/依赖/签名验证。实际设备、宿主外部诊断和未合作第三方并发均未验证；管理器组件通过不能当完整菜单Swizzle验收完成。
+
+Runtime编码不携带variadic省略号语义，本管理器契约仅支持已确认的非变参方法；编码一致不是对未知C/变参声明的证明。

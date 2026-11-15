@@ -55,7 +55,7 @@ static void *NMSWPinAddress(const void *address){
     NSError *failure=nil;@try{operation();}@catch(NSException *exception){failure=NMSWError(15,[NSString stringWithFormat:@"Invocation exception %@: %@",exception.name,exception.reason?:@""]);}@finally{pthread_rwlock_unlock(&_gate);}if(error)*error=failure;return failure==nil;
 }
 - (NMSwizzleToken *)installClass:(Class)target selector:(SEL)selector classMethod:(BOOL)classMethod replacementClass:(Class)replacementClass replacementSelector:(SEL)replacementSelector inheritance:(NMSwizzleInheritance)inheritance dispatchIsCoordinated:(BOOL)coordinated error:(NSError **)error {
-    if(!target||!selector||!replacementClass||!replacementSelector||!coordinated||(inheritance!=NMSwizzleInheritanceReject&&inheritance!=NMSwizzleInheritanceLocalSnapshot)){if(error)*error=NMSWError(3,@"Valid methods and an explicit coordinated dispatch/writer contract are required");return nil;}
+    if(!target||!object_isClass(target)||class_isMetaClass(target)||!selector||!replacementClass||!object_isClass(replacementClass)||class_isMetaClass(replacementClass)||!replacementSelector||!coordinated||(inheritance!=NMSwizzleInheritanceReject&&inheritance!=NMSwizzleInheritanceLocalSnapshot)){if(error)*error=NMSWError(3,@"Valid methods and an explicit coordinated dispatch/writer contract are required");return nil;}
     if(pthread_rwlock_trywrlock(&_gate)!=0){if(error)*error=NMSWError(4,@"Active dispatch/mutation scope; installation refused");return nil;}
     NMSwizzleToken *token=nil;__attribute__((objc_precise_lifetime)) NMSwizzleToken *candidate=nil;NSError *failure=nil;
     @try{

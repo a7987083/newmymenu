@@ -126,3 +126,5 @@
 - Swizzle token now pins target/replacement Class and original/replacement IMP images; unmapped/dynamic/block-backed implementations are refused. Precise token/candidate lifetimes defer image release until after the exclusive gate unlocks, including failed installation. No block/free or image-unload fallback introduced.
 
 - Swizzle fixture evidence strengthened: every parallel scope must return success and an atomic counter proves all 1000 method calls ran (not merely dispatch attempts). Added 128 active-target/129th rejection boundary, complete cleanup and bounded diagnostic churn tests. Production implementation unchanged.
+
+- Pre-install target validation now rejects non-Class and already-metaclass inputs before object_getClass conversion, avoiding accidental double-metaclass targeting. Added a real Runtime negative case; no mutation occurs. Variadic methods explicitly remain outside the supported declaration contract because Runtime encodings do not prove ellipsis ABI.
