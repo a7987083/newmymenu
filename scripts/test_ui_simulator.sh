@@ -51,7 +51,13 @@ xcrun simctl install "$DEVICE" "$APP"
 xcrun simctl launch --console --terminate-running-process "$DEVICE" io.newmymenu.UIFixture > build/developer-menu/ui-fixture/launch.log 2>&1 &
 LAUNCH=$!
 CONTAINER=$(xcrun simctl get_app_container "$DEVICE" io.newmymenu.UIFixture data)
-for iteration in $(seq 1 120); do
+for iteration in $(seq 1 180); do
+  for phase in build keyboard; do
+    if [[ -f "$CONTAINER/Documents/ui-fixture/$phase-ready" && ! -f "$CONTAINER/Documents/ui-fixture/$phase-captured" ]]; then
+      xcrun simctl io "$DEVICE" screenshot "build/developer-menu/ui-fixture/$phase-system.png"
+      touch "$CONTAINER/Documents/ui-fixture/$phase-captured"
+    fi
+  done
   if [[ -f "$CONTAINER/Documents/ui-fixture/result.json" ]]; then cp "$CONTAINER/Documents/ui-fixture/"* build/developer-menu/ui-fixture/;wait "$LAUNCH";exit 0;fi
   if ! kill -0 "$LAUNCH" 2>/dev/null; then cat build/developer-menu/ui-fixture/launch.log;wait "$LAUNCH";exit 1;fi
   sleep 1

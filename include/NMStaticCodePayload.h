@@ -10,6 +10,7 @@ __attribute__((visibility("default")))
 @property(nonatomic,copy,readonly) NSString *sourceSHA256;
 @property(nonatomic,readonly) uint64_t codeVA;
 @property(nonatomic,readonly) uint64_t metadataVA;
++ (nullable NSDictionary *)requirementsForPlan:(NMStaticPatchPlan *)plan error:(NSError * _Nullable * _Nullable)error;
 // Generates into private immutable buffers; no process memory or files modified.
 + (nullable instancetype)payloadForPlan:(NMStaticPatchPlan *)plan codeVA:(uint64_t)codeVA metadataVA:(uint64_t)metadataVA nonce:(uint64_t)nonce error:(NSError * _Nullable * _Nullable)error;
 @end

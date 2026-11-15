@@ -4,7 +4,8 @@
   "files": {
     "ZNStaticBinaryBuilderV3.mm": "dc6721bd5203f14488908ee00dcc5b10ad058cfc71bebebb8da6988edeab5983",
     "ZNStaticPayloadProtectionV2.h": "cbdbe84b86f451e96bae77c35c06c13c8be7aa0353516fe1e1d75bdb4aa59be1",
-    "ZNStaticPatchFormat.h": "365040e57b714ea3fba5ee7a27e7b064bdaec32d176676633a18d2b94d1c418d"
+    "ZNStaticPatchFormat.h": "365040e57b714ea3fba5ee7a27e7b064bdaec32d176676633a18d2b94d1c418d",
+    "ZNGeneratedDataLayout.h": "158b4a9dacc8a1af8f7ba3867eafa2c130e3a9bccef4e41f9f9358d8c747f3fd"
   },
   "reuse": "V3 fragment/thunk encoding and layout permutation, on-disk 64/128-byte ABI; private headers renamed, single bounded relocator replaces original unchecked arithmetic"
 }

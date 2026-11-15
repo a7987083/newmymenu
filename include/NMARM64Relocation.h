@@ -12,6 +12,7 @@ __attribute__((visibility("default"))) NMARM64RelocationStatus NMARM64RelocateIn
 __attribute__((visibility("default"))) bool NMARM64EncodeBranch(uint64_t fromVA,uint64_t targetVA,bool link,uint32_t *output);
 __attribute__((visibility("default"))) bool NMARM64DirectBranchTarget(uint32_t instruction,uint64_t sourceVA,uint64_t *targetVA);
 __attribute__((visibility("default"))) bool NMARM64EncodeADRP(uint64_t fromVA,uint64_t targetVA,uint32_t reg,uint32_t *output);
+__attribute__((visibility("default"))) bool NMARM64EncodeLiteral(uint64_t fromVA,uint64_t targetVA,uint32_t opcode,uint32_t reg,uint32_t *output);
 #ifdef __cplusplus
 }
 #endif

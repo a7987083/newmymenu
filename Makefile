@@ -126,14 +126,15 @@ test-static-plan:
 	mkdir -p build/tests
 	xcrun clang -std=c11 $(WARN) -g -fsanitize=address,undefined -Iinclude -c src/Build/NMMachOAddress.c -o build/tests/plan-address.o
 	xcrun clang -std=c11 $(WARN) -g -fsanitize=address,undefined -Iinclude -c src/Build/NMARM64Relocation.c -o build/tests/plan-relocation.o
-	xcrun clang -std=c11 $(WARN) -g -fsanitize=address,undefined -fobjc-arc -fblocks -Iinclude -framework Foundation build/tests/plan-address.o build/tests/plan-relocation.o src/Build/NMStaticPatchPlan.m tests/core/static_plan_test.m -o build/tests/static-plan
+	xcrun clang -std=c11 $(WARN) -g -fsanitize=address,undefined -Iinclude -c src/Build/NMStaticValues.c -o build/tests/plan-values.o
+	xcrun clang -std=c11 $(WARN) -g -fsanitize=address,undefined -fobjc-arc -fblocks -Iinclude -framework Foundation build/tests/plan-address.o build/tests/plan-relocation.o build/tests/plan-values.o src/Build/NMStaticPatchPlan.m tests/core/static_plan_test.m -o build/tests/static-plan
 	build/tests/static-plan
 
 .PHONY: test-static-variant-parity
 test-static-variant-parity:
 	python3 tools/generate_static_variant_parity.py "$(SOURCE_BASELINE)"
 	xcrun clang -std=c11 $(WARN) -g -fsanitize=address,undefined -fobjc-arc -fblocks -Iinclude -c src/Build/NMStaticPatchPlan.m -o build/tests/variant-plan.o
-	xcrun clang++ -std=c++17 $(WARN) -g -fsanitize=address,undefined -fobjc-arc -fblocks -Iinclude -Ibuild/tests -framework Foundation build/tests/plan-address.o build/tests/plan-relocation.o build/tests/variant-plan.o tests/core/static_variant_parity_test.mm -o build/tests/static-variant-parity
+	xcrun clang++ -std=c++17 $(WARN) -g -fsanitize=address,undefined -fobjc-arc -fblocks -Iinclude -Ibuild/tests -framework Foundation build/tests/plan-address.o build/tests/plan-relocation.o build/tests/plan-values.o build/tests/variant-plan.o tests/core/static_variant_parity_test.mm -o build/tests/static-variant-parity
 	build/tests/static-variant-parity
 
 .PHONY: test-arm64-relocation
@@ -153,12 +154,13 @@ test-relocation-parity:
 .PHONY: test-static-code
 test-static-code: test-static-plan
 	xcrun clang -std=c11 $(WARN) -g -fsanitize=address,undefined -fobjc-arc -fblocks -Iinclude -c src/Build/NMStaticPatchPlan.m -o build/tests/code-plan.o
-	xcrun clang++ -std=c++17 $(WARN) -g -fsanitize=address,undefined -fobjc-arc -fblocks -Iinclude -Isrc/Build -framework Foundation build/tests/plan-address.o build/tests/plan-relocation.o build/tests/code-plan.o src/Build/NMStaticCodePayload.mm tests/core/static_code_test.mm -o build/tests/static-code
+	xcrun clang -std=c11 $(WARN) -g -fsanitize=address,undefined -fobjc-arc -fblocks -Iinclude -c src/Build/NMBuildManifest.m -o build/tests/code-manifest.o
+	xcrun clang++ -std=c++17 $(WARN) -g -fsanitize=address,undefined -fobjc-arc -fblocks -Iinclude -Isrc/Build -framework Foundation build/tests/plan-address.o build/tests/plan-relocation.o build/tests/plan-values.o build/tests/code-plan.o build/tests/code-manifest.o src/Build/NMStaticCodePayload.mm tests/core/static_code_test.mm -o build/tests/static-code
 	build/tests/static-code
 
 .PHONY: test-static-image
 test-static-image: test-static-code
-	xcrun clang++ -std=c++17 $(WARN) -g -fsanitize=address,undefined -fobjc-arc -fblocks -Iinclude -Isrc/Build -framework Foundation build/tests/plan-address.o build/tests/plan-relocation.o build/tests/code-plan.o src/Build/NMStaticCodePayload.mm src/Build/NMChainedFixupsPrivate.mm src/Build/NMStaticBinaryImage.mm src/Build/NMMachOSigner.mm tests/core/static_image_test.mm -o build/tests/static-image
+	xcrun clang++ -std=c++17 $(WARN) -g -fsanitize=address,undefined -fobjc-arc -fblocks -Iinclude -Isrc/Build -framework Foundation build/tests/plan-address.o build/tests/plan-relocation.o build/tests/plan-values.o build/tests/code-plan.o build/tests/code-manifest.o src/Build/NMStaticCodePayload.mm src/Build/NMChainedFixupsPrivate.mm src/Build/NMStaticBinaryImage.mm src/Build/NMMachOSigner.mm tests/core/static_image_test.mm -o build/tests/static-image
 	build/tests/static-image build/core/NewMyMenuCore.dylib build/static-image-fixture
 	codesign --verify --strict --verbose=4 build/static-image-fixture/prepared-signed.dylib
 	xcrun dyld_info -validate_only build/static-image-fixture/prepared-signed.dylib > build/static-image-fixture/dyld-validation.txt 2>&1
@@ -169,7 +171,7 @@ test-offline-build:
 	xcrun clang -std=c11 $(WARN) -g -fsanitize=address,undefined -fobjc-arc -fblocks -Iinclude -c src/Configuration/NMPatchImport.m -o build/tests/offline-import.o
 	xcrun clang -std=c11 $(WARN) -g -fsanitize=address,undefined -fobjc-arc -fblocks -Iinclude -c src/Build/NMOfflineBuildRequest.m -o build/tests/offline-request.o
 	xcrun clang -std=c11 $(WARN) -g -fsanitize=address,undefined -fobjc-arc -fblocks -Iinclude -c tests/core/offline_build_test.m -o build/tests/offline-test.o
-	xcrun clang++ -std=c++17 $(WARN) -g -fsanitize=address,undefined -fobjc-arc -fblocks -Iinclude -Isrc/Build -framework Foundation build/tests/plan-address.o build/tests/plan-relocation.o build/tests/code-plan.o build/tests/offline-import.o build/tests/offline-request.o build/tests/offline-test.o src/Build/NMStaticCodePayload.mm src/Build/NMChainedFixupsPrivate.mm src/Build/NMStaticBinaryImage.mm src/Build/NMMachOSigner.mm -o build/tests/offline-build
+	xcrun clang++ -std=c++17 $(WARN) -g -fsanitize=address,undefined -fobjc-arc -fblocks -Iinclude -Isrc/Build -framework Foundation build/tests/plan-address.o build/tests/plan-relocation.o build/tests/plan-values.o build/tests/code-plan.o build/tests/code-manifest.o build/tests/offline-import.o build/tests/offline-request.o build/tests/offline-test.o src/Build/NMStaticCodePayload.mm src/Build/NMChainedFixupsPrivate.mm src/Build/NMStaticBinaryImage.mm src/Build/NMMachOSigner.mm -o build/tests/offline-build
 	build/tests/offline-build build/core/NewMyMenuCore.dylib build/static-image-fixture
 	codesign --verify --strict --verbose=4 build/static-image-fixture/offline-output/prepared-signed.macho
 	xcrun dyld_info -validate_only build/static-image-fixture/offline-output/prepared-signed.macho > build/static-image-fixture/offline-output/dyld-validation.txt 2>&1
@@ -179,7 +181,7 @@ test-offline-build:
 test-static-loaded-image:
 	xcrun clang -arch arm64 -mmacosx-version-min=14.0 -O1 -dynamiclib -Wl,-headerpad,0x2000 -install_name @rpath/NMStaticSourceFixture.dylib tests/core/static_fixture_library.c -o build/tests/NMStaticSourceFixture.dylib
 	codesign --force --sign - --timestamp=none build/tests/NMStaticSourceFixture.dylib
-	xcrun clang++ -std=c++17 $(WARN) -g -fsanitize=address,undefined -fobjc-arc -fblocks -Iinclude -Isrc/Build -framework Foundation build/tests/plan-address.o build/tests/plan-relocation.o build/tests/code-plan.o src/Build/NMStaticCodePayload.mm src/Build/NMChainedFixupsPrivate.mm src/Build/NMStaticBinaryImage.mm src/Build/NMMachOSigner.mm tests/core/static_loaded_image_test.mm -o build/tests/static-loaded-image
+	xcrun clang++ -std=c++17 $(WARN) -g -fsanitize=address,undefined -fobjc-arc -fblocks -Iinclude -Isrc/Build -framework Foundation build/tests/plan-address.o build/tests/plan-relocation.o build/tests/plan-values.o build/tests/code-plan.o build/tests/code-manifest.o src/Build/NMStaticCodePayload.mm src/Build/NMChainedFixupsPrivate.mm src/Build/NMStaticBinaryImage.mm src/Build/NMMachOSigner.mm tests/core/static_loaded_image_test.mm -o build/tests/static-loaded-image
 	build/tests/static-loaded-image build/tests/NMStaticSourceFixture.dylib build/static-image-fixture/host-loaded
 
 .PHONY: test-static-values
@@ -189,3 +191,8 @@ test-static-values:
 	python3 tools/generate_static_value_parity.py "$(SOURCE_BASELINE)"
 	$(CC) -std=c11 $(WARN) -g -fsanitize=address,undefined -Iinclude src/Build/NMStaticValues.c build/tests/static-value-parity.c -o build/tests/static-value-parity
 	build/tests/static-value-parity
+
+.PHONY: test-static-numeric
+test-static-numeric:
+	xcrun clang++ -std=c++17 $(WARN) -g -fsanitize=address,undefined -fobjc-arc -fblocks -Iinclude -Isrc/Build -I"$(SOURCE_BASELINE)/iosruntimepatchmenu/src" -framework Foundation build/tests/plan-address.o build/tests/plan-relocation.o build/tests/plan-values.o build/tests/code-plan.o build/tests/code-manifest.o src/Build/NMStaticCodePayload.mm tests/core/static_numeric_test.mm -o build/tests/static-numeric
+	build/tests/static-numeric

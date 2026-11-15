@@ -1,0 +1,13 @@
+# Static数值值单元
+
+沿固定原ValueCell MOVZ/MOVK/scalar FMOV解码迁移，512个FP立即数与hash提取原函数精确对照；新decoder拒绝保留W halfword、错误类型及无效果的ZR目的寄存器。单一ARM64编码模块生成literal load，不复制新的PC相对算术。
+
+definition携带明确Switch/Slider/Button/Number和Auto/I32/U32/I64/U64/F32/F64；UI显式选择，不猜测旧JSON忽略字段。Number/Slider只接受已支持的立即数前缀，Unsupported明确失败。metadata保留原control/value/cell flags，值单元在RW segment尾部，CPU代码只读取它们，不在运行时写RX页面。
+
+关键旧机制风险：原builder先按enabled bytes去重ON代码，ValueCell后处理又按逻辑entry改写同一onRVA，可能出现第二个相同变体已被改成LDR而无法再按MOV解码。新plan仍保留来源变体去重，但numeric emission按逻辑身份分配独立ON片段/值单元；同址相同源字节也不会共用不同逻辑的值状态。普通Switch/Button继续安全共享相同静态代码。这个生成层选择在唯一requirementsForPlan实现中计算，file allocator不再复制预算公式。
+
+数值默认来自已审查的replacement立即数，MOVK后续片段变NOP但fragment链不变。LDR literal保留原±1MiB限制，超出明确报错，不通过临时寄存器破坏原始调用上下文。metadata full-size按16KiB分配以保持原尾部value-cell ABI。
+
+新增实际宿主ARM64六种类型的执行、相同字节逻辑隔离、RW更新和OFF恢复fixture。通过后才可声明这些生成路径已验证；物理iOS、运行时控制UI和任意游戏ABI仍未验证。
+
+完整名称/分组不能依靠固定48/24-byte标签区分功能：输出复用既有NMBuildManifest provider/JSON模块，作为签名内的完整catalog附加；不另起业务配置实现。固定V1 generated-data布局仍包含FeatureDescription表和合法的零count RuntimeActionHeader，后接有独立magic/version/length的Manifest。reserved[]不被新catalog占用，避免与原RVA protection ABI冲突。Runtime控制应读取完整Manifest，固定字段只作兼容显示。

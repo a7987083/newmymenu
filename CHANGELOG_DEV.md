@@ -180,3 +180,7 @@
 - Run43685036578：Core/API16完整构建链及20份分析通过，17项portable检查通过；UI模拟器启动成功但fixture在配置初始草稿处失败。根因为UI对emptyDocument调用禁止空导出的API并忽略nil；改为明确空草稿模板，不放宽空导入/导出清空保护。fixture改用明确非空配置做应用/保存回归，并验证空模板仍被拒绝。新增真实dyld加载准备后macOS ARM64文件的切换/卸载fixture。Core Artifact14149878306已下载核对hash/Mach-O/分析plist，UI结果不伪报通过。
 
 - Run43685791466：真实dyld加载准备后的macOS ARM64文件，OFF=7/ON=42、1000次切换/恢复与卸载通过。Simulator配置应用/拒绝/保存已推进通过，fixture错误地假设document picker一定是最顶层Controller；改为在实际controller树查找并等待存在，失败时保留截图/产物，不删UI断言。Static数值解码沿原算法迁移，Linux普通C覆盖MOVZ/MOVK及512 FP立即数通过；加入固定源对照和sanitizer CI，尚未声明数值控件整合完成。
+
+- Static Number/Slider值单元整合源码：definition显式control/value type，原enum/flag ABI保留；同字节numeric逻辑独立ON片段和RW cell，普通byte变体继续去重。唯一payload requirements驱动owned allocator，删除重复预算计算；UI增加控制/类型选择。新增六种类型实际ARM64执行与隔离/恢复fixture，结果待CI；未声称实际设备数值控件已验证。
+
+- Run43686304743五job通过，Simulator实际完成配置应用/错误拒绝/保存、document picker读取、预览和签名生成、键盘focus/Done、触摸穿透；Artifact14150603385的result.json及截图已下载核对。视觉检查发现选中segment白底白字和弹窗关闭后截图取早；统一选中色、隐藏展开时悬浮按钮，fixture加实际可见性及系统屏幕捕获握手。数值生成采用独立cell并嵌入既有NMBuildManifest完整名称/分组，保留原GeneratedData V1描述表/空ActionHeader契约，未占用reserved。新值单元实际执行结果待CI。

@@ -101,3 +101,11 @@ static_assert(offsetof(NMStaticStaticEntry, selectedTarget) == 0, "selectedTarge
 static_assert(offsetof(NMStaticStaticEntry, physicalID) == 116, "v2/v3 tail must preserve v1 ABI");
 static_assert(offsetof(NMStaticStaticEntry, group) == offsetof(NMStaticStaticEntry, title) + 48, "title/group must remain contiguous for ZNF1 metadata");
 #endif
+// New full-name catalog sits after the fixed entry array, without consuming
+// reserved[] (retained for the established RVA-protection ABI).
+#define NM_STATIC_HEADER_FLAG_MANIFEST_V1 UINT32_C(0x00000020)
+#define NM_STATIC_MANIFEST_MAGIC UINT64_C(0x3146494E414D4D4E)
+typedef struct {uint64_t magic;uint32_t version,length;} NMStaticManifestHeader;
+#if defined(__cplusplus)
+static_assert(sizeof(NMStaticManifestHeader)==16,"Static Manifest prefix ABI");
+#endif

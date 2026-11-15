@@ -177,6 +177,7 @@ jobs:
           set -euo pipefail
           make test-signer
           make test-static-image
+          make test-static-numeric SOURCE_BASELINE=.audit-source
           make test-offline-build
           make test-static-loaded-image
           build/tests/macho-address build/core/NewMyMenuCore.dylib

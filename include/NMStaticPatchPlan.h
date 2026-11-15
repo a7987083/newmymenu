@@ -1,6 +1,7 @@
 #pragma once
 #import <Foundation/Foundation.h>
 #import "NMMachOAddress.h"
+#import "NMStaticValues.h"
 NS_ASSUME_NONNULL_BEGIN
 __attribute__((visibility("default")))
 @interface NMStaticPatchDefinition : NSObject
@@ -8,13 +9,15 @@ __attribute__((visibility("default")))
 @property(nonatomic,copy,readonly) NSString *identifier;
 @property(nonatomic,copy,readonly) NSString *title;
 @property(nonatomic,copy,readonly) NSString *group;
+@property(nonatomic,readonly) NMStaticControlType controlType;
+@property(nonatomic,readonly) NMStaticValueType valueType;
 @property(nonatomic,readonly) NMMachOAddressKind addressKind;
 @property(nonatomic,readonly) uint64_t address;
 @property(nonatomic,copy,readonly) NSData *expectedBytes;
 @property(nonatomic,copy,readonly) NSData *replacementBytes;
 // Caller-supplied evidence label, never a trust or execution authorization flag.
 @property(nonatomic,copy,readonly) NSString *expectedBytesSource;
-+ (nullable instancetype)definitionWithIdentifier:(NSString *)identifier title:(NSString *)title group:(NSString *)group kind:(NMMachOAddressKind)kind address:(uint64_t)address expected:(NSData *)expected replacement:(NSData *)replacement evidence:(NSString *)evidence error:(NSError * _Nullable * _Nullable)error;
++ (nullable instancetype)definitionWithIdentifier:(NSString *)identifier title:(NSString *)title group:(NSString *)group control:(NMStaticControlType)control valueType:(NMStaticValueType)valueType kind:(NMMachOAddressKind)kind address:(uint64_t)address expected:(NSData *)expected replacement:(NSData *)replacement evidence:(NSString *)evidence error:(NSError * _Nullable * _Nullable)error;
 @end
 __attribute__((visibility("default")))
 @interface NMStaticPatchPlan : NSObject
