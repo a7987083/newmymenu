@@ -37,13 +37,14 @@ static NSString *NMPHex(id value){
  return text.length&&!(text.length&1)?text.uppercaseString:nil;
 }
 static BOOL NMPAmbiguous(NSString *kind){return [kind isEqual:@"legacy-octal"]||[kind isEqual:@"legacy-hex-fallback"];}
-static BOOL NMPAdd(NMPParseState *s,NSString *target,uint64_t address,NSString *hex,NSString *title,NSString *group,NSString *description,NSString *path,double confidence,NSString *interpretation){
+static BOOL NMPAdd(NMPParseState *s,NSString *target,uint64_t address,NSString *hex,NSString *title,NSString *group,NSString *description,NSNumber *control,NSNumber *valueType,NSString *path,double confidence,NSString *interpretation){
+ if(NMPBoolean(control)||NMPBoolean(valueType)||![control isKindOfClass:NSNumber.class]||![valueType isKindOfClass:NSNumber.class]||control.doubleValue!=control.integerValue||valueType.doubleValue!=valueType.integerValue||control.integerValue< -1||control.integerValue>3||valueType.integerValue< -1||valueType.integerValue>6)return NMPFail(s,4,@"Invalid normalized control/value type");
  if(s.rows.count>=4096)return NMPFail(s,3,@"Patch candidate limit exceeded");
  if(!NMPText(description)||description.length>4096||![description canBeConvertedToEncoding:NSUTF8StringEncoding]||[description rangeOfCharacterFromSet:[NSCharacterSet characterSetWithRange:NSMakeRange(0,1)]].location!=NSNotFound)return NMPFail(s,4,@"Invalid Patch feature description");
  for(NSString *field in @[target,title,group,path])if(!NMPText(field))return NMPFail(s,3,@"Patch text/JSON path exceeds 16384 characters");
  if([target rangeOfCharacterFromSet:[NSCharacterSet characterSetWithRange:NSMakeRange(0,1)]].location!=NSNotFound)return NMPFail(s,4,@"Target contains NUL and cannot be a file/image identifier");
  BOOL review=confidence<1||NMPAmbiguous(interpretation);
- NSDictionary *row=@{@"target":[target copy],@"offset":[NSString stringWithFormat:@"0x%llX",(unsigned long long)address],@"enabled":[hex copy],@"title":[title copy],@"group":group.length?[group copy]:@"Imported",@"description":[description copy],@"path":[path copy],@"confidence":@(confidence),@"requiresReview":@(review),@"addressInterpretation":interpretation};
+ NSDictionary *row=@{@"target":[target copy],@"offset":[NSString stringWithFormat:@"0x%llX",(unsigned long long)address],@"enabled":[hex copy],@"title":[title copy],@"group":group.length?[group copy]:@"Imported",@"description":[description copy],@"control":control,@"valueType":valueType,@"path":[path copy],@"confidence":@(confidence),@"requiresReview":@(review),@"addressInterpretation":interpretation};
  NSData *encoded=[NSJSONSerialization dataWithJSONObject:row options:NSJSONWritingSortedKeys error:NULL];if(!encoded||encoded.length+1>NMPBudget-s.outputBytes)return NMPFail(s,3,@"Normalized Patch output exceeds 4 MiB");s.outputBytes+=encoded.length+1;[s.rows addObject:row];
  if(confidence<1)[s.warnings addObject:@"Unlabelled candidate requires manual review"];
  if(NMPAmbiguous(interpretation))[s.warnings addObject:@"Leading-zero address retains legacy interpretation and requires manual review"];
@@ -51,6 +52,14 @@ static BOOL NMPAdd(NMPParseState *s,NSString *target,uint64_t address,NSString *
 }
 static NSString *NMPContext(NSDictionary *d,NSArray *names,NSString *parent,BOOL strict,NMPParseState *s){id value=NMPValue(d,names,s);if(s.failure)return nil;if(!value)return parent;if(!NMPText(value)){if([value isKindOfClass:NSString.class]||strict){NMPFail(s,4,@"Patch target/title/group must be text within bounds");return nil;}[s.warnings addObject:@"Nontext container metadata was not inherited as a Patch label/target"];return parent;}NSString *text=NMPTrim(value);return text.length?text:parent;}
 static NSString *NMPDescription(NSDictionary *d,NSString *parent,BOOL strict,NMPParseState *s){id value=NMPValue(d,@[@"description",@"featuredescription",@"desc"],s);if(s.failure)return nil;if(!value)return parent;if(!NMPText(value)||[value length]>4096||![value canBeConvertedToEncoding:NSUTF8StringEncoding]||[value rangeOfCharacterFromSet:[NSCharacterSet characterSetWithRange:NSMakeRange(0,1)]].location!=NSNotFound){if(strict||[value isKindOfClass:NSString.class]){NMPFail(s,4,@"Patch description must be valid text within 4096 characters");return nil;}[s.warnings addObject:@"Nontext container description was not inherited"];return parent;}return value;}
+static NSNumber *NMPChoice(NSDictionary *d,BOOL valueType,NSNumber *parent,BOOL strict,NMPParseState *s){
+ id raw=NMPValue(d,valueType?@[@"valuetype",@"staticvaluetype"]:@[@"control",@"controltype"],s);if(s.failure)return nil;if(!raw)return parent;
+ NSArray *names=valueType?@[@"AUTO",@"I32",@"U32",@"I64",@"U64",@"F32",@"F64"]:@[@"SWITCH",@"SLIDER",@"BUTTON",@"NUMBER"];
+ if([raw isKindOfClass:NSString.class]){NSUInteger index=[names indexOfObject:NMPTrim(raw).uppercaseString];if(index!=NSNotFound)return @(index);}
+ else if([raw isKindOfClass:NSNumber.class]&&!NMPBoolean(raw)){double n=[raw doubleValue];if(n>=0&&n<(double)names.count&&n==[raw integerValue])return @([raw integerValue]);}
+ else if(!strict&&[raw isKindOfClass:NSDictionary.class]){[s.warnings addObject:@"Container control metadata was not inherited"];return parent;}
+ NMPFail(s,4,@"Unsupported explicit Static control/valueType");return nil;
+}
 static NSDictionary *NMPAliases(id root,NMPParseState *s){
  if(![root isKindOfClass:NSDictionary.class])return @{};
  NSArray *tableNames=@[@"targets",@"images",@"modules",@"binaries"],*imageNames=@[@"target",@"image",@"binary",@"module",@"modulename",@"executable"];
@@ -63,27 +72,27 @@ static NSDictionary *NMPAliases(id root,NMPParseState *s){
  if(pure)for(NSString *key in root)if([tableNames containsObject:NMPKey(key)])[s.aliasOnlyTables addObject:key];
  return [aliases copy];
 }
-static BOOL NMPWalk(id node,NSString *path,NSString *parentTarget,NSString *parentTitle,NSString *parentGroup,NSString *parentDescription,NSDictionary *aliases,NMPParseState *s){
- if([node isKindOfClass:NSArray.class]){NSUInteger i=0;for(id child in node){@autoreleasepool{if(!NMPWalk(child,[path stringByAppendingFormat:@"[%lu]",(unsigned long)i++],parentTarget,parentTitle,parentGroup,parentDescription,aliases,s))return NO;}}return YES;}
+static BOOL NMPWalk(id node,NSString *path,NSString *parentTarget,NSString *parentTitle,NSString *parentGroup,NSString *parentDescription,NSNumber *parentControl,NSNumber *parentValueType,NSDictionary *aliases,NMPParseState *s){
+ if([node isKindOfClass:NSArray.class]){NSUInteger i=0;for(id child in node){@autoreleasepool{if(!NMPWalk(child,[path stringByAppendingFormat:@"[%lu]",(unsigned long)i++],parentTarget,parentTitle,parentGroup,parentDescription,parentControl,parentValueType,aliases,s))return NO;}}return YES;}
  if(![node isKindOfClass:NSDictionary.class])return YES;
  NSDictionary *d=node;
  if([@[@"zonoe-authoring",@"newmymenu.authoring",@"newmymenu.manifest",@"newmymenu.patch-candidates"] containsObject:d[@"format"]])return NMPFail(s,7,@"Nested typed configuration must be imported through its own domain");
  id offset=NMPValue(d,@[@"offset",@"rva",@"address",@"addr",@"location"],s),bytes=NMPValue(d,@[@"enabled",@"patch",@"patchdata",@"bytes",@"patchbytes",@"data",@"value",@"on",@"enable",@"replacement",@"replace"],s);if(s.failure)return NO;
- NSString *target=NMPContext(d,@[@"target",@"image",@"binary",@"module",@"modulename",@"executable"],parentTarget,offset!=nil,s),*title=NMPContext(d,@[@"title",@"name",@"label",@"featuretitle"],parentTitle,offset!=nil,s),*group=NMPContext(d,@[@"group",@"category",@"section",@"tab"],parentGroup,offset!=nil,s),*description=NMPDescription(d,parentDescription,offset!=nil,s);if(s.failure)return NO;target=aliases[target.lowercaseString]?:target;
- if(offset){uint64_t address=0;NSString *kind=nil;if(!NMPAddress(offset,&address,&kind))return NMPFail(s,5,[NSString stringWithFormat:@"Invalid unsigned Patch address at %@",path]);NSString *hex=NMPHex(bytes);if(!hex)return NMPFail(s,6,[NSString stringWithFormat:@"Invalid or missing Patch bytes at %@",path]);if(!NMPAdd(s,target,address,hex,title,group,description,path,1,kind))return NO;}
+ NSString *target=NMPContext(d,@[@"target",@"image",@"binary",@"module",@"modulename",@"executable"],parentTarget,offset!=nil,s),*title=NMPContext(d,@[@"title",@"name",@"label",@"featuretitle"],parentTitle,offset!=nil,s),*group=NMPContext(d,@[@"group",@"category",@"section",@"tab"],parentGroup,offset!=nil,s),*description=NMPDescription(d,parentDescription,offset!=nil,s);NSNumber *control=NMPChoice(d,NO,parentControl,offset!=nil,s),*valueType=NMPChoice(d,YES,parentValueType,offset!=nil,s);if(s.failure)return NO;target=aliases[target.lowercaseString]?:target;
+ if(offset){uint64_t address=0;NSString *kind=nil;if(!NMPAddress(offset,&address,&kind))return NMPFail(s,5,[NSString stringWithFormat:@"Invalid unsigned Patch address at %@",path]);NSString *hex=NMPHex(bytes);if(!hex)return NMPFail(s,6,[NSString stringWithFormat:@"Invalid or missing Patch bytes at %@",path]);if(!NMPAdd(s,target,address,hex,title,group,description,control,valueType,path,1,kind))return NO;}
  else if(!bytes){NSMutableArray *addresses=[NSMutableArray array],*hexes=[NSMutableArray array];for(NSString *key in [d.allKeys sortedArrayUsingSelector:@selector(compare:)]){if([@[@"description",@"featuredescription",@"desc"] containsObject:NMPKey(key)])continue;id value=d[key];if(![value isKindOfClass:NSString.class])continue;NSString *text=NMPTrim(value);if([text.lowercaseString hasPrefix:@"0x"]){uint64_t address=0;NSString *kind=nil;if(NMPAddress(text,&address,&kind))[addresses addObject:@(address)];}else{NSString *hex=NMPHex(text);if(hex.length>=8&&!(hex.length%8))[hexes addObject:hex];}}
- if(addresses.count==1&&hexes.count==1&&!NMPAdd(s,target,[addresses.firstObject unsignedLongLongValue],hexes.firstObject,title,group,description,path,.55,@"hex"))return NO;}
+ if(addresses.count==1&&hexes.count==1&&!NMPAdd(s,target,[addresses.firstObject unsignedLongLongValue],hexes.firstObject,title,group,description,control,valueType,path,.55,@"hex"))return NO;}
  else [s.warnings addObject:@"Patch-like metadata without an address was not promoted to a candidate"];
- for(NSString *key in [d.allKeys sortedArrayUsingSelector:@selector(compare:)]){@autoreleasepool{if([path isEqual:@"$"]&&[s.aliasOnlyTables containsObject:key])continue;id value=d[key];if([value isKindOfClass:NSArray.class]||[value isKindOfClass:NSDictionary.class])if(!NMPWalk(value,[path stringByAppendingFormat:@".%@",key],target,title,group,description,aliases,s))return NO;}}
+ for(NSString *key in [d.allKeys sortedArrayUsingSelector:@selector(compare:)]){@autoreleasepool{if([path isEqual:@"$"]&&[s.aliasOnlyTables containsObject:key])continue;id value=d[key];if([value isKindOfClass:NSArray.class]||[value isKindOfClass:NSDictionary.class])if(!NMPWalk(value,[path stringByAppendingFormat:@".%@",key],target,title,group,description,control,valueType,aliases,s))return NO;}}
  return YES;
 }
 static BOOL NMPCanonical(NSDictionary *root,NMPParseState *s){
- if(![[NSSet setWithArray:root.allKeys] isEqual:[NSSet setWithArray:@[@"format",@"schemaVersion",@"candidates"]]]||NMPBoolean(root[@"schemaVersion"])||(![root[@"schemaVersion"] isEqual:@1]&&![root[@"schemaVersion"] isEqual:@2])||![root[@"candidates"] isKindOfClass:NSArray.class])return NMPFail(s,7,@"Invalid Patch candidate schema");
- BOOL legacy=[root[@"schemaVersion"] isEqual:@1];if(legacy)[s.warnings addObject:@"Patch review schema 1 upgraded to schema 2 with empty descriptions"];
- NSMutableSet *keys=[NSMutableSet setWithArray:@[@"target",@"offset",@"enabled",@"title",@"group",@"path",@"confidence",@"requiresReview",@"addressInterpretation"]];if(!legacy)[keys addObject:@"description"];
+ if(![[NSSet setWithArray:root.allKeys] isEqual:[NSSet setWithArray:@[@"format",@"schemaVersion",@"candidates"]]]||NMPBoolean(root[@"schemaVersion"])||(![root[@"schemaVersion"] isEqual:@1]&&![root[@"schemaVersion"] isEqual:@2]&&![root[@"schemaVersion"] isEqual:@3])||![root[@"candidates"] isKindOfClass:NSArray.class])return NMPFail(s,7,@"Invalid Patch candidate schema");
+ BOOL legacy=[root[@"schemaVersion"] isEqual:@1],legacyControls=![root[@"schemaVersion"] isEqual:@3];if(legacyControls)[s.warnings addObject:@"Patch review upgraded once to schema 3 with inherited control defaults"];
+ NSMutableSet *keys=[NSMutableSet setWithArray:@[@"target",@"offset",@"enabled",@"title",@"group",@"path",@"confidence",@"requiresReview",@"addressInterpretation"]];if(!legacy)[keys addObject:@"description"];if(!legacyControls)[keys addObjectsFromArray:@[@"control",@"valueType"]];
  for(id row in root[@"candidates"]){if(![row isKindOfClass:NSDictionary.class]||![[NSSet setWithArray:[row allKeys]] isEqual:keys])return NMPFail(s,7,@"Invalid candidate fields");for(NSString *key in @[@"target",@"offset",@"enabled",@"title",@"group",@"path",@"addressInterpretation"])if(!NMPText(row[key]))return NMPFail(s,7,@"Candidate text field invalid");
  NSString *kind=row[@"addressInterpretation"];id number=row[@"confidence"];if(![@[@"numeric",@"decimal",@"hex",@"legacy-octal",@"legacy-hex-fallback"] containsObject:kind]||![number isKindOfClass:NSNumber.class]||NMPBoolean(number)||([number doubleValue]!=1&&[number doubleValue]!=.55)||!NMPBoolean(row[@"requiresReview"])||[row[@"requiresReview"] boolValue]!=([number doubleValue]<1||NMPAmbiguous(kind)))return NMPFail(s,7,@"Candidate confidence/review provenance is inconsistent");
- uint64_t address=0;NSString *ignored=nil,*hex=NMPHex(row[@"enabled"]);if(!NMPAddress(row[@"offset"],&address,&ignored)||!hex)return NMPFail(s,7,@"Invalid normalized address/bytes");if(!NMPAdd(s,row[@"target"],address,hex,row[@"title"],row[@"group"],legacy?@"":row[@"description"],row[@"path"],[number doubleValue],kind))return NO;}
+ uint64_t address=0;NSString *ignored=nil,*hex=NMPHex(row[@"enabled"]);if(!NMPAddress(row[@"offset"],&address,&ignored)||!hex)return NMPFail(s,7,@"Invalid normalized address/bytes");if(!NMPAdd(s,row[@"target"],address,hex,row[@"title"],row[@"group"],legacy?@"":row[@"description"],legacyControls?@(-1):row[@"control"],legacyControls?@(-1):row[@"valueType"],row[@"path"],[number doubleValue],kind))return NO;}
  return YES;
 }
 @interface NMPatchImportDocument ()
@@ -99,12 +108,12 @@ static BOOL NMPCanonical(NSDictionary *root,NMPParseState *s){
  else {BOOL ok=NO;id format=[root isKindOfClass:NSDictionary.class]?root[@"format"]:nil;
  if([format isEqual:@"newmymenu.patch-candidates"])ok=NMPCanonical(root,s);
  else if(format&&[@[@"zonoe-authoring",@"newmymenu.authoring",@"newmymenu.manifest"] containsObject:format])NMPFail(s,7,@"This JSON belongs to another configuration domain");
- else {NSDictionary *aliases=NMPAliases(root,s);if(aliases)ok=NMPWalk(root,@"$",@"",@"",@"Imported",@"",aliases,s);}
+ else {NSDictionary *aliases=NMPAliases(root,s);if(aliases)ok=NMPWalk(root,@"$",@"",@"",@"Imported",@"",@(-1),@(-1),aliases,s);}
  if(ok&&!s.rows.count)NMPFail(s,8,@"No addressed Patch records or reviewable candidates found");
  if(ok&&!s.failure)document=[[self alloc] initRows:s.rows warnings:[[s.warnings allObjects] sortedArrayUsingSelector:@selector(compare:)]];
  }}
  }@catch(NSException *exception){NMPFail(s,9,exception.reason?:exception.name);document=nil;}
  if(error)*error=s.failure;return s.failure?nil:document;
 }
-- (NSData *)JSONDataWithError:(NSError **)error{NSData *data=[NSJSONSerialization dataWithJSONObject:@{@"format":@"newmymenu.patch-candidates",@"schemaVersion":@2,@"candidates":_candidates} options:NSJSONWritingSortedKeys error:error];if(data.length>NMPBudget){if(error)*error=[NSError errorWithDomain:@"newmymenu.patch-import" code:3 userInfo:@{NSLocalizedDescriptionKey:@"Patch candidate output exceeds 4 MiB"}];return nil;}if(data&&error)*error=nil;return data;}
+- (NSData *)JSONDataWithError:(NSError **)error{NSData *data=[NSJSONSerialization dataWithJSONObject:@{@"format":@"newmymenu.patch-candidates",@"schemaVersion":@3,@"candidates":_candidates} options:NSJSONWritingSortedKeys error:error];if(data.length>NMPBudget){if(error)*error=[NSError errorWithDomain:@"newmymenu.patch-import" code:3 userInfo:@{NSLocalizedDescriptionKey:@"Patch candidate output exceeds 4 MiB"}];return nil;}if(data&&error)*error=nil;return data;}
 @end

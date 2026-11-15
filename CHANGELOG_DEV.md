@@ -208,3 +208,4 @@
 - Run43773948728首错：最终只读校验传const字节给旧parse/verify可写指针声明，C++拒绝。确认两函数只读取输入后统一改为const接口及内部只读struct指针，未用const_cast、未改回可写映射；同步重跑。
 - 5c573660 / Run43774521034五Job通过：fresh inode发布后Simulator实际dlopen及UI控制通过，4份UI/22份core分析零诊断；result.json确认4096行复用/草稿、真实开关/精确U64/错误拒绝/恢复、配置/构建/键盘焦点Done/触摸通过。下载ZIP及dylib SHA256均匹配；dylib 5b4553b77a11cfb505d999af6e0144705d700c60f9476d44a3b5bd970d23c555。AMFI发布问题由实际加载回归确认；实机未验证。
 - 补原始重点回归的UIKit边界测试：64类卡片实际渲染、方法详情原字段复制action、类列表返回offset恢复、count32/rows0拒绝误报。仅向唯一Finder state提交值快照；Runtime枚举fixture独立验证，未伪称真实游戏枚举/实机剪贴板点击。等待新CI。
+- API21候选补ABI独立的混合Static控件配置缺口（设计0025）：NMPatchImport保留行级control/valueType并支持继承/显式覆盖；顶部UI只做默认值；review逐条展示实际控件/类型/说明；唯一OfflineBuildRequest按行建模，复用现有物理计划/发射。Review schema3，v1/v2仅一次升级到同模型。新增边界/迁移、真实源fixture mixed Request及UIKit同址Switch/Number生成验证；未验证前不计完成。
