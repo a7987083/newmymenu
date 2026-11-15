@@ -199,17 +199,18 @@ jobs:
       DEVELOPER_DIR: /Applications/Xcode_16.4.app/Contents/Developer
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-      - name: Build verified self-contained device probe
+      - name: Build verified self-contained developer menu
         run: |
           set -euo pipefail
           make developer-menu
-      - name: Analyze probe UI lifecycle
+      - name: Analyze every Developer UI source
         run: |
           set -euo pipefail
           SDK="$(xcrun --sdk iphoneos --show-sdk-path)"
-          xcrun --sdk iphoneos clang --analyze -isysroot "$SDK" -arch arm64 -miphoneos-version-min=14.0 -std=c11 -fobjc-arc -fblocks -Wall -Wextra -Werror -Iinclude -Isrc/MethodFinder src/DeveloperUI/NMDeveloperMenu.m -o build/developer-menu/NMDeveloperMenu-analysis.plist
-          xcrun --sdk iphoneos clang --analyze -isysroot "$SDK" -arch arm64 -miphoneos-version-min=14.0 -std=c11 -fobjc-arc -fblocks -Wall -Wextra -Werror -Isrc/MethodFinder src/MethodFinder/NMFinderSession.m -o build/developer-menu/NMFinderSession-analysis.plist
-          xcrun --sdk iphoneos clang --analyze -isysroot "$SDK" -arch arm64 -miphoneos-version-min=14.0 -std=c11 -fobjc-arc -fblocks -Wall -Wextra -Werror -Iinclude -Isrc/MethodFinder src/MethodFinder/NMMethodPresentation.m -o build/developer-menu/NMMethodPresentation-analysis.plist
+          source scripts/source_lists.sh
+          for input in "${NM_UI_SOURCES[@]}"; do
+            xcrun --sdk iphoneos clang --analyze -isysroot "$SDK" -arch arm64 -miphoneos-version-min=14.0 -std=c11 -fobjc-arc -fblocks -Wall -Wextra -Werror -Iinclude -Isrc/MethodFinder "$input" -o "build/developer-menu/$(basename "$input" .m)-analysis.plist"
+          done
           python3 tools/check_analysis.py build/developer-menu/*-analysis.plist
       - name: Exercise UIKit in pinned iOS Simulator when installed
         run: bash scripts/test_ui_simulator.sh

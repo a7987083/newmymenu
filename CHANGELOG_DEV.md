@@ -197,3 +197,4 @@
 - 8bb60d21核心Run43770082803/foundation-core成功：22分析零诊断、59导出、ARM64签名/依赖校验；真实prepared Runtime的owner-stack、同组共享、精确U64/F32/F64、Slider、外部/元数据冲突、10000并发调用/1000恢复通过。Core SHA256 0a31d9e5b34f08ec9dc46ebf18d5b776fb5350e0780abafad1e0c0242361b731；未实机。
 - UI复用按功能ID保存的card对象，保留其他卡片和失败输入草稿，避免一次操作重建全部控件导致焦点/输入丢失；补Simulator溢出拒绝/草稿/焦点测试。simctl和失败截图增加超时，保留失败日志与Artifact，不将超时作为成功。重写当前README/ROADMAP/KNOWN_ISSUES，历史审计库存不冒充现状。
 - Run43770082803 Developer已编译/分析通过，Simulator配置/构建/键盘截图完成但预埋库阶段退出，launch.log仅PID，无首错证据；新增fixture阶段文件、仅本fixture的ips收集与有界系统日志，不移除动态执行测试。修正上一CI配置编辑重复timeout-minutes键，保持既有20分钟上限。
+- 新代码复审：UI分析仍硬编码旧三文件，改为消费唯一NM_UI_SOURCES清单覆盖新Static Renderer。row执行回调先持有局部copy，防止同步render替换/释放正在执行的block；触发入口统一到submitEnabled:value:。该生命周期防护是否对应Simulator退出仍待阶段/ips证据，不提前归因。
