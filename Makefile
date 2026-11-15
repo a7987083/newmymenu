@@ -174,3 +174,10 @@ test-offline-build:
 	codesign --verify --strict --verbose=4 build/static-image-fixture/offline-output/prepared-signed.macho
 	xcrun dyld_info -validate_only build/static-image-fixture/offline-output/prepared-signed.macho > build/static-image-fixture/offline-output/dyld-validation.txt 2>&1
 	python3 tools/check_dyld_validation.py build/static-image-fixture/offline-output/dyld-validation.txt
+
+.PHONY: test-static-loaded-image
+test-static-loaded-image:
+	xcrun clang -arch arm64 -mmacosx-version-min=14.0 -O1 -dynamiclib -Wl,-headerpad,0x2000 -install_name @rpath/NMStaticSourceFixture.dylib tests/core/static_fixture_library.c -o build/tests/NMStaticSourceFixture.dylib
+	codesign --force --sign - --timestamp=none build/tests/NMStaticSourceFixture.dylib
+	xcrun clang++ -std=c++17 $(WARN) -g -fsanitize=address,undefined -fobjc-arc -fblocks -Iinclude -Isrc/Build -framework Foundation build/tests/plan-address.o build/tests/plan-relocation.o build/tests/code-plan.o src/Build/NMStaticCodePayload.mm src/Build/NMChainedFixupsPrivate.mm src/Build/NMStaticBinaryImage.mm src/Build/NMMachOSigner.mm tests/core/static_loaded_image_test.mm -o build/tests/static-loaded-image
+	build/tests/static-loaded-image build/tests/NMStaticSourceFixture.dylib build/static-image-fixture/host-loaded

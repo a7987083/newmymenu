@@ -177,6 +177,7 @@ jobs:
           make test-signer
           make test-static-image
           make test-offline-build
+          make test-static-loaded-image
           build/tests/macho-address build/core/NewMyMenuCore.dylib
           build/tests/static-plan build/core/NewMyMenuCore.dylib
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02

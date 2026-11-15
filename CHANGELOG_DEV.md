@@ -176,3 +176,5 @@
 - Run43683682500五job通过：离线request完整签名发布、review/cancel/no-overwrite/target拒绝及中文元数据测试通过。将唯一Probe前端迁移为DeveloperMenu四页，接配置store和离线构建request；删除旧Probe源码/构建入口，UI编译/交互等待新CI，游戏ABI仍暂缓。
 
 - Run43684503704五job通过：单一DeveloperMenu四页已实际ARM64编译/签名/静态分析，旧Probe入口删除；UIKit交互仍未验证。增加固定18.5 Simulator App contract、截图和未安装runtime的真实状态记录；将三种目标构建/核心分析收敛为一份显式源清单，并校验实现完整性/对象名唯一。模拟器结果待CI。
+
+- Run43685036578：Core/API16完整构建链及20份分析通过，17项portable检查通过；UI模拟器启动成功但fixture在配置初始草稿处失败。根因为UI对emptyDocument调用禁止空导出的API并忽略nil；改为明确空草稿模板，不放宽空导入/导出清空保护。fixture改用明确非空配置做应用/保存回归，并验证空模板仍被拒绝。新增真实dyld加载准备后macOS ARM64文件的切换/卸载fixture。Core Artifact14149878306已下载核对hash/Mach-O/分析plist，UI结果不伪报通过。

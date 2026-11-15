@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "phase": "abi_independent_static_physical_plan_verified",
+  "phase": "developer_ui_simulator_empty_state_fix_pending_ci",
   "branch": "main",
   "head_reference": "git rev-parse HEAD; CI github.sha",
   "source_head": "7066edeaf9e47580c89440be670c517280534b69",
@@ -39,7 +39,7 @@
     "sha256": "1223bf9df9cedb2eba66d781faab1459ec00e9b18ea8b23829daa89602f70b09"
   },
   "known_findings": "docs/audit/FINDINGS.md",
-  "next_task": "Audit/reuse original ARM64 relocation/PC-relative and terminal instruction rules with bounded signed deltas and original algorithm parity, then Dispatch/Thunk/segment emit and transactional file publication. Static plan cannot authorize writes until relocation proof is implemented. Game ABI deferred; no intermediate dylib delivery.",
+  "next_task": "Finish Simulator UI contract and inspect screenshots; validate actual dyld-loaded host prepared image, then typed Static value controls/runtime selection lifecycle and complete remaining ABI-independent feature regression. Game Invoke/Native ABI adapters remain deferred; no intermediate dylib delivery.",
   "invoke_contract_audit": {
     "source_head": "7066edeaf9e47580c89440be670c517280534b69",
     "ci_head": "10efd671cbe0c5ca22ffb31aef71fbaaed4cc67e",
@@ -69,7 +69,7 @@
     "compiled_ios_arm64": true,
     "device_verified": false,
     "menu_integration": false,
-    "portable_python_tests_passed": 16,
+    "portable_python_tests_passed": 17,
     "portable_codec_run": true,
     "wire_parity_run": true,
     "foundation_run": true,
@@ -88,16 +88,18 @@
       "bounded offline thin ARM64 full-span RVA/PreferredVA/FileOffset mapping",
       "immutable Static physical-site plan, explicit expected bytes, instruction ranges, variant composition and direct inbound-branch checks"
     ],
-    "ci_source_head": "3f4c53a8541ae793f17d953af9230b014e73dff5",
-    "ci_run_id": 43680151665,
+    "ci_source_head": "86c12c3fb8f09f90c266c3d79e9b01b470df82ab",
+    "ci_run_id": 43685036578,
     "strict_verification": true,
     "ios_run": false,
-    "artifact_id": 14147852562,
-    "sha256": "cf805713d3b9a654bbc40b922a2e3a8c226a586ea95d72f346d5da455ac9d057",
+    "artifact_id": 14149878306,
+    "sha256": "9df2968130b2a0098107c9876b70b012b0a7623fbe4f91d0b2a0cd64941c94c9",
     "static_analysis_diagnostics": 0,
-    "build_report": "docs/builds/static-plan-3f4c53a8.json",
-    "core_api_version": 13,
-    "static_analysis_files": 15
+    "build_report": "docs/builds/offline-build-86c12c3f.json",
+    "core_api_version": 16,
+    "static_analysis_files": 20,
+    "ci_status_scope": "foundation-core job; entire run UI Simulator step still in progress",
+    "independently_downloaded": true
   },
   "execution_lifecycle_core": {
     "modified": true,
@@ -138,8 +140,8 @@
     "scope": "read-only metadata; no managed invocation or GCHandle",
     "ci_status": "success",
     "fixture_boundary": "controlled C API callbacks on macOS; AddressSanitizer enabled",
-    "ci_source_head": "3f4c53a8541ae793f17d953af9230b014e73dff5",
-    "ci_run_id": 43680151665,
+    "ci_source_head": "86c12c3fb8f09f90c266c3d79e9b01b470df82ab",
+    "ci_run_id": 43685036578,
     "static_analysis_diagnostics": 0,
     "global_method_keyword_search": true,
     "signature_copy_paths": 1,
@@ -148,27 +150,8 @@
     "ranked_class_search": true,
     "nonzero_delta_address_lookup": false,
     "cooperative_cancellation": true,
-    "cancellation_fixture_passed": true
-  },
-  "device_probe": {
-    "source_written": true,
-    "compiled": true,
-    "ui_run": false,
-    "device_verified": false,
-    "scope": "read-only Runtime/class/method UI and report export",
-    "ci_status": "success",
-    "compiled_ios_arm64": true,
-    "ci_source_head": "3f4c53a8541ae793f17d953af9230b014e73dff5",
-    "ci_run_id": 43680151665,
-    "artifact_id": 14148495251,
-    "sha256": null,
-    "build_report": "CI only; probe archive not independently downloaded this run",
-    "self_contained": true,
-    "core_api_version": 13,
-    "static_analysis_diagnostics": 0,
-    "device_instructions": "docs/DEVICE_VALIDATION.md",
-    "static_analysis_reports": 3,
-    "intermediate_delivery": false
+    "cancellation_fixture_passed": true,
+    "ci_status_scope": "foundation-core job; entire run UI Simulator step still in progress"
   },
   "finder_state": {
     "source_written": true,
@@ -177,8 +160,8 @@
     "fixture_run": true,
     "fixture_environment": "macOS Foundation/AddressSanitizer",
     "ui_device_verified": false,
-    "ci_source_head": "3f4c53a8541ae793f17d953af9230b014e73dff5",
-    "ci_run_id": 43680151665,
+    "ci_source_head": "86c12c3fb8f09f90c266c3d79e9b01b470df82ab",
+    "ci_run_id": 43685036578,
     "single_snapshot_owner": true,
     "cached_class_return": true,
     "class_scroll_restore": true,
@@ -193,7 +176,8 @@
     "late_exact_rank_regression_passed": true,
     "cooperative_cancellation_implemented": true,
     "cancelled_late_completion_fixture_passed": true,
-    "ci_status": "success"
+    "ci_status": "success",
+    "ci_status_scope": "foundation-core job; entire run UI Simulator step still in progress"
   },
   "device_observations": [
     {
@@ -220,8 +204,8 @@
     "committed": true,
     "compiled_ios_arm64": true,
     "foundation_asan_fixture_passed": true,
-    "ci_source_head": "3f4c53a8541ae793f17d953af9230b014e73dff5",
-    "ci_run_id": 43680151665,
+    "ci_source_head": "86c12c3fb8f09f90c266c3d79e9b01b470df82ab",
+    "ci_run_id": 43685036578,
     "immutable_items": true,
     "single_frozen_configuration": true,
     "errors_not_swallowed": true,
@@ -230,7 +214,8 @@
     "prepare_emit_backends_integrated": false,
     "ci_status": "success",
     "static_analysis_diagnostics": 0,
-    "legacy_authoring_import_note": "Separate NMConfigurationDocument importer implemented; not a Manifest-to-production-provider adapter"
+    "legacy_authoring_import_note": "Separate NMConfigurationDocument importer implemented; not a Manifest-to-production-provider adapter",
+    "ci_status_scope": "foundation-core job; entire run UI Simulator step still in progress"
   },
   "signer": {
     "source_written": true,
@@ -242,13 +227,14 @@
     "core_integration": true,
     "ci_status": "success",
     "compiled_ios_arm64": true,
-    "ci_source_head": "3f4c53a8541ae793f17d953af9230b014e73dff5",
-    "ci_run_id": 43680151665,
+    "ci_source_head": "86c12c3fb8f09f90c266c3d79e9b01b470df82ab",
+    "ci_run_id": 43685036578,
     "codesign_strict_verified": true,
     "designated_requirement_verified": true,
     "permissions_not_silently_dropped": true,
     "static_analysis_diagnostics": 0,
-    "device_verified": false
+    "device_verified": false,
+    "ci_status_scope": "foundation-core job; entire run UI Simulator step still in progress"
   },
   "swizzle_manager": {
     "source_written": true,
@@ -258,8 +244,8 @@
     "asan_fixture_passed": true,
     "run_environment": "macOS arm64 actual ObjC Runtime",
     "ci_status": "success",
-    "ci_source_head": "3f4c53a8541ae793f17d953af9230b014e73dff5",
-    "ci_run_id": 43680151665,
+    "ci_source_head": "86c12c3fb8f09f90c266c3d79e9b01b470df82ab",
+    "ci_run_id": 43685036578,
     "core_api_version": 9,
     "instance_class_and_aggregate_signature_fixture_passed": true,
     "original_imp_execution_fixture_passed": true,
@@ -281,7 +267,8 @@
     "device_verified": false,
     "ios_run": false,
     "documentation": "docs/SWIZZLE_MANAGER.md",
-    "build_report": "docs/builds/swizzle-72189bd7.json"
+    "build_report": "docs/builds/swizzle-72189bd7.json",
+    "ci_status_scope": "foundation-core job; entire run UI Simulator step still in progress"
   },
   "authoring_configuration": {
     "source_written": true,
@@ -291,13 +278,14 @@
     "device_verified": false,
     "ios_run": false,
     "ui_integrated": false,
-    "ci_source_head": "3f4c53a8541ae793f17d953af9230b014e73dff5",
-    "ci_run_id": 43680151665,
+    "ci_source_head": "86c12c3fb8f09f90c266c3d79e9b01b470df82ab",
+    "ci_run_id": 43685036578,
     "ci_status": "success",
     "identity_parity_cases": 10000,
     "atomic_store": true,
     "requires_target_validation": true,
-    "game_execution_integrated": false
+    "game_execution_integrated": false,
+    "ci_status_scope": "foundation-core job; entire run UI Simulator step still in progress"
   },
   "patch_import": {
     "source_written": true,
@@ -307,21 +295,22 @@
     "device_verified": false,
     "ios_run": false,
     "ui_integrated": false,
-    "ci_source_head": "3f4c53a8541ae793f17d953af9230b014e73dff5",
-    "ci_run_id": 43680151665,
+    "ci_source_head": "86c12c3fb8f09f90c266c3d79e9b01b470df82ab",
+    "ci_run_id": 43685036578,
     "ci_status": "success",
     "original_parser_defects_reproduced": true,
     "requires_binary_validation": true,
     "physical_binary_apply_integrated": false,
     "strict_explicit_record_rejection": true,
-    "review_roundtrip": true
+    "review_roundtrip": true,
+    "ci_status_scope": "foundation-core job; entire run UI Simulator step still in progress"
   },
   "static_address": {
     "source_written": true,
     "committed": true,
     "compiled_ios_arm64": true,
-    "ci_source_head": "3f4c53a8541ae793f17d953af9230b014e73dff5",
-    "ci_run_id": 43680151665,
+    "ci_source_head": "86c12c3fb8f09f90c266c3d79e9b01b470df82ab",
+    "ci_run_id": 43685036578,
     "ci_status": "success",
     "core_api_version": 13,
     "asan_ubsan_fixture_passed": true,
@@ -336,14 +325,15 @@
     "local_sanitizer_status": "GCC LeakSanitizer blocked by ptrace environment; plain tests passed; macOS CI sanitizer passed",
     "instruction_regions": true,
     "section_vm_file_consistency_checked": true,
-    "public_struct_compatible_with_api12": false
+    "public_struct_compatible_with_api12": false,
+    "ci_status_scope": "foundation-core job; entire run UI Simulator step still in progress"
   },
   "static_plan": {
     "source_written": true,
     "committed": true,
     "compiled_ios_arm64": true,
-    "ci_source_head": "3f4c53a8541ae793f17d953af9230b014e73dff5",
-    "ci_run_id": 43680151665,
+    "ci_source_head": "86c12c3fb8f09f90c266c3d79e9b01b470df82ab",
+    "ci_run_id": 43685036578,
     "ci_status": "success",
     "core_api_version": 13,
     "foundation_asan_ubsan_fixture_passed": true,
@@ -366,6 +356,105 @@
     "device_verified": false,
     "ios_run": false,
     "documentation": "docs/STATIC_PATCH.md",
-    "source_provenance": "docs/audit/static-plan-source.json"
+    "source_provenance": "docs/audit/static-plan-source.json",
+    "ci_status_scope": "foundation-core job; entire run UI Simulator step still in progress"
+  },
+  "historical_device_probe": {
+    "source_written": true,
+    "compiled": true,
+    "ui_run": false,
+    "device_verified": false,
+    "scope": "read-only Runtime/class/method UI and report export",
+    "ci_status": "success",
+    "compiled_ios_arm64": true,
+    "ci_source_head": "3f4c53a8541ae793f17d953af9230b014e73dff5",
+    "ci_run_id": 43680151665,
+    "artifact_id": 14148495251,
+    "sha256": null,
+    "build_report": "CI only; probe archive not independently downloaded this run",
+    "self_contained": true,
+    "core_api_version": 13,
+    "static_analysis_diagnostics": 0,
+    "device_instructions": "docs/DEVICE_VALIDATION.md",
+    "static_analysis_reports": 3,
+    "intermediate_delivery": false
+  },
+  "developer_menu": {
+    "source_written": true,
+    "committed": true,
+    "compiled_ios_arm64": true,
+    "ci_source_head": "86c12c3fb8f09f90c266c3d79e9b01b470df82ab",
+    "ci_run_id": 43685036578,
+    "ci_status": "failure in UI Simulator step; binary compile/analyze succeeded",
+    "core_api_version": 16,
+    "pages": [
+      "Finder",
+      "offline Runtime/Native configuration",
+      "reviewed Static build",
+      "verification status"
+    ],
+    "legacy_probe_implementation_removed": true,
+    "static_analysis_reports": 3,
+    "device_verified": false,
+    "ui_simulator_status": "empty-project initialization/export-contract mismatch; fix source written, pending CI",
+    "game_invoke_native_adapters": false,
+    "intermediate_delivery": false
+  },
+  "relocation": {
+    "source_written": true,
+    "committed": true,
+    "compiled_ios_arm64": true,
+    "ci_source_head": "86c12c3fb8f09f90c266c3d79e9b01b470df82ab",
+    "ci_run_id": 43685036578,
+    "ci_status": "success",
+    "target_preservation_cases": 23997,
+    "original_parity_cases": 24000,
+    "original_negative_shift_ubsan_reproduced": true,
+    "game_abi_required": false
+  },
+  "static_code_payload": {
+    "source_written": true,
+    "committed": true,
+    "compiled_ios_arm64": true,
+    "ci_source_head": "86c12c3fb8f09f90c266c3d79e9b01b470df82ab",
+    "ci_run_id": 43685036578,
+    "ci_status": "success",
+    "actual_host_arm64_execution": true,
+    "off_return": 7,
+    "shared_on_returns": [
+      42,
+      99
+    ],
+    "switch_restore_cycles": 1000,
+    "ios_device_verified": false
+  },
+  "static_binary_image": {
+    "source_written": true,
+    "committed": true,
+    "compiled_ios_arm64": true,
+    "ci_source_head": "86c12c3fb8f09f90c266c3d79e9b01b470df82ab",
+    "ci_run_id": 43685036578,
+    "ci_status": "success",
+    "actual_ios_arm64_input_generated": true,
+    "chained_starts_rebuilt": true,
+    "codesign_strict_verified": true,
+    "dyld_info_validated": true,
+    "ios_load_verified": false,
+    "source_untouched": true,
+    "host_dyld_load_fixture": "new test source pending CI"
+  },
+  "offline_build_request": {
+    "source_written": true,
+    "committed": true,
+    "compiled_ios_arm64": true,
+    "ci_source_head": "86c12c3fb8f09f90c266c3d79e9b01b470df82ab",
+    "ci_run_id": 43685036578,
+    "ci_status": "success",
+    "review_required": true,
+    "mixed_target_rejected": true,
+    "cancellation_and_no_overwrite_tested": true,
+    "title_group_utf8_preserved": true,
+    "signed_binary_and_report_produced": true,
+    "ui_device_verified": false
   }
 }
