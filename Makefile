@@ -199,6 +199,6 @@ test-static-numeric:
 
 .PHONY: test-static-runtime
 test-static-runtime: test-static-loaded-image
-	xcrun clang++ -std=c++17 $(WARN) -g -fsanitize=address,undefined -fobjc-arc -fblocks -Iinclude -Isrc/Build -framework Foundation build/tests/plan-address.o build/tests/plan-relocation.o build/tests/plan-values.o build/tests/code-plan.o build/tests/code-manifest.o src/Build/NMStaticCodePayload.mm src/Build/NMChainedFixupsPrivate.mm src/Build/NMStaticBinaryImage.mm src/Build/NMMachOSigner.mm src/Build/NMStaticRuntime.mm tests/core/static_runtime_test.mm -o build/tests/static-runtime
+	xcrun clang++ -std=c++17 $(WARN) -g -fsanitize=address,undefined -fobjc-arc -fblocks -Iinclude -Isrc/Build -framework Foundation build/tests/plan-address.o build/tests/plan-relocation.o build/tests/plan-values.o build/tests/code-plan.o build/tests/code-manifest.o src/Build/NMStaticCodePayload.mm src/Build/NMChainedFixupsPrivate.mm src/Build/NMStaticBinaryImage.mm src/Build/NMMachOSigner.mm tests/core/static_runtime_test.mm -o build/tests/static-runtime
 	python3 tools/fixture_symbols.py build/tests/NMStaticSourceFixture.dylib build/tests/static-symbols.json
 	build/tests/static-runtime build/tests/NMStaticSourceFixture.dylib build/static-image-fixture/runtime-owned build/tests/static-symbols.json
