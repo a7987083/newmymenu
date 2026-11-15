@@ -95,7 +95,7 @@ static BOOL NMPCanonical(NSDictionary *root,NMPParseState *s){
  else{id root=[NSJSONSerialization JSONObjectWithData:data options:0 error:NULL];NSUInteger nodes=0;if((![root isKindOfClass:NSDictionary.class]&&![root isKindOfClass:NSArray.class])||!NMPTree(root,0,&nodes))NMPFail(s,1,@"Patch JSON shape, nesting or complexity is invalid");
  else {BOOL ok=NO;id format=[root isKindOfClass:NSDictionary.class]?root[@"format"]:nil;
  if([format isEqual:@"newmymenu.patch-candidates"])ok=NMPCanonical(root,s);
- else if([@[@"zonoe-authoring",@"newmymenu.authoring",@"newmymenu.manifest"] containsObject:format])NMPFail(s,7,@"This JSON belongs to another configuration domain");
+ else if(format&&[@[@"zonoe-authoring",@"newmymenu.authoring",@"newmymenu.manifest"] containsObject:format])NMPFail(s,7,@"This JSON belongs to another configuration domain");
  else {NSDictionary *aliases=NMPAliases(root,s);if(aliases)ok=NMPWalk(root,@"$",@"",@"",@"Imported",aliases,s);}
  if(ok&&!s.rows.count)NMPFail(s,8,@"No addressed Patch records or reviewable candidates found");
  if(ok&&!s.failure)document=[[self alloc] initRows:s.rows warnings:[[s.warnings allObjects] sortedArrayUsingSelector:@selector(compare:)]];
