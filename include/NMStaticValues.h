@@ -10,6 +10,7 @@ typedef enum {NMStaticControlSwitch=0,NMStaticControlSlider=1,NMStaticControlBut
 typedef struct { uint64_t bits; uint32_t reg,consumedInstructions; NMStaticValueType type; } NMStaticImmediate;
 // Fixed original MOVZ(+MOVK)/scalar FMOV algorithms; no file or process writes.
 __attribute__((visibility("default"))) bool NMStaticDecodeImmediate(const void *instructions,size_t length,NMStaticValueType requested,NMStaticImmediate *result);
+__attribute__((visibility("default"))) bool NMStaticValueToDouble(uint64_t bits,NMStaticValueType type,double *result);
 #ifdef __cplusplus
 }
 #endif
