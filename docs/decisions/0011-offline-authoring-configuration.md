@@ -9,3 +9,5 @@ Runtime功能身份复用原helper的title/description/values/control/chain语�
 NMConfigurationStore只拥有一个document+revision快照。导入/合并先离线构造完整candidate，再CAS一次提交；失败/并发旧revision不改变任何状态，没有一半方法一半Hook的可见状态。不把离线验证当目标ABI通过；后续激活还需Runtime adapter验证。
 
 Patch候选归一化与UI文件选择分开迁移，本模块不冒充已支持所有Patch JSON或已有执行后端。
+
+绑定身份字符串拒绝嵌入NUL，避免后续UTF8String传给Runtime C API时被截断成另一个名字；显示/参数字符串仍保留原值，不把名称规则错误套到用户参数。

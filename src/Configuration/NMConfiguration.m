@@ -7,6 +7,7 @@
 #include <stdlib.h>
 static NSError *NMCError(NSInteger code,NSString *message){return [NSError errorWithDomain:@"newmymenu.configuration" code:code userInfo:@{NSLocalizedDescriptionKey:message}];}
 static BOOL NMCString(id value,BOOL required){return [value isKindOfClass:NSString.class]&&[value length]<=16384&&(!required||[[value stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceAndNewlineCharacterSet] length]>0);}
+static BOOL NMCIdentifier(id value,BOOL required){return NMCString(value,required)&&[value rangeOfCharacterFromSet:[NSCharacterSet characterSetWithRange:NSMakeRange(0,1)]].location==NSNotFound;}
 static BOOL NMCInteger(id value,uint64_t maximum){
     if(![value isKindOfClass:NSNumber.class]||CFGetTypeID((__bridge CFTypeRef)value)==CFBooleanGetTypeID())return NO;
     NSString *string=[value stringValue];if(!string.length||[string rangeOfCharacterFromSet:[[NSCharacterSet decimalDigitCharacterSet] invertedSet]].location!=NSNotFound)return NO;
@@ -23,7 +24,7 @@ static id NMCSanitize(id value,NSMutableSet *warnings){
     if([value isKindOfClass:NSDictionary.class]){NSMutableDictionary *out=[NSMutableDictionary dictionary];for(NSString *key in value){if([NMCBinaryKeys() containsObject:key]){[warnings addObject:[@"Discarded binary-specific cache: " stringByAppendingString:key]];continue;}out[key]=NMCSanitize(value[key],warnings);}return [out copy];}
     if([value isKindOfClass:NSArray.class]){NSMutableArray *out=[NSMutableArray array];for(id child in value)[out addObject:NMCSanitize(child,warnings)];return [out copy];}return value;
 }
-static BOOL NMCOwner(NSDictionary *record){return NMCString(record[@"assembly"],YES)&&NMCString(record[@"namespace"],NO)&&NMCString(record[@"class"],YES)&&NMCString(record[@"method"],YES)&&NMCInteger(record[@"argumentCount"],NM_RUNTIME_ACTION_MAX_ARGUMENTS)&&NMCBoolean(record[@"signatureAvailable"])&&[record[@"signatureAvailable"] boolValue]&&[record[@"parameterTypeNames"] isKindOfClass:NSArray.class]&&[record[@"parameterTypeNames"] count]==[record[@"argumentCount"] unsignedIntegerValue];}
+static BOOL NMCOwner(NSDictionary *record){return NMCIdentifier(record[@"assembly"],YES)&&NMCIdentifier(record[@"namespace"],NO)&&NMCIdentifier(record[@"class"],YES)&&NMCIdentifier(record[@"method"],YES)&&NMCInteger(record[@"argumentCount"],NM_RUNTIME_ACTION_MAX_ARGUMENTS)&&NMCBoolean(record[@"signatureAvailable"])&&[record[@"signatureAvailable"] boolValue]&&[record[@"parameterTypeNames"] isKindOfClass:NSArray.class]&&[record[@"parameterTypeNames"] count]==[record[@"argumentCount"] unsignedIntegerValue];}
 static NSArray *NMCMethodKey(NSDictionary *record){NSMutableArray *key=[NSMutableArray array];for(NSString *field in @[@"assembly",@"namespace",@"class",@"method"])[key addObject:[record[field] stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceAndNewlineCharacterSet]];NSMutableArray *types=[NSMutableArray array];for(NSString *type in record[@"parameterTypeNames"])[types addObject:[type stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceAndNewlineCharacterSet]];[key addObject:[types copy]];return [key copy];}
 static id NMCFeatureKey(NSDictionary *record){NSData *key=NMCEncode(NMCMethodKey(record),NULL);NSString *identity=[[NSString alloc] initWithData:key encoding:NSUTF8StringEncoding];NSMutableDictionary *result=[NMAuthoringRuntimeFeatureIdentity(record,identity) mutableCopy];result[@"instanceIndex"]=record[@"instanceIndex"]?:@0;return [result copy];}
 static NSArray *NMCHookKey(NSDictionary *record){return @[NMCMethodKey(record),record[@"templateKind"],record[@"argumentIndex"]?:@0,record[@"fieldArgumentIndex"]?:@(UINT64_MAX)];}
@@ -39,12 +40,12 @@ static BOOL NMCControls(NSArray *controls){
 }
 static BOOL NMCChain(NSDictionary *chain){
     if(![chain isKindOfClass:NSDictionary.class])return NO;if(!chain.count)return YES;
-    if(!NMCString(chain[@"class"],YES)||!NMCString(chain[@"method"],YES)||!NMCInteger(chain[@"argumentCount"],NM_RUNTIME_ACTION_MAX_ARGUMENTS))return NO;
+    if(!NMCIdentifier(chain[@"class"],YES)||!NMCIdentifier(chain[@"method"],YES)||!NMCInteger(chain[@"argumentCount"],NM_RUNTIME_ACTION_MAX_ARGUMENTS))return NO;
     if(chain[@"instanceIndex"]&&!NMCInteger(chain[@"instanceIndex"],NM_RUNTIME_INSTANCE_MAX_INDEX))return NO;
     if(chain[@"signatureAvailable"]&&!NMCBoolean(chain[@"signatureAvailable"]))return NO;
     if([chain[@"signatureAvailable"] boolValue]&&![chain[@"parameterTypeNames"] isKindOfClass:NSArray.class])return NO;
-    for(NSString *key in @[@"assembly",@"namespace"])if(chain[key]&&!NMCString(chain[key],NO))return NO;
-    for(NSString *key in @[@"parameterTypeNames",@"argumentValues"]){id values=chain[key];if(values){if(![values isKindOfClass:NSArray.class]||[values count]!=[chain[@"argumentCount"] unsignedIntegerValue])return NO;for(id value in values)if(!NMCString(value,[key isEqual:@"parameterTypeNames"]))return NO;}}
+    for(NSString *key in @[@"assembly",@"namespace"])if(chain[key]&&!NMCIdentifier(chain[key],NO))return NO;
+    for(NSString *key in @[@"parameterTypeNames",@"argumentValues"]){id values=chain[key];if(values){if(![values isKindOfClass:NSArray.class]||[values count]!=[chain[@"argumentCount"] unsignedIntegerValue])return NO;for(id value in values)if([key isEqual:@"parameterTypeNames"]?!NMCIdentifier(value,YES):!NMCString(value,NO))return NO;}}
     return YES;
 }
 static BOOL NMCTemplate(NSDictionary *r){
@@ -52,7 +53,7 @@ static BOOL NMCTemplate(NSDictionary *r){
     NSUInteger argc=[r[@"argumentCount"] unsignedIntegerValue],kind=[r[@"templateKind"] unsignedIntegerValue];
     for(NSString *key in @[@"argumentIndex",@"callbackArgumentIndex",@"fieldArgumentIndex",@"fieldOffset",@"codecGetterArgumentCount",@"codecSetterArgumentCount"])if(r[key]&&!NMCInteger(r[key],UINT64_MAX))return NO;
     for(NSString *key in @[@"codecGetterArgumentCount",@"codecSetterArgumentCount"])if(r[key]&&!NMCInteger(r[key],NM_RUNTIME_ACTION_MAX_ARGUMENTS))return NO;
-    for(NSString *key in @[@"fieldArgumentMode",@"fieldCodec",@"codecAssembly",@"codecNamespace",@"codecClass",@"codecGetterMethod",@"codecSetterMethod"])if(r[key]&&!NMCString(r[key],NO))return NO;
+    for(NSString *key in @[@"fieldArgumentMode",@"fieldCodec",@"codecAssembly",@"codecNamespace",@"codecClass",@"codecGetterMethod",@"codecSetterMethod"])if(r[key]&&!NMCIdentifier(r[key],NO))return NO;
     for(NSString *key in @[@"callbackValue",@"skipOriginal",@"returnBoolValue"])if(r[key]&&!NMCBoolean(r[key]))return NO;
     for(NSString *key in @[@"min",@"max",@"default"]){id value=r[key];if(value&&!NMCSignedInteger(value))return NO;}
     if(r[@"min"]&&r[@"max"]&&[r[@"min"] compare:r[@"max"]]==NSOrderedDescending)return NO;
@@ -84,7 +85,7 @@ static BOOL NMCTemplate(NSDictionary *r){
         NSMutableDictionary *r=[NMCSanitize(input,warnings) mutableCopy];
         if(!r[@"assembly"])r[@"assembly"]=@"Assembly-CSharp.dll";if(!r[@"namespace"])r[@"namespace"]=@"";if(!r[@"title"])r[@"title"]=@"";if(!r[@"description"])r[@"description"]=@"";if(!r[@"group"])r[@"group"]=domain?@"Native Hooks":@"Runtime Methods";
         if(!NMCOwner(r)){if(error)*error=NMCError(5,@"Invalid owner, arity or complete parameter signature");return nil;}
-        for(id type in r[@"parameterTypeNames"])if(!NMCString(type,YES)){if(error)*error=NMCError(5,@"Parameter type must be a nonempty string");return nil;}
+        for(id type in r[@"parameterTypeNames"])if(!NMCIdentifier(type,YES)){if(error)*error=NMCError(5,@"Parameter type must be a nonempty string");return nil;}
         for(NSString *key in @[@"title",@"description",@"group"])if(!NMCString(r[key],NO)){if(error)*error=NMCError(6,@"Invalid display field");return nil;}
         if(!domain){
             if(!r[@"executionKind"])r[@"executionKind"]=@1;if(!r[@"instanceIndex"])r[@"instanceIndex"]=@0;if(!r[@"immediateChain"])r[@"immediateChain"]=@{};

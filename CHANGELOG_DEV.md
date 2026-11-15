@@ -136,3 +136,5 @@
 - Authoring source audit: old preflight precedes non-transactional writes into separate Runtime/Native stores, so later failures can leave partial imports. New offline document validates/freeze-completes both domains before a single revision-CAS commit; target binding remains explicitly unverified. Original feature identity semantics reused; binary caches stripped with warnings, instanceIndex retained in new format and refused for lossy legacy export. Native template shapes/ID collision handling validated without invoking game code. Fixture/CI pending.
 
 - Run43657953374: offline authoring/store ASan fixture and 10000 original feature-identity parity cases passed. Core API10 integration adds document/snapshot/store exports and production ARM64/static-analysis checks. Added exact unsigned sentinel/ID-wrap and optional codec-field/arity validation cases. Runtime target validation and Patch candidate import remain explicitly pending.
+
+- Configuration identity fields reject embedded NUL before any future C Runtime binding can truncate the intended method/type name. Added a JSON roundtrip negative case; display and argument string values remain unchanged.
