@@ -156,3 +156,5 @@
 - 5a60d0d首轮API12五job通过；d851ea15新增真实parser的cryptid/section边界用例，Run43678664102五job再次通过。ASan/UBSan、16384组原映射对照/溢出复现、实际ARM64布局输入通过；14份core及3份Probe分析零诊断。Core Artifact14147113395已下载核对ZIP/dylib哈希、39项导出和Mach-O。状态与交接同步；未实际写入Patch、未实机验证、无阶段dylib交付。
 
 - API13源码：不可变Static definition/physical plan，单图像快照/hash，原字节和instruction section验证、同址最大窗口/尾部补齐/variant去重、不同起点冲突及单次direct branch扫描。layout扩展instruction区域避免第二个parser，补section VM/file一致性检查。Linux portable/C地址测试通过；Foundation与ARM64等待CI，不执行文件写入。
+
+- Run43679881569：API13 Probe ARM64编译/分析通过；Foundation计划fixture编译被assert宏中的Objective-C数组字面量逗号阻断。生产代码未放宽检查，测试改用函数封装断言，保留全部用例后重跑。
