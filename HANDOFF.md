@@ -6,7 +6,18 @@
 源仓库 https://github.com/a7987083/mymenu 只读，未修改远程或历史。
 固定候选 `feat/method-finder-p5-detail-copy@7066edeaf9e47580c89440be670c517280534b69`；main7216b55，customer92d675e。所有远程分支SHA与源文件hash在docs/audit/source-inventory.json。
 
-## 当前最新：ABI独立组件 API8
+## 当前最新：API9 SwizzleManager组件
+
+已验证代码 `72189bd714a20c7fe5cfd43b9cd8cd89a4b05b5f`，Run [43656577480](https://github.com/a7987083/newmymenu/actions/runs/43656577480)五job通过。Core Artifact14138715984；SHA256 `d71cbbf88421663ebf8717aa67eb7d52687a7fa81909534c0913b189f3e227b1`。下载ZIP/hash/Mach-O/29导出与11份core分析报告已复核；报告docs/builds/swizzle-72189bd7.json。文档HEAD前进不表示重编译，二进制来源保持上述代码提交。无中间dylib交付。
+
+- 核心位置：include/NMSwizzleManager.h、src/Swizzle/NMSwizzleManager.m；设计0010，契约与限制见docs/SWIZZLE_MANAGER.md。sharedManager是唯一registry owner，目标Class/metaclass+SEL唯一，保留精确原IMP与实际replacement Method签名，不做通用IMP调用/参数封送。
+- 所有调用与竞争writer必须参与同一合作域；performInvocation持读scope，安装/恢复try-write，活动或重入直接拒绝。未知外部dylib不受此锁约束，不提供跨第三方CAS保证。原SharedSite诊断没有自动接入，不能盲填coordinated=YES。
+- 继承默认拒绝；显式LocalSnapshot不污染父类，但恢复后本地方法槽仍在。父IMP变化拒绝恢复。输入仅普通Class，禁止误传metaclass造成二次转换；block或无可持有代码镜像的IMP拒绝。
+- token持有两Class/两IMP代码镜像，失败候选与恢复token释放在独占scope退出后。state/原IMP/日志有明确owner，没有隐藏UI全局状态。非变参声明是前提，Runtime type encoding不证明未知ellipsis ABI。
+- `make test-swizzle`实际macOS ObjC Runtime/ASan：instance/class、NSInteger/double/结构体返回、原IMP/_cmd、签名/重复/foreign/parent冲突、继承、对象释放、活动线程/重入拒绝、恰好1000次已完成调用、128/129容量及清理、异常scope恢复全部通过。正式ARM64编译/静态分析、既有回归及独立签名测试通过。
+- iOS设备、外部真实诊断与完整开发端仍未验证。游戏ABI按用户要求暂缓；继续配置/Static Build/UI等独立功能，不再因此停工。
+
+## ABI独立组件 API8（历史）
 
 已验证代码`1aab363abda06d2d3de61dbf3fd468d258b69bf8`，Run [43654350053](https://github.com/a7987083/newmymenu/actions/runs/43654350053)五job通过。Core Artifact14137721557；SHA256 `49dc035cf803b25e050e15cb014cfa8375a19ec54fe587c0a756c21bec7f8f08`。下载ZIP/hash/Mach-O/10份core分析报告已复核。报告docs/builds/abi-independent-1aab363a.json；历史d21ab48记录保留。集成清理仅移除已由生产core承担的重复signer对象/分析步骤，必要检查全部保留。
 

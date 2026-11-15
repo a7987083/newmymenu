@@ -130,3 +130,5 @@
 - Pre-install target validation now rejects non-Class and already-metaclass inputs before object_getClass conversion, avoiding accidental double-metaclass targeting. Added a real Runtime negative case; no mutation occurs. Variadic methods explicitly remain outside the supported declaration contract because Runtime encodings do not prove ellipsis ABI.
 
 - Run43656315886: API9 full suite passed, including exact 1000 completed calls, 128/129 capacity boundary, cleanup and metaclass-input refusal. Build verifier scope text now describes a modular foundation library rather than obsolete no-Hook/no-Build wording, keeping evidence accurate as ObjC lifecycle/Manifest/signing components are added; no production binary behavior changed.
+
+- 72189bd7 / Run43656577480最终五job通过：API9 core/Probe ARM64构建，29/30导出及依赖/签名验证通过；11份core+3份UI/state/presentation分析零诊断。真实ObjC Runtime/ASan的原IMP/签名/继承/并发/对象/冲突/容量回归及旧测试、独立codesign继续通过。Core Artifact14138715984已下载核对ZIP/dylib SHA与Mach-O。未验证外部宿主/设备，不分发阶段dylib。
