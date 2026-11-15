@@ -10,7 +10,7 @@ extern "C" {
 typedef struct { uint64_t rva,fileoff,length; } NMMachOInstructionRegion;
 // Value snapshot: no pointers into the input, no process/runtime addresses.
 typedef struct { uint64_t vmaddr,vmsize,fileoff,filesize; uint32_t protection; char name[17]; } NMMachOSegment;
-typedef struct { uint64_t imageBase,fileSize,commandEnd; size_t count; NMMachOSegment segments[NM_MACHO_MAX_SEGMENTS]; size_t instructionCount; NMMachOInstructionRegion instructions[NM_MACHO_MAX_INSTRUCTION_RANGES]; } NMMachOLayout;
+typedef struct { uint64_t imageBase,fileSize,commandEnd,firstFileSectionOffset; size_t count; NMMachOSegment segments[NM_MACHO_MAX_SEGMENTS]; size_t instructionCount; NMMachOInstructionRegion instructions[NM_MACHO_MAX_INSTRUCTION_RANGES]; } NMMachOLayout;
 typedef enum { NMMachOAddressRVA=1,NMMachOAddressPreferredVA=2,NMMachOAddressFileOffset=3 } NMMachOAddressKind;
 // Failure leaves output unchanged. Only thin little-endian ARM64 executable/dylib/bundle.
 __attribute__((visibility("default"))) bool NMMachOReadLayout(const void *bytes,size_t length,NMMachOLayout *output);

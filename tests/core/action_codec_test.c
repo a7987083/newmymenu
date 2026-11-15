@@ -4,7 +4,7 @@
 #include <limits.h>
 #include <stdio.h>
 int main(void) {
-    assert(NewMyMenuCoreGetAPIVersion()==14);
+    assert(NewMyMenuCoreGetAPIVersion()==15);
     const uint32_t seeds[]={0u,0xffffffffu,0x5aa55aa5u,0xa55aa55au};
     for(size_t s=0;s<sizeof(seeds)/sizeof(seeds[0]);s++)for(uint32_t i=0;i<=128;i++) {
         uint32_t encoded=0,decoded=UINT_MAX;

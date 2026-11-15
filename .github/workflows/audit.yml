@@ -141,7 +141,7 @@ jobs:
           make test-configuration
           make test-patch-import
           make test-macho-address
-          make test-static-code
+          make test-static-plan
           make test-arm64-relocation
           make test-relocation-parity SOURCE_BASELINE=.audit-source
           make test-static-variant-parity SOURCE_BASELINE=.audit-source
@@ -168,6 +168,9 @@ jobs:
           xcrun clang --analyze -std=c11 -Wall -Wextra -Werror -Iinclude src/Build/NMMachOAddress.c -o build/core/NMMachOAddress-analysis.plist
           xcrun clang++ --analyze -std=c++17 -fobjc-arc -fblocks -Wall -Wextra -Werror -Iinclude src/MethodFinder/NMMethodTranslator.mm -o build/core/NMMethodTranslator-analysis.plist
           xcrun clang++ --analyze -std=c++17 -fobjc-arc -fblocks -Wall -Wextra -Werror -Iinclude src/Build/NMMachOSigner.mm -o build/core/NMMachOSigner-analysis.plist
+          for source in src/Build/NMStaticCodePayload.mm src/Build/NMChainedFixupsPrivate.mm src/Build/NMStaticBinaryImage.mm; do
+            xcrun clang++ --analyze -std=c++17 -fobjc-arc -fblocks -Wall -Wextra -Werror -Iinclude -Isrc/Build "$source" -o "build/core/$(basename "$source" .mm)-analysis.plist"
+          done
           for source in src/Execution/NMReceiverLease.m src/Execution/NMInvocationCoordinator.m src/NativeHook/NMCaptureSession.m src/RuntimeDiscovery/NMIL2CPPDiscovery.m src/MethodFinder/NMNamedExpression.m src/Build/NMBuildManifest.m src/Swizzle/NMSwizzleManager.m src/Configuration/NMConfiguration.m src/Configuration/NMPatchImport.m src/Build/NMStaticPatchPlan.m; do
             xcrun clang --analyze -std=c11 -fobjc-arc -fblocks -Wall -Wextra -Werror -Iinclude "$source" -o "build/core/$(basename "$source" .m)-analysis.plist"
           done
@@ -180,6 +183,7 @@ jobs:
         run: |
           set -euo pipefail
           make test-signer
+          make test-static-image
           build/tests/macho-address build/core/NewMyMenuCore.dylib
           build/tests/static-plan build/core/NewMyMenuCore.dylib
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
@@ -189,6 +193,7 @@ jobs:
           path: |
             build/core/
             build/signer-fixture/
+            build/static-image-fixture/
           if-no-files-found: error
 
   device-probe:

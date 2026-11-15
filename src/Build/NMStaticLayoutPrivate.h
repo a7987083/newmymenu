@@ -60,13 +60,3 @@ static inline void NMLayoutShuffleU32(uint32_t *values, size_t count, uint64_t s
     }
 }
 
-static inline int NMLayoutIsPermutationU32(const uint32_t *values, size_t count) {
-    if (!values && count) return 0;
-    for (size_t i = 0; i < count; ++i) {
-        if ((size_t)values[i] >= count) return 0;
-        for (size_t j = i + 1; j < count; ++j) {
-            if (values[i] == values[j]) return 0;
-        }
-    }
-    return 1;
-}

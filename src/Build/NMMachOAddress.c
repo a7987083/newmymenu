@@ -29,7 +29,7 @@ bool NMMachOReadLayout(const void *bytes,size_t length,NMMachOLayout *output){
  if(!bytes||!output||length<32)return false;
  const unsigned char *p=bytes;uint32_t type=u32(p+12),commands=u32(p+16),commandSize=u32(p+20);
  if(u32(p)!=0xfeedfacf||u32(p+4)!=0x100000c||(type!=2&&type!=6&&type!=8)||commands>4096||commandSize>16*1024*1024||!bounded(32,commandSize,length))return false;
- NMMachOLayout l={0};l.fileSize=length;l.commandEnd=32+(uint64_t)commandSize;uint64_t at=32;
+ NMMachOLayout l={0};l.firstFileSectionOffset=UINT64_MAX;l.fileSize=length;l.commandEnd=32+(uint64_t)commandSize;uint64_t at=32;
  for(uint32_t i=0;i<commands;i++){
   if(!bounded(at,8,l.commandEnd))return false;
   const unsigned char *c=p+at;uint32_t cmd=u32(c),size=u32(c+4);
@@ -43,6 +43,7 @@ bool NMMachOReadLayout(const void *bytes,size_t length,NMMachOLayout *output){
    for(uint32_t j=0;j<sections;j++){const unsigned char *sec=c+72+(uint64_t)j*80;uint64_t va=u64(sec+32),n=u64(sec+40);uint32_t off=u32(sec+48),kind=u32(sec+64)&255;
     if(va<s->vmaddr||!bounded(va-s->vmaddr,n,s->vmsize))return false;
     if(kind!=1&&kind!=12&&kind!=18&&n){if(off<s->fileoff||!bounded(off-s->fileoff,n,s->filesize)||!bounded(off,n,length)||off-s->fileoff!=va-s->vmaddr)return false;
+     if(off<l.firstFileSectionOffset)l.firstFileSectionOffset=off;
      if((s->protection&4)&&(u32(sec+64)&0x80000400u)){
       if(l.instructionCount==NM_MACHO_MAX_INSTRUCTION_RANGES)return false;
       NMMachOInstructionRegion *r=l.instructions+l.instructionCount++;r->rva=va;r->fileoff=off;r->length=n;

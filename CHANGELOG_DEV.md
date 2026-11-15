@@ -168,3 +168,5 @@
 - Run43681820540：ARM64 relocation API14五job通过；23997独立解码目标检查、24000原函数对照、旧负数左移UBSan子进程复现通过。后续加入ADRP encoder和fixture-only StaticCodePayload，复用原布局/格式/fragment/thunk，等待真实ARM64生成代码执行验证；尚未接生产Payload或文件写入。
 
 - Run43682252594：payload测试编译缺少C++ initializer_list头；补显式include，不依赖其他头的偶然包含关系，保留真实执行用例重跑。
+
+- Run43682380848五job通过：真实macOS ARM64生成Dispatch/fragment实际执行OFF=7、shared ON=42/99，1000次切换/恢复和W^X页面通过。继续生产接入Payload与owned-segment图像；审计Apple dyld后补chained starts重建和load-command显式校验，新增真实iOS ARM64输入→签名→dyld_info独立验证，结果待CI。尚未交付或宣称实机。
