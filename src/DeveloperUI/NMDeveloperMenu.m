@@ -102,7 +102,7 @@ static CGFloat NMClamp(CGFloat x,CGFloat low,CGFloat high){return MAX(low,MIN(MA
 - (void)dragFloating:(UIPanGestureRecognizer *)gesture {CGPoint t=[gesture translationInView:self];_floatCenter.x+=t.x;_floatCenter.y+=t.y;[gesture setTranslation:CGPointZero inView:self];[self setNeedsLayout];}
 - (void)keyboard:(NSNotification *)note {
     if([note.name isEqual:UIKeyboardWillHideNotification])_keyboardTop=0;
-    else if(_query.isFirstResponder||_configEditor.isFirstResponder||_patchEditor.isFirstResponder){CGRect frame=[note.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];_keyboardTop=[self convertRect:frame fromCoordinateSpace:self.window.screen.coordinateSpace].origin.y;}
+    else if(_query.isFirstResponder||_configEditor.isFirstResponder||_patchEditor.isFirstResponder||_staticPage.editingValue){CGRect frame=[note.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];_keyboardTop=[self convertRect:frame fromCoordinateSpace:self.window.screen.coordinateSpace].origin.y;}
     [self setNeedsLayout];
 }
 - (BOOL)textFieldShouldReturn:(UITextField *)field {(void)field;[self search:nil];return YES;}

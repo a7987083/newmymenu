@@ -33,6 +33,7 @@ plistlib.dump({'CFBundleIdentifier':'io.newmymenu.UIFixture','CFBundleExecutable
 PY
 xcrun clang "${FLAGS[@]}" -dynamiclib -Wl,-headerpad,0x2000 -install_name @rpath/NMSimulatorStaticSource.dylib tests/core/static_fixture_library.c -o "$APP/NMSimulatorStaticSource.dylib"
 codesign --force --sign - --timestamp=none "$APP/NMSimulatorStaticSource.dylib"
+python3 tools/fixture_symbols.py "$APP/NMSimulatorStaticSource.dylib" "$APP/FixtureSymbols.json"
 cp build/core/NewMyMenuCore.dylib "$APP/StaticFixture.bin"
 codesign --force --sign - --timestamp=none "$APP"
 DEVICE=$(xcrun simctl create NewMyMenu-UI-Fixture com.apple.CoreSimulator.SimDeviceType.iPhone-16 "$RUNTIME")

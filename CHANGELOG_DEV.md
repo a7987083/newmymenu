@@ -192,3 +192,4 @@
 - API19候选：新增进程级NMStaticRuntime及真实ARM64加载fixture，统一prepared Static镜像pin、按物理站点owner-stack、CAS冲突拒绝与typed RW cell更新；值范围转换单一C实现，Slider工厂拒绝非法最大值。Linux portable和普通C值测试通过；本机LSan受ptrace阻断，macOS ASan/UBSan及iOS构建等待CI，不计入已通过。
 - Run43768726795首错：iOS18.5公开SDK明确拒绝mach_vm.h。改用现有公开vm_read_overwrite/vm_region_64及对应vm类型，保留内存读取/写权限检查；同步加强源branch、owned RX字节及dispatch模板校验，接入独立Static功能页。等待重跑，不放宽SDK或检查。
 - Run43769003422真实ARM64 fixture首错为测试调用NMMachOResolveRange时传NULL输出；该既有API要求两个独立输出。修正fixture及新Runtime校验调用，保持API拒绝规则。新增Simulator实际加载预埋库、UI开关/精确U64输入/恢复断言；补同组共享站点有效状态与整数Slider取整。等待重跑。
+- Run43769306253：prepared绑定报Image is not loaded。fixture此前预加载原库以求符号，再加载相同install-name/UUID的预埋副本；不放宽运行时路径身份检查。改为构建时从真实nm符号生成fixture JSON，避免原库先进入dyld；是否解决绑定问题以重跑为准。另补Static键盘高度、逐卡反馈和只读范围检查。

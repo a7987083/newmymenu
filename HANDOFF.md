@@ -1,3 +1,20 @@
+# 当前接手入口：API19 prepared Static Runtime
+
+当前精确HEAD执行`git rev-parse HEAD`。截至93916b56，新增代码尚在CI，不能计为最终已验证版。上次五Job全通过为17878f28，Run43689802080。
+
+新增实现：include/NMStaticRuntime.h、src/Build/NMStaticRuntime.mm，契约和边界见docs/STATIC_RUNTIME.md。独立Static控件Renderer为src/DeveloperUI/NMStaticControlsView.m，主菜单现有查找/配置/构建/功能/状态五页。
+
+验证命令：`make test-static-image`后`make test-static-runtime`；macOS ARM64实际动态加载fixture覆盖owner栈、U64/F32/F64、Slider、元数据/外部冲突及并发。`scripts/test_ui_simulator.sh`新增真正Simulator平台dylib预埋/签名/加载和UI控制断言。原Core平台iOS镜像仍只作为离线构建输入，不加载进Simulator。
+
+失败记录：Run43768726795 iOS SDK拒绝mach_vm.h，改用公开vm_read_overwrite/vm_region_64；Run43769003422 fixture传NULL给要求双输出的NMMachOResolveRange，修正调用，未放宽API检查。最新CI需重新查Actions。Linux17项Python+codec通过；本机LSan受ptrace阻断，普通数值C测试通过，不能声称本机ASan完整通过。
+
+本地环境已恢复；HTTPS git push没有凭据，使用GitHub连接器create_tree/create_commit/update_ref(expected_sha)发布，然后git fetch/rebase同步；勿在源码或日志写token。原mymenu仍只读。
+
+下一任务：先处理CI首错至ARM64与Simulator真正通过；检查截图、整合文档/回归矩阵，做最终技术债复审。游戏ABI执行适配继续暂缓；设备未验证。用户要求不发中间dylib，只交最终整合候选，不能把CI成功当实机成功。
+
+---
+以下为之前的交接基线，冲突时以上述新入口和真实Git/CI为准。
+
 # newmymenu 当前交接
 
 当前以 `git rev-parse HEAD` 或 GitHub main ref 为准，文档提交不是二进制 source_head。原 a7987083/mymenu 仅只读，固定基线 `7066edeaf9e47580c89440be670c517280534b69`；分支和审计证据见 docs/audit。

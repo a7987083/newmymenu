@@ -9,3 +9,7 @@
 数字输入按C locale解析，整数保持精确U64位型；只有显示和Slider范围判断使用double。更新仅对齐RW值单元/目标指针，不写RX页。恢复原始行为不擦除用户上次输入；再次开启沿用当前值。
 
 验证：make test-static-image 后 make test-static-runtime。fixture真实编译、预埋、签名、dlopen、符号调用，检查owner恢复、U64最大值、浮点、Slider、第三方冲突、元数据变更、并发调用。CI未完成前不得标记通过。iOS设备与最终UI未验证。
+
+UI：DeveloperUI/NMStaticControlsView为单一Renderer，使用Runtime快照展示所有者/实际生效/外部冲突；输入与应用在同一卡片，结果反馈按功能ID保留。整数Slider取整，焦点通知交由overlay统一处理键盘可用高度。UI无第二套执行状态。
+
+RW指针CAS避免撕裂和覆盖已观察到的外部变化；生成的普通LDR读路径不提供跨多个站点/值的线性一致性，不能用同一条UI成功提示推导所有并发读者在同一时刻切换。所有可达代码保持pin且不可变，恢复不回收代码。

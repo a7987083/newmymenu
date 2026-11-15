@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "phase": "numeric_static_ci_fixes_remote_execution",
+  "phase": "prepared_static_runtime_ci",
   "branch": "main",
   "head_reference": "git rev-parse HEAD; CI github.sha",
   "source_head": "7066edeaf9e47580c89440be670c517280534b69",
@@ -477,5 +477,30 @@
       "simctl screenshot took about 23 seconds while fixture acknowledgement budget was 15 seconds"
     ],
     "game_abi_required": false
+  },
+  "current_work": {
+    "code_head": "93916b565388715a47a8fdd40a9abdf26f0e70e4",
+    "runtime": "process-pinned prepared image owner-stack and typed cells; CI pending",
+    "ui": "five pages including loaded Static controls; Simulator dynamic fixture pending",
+    "last_complete_ci": 43689802080,
+    "last_complete_code": "17878f283a1681d442c791391b735145c497cb72",
+    "failures": [
+      {
+        "run": 43768726795,
+        "cause": "iOS public SDK rejects mach_vm.h",
+        "fixed_in": "7c9da67dea2a2a189058c7bb6a5de73b1b606238"
+      },
+      {
+        "run": 43769003422,
+        "cause": "new range-conversion callers passed null required output",
+        "fixed_in": "93916b565388715a47a8fdd40a9abdf26f0e70e4"
+      }
+    ],
+    "device_verified": false,
+    "game_abi_deferred": true
+  },
+  "execution_environment": {
+    "local_linux": "available again; git HTTPS push credential absent; connector commits with expected-head lease",
+    "macos_ios": "GitHub Actions pinned Xcode16.4 / SDK18.5"
   }
 }
