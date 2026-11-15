@@ -31,6 +31,8 @@ python3 - <<'PY'
 import plistlib
 plistlib.dump({'CFBundleIdentifier':'io.newmymenu.UIFixture','CFBundleExecutable':'NewMyMenuUIFixture','CFBundleName':'NewMyMenuUIFixture','CFBundlePackageType':'APPL','CFBundleVersion':'1','CFBundleShortVersionString':'1.0','MinimumOSVersion':'14.0','UIDeviceFamily':[1,2],'UILaunchScreen':{},'UISupportedInterfaceOrientations':['UIInterfaceOrientationPortrait','UIInterfaceOrientationLandscapeLeft','UIInterfaceOrientationLandscapeRight']},open('build/ui-simulator/NewMyMenuUIFixture.app/Info.plist','wb'))
 PY
+xcrun clang "${FLAGS[@]}" -dynamiclib -Wl,-headerpad,0x2000 -install_name @rpath/NMSimulatorStaticSource.dylib tests/core/static_fixture_library.c -o "$APP/NMSimulatorStaticSource.dylib"
+codesign --force --sign - --timestamp=none "$APP/NMSimulatorStaticSource.dylib"
 cp build/core/NewMyMenuCore.dylib "$APP/StaticFixture.bin"
 codesign --force --sign - --timestamp=none "$APP"
 DEVICE=$(xcrun simctl create NewMyMenu-UI-Fixture com.apple.CoreSimulator.SimDeviceType.iPhone-16 "$RUNTIME")
