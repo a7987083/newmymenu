@@ -26,7 +26,7 @@ struct ImageRegistry {std::mutex lock;std::vector<ImageRecord> records;bool over
 static std::atomic<ImageRegistry *> registeredRegistry(nullptr);
 static void imageAdded(const struct mach_header *header,intptr_t slide){(void)slide;ImageRegistry *r=registeredRegistry.load();if(!r)return;Dl_info info={};if(!dladdr(header,&info)||!info.dli_fname||strnlen(info.dli_fname,4097)>4096)return;std::lock_guard<std::mutex> guard(r->lock);for(const auto &old:r->records)if(old.header==header)return;if(r->records.size()>=4096){r->overflow=true;return;}r->records.push_back({header,info.dli_fname});}
 static void imageRemoved(const struct mach_header *header,intptr_t slide){(void)slide;ImageRegistry *r=registeredRegistry.load();if(!r)return;std::lock_guard<std::mutex> guard(r->lock);for(auto it=r->records.begin();it!=r->records.end();++it)if(it->header==header){r->records.erase(it);break;}}
-static NSString *canonicalPath(NSString *path){return path.stringByStandardizingPath.stringByResolvingSymlinksInPath;}
+static NSString *canonicalPath(NSString *path){if(!path.isAbsolutePath)path=[NSFileManager.defaultManager.currentDirectoryPath stringByAppendingPathComponent:path];return path.stringByStandardizingPath.stringByResolvingSymlinksInPath;}
 static BOOL integer(id x,NSUInteger max){return [x isKindOfClass:NSNumber.class]&&strcmp([x objCType],@encode(BOOL))&&[x doubleValue]>=0&&[x doubleValue]<=max&&[x doubleValue]==floor([x doubleValue]);}
 static BOOL validText(id x){return [x isKindOfClass:NSString.class]&&[x length]&&[x length]<=1024;}
 static BOOL numeric(uint32_t control){return control==NMStaticControlSlider||control==NMStaticControlNumber;}
