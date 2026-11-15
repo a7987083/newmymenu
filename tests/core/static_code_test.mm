@@ -4,6 +4,7 @@
 #error This fixture must execute on a native ARM64 host
 #endif
 #include <cassert>
+#include <initializer_list>
 #include <cstdio>
 #include <cstring>
 #include <sys/mman.h>

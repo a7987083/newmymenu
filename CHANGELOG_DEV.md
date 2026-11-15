@@ -166,3 +166,5 @@
 - ARM64 relocation源码迁移：原字段/范围/terminal算法保留，有界unsigned运算取代负数左移/有符号地址差；PreferredVA用于ADRP，BC.cond明确拒绝。StaticPlan直接branch解码归入同一模块，删除重复实现。Linux普通C的23997个目标保真/边界用例通过；原函数对照、UBSan旧缺陷复现和ARM64构建待CI。
 
 - Run43681820540：ARM64 relocation API14五job通过；23997独立解码目标检查、24000原函数对照、旧负数左移UBSan子进程复现通过。后续加入ADRP encoder和fixture-only StaticCodePayload，复用原布局/格式/fragment/thunk，等待真实ARM64生成代码执行验证；尚未接生产Payload或文件写入。
+
+- Run43682252594：payload测试编译缺少C++ initializer_list头；补显式include，不依赖其他头的偶然包含关系，保留真实执行用例重跑。
