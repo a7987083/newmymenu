@@ -13,3 +13,5 @@
 - 本机Linux没有Apple SDK；macOS/iOS构建由固定GitHub CI执行。本机LSan受ptrace阻断，普通C测试与macOS sanitizer结果分开记录。
 
 原源码缺陷的复现/处置仍保留在docs/audit/FINDINGS、INVOKE_OWNERSHIP、CAPTURE_LIFECYCLE和BUILD_BOUNDARIES中。原仓库未修改，旧M47和Capture问题不能以新基础组件通过宣称原生产实现已修复。
+
+- Static功能说明尚未贯穿迁移：原ZNFeatureSnapshotProvider.mm:114保留description，ZNStaticBinaryBuilderV3.mm:1071写FeatureDescription；当前Patch候选/definition只保留title/group，description表为空。属于ABI独立的保留功能缺口，需补模型→导入导出→Manifest/表→卡片链及回归后才能宣称最终整合。

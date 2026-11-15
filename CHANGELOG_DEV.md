@@ -199,3 +199,5 @@
 - Run43770082803 Developer已编译/分析通过，Simulator配置/构建/键盘截图完成但预埋库阶段退出，launch.log仅PID，无首错证据；新增fixture阶段文件、仅本fixture的ips收集与有界系统日志，不移除动态执行测试。修正上一CI配置编辑重复timeout-minutes键，保持既有20分钟上限。
 - 新代码复审：UI分析仍硬编码旧三文件，改为消费唯一NM_UI_SOURCES清单覆盖新Static Renderer。row执行回调先持有局部copy，防止同步render替换/释放正在执行的block；触发入口统一到submitEnabled:value:。该生命周期防护是否对应Simulator退出仍待阶段/ips证据，不提前归因。
 - Runtime schema复审：用CFBoolean类型身份拒绝布尔型整数元数据，沿用现有Configuration/Manifest规则，不依赖NSNumber.objCType与BOOL编码是否相同。ARM64 fixture直接编译一次实际Runtime实现，增加bool/分数/负索引拒绝，以及I32/U32/I64边界、NUL输入和失败不改输出检查；不新增生产测试API或复制解析算法。
+- Run43771008979与43771267000分别在simctl list(90s)/install(90s)超时，均未抵达新增动态执行；冷启动I/O预算调整为list180s/install240s，仍保持boot240s/launch360s和Job20min总上限，业务断言等待不变。安装前增加完整app深度签名验证，不跳过Simulator。
+- 源码复审发现Static功能说明缺口：原SnapshotProvider:114/V3Builder:1071存在，当前候选/definition未携带。已记录KNOWN_ISSUES/ROADMAP，未声称功能对等。

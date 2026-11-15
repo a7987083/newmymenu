@@ -36,6 +36,7 @@ codesign --force --sign - --timestamp=none "$APP/NMSimulatorStaticSource.dylib"
 python3 tools/fixture_symbols.py "$APP/NMSimulatorStaticSource.dylib" "$APP/FixtureSymbols.json"
 cp build/core/NewMyMenuCore.dylib "$APP/StaticFixture.bin"
 codesign --force --sign - --timestamp=none "$APP"
+codesign --verify --deep --strict --verbose=4 "$APP" > build/developer-menu/ui-fixture/app-signature.txt 2>&1
 DEVICE=$(python3 tools/run_simctl.py create NewMyMenu-UI-Fixture com.apple.CoreSimulator.SimDeviceType.iPhone-16 "$RUNTIME")
 CONTAINER=""
 cleanup_ui(){

@@ -5,7 +5,8 @@ import sys
 command = sys.argv[1:]
 if not command:
     raise SystemExit('simctl command required')
-timeout = 360 if command[0] == 'launch' else 240 if command[0] == 'bootstatus' else 90
+# Cold hosted-runner installation exceeded 90s; keep I/O separate from app assertions.
+timeout = 360 if command[0] == 'launch' else 240 if command[0] in ('bootstatus', 'install') else 180 if command[0] == 'list' else 90
 try:
     result = subprocess.run(['xcrun', 'simctl', *command], timeout=timeout)
 except subprocess.TimeoutExpired:
