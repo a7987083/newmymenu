@@ -193,7 +193,6 @@ jobs:
           if-no-files-found: error
 
   developer-menu:
-    timeout-minutes: 20
     runs-on: macos-15
     timeout-minutes: 20
     env:

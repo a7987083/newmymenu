@@ -41,7 +41,11 @@ CONTAINER=""
 cleanup_ui(){
   status=$?
   if [[ -n "$CONTAINER" && -d "$CONTAINER/Documents/ui-fixture" ]]; then cp "$CONTAINER/Documents/ui-fixture/"* build/developer-menu/ui-fixture/ 2>/dev/null || true;fi
-  if [[ "$status" != 0 ]]; then python3 tools/capture_simulator.py "$DEVICE" build/developer-menu/ui-fixture/failure.png >/dev/null 2>&1 || true;fi
+  if [[ "$status" != 0 ]]; then
+    python3 tools/run_simctl.py spawn "$DEVICE" log show --last 3m --style compact --predicate 'process == "NewMyMenuUIFixture"' > build/developer-menu/ui-fixture/app-system.log 2>&1 || true
+    python3 tools/collect_simulator_crashes.py "$DEVICE" build/developer-menu/ui-fixture/incidents || true
+    python3 tools/capture_simulator.py "$DEVICE" build/developer-menu/ui-fixture/failure.png >/dev/null 2>&1 || true
+  fi
   python3 tools/run_simctl.py shutdown "$DEVICE" >/dev/null 2>&1 || true
   python3 tools/run_simctl.py delete "$DEVICE" >/dev/null 2>&1 || true
   trap - EXIT
