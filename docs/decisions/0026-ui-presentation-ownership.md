@@ -1,0 +1,5 @@
+# 系统模态与文件选择的操作所有权
+
+唯一presentOwnedController入口拒绝重复/过渡中呈现，缺宿主控制器明确失败，不替换游戏root。Picker mode由weak-key NSMapTable绑定实际controller，成功选择/取消消费一次，过期回调不能改变当前数据；新二进制选择后清旧输入，取消读取不能退回旧文件生成。
+
+前台operationGeneration在切页/编辑/应用时使过期导入失效；Finder仍拥有自己的generation，配置仍拥有revision。UIKit fixture验证重复详情呈现保留原owner、重复Picker回调被拒绝且二进制不变。实机文件提供者/多窗口仍待验。
