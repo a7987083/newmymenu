@@ -2,7 +2,7 @@
 
 独立 iOS ARM64 开发端重构工程。原仓库 `a7987083/mymenu` 保持只读；固定审计基线为 `feat/method-finder-p5-detail-copy@7066edeaf9e47580c89440be670c517280534b69`，其他分支与关键差异见源码库存。
 
-目前已有独立源码、构建、测试、Actions和自包含开发端 dylib。**完整项目尚未验收，游戏ABI执行适配按用户要求暂缓，iOS实机未验证。** 当前API19新增加载后Static控制仍以最新CI结果为准，不能用旧构建证明新代码通过。
+目前已有独立源码、构建、测试、Actions和自包含开发端 dylib。**完整项目尚未验收，游戏ABI执行适配按用户要求暂缓，iOS实机未验证。** API21源码 `e797351d23fd9166f6653255c7d615fbfdbf7c31` 已通过[五个CI Job](https://github.com/a7987083/newmymenu/actions/runs/43779727851)；Static原生与Simulator实际加载/控制已验证，设备仍未验证。
 
 开发端包含查找、配置、构建、功能、状态五页。Finder使用同一不可变快照计数与渲染，支持类/方法/限定表达式、翻译和原字段复制；配置离线校验/导入导出/保存；Static构建冻结输入并校验地址、原字节与重叠，写新文件、生成owned RX/RW段并签名；功能页只操作已加载预埋Static，不调用游戏Runtime或Native ABI。
 
@@ -21,4 +21,4 @@ make developer-menu
 
 产物分别是`build/core/NewMyMenuCore.dylib`和`build/developer-menu/NewMyMenuDeveloper.dylib`。开发端自包含，只注入后者，不需要再注入Core。完整CI命令见`.github/workflows/audit.yml`；macOS真实Objective-C Runtime与ARM64原生fixture、iOS18.5 Simulator各自记录，均不能替代实机验证。签名为ad-hoc，不是完整IPA身份/权限签名。
 
-历史DeviceProbe、审计fixture和Foundation-only artifact均不是最终开发端交付。最终候选需通过适用回归、二进制与源码来源校验后再发布；不分发阶段dylib。
+历史DeviceProbe、审计fixture和Foundation-only artifact均不是最终开发端交付。当前整合候选已完成适用CI与下载哈希核对；交付来源见HANDOFF.md，实机验收见docs/DEVICE_ACCEPTANCE.md。

@@ -1,0 +1,908 @@
+{
+  "source_head": "e797351d23fd9166f6653255c7d615fbfdbf7c31",
+  "full_original_parity": false,
+  "historical_inventory": "features.json is frozen audit-time evidence",
+  "features": [
+    {
+      "index": 0,
+      "name": "Class 搜索",
+      "original": {
+        "file": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+        "line": 12175,
+        "anchor": "- (void)znm54_submitSearch:",
+        "call_chain": "输入→HybridFinder zn64_searchClasses→ClassResults→最终 Renderer",
+        "behavior": "源码所示路径，运行行为未验证"
+      },
+      "new_behavior": "只读发现/单快照Finder及详情已实现",
+      "entry_and_flow": "src/RuntimeDiscovery/NMIL2CPPDiscovery.m → src/MethodFinder/NMFinderSession.m → src/DeveloperUI/NMDeveloperMenu.m",
+      "validation": "test-discovery/test-finder/test-presentation/test-parser；Simulator Finder卡片/详情/滚动",
+      "differences_and_limits": "游戏Runtime导出适配与真实复制点击未实机验证",
+      "device_verified": false,
+      "target_game_verified": false
+    },
+    {
+      "index": 1,
+      "name": "Method 搜索",
+      "original": {
+        "file": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+        "line": 12176,
+        "anchor": "- (void)znm54_dispatchMethodSearch:",
+        "call_chain": "submit→znm442_submitSearch→V3/HybridFinder→candidates",
+        "behavior": "源码所示路径，运行行为未验证"
+      },
+      "new_behavior": "只读发现/单快照Finder及详情已实现",
+      "entry_and_flow": "src/RuntimeDiscovery/NMIL2CPPDiscovery.m → src/MethodFinder/NMFinderSession.m → src/DeveloperUI/NMDeveloperMenu.m",
+      "validation": "test-discovery/test-finder/test-presentation/test-parser；Simulator Finder卡片/详情/滚动",
+      "differences_and_limits": "游戏Runtime导出适配与真实复制点击未实机验证",
+      "device_verified": false,
+      "target_game_verified": false
+    },
+    {
+      "index": 2,
+      "name": "模糊匹配",
+      "original": {
+        "file": "iosruntimepatchmenu/src/ZNIL2CPPHybridFinder.mm",
+        "line": 402,
+        "anchor": "streamingCandidates:",
+        "call_chain": "parsed query→streaming candidates→匹配与数量限制",
+        "behavior": "源码所示路径，运行行为未验证"
+      },
+      "new_behavior": "只读发现/单快照Finder及详情已实现",
+      "entry_and_flow": "src/RuntimeDiscovery/NMIL2CPPDiscovery.m → src/MethodFinder/NMFinderSession.m → src/DeveloperUI/NMDeveloperMenu.m",
+      "validation": "test-discovery/test-finder/test-presentation/test-parser；Simulator Finder卡片/详情/滚动",
+      "differences_and_limits": "游戏Runtime导出适配与真实复制点击未实机验证",
+      "device_verified": false,
+      "target_game_verified": false
+    },
+    {
+      "index": 3,
+      "name": "类与方法切换",
+      "original": {
+        "file": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+        "line": 12177,
+        "anchor": "- (void)znm64_toggleMode:",
+        "call_chain": "清 token/selected/scroll→page0→render",
+        "behavior": "源码所示路径，运行行为未验证"
+      },
+      "new_behavior": "只读发现/单快照Finder及详情已实现",
+      "entry_and_flow": "src/RuntimeDiscovery/NMIL2CPPDiscovery.m → src/MethodFinder/NMFinderSession.m → src/DeveloperUI/NMDeveloperMenu.m",
+      "validation": "test-discovery/test-finder/test-presentation/test-parser；Simulator Finder卡片/详情/滚动",
+      "differences_and_limits": "游戏Runtime导出适配与真实复制点击未实机验证",
+      "device_verified": false,
+      "target_game_verified": false
+    },
+    {
+      "index": 4,
+      "name": "搜索计数",
+      "original": {
+        "file": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+        "line": 12486,
+        "anchor": "匹配 %lu 个类",
+        "call_chain": "results.count→status→render",
+        "behavior": "源码所示路径，运行行为未验证"
+      },
+      "new_behavior": "只读发现/单快照Finder及详情已实现",
+      "entry_and_flow": "src/RuntimeDiscovery/NMIL2CPPDiscovery.m → src/MethodFinder/NMFinderSession.m → src/DeveloperUI/NMDeveloperMenu.m",
+      "validation": "test-discovery/test-finder/test-presentation/test-parser；Simulator Finder卡片/详情/滚动",
+      "differences_and_limits": "游戏Runtime导出适配与真实复制点击未实机验证",
+      "device_verified": false,
+      "target_game_verified": false
+    },
+    {
+      "index": 5,
+      "name": "结果渲染",
+      "original": {
+        "file": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+        "line": 13723,
+        "anchor": "- (void)zn52x_renderResultsAtWidth:",
+        "call_chain": "ClassMode→class renderer；否则 visible methods",
+        "behavior": "源码所示路径，运行行为未验证"
+      },
+      "new_behavior": "只读发现/单快照Finder及详情已实现",
+      "entry_and_flow": "src/RuntimeDiscovery/NMIL2CPPDiscovery.m → src/MethodFinder/NMFinderSession.m → src/DeveloperUI/NMDeveloperMenu.m",
+      "validation": "test-discovery/test-finder/test-presentation/test-parser；Simulator Finder卡片/详情/滚动",
+      "differences_and_limits": "游戏Runtime导出适配与真实复制点击未实机验证",
+      "device_verified": false,
+      "target_game_verified": false
+    },
+    {
+      "index": 6,
+      "name": "方法详情",
+      "original": {
+        "file": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+        "line": 12172,
+        "anchor": "znm54_renderDetailAtWidth:",
+        "call_chain": "selected candidate→ABI→详情字段",
+        "behavior": "源码所示路径，运行行为未验证"
+      },
+      "new_behavior": "只读发现/单快照Finder及详情已实现",
+      "entry_and_flow": "src/RuntimeDiscovery/NMIL2CPPDiscovery.m → src/MethodFinder/NMFinderSession.m → src/DeveloperUI/NMDeveloperMenu.m",
+      "validation": "test-discovery/test-finder/test-presentation/test-parser；Simulator Finder卡片/详情/滚动",
+      "differences_and_limits": "游戏Runtime导出适配与真实复制点击未实机验证",
+      "device_verified": false,
+      "target_game_verified": false
+    },
+    {
+      "index": 7,
+      "name": "参数与返回类型",
+      "original": {
+        "file": "iosruntimepatchmenu/src/ZNIL2CPPABIMetadata.mm",
+        "line": 205,
+        "anchor": "ZNIL2CPPDescribeMethodABI",
+        "call_chain": "metadata→ABI descriptor→UI/Invoke",
+        "behavior": "源码所示路径，运行行为未验证"
+      },
+      "new_behavior": "只读发现/单快照Finder及详情已实现",
+      "entry_and_flow": "src/RuntimeDiscovery/NMIL2CPPDiscovery.m → src/MethodFinder/NMFinderSession.m → src/DeveloperUI/NMDeveloperMenu.m",
+      "validation": "test-discovery/test-finder/test-presentation/test-parser；Simulator Finder卡片/详情/滚动",
+      "differences_and_limits": "游戏Runtime导出适配与真实复制点击未实机验证",
+      "device_verified": false,
+      "target_game_verified": false
+    },
+    {
+      "index": 8,
+      "name": "单字段复制",
+      "original": {
+        "file": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+        "line": 13016,
+        "anchor": "copyable",
+        "call_chain": "详情字段→button associated value→zn60v3_copyValue→pasteboard",
+        "behavior": "源码所示路径，运行行为未验证"
+      },
+      "new_behavior": "只读发现/单快照Finder及详情已实现",
+      "entry_and_flow": "src/RuntimeDiscovery/NMIL2CPPDiscovery.m → src/MethodFinder/NMFinderSession.m → src/DeveloperUI/NMDeveloperMenu.m",
+      "validation": "test-discovery/test-finder/test-presentation/test-parser；Simulator Finder卡片/详情/滚动",
+      "differences_and_limits": "游戏Runtime导出适配与真实复制点击未实机验证",
+      "device_verified": false,
+      "target_game_verified": false
+    },
+    {
+      "index": 9,
+      "name": "本地词典翻译",
+      "original": {
+        "file": "iosruntimepatchmenu/src/ZNMethodTranslator.mm",
+        "line": 100,
+        "anchor": "+ (NSString *)translateMethodName:",
+        "call_chain": "name→分词/DP→词典→NSCache",
+        "behavior": "源码所示路径，运行行为未验证"
+      },
+      "new_behavior": "只读发现/单快照Finder及详情已实现",
+      "entry_and_flow": "src/RuntimeDiscovery/NMIL2CPPDiscovery.m → src/MethodFinder/NMFinderSession.m → src/DeveloperUI/NMDeveloperMenu.m",
+      "validation": "test-discovery/test-finder/test-presentation/test-parser；Simulator Finder卡片/详情/滚动",
+      "differences_and_limits": "游戏Runtime导出适配与真实复制点击未实机验证",
+      "device_verified": false,
+      "target_game_verified": false
+    },
+    {
+      "index": 10,
+      "name": "滚动恢复",
+      "original": {
+        "file": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+        "line": 12144,
+        "anchor": "ZNM64RestoreScrollOffset",
+        "call_chain": "scroll offset→页面切换→restore",
+        "behavior": "源码所示路径，运行行为未验证"
+      },
+      "new_behavior": "只读发现/单快照Finder及详情已实现",
+      "entry_and_flow": "src/RuntimeDiscovery/NMIL2CPPDiscovery.m → src/MethodFinder/NMFinderSession.m → src/DeveloperUI/NMDeveloperMenu.m",
+      "validation": "test-discovery/test-finder/test-presentation/test-parser；Simulator Finder卡片/详情/滚动",
+      "differences_and_limits": "游戏Runtime导出适配与真实复制点击未实机验证",
+      "device_verified": false,
+      "target_game_verified": false
+    },
+    {
+      "index": 11,
+      "name": "搜索缓存与刷新",
+      "original": {
+        "file": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+        "line": 14013,
+        "anchor": "ZNM613AnalysisCache",
+        "call_chain": "candidate identity→analysis cache→Renderer",
+        "behavior": "源码所示路径，运行行为未验证"
+      },
+      "new_behavior": "只读发现/单快照Finder及详情已实现",
+      "entry_and_flow": "src/RuntimeDiscovery/NMIL2CPPDiscovery.m → src/MethodFinder/NMFinderSession.m → src/DeveloperUI/NMDeveloperMenu.m",
+      "validation": "test-discovery/test-finder/test-presentation/test-parser；Simulator Finder卡片/详情/滚动",
+      "differences_and_limits": "游戏Runtime导出适配与真实复制点击未实机验证",
+      "device_verified": false,
+      "target_game_verified": false
+    },
+    {
+      "index": 12,
+      "name": "Method 解析",
+      "original": {
+        "file": "iosruntimepatchmenu/src/ZNIL2CPPResolver.mm",
+        "line": 720,
+        "anchor": "resolveMethodAssembly:",
+        "call_chain": "描述符→共享 class resolver→methodInfo",
+        "behavior": "源码所示路径，运行行为未验证"
+      },
+      "new_behavior": "只读发现/单快照Finder及详情已实现",
+      "entry_and_flow": "src/RuntimeDiscovery/NMIL2CPPDiscovery.m → src/MethodFinder/NMFinderSession.m → src/DeveloperUI/NMDeveloperMenu.m",
+      "validation": "test-discovery/test-finder/test-presentation/test-parser；Simulator Finder卡片/详情/滚动",
+      "differences_and_limits": "游戏Runtime导出适配与真实复制点击未实机验证",
+      "device_verified": false,
+      "target_game_verified": false
+    },
+    {
+      "index": 13,
+      "name": "实例枚举",
+      "original": {
+        "file": "iosruntimepatchmenu/src/ZNIL2CPPInstanceResolver.mm",
+        "line": 102,
+        "anchor": "candidateAddressesForAssembly:",
+        "call_chain": "Class→liveness APIs→地址列表",
+        "behavior": "源码所示路径，运行行为未验证"
+      },
+      "new_behavior": "契约/生命周期基础设施部分实现；游戏执行适配暂缓",
+      "entry_and_flow": "src/Execution/NMInvocationCoordinator.m / NMReceiverLease.m；src/NativeHook/NMCaptureSession.m；src/Configuration/NMRuntimeActionCodec.c",
+      "validation": "test-execution/test-swizzle及独立Objective-C Runtime fixture；不证明Native游戏执行",
+      "differences_and_limits": "实例发现/Invoke/Native安装/恢复/返回值未完成游戏验证",
+      "device_verified": false,
+      "target_game_verified": false
+    },
+    {
+      "index": 14,
+      "name": "实例选择",
+      "original": {
+        "file": "iosruntimepatchmenu/src/ZNIL2CPPInstanceSelectionV2.mm",
+        "line": 96,
+        "anchor": "znm44_selectInstanceAddress:",
+        "call_chain": "地址校验→selection store→safety wrapper",
+        "behavior": "源码所示路径，运行行为未验证"
+      },
+      "new_behavior": "契约/生命周期基础设施部分实现；游戏执行适配暂缓",
+      "entry_and_flow": "src/Execution/NMInvocationCoordinator.m / NMReceiverLease.m；src/NativeHook/NMCaptureSession.m；src/Configuration/NMRuntimeActionCodec.c",
+      "validation": "test-execution/test-swizzle及独立Objective-C Runtime fixture；不证明Native游戏执行",
+      "differences_and_limits": "实例发现/Invoke/Native安装/恢复/返回值未完成游戏验证",
+      "device_verified": false,
+      "target_game_verified": false
+    },
+    {
+      "index": 15,
+      "name": "参数封送",
+      "original": {
+        "file": "iosruntimepatchmenu/src/ZNRuntimeArgumentMarshaller.mm",
+        "line": 335,
+        "anchor": "encodeValueTypeParameterForMethod:",
+        "call_chain": "typed arguments→IL2CPP invoke params",
+        "behavior": "源码所示路径，运行行为未验证"
+      },
+      "new_behavior": "契约/生命周期基础设施部分实现；游戏执行适配暂缓",
+      "entry_and_flow": "src/Execution/NMInvocationCoordinator.m / NMReceiverLease.m；src/NativeHook/NMCaptureSession.m；src/Configuration/NMRuntimeActionCodec.c",
+      "validation": "test-execution/test-swizzle及独立Objective-C Runtime fixture；不证明Native游戏执行",
+      "differences_and_limits": "实例发现/Invoke/Native安装/恢复/返回值未完成游戏验证",
+      "device_verified": false,
+      "target_game_verified": false
+    },
+    {
+      "index": 16,
+      "name": "实际方法调用",
+      "original": {
+        "file": "iosruntimepatchmenu/src/ZNIL2CPPInvokeEngine.mm",
+        "line": 144,
+        "anchor": "executeAction:",
+        "call_chain": "action→resolve→receiver→runtime_invoke",
+        "behavior": "源码所示路径，运行行为未验证"
+      },
+      "new_behavior": "契约/生命周期基础设施部分实现；游戏执行适配暂缓",
+      "entry_and_flow": "src/Execution/NMInvocationCoordinator.m / NMReceiverLease.m；src/NativeHook/NMCaptureSession.m；src/Configuration/NMRuntimeActionCodec.c",
+      "validation": "test-execution/test-swizzle及独立Objective-C Runtime fixture；不证明Native游戏执行",
+      "differences_and_limits": "实例发现/Invoke/Native安装/恢复/返回值未完成游戏验证",
+      "device_verified": false,
+      "target_game_verified": false
+    },
+    {
+      "index": 17,
+      "name": "返回值处理",
+      "original": {
+        "file": "iosruntimepatchmenu/src/ZNM48ReturnCapture.mm",
+        "line": 237,
+        "anchor": "ZNInstallM48ReturnCaptureDeferred",
+        "call_chain": "Invoke→return capture→UI",
+        "behavior": "源码所示路径，运行行为未验证"
+      },
+      "new_behavior": "契约/生命周期基础设施部分实现；游戏执行适配暂缓",
+      "entry_and_flow": "src/Execution/NMInvocationCoordinator.m / NMReceiverLease.m；src/NativeHook/NMCaptureSession.m；src/Configuration/NMRuntimeActionCodec.c",
+      "validation": "test-execution/test-swizzle及独立Objective-C Runtime fixture；不证明Native游戏执行",
+      "differences_and_limits": "实例发现/Invoke/Native安装/恢复/返回值未完成游戏验证",
+      "device_verified": false,
+      "target_game_verified": false
+    },
+    {
+      "index": 18,
+      "name": "异常错误反馈",
+      "original": {
+        "file": "iosruntimepatchmenu/src/ZNIL2CPPInvokeEngine.mm",
+        "line": 233,
+        "anchor": "FAILED_RESOLVE",
+        "call_chain": "NSError文字/exception→调用方→UI",
+        "behavior": "源码所示路径，运行行为未验证"
+      },
+      "new_behavior": "契约/生命周期基础设施部分实现；游戏执行适配暂缓",
+      "entry_and_flow": "src/Execution/NMInvocationCoordinator.m / NMReceiverLease.m；src/NativeHook/NMCaptureSession.m；src/Configuration/NMRuntimeActionCodec.c",
+      "validation": "test-execution/test-swizzle及独立Objective-C Runtime fixture；不证明Native游戏执行",
+      "differences_and_limits": "实例发现/Invoke/Native安装/恢复/返回值未完成游戏验证",
+      "device_verified": false,
+      "target_game_verified": false
+    },
+    {
+      "index": 19,
+      "name": "多参数复杂结构",
+      "original": {
+        "file": "iosruntimepatchmenu/src/ZNComplexStructCodec.mm",
+        "line": 98,
+        "anchor": "ZNRegisterBuiltInComplexStructCodecs",
+        "call_chain": "ABI→codec→参数存储→invoke",
+        "behavior": "源码所示路径，运行行为未验证"
+      },
+      "new_behavior": "契约/生命周期基础设施部分实现；游戏执行适配暂缓",
+      "entry_and_flow": "src/Execution/NMInvocationCoordinator.m / NMReceiverLease.m；src/NativeHook/NMCaptureSession.m；src/Configuration/NMRuntimeActionCodec.c",
+      "validation": "test-execution/test-swizzle及独立Objective-C Runtime fixture；不证明Native游戏执行",
+      "differences_and_limits": "实例发现/Invoke/Native安装/恢复/返回值未完成游戏验证",
+      "device_verified": false,
+      "target_game_verified": false
+    },
+    {
+      "index": 20,
+      "name": "对象生命周期",
+      "original": {
+        "file": "iosruntimepatchmenu/src/ZNM462InstanceSafety.mm",
+        "line": 52,
+        "anchor": "ZNM462ReleaseSelection",
+        "call_chain": "selection→gchandle→target→free",
+        "behavior": "源码所示路径，运行行为未验证"
+      },
+      "new_behavior": "契约/生命周期基础设施部分实现；游戏执行适配暂缓",
+      "entry_and_flow": "src/Execution/NMInvocationCoordinator.m / NMReceiverLease.m；src/NativeHook/NMCaptureSession.m；src/Configuration/NMRuntimeActionCodec.c",
+      "validation": "test-execution/test-swizzle及独立Objective-C Runtime fixture；不证明Native游戏执行",
+      "differences_and_limits": "实例发现/Invoke/Native安装/恢复/返回值未完成游戏验证",
+      "device_verified": false,
+      "target_game_verified": false
+    },
+    {
+      "index": 21,
+      "name": "instanceIndex 契约",
+      "original": {
+        "file": "iosruntimepatchmenu/src/ZNRuntimeActionFormat.h",
+        "line": 45,
+        "anchor": "ZNRuntimeActionDecodeInstanceIndex",
+        "call_chain": "flags→record→action→enumeration[index-1]",
+        "behavior": "源码所示路径，运行行为未验证"
+      },
+      "new_behavior": "instanceIndex线协议已实现并通过原版对照",
+      "entry_and_flow": "src/Execution/NMInvocationCoordinator.m / NMReceiverLease.m；src/NativeHook/NMCaptureSession.m；src/Configuration/NMRuntimeActionCodec.c",
+      "validation": "516往返、129wire对照；游戏实例执行暂缓",
+      "differences_and_limits": "实例发现/Invoke/Native安装/恢复/返回值未完成游戏验证",
+      "device_verified": false,
+      "target_game_verified": false
+    },
+    {
+      "index": 22,
+      "name": "安装 Hook",
+      "original": {
+        "file": "iosruntimepatchmenu/src/ZNNativeHookBackend.mm",
+        "line": 28,
+        "anchor": "installReplacementAtAddress:",
+        "call_chain": "descriptor→runtime slot→DobbyHook",
+        "behavior": "源码所示路径，运行行为未验证"
+      },
+      "new_behavior": "契约/生命周期基础设施部分实现；游戏执行适配暂缓",
+      "entry_and_flow": "src/Execution/NMInvocationCoordinator.m / NMReceiverLease.m；src/NativeHook/NMCaptureSession.m；src/Configuration/NMRuntimeActionCodec.c",
+      "validation": "test-execution/test-swizzle及独立Objective-C Runtime fixture；不证明Native游戏执行",
+      "differences_and_limits": "实例发现/Invoke/Native安装/恢复/返回值未完成游戏验证",
+      "device_verified": false,
+      "target_game_verified": false
+    },
+    {
+      "index": 23,
+      "name": "Hook 参数传递",
+      "original": {
+        "file": "iosruntimepatchmenu/src/ZNNativeHookRuntime.mm",
+        "line": 1086,
+        "anchor": "supportedInt32ArgumentIndicesForCandidate:",
+        "call_chain": "ABI→template→slot→replacement",
+        "behavior": "源码所示路径，运行行为未验证"
+      },
+      "new_behavior": "契约/生命周期基础设施部分实现；游戏执行适配暂缓",
+      "entry_and_flow": "src/Execution/NMInvocationCoordinator.m / NMReceiverLease.m；src/NativeHook/NMCaptureSession.m；src/Configuration/NMRuntimeActionCodec.c",
+      "validation": "test-execution/test-swizzle及独立Objective-C Runtime fixture；不证明Native游戏执行",
+      "differences_and_limits": "实例发现/Invoke/Native安装/恢复/返回值未完成游戏验证",
+      "device_verified": false,
+      "target_game_verified": false
+    },
+    {
+      "index": 24,
+      "name": "调用原函数",
+      "original": {
+        "file": "iosruntimepatchmenu/src/ZNNativeHookBackend.mm",
+        "line": 36,
+        "anchor": "DobbyHook",
+        "call_chain": "replacement→original trampoline",
+        "behavior": "源码所示路径，运行行为未验证"
+      },
+      "new_behavior": "契约/生命周期基础设施部分实现；游戏执行适配暂缓",
+      "entry_and_flow": "src/Execution/NMInvocationCoordinator.m / NMReceiverLease.m；src/NativeHook/NMCaptureSession.m；src/Configuration/NMRuntimeActionCodec.c",
+      "validation": "test-execution/test-swizzle及独立Objective-C Runtime fixture；不证明Native游戏执行",
+      "differences_and_limits": "实例发现/Invoke/Native安装/恢复/返回值未完成游戏验证",
+      "device_verified": false,
+      "target_game_verified": false
+    },
+    {
+      "index": 25,
+      "name": "恢复 Hook",
+      "original": {
+        "file": "iosruntimepatchmenu/src/ZNNativeHookRuntime.mm",
+        "line": 1642,
+        "anchor": "removeTemporaryHookForCandidate:",
+        "call_chain": "target ownership→DobbyDestroy→clear slots",
+        "behavior": "源码所示路径，运行行为未验证"
+      },
+      "new_behavior": "契约/生命周期基础设施部分实现；游戏执行适配暂缓",
+      "entry_and_flow": "src/Execution/NMInvocationCoordinator.m / NMReceiverLease.m；src/NativeHook/NMCaptureSession.m；src/Configuration/NMRuntimeActionCodec.c",
+      "validation": "test-execution/test-swizzle及独立Objective-C Runtime fixture；不证明Native游戏执行",
+      "differences_and_limits": "实例发现/Invoke/Native安装/恢复/返回值未完成游戏验证",
+      "device_verified": false,
+      "target_game_verified": false
+    },
+    {
+      "index": 26,
+      "name": "Hook 返回值",
+      "original": {
+        "file": "iosruntimepatchmenu/src/ZNNativeHookRuntime.mm",
+        "line": 1653,
+        "anchor": "returnBoolSlot",
+        "call_chain": "ABI→ReturnBool slot",
+        "behavior": "源码所示路径，运行行为未验证"
+      },
+      "new_behavior": "契约/生命周期基础设施部分实现；游戏执行适配暂缓",
+      "entry_and_flow": "src/Execution/NMInvocationCoordinator.m / NMReceiverLease.m；src/NativeHook/NMCaptureSession.m；src/Configuration/NMRuntimeActionCodec.c",
+      "validation": "test-execution/test-swizzle及独立Objective-C Runtime fixture；不证明Native游戏执行",
+      "differences_and_limits": "实例发现/Invoke/Native安装/恢复/返回值未完成游戏验证",
+      "device_verified": false,
+      "target_game_verified": false
+    },
+    {
+      "index": 27,
+      "name": "多 Hook 冲突",
+      "original": {
+        "file": "iosruntimepatchmenu/src/ZNNativeHookRuntime.mm",
+        "line": 1655,
+        "anchor": "permanentOwner",
+        "call_chain": "action owner→reject temporary teardown",
+        "behavior": "源码所示路径，运行行为未验证"
+      },
+      "new_behavior": "契约/生命周期基础设施部分实现；游戏执行适配暂缓",
+      "entry_and_flow": "src/Execution/NMInvocationCoordinator.m / NMReceiverLease.m；src/NativeHook/NMCaptureSession.m；src/Configuration/NMRuntimeActionCodec.c",
+      "validation": "test-execution/test-swizzle及独立Objective-C Runtime fixture；不证明Native游戏执行",
+      "differences_and_limits": "实例发现/Invoke/Native安装/恢复/返回值未完成游戏验证",
+      "device_verified": false,
+      "target_game_verified": false
+    },
+    {
+      "index": 28,
+      "name": "Hook 生命周期",
+      "original": {
+        "file": "iosruntimepatchmenu/src/ZNNativeHookLifecycleBootstrap.mm",
+        "line": 104,
+        "anchor": "ZNNativeHookEarlyLifecycleBootstrap",
+        "call_chain": "constructor(201)→sharedBootstrap start→dyld/foreground→serial reconcile→CapabilityRegistry",
+        "behavior": "源码所示路径，运行行为未验证"
+      },
+      "new_behavior": "契约/生命周期基础设施部分实现；游戏执行适配暂缓",
+      "entry_and_flow": "src/Execution/NMInvocationCoordinator.m / NMReceiverLease.m；src/NativeHook/NMCaptureSession.m；src/Configuration/NMRuntimeActionCodec.c",
+      "validation": "test-execution/test-swizzle及独立Objective-C Runtime fixture；不证明Native游戏执行",
+      "differences_and_limits": "实例发现/Invoke/Native安装/恢复/返回值未完成游戏验证",
+      "device_verified": false,
+      "target_game_verified": false
+    },
+    {
+      "index": 29,
+      "name": "Static Patch",
+      "original": {
+        "file": "iosruntimepatchmenu/src/ZNStaticBinaryBuilderV3.mm",
+        "line": 1126,
+        "anchor": "ZNStaticBinaryBuilderV3BuildWorkspace",
+        "call_chain": "workspace→static base",
+        "behavior": "源码所示路径，运行行为未验证"
+      },
+      "new_behavior": "ABI独立Static构建/加载后控制已实现",
+      "entry_and_flow": "src/Build/NMOfflineBuildRequest.m → NMStaticPatchPlan.m → NMStaticBinaryImage.mm → NMMachOSigner.mm；NMStaticRuntime.mm",
+      "validation": "Static计划/迁移/payload/image/runtime/signer原生fixture；Simulator实际签名加载及混合Static控件",
+      "differences_and_limits": "三域混合执行暂缓；仅新格式预埋，ad-hoc非完整IPA签名",
+      "device_verified": false,
+      "target_game_verified": false
+    },
+    {
+      "index": 30,
+      "name": "Runtime Action",
+      "original": {
+        "file": "iosruntimepatchmenu/src/ZNRuntimeActionBuilder.mm",
+        "line": 239,
+        "anchor": "ZNRuntimeActionEmbedIntoGeneratedOutputs",
+        "call_chain": "record→action blob→build provider",
+        "behavior": "源码所示路径，运行行为未验证"
+      },
+      "new_behavior": "离线描述/配置部分实现；游戏执行/Prepared桥接暂缓",
+      "entry_and_flow": "src/Configuration/NMConfiguration.m → src/Build/NMBuildManifest.m",
+      "validation": "配置/Manifest/codec fixture",
+      "differences_and_limits": "没有实际游戏执行或Prepared Native桥接",
+      "device_verified": false,
+      "target_game_verified": false
+    },
+    {
+      "index": 31,
+      "name": "Native Hook Action",
+      "original": {
+        "file": "iosruntimepatchmenu/src/ZNNativeHookAction.mm",
+        "line": 286,
+        "anchor": "addArgScaleInt32Candidate:",
+        "call_chain": "hook config→action→runtime",
+        "behavior": "源码所示路径，运行行为未验证"
+      },
+      "new_behavior": "离线描述/配置部分实现；游戏执行/Prepared桥接暂缓",
+      "entry_and_flow": "src/Configuration/NMConfiguration.m → src/Build/NMBuildManifest.m",
+      "validation": "配置/Manifest/codec fixture",
+      "differences_and_limits": "没有实际游戏执行或Prepared Native桥接",
+      "device_verified": false,
+      "target_game_verified": false
+    },
+    {
+      "index": 32,
+      "name": "Static Prepared Hook",
+      "original": {
+        "file": "iosruntimepatchmenu/src/ZNNativeHookStaticPrepatch.mm",
+        "line": 268,
+        "anchor": "ZNBuildInstallStaticPreparedNativeHooksV1",
+        "call_chain": "prepared metadata→Mach-O prepatch",
+        "behavior": "源码所示路径，运行行为未验证"
+      },
+      "new_behavior": "离线描述/配置部分实现；游戏执行/Prepared桥接暂缓",
+      "entry_and_flow": "src/Configuration/NMConfiguration.m → src/Build/NMBuildManifest.m",
+      "validation": "配置/Manifest/codec fixture",
+      "differences_and_limits": "没有实际游戏执行或Prepared Native桥接",
+      "device_verified": false,
+      "target_game_verified": false
+    },
+    {
+      "index": 33,
+      "name": "混合构建",
+      "original": {
+        "file": "iosruntimepatchmenu/src/ZNBuildExecutor.mm",
+        "line": 20,
+        "anchor": "ZNBuildExecutorBuildWorkspace",
+        "call_chain": "manifest→prepare→base→emit→postprocess",
+        "behavior": "源码所示路径，运行行为未验证"
+      },
+      "new_behavior": "ABI独立Static构建/加载后控制已实现",
+      "entry_and_flow": "src/Build/NMOfflineBuildRequest.m → NMStaticPatchPlan.m → NMStaticBinaryImage.mm → NMMachOSigner.mm；NMStaticRuntime.mm",
+      "validation": "Static计划/迁移/payload/image/runtime/signer原生fixture；Simulator实际签名加载及混合Static控件",
+      "differences_and_limits": "三域混合执行暂缓；仅新格式预埋，ad-hoc非完整IPA签名",
+      "device_verified": false,
+      "target_game_verified": false
+    },
+    {
+      "index": 34,
+      "name": "Manifest",
+      "original": {
+        "file": "iosruntimepatchmenu/src/ZNBuildManifest.mm",
+        "line": 303,
+        "anchor": "manifestForWorkspace:",
+        "call_chain": "workspace snapshot→items/providers",
+        "behavior": "源码所示路径，运行行为未验证"
+      },
+      "new_behavior": "统一Manifest/配置及导入导出已实现",
+      "entry_and_flow": "src/Configuration/NMConfiguration.m / NMPatchImport.m → src/Build/NMBuildManifest.m → DeveloperUI",
+      "validation": "test-manifest/test-configuration及原版identity对照；Simulator有效/无效配置、picker回调读取、保存",
+      "differences_and_limits": "Runtime/Native仅离线描述；实际Files选择/分享目标交互与设备重启恢复未实机验证",
+      "device_verified": false,
+      "target_game_verified": false
+    },
+    {
+      "index": 35,
+      "name": "JSON 配置",
+      "original": {
+        "file": "iosruntimepatchmenu/src/ZNPatchJSONImporter.mm",
+        "line": 160,
+        "anchor": "importFile:",
+        "call_chain": "JSON→validation→workspace",
+        "behavior": "源码所示路径，运行行为未验证"
+      },
+      "new_behavior": "统一Manifest/配置及导入导出已实现",
+      "entry_and_flow": "src/Configuration/NMConfiguration.m / NMPatchImport.m → src/Build/NMBuildManifest.m → DeveloperUI",
+      "validation": "test-manifest/test-configuration及原版identity对照；Simulator有效/无效配置、picker回调读取、保存",
+      "differences_and_limits": "Runtime/Native仅离线描述；实际Files选择/分享目标交互与设备重启恢复未实机验证",
+      "device_verified": false,
+      "target_game_verified": false
+    },
+    {
+      "index": 36,
+      "name": "配置导入",
+      "original": {
+        "file": "iosruntimepatchmenu/src/ZNAuthoringJSONImport.mm",
+        "line": 94,
+        "anchor": "importData:",
+        "call_chain": "authoring JSON→typed model→store",
+        "behavior": "源码所示路径，运行行为未验证"
+      },
+      "new_behavior": "统一Manifest/配置及导入导出已实现",
+      "entry_and_flow": "src/Configuration/NMConfiguration.m / NMPatchImport.m → src/Build/NMBuildManifest.m → DeveloperUI",
+      "validation": "test-manifest/test-configuration及原版identity对照；Simulator有效/无效配置、picker回调读取、保存",
+      "differences_and_limits": "Runtime/Native仅离线描述；实际Files选择/分享目标交互与设备重启恢复未实机验证",
+      "device_verified": false,
+      "target_game_verified": false
+    },
+    {
+      "index": 37,
+      "name": "配置导出",
+      "original": {
+        "file": "iosruntimepatchmenu/src/ZNAuthoringJSONImport.mm",
+        "line": 49,
+        "anchor": "exportDataWithError:",
+        "call_chain": "store→snapshot→JSON/export",
+        "behavior": "源码所示路径，运行行为未验证"
+      },
+      "new_behavior": "统一Manifest/配置及导入导出已实现",
+      "entry_and_flow": "src/Configuration/NMConfiguration.m / NMPatchImport.m → src/Build/NMBuildManifest.m → DeveloperUI",
+      "validation": "test-manifest/test-configuration及原版identity对照；Simulator有效/无效配置、picker回调读取、保存",
+      "differences_and_limits": "Runtime/Native仅离线描述；实际Files选择/分享目标交互与设备重启恢复未实机验证",
+      "device_verified": false,
+      "target_game_verified": false
+    },
+    {
+      "index": 38,
+      "name": "Mach-O 修改",
+      "original": {
+        "file": "iosruntimepatchmenu/src/ZNBinaryPatchWorkspace.mm",
+        "line": 198,
+        "anchor": "validateAll:",
+        "call_chain": "address conversion→workspace→builder",
+        "behavior": "源码所示路径，运行行为未验证"
+      },
+      "new_behavior": "ABI独立Static构建/加载后控制已实现",
+      "entry_and_flow": "src/Build/NMOfflineBuildRequest.m → NMStaticPatchPlan.m → NMStaticBinaryImage.mm → NMMachOSigner.mm；NMStaticRuntime.mm",
+      "validation": "Static计划/迁移/payload/image/runtime/signer原生fixture；Simulator实际签名加载及混合Static控件",
+      "differences_and_limits": "三域混合执行暂缓；仅新格式预埋，ad-hoc非完整IPA签名",
+      "device_verified": false,
+      "target_game_verified": false
+    },
+    {
+      "index": 39,
+      "name": "静态 Dispatch",
+      "original": {
+        "file": "iosruntimepatchmenu/src/ZNStaticDispatchRuntime.mm",
+        "line": 519,
+        "anchor": "setEnabled:",
+        "call_chain": "generated descriptors→dispatch→action",
+        "behavior": "源码所示路径，运行行为未验证"
+      },
+      "new_behavior": "ABI独立Static构建/加载后控制已实现",
+      "entry_and_flow": "src/Build/NMOfflineBuildRequest.m → NMStaticPatchPlan.m → NMStaticBinaryImage.mm → NMMachOSigner.mm；NMStaticRuntime.mm",
+      "validation": "Static计划/迁移/payload/image/runtime/signer原生fixture；Simulator实际签名加载及混合Static控件",
+      "differences_and_limits": "三域混合执行暂缓；仅新格式预埋，ad-hoc非完整IPA签名",
+      "device_verified": false,
+      "target_game_verified": false
+    },
+    {
+      "index": 40,
+      "name": "二进制签名",
+      "original": {
+        "file": "iosruntimepatchmenu/src/ZNAdhocMachOSigner.mm",
+        "line": 437,
+        "anchor": "ZNAdhocResignMachOAtPath",
+        "call_chain": "postprocess→signer",
+        "behavior": "源码所示路径，运行行为未验证"
+      },
+      "new_behavior": "ABI独立Static构建/加载后控制已实现",
+      "entry_and_flow": "src/Build/NMOfflineBuildRequest.m → NMStaticPatchPlan.m → NMStaticBinaryImage.mm → NMMachOSigner.mm；NMStaticRuntime.mm",
+      "validation": "Static计划/迁移/payload/image/runtime/signer原生fixture；Simulator实际签名加载及混合Static控件",
+      "differences_and_limits": "三域混合执行暂缓；仅新格式预埋，ad-hoc非完整IPA签名",
+      "device_verified": false,
+      "target_game_verified": false
+    },
+    {
+      "index": 41,
+      "name": "生成校验",
+      "original": {
+        "file": "iosruntimepatchmenu/src/ZNGeneratedBinaryPostprocess.mm",
+        "line": 7,
+        "anchor": "ZNPostProcessGeneratedBinaryOutputs",
+        "call_chain": "outputs→postprocess→verify",
+        "behavior": "源码所示路径，运行行为未验证"
+      },
+      "new_behavior": "ABI独立Static构建/加载后控制已实现",
+      "entry_and_flow": "src/Build/NMOfflineBuildRequest.m → NMStaticPatchPlan.m → NMStaticBinaryImage.mm → NMMachOSigner.mm；NMStaticRuntime.mm",
+      "validation": "Static计划/迁移/payload/image/runtime/signer原生fixture；Simulator实际签名加载及混合Static控件",
+      "differences_and_limits": "三域混合执行暂缓；仅新格式预埋，ad-hoc非完整IPA签名",
+      "device_verified": false,
+      "target_game_verified": false
+    },
+    {
+      "index": 42,
+      "name": "菜单显隐",
+      "original": {
+        "file": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+        "line": 57,
+        "anchor": "ZonoePatchShow",
+        "call_chain": "launcher→activation→menu→show/hide",
+        "behavior": "源码所示路径，运行行为未验证"
+      },
+      "new_behavior": "新五页DeveloperUI已实现",
+      "entry_and_flow": "src/DeveloperUI/NMDeveloperMenu.m → NMStaticControlsView.m",
+      "validation": "tests/ui/main.m程序化UIKit fixture；ui-fixture/result.json",
+      "differences_and_limits": "真实手势/逐字键盘/复制/旋转/前后台/多窗口未验证；JSON编辑替代旧表单",
+      "device_verified": false,
+      "target_game_verified": false
+    },
+    {
+      "index": 43,
+      "name": "拖动布局",
+      "original": {
+        "file": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+        "line": 74,
+        "anchor": "kZNPanelPositionKey",
+        "call_chain": "gesture→position→layout/defaults",
+        "behavior": "源码所示路径，运行行为未验证"
+      },
+      "new_behavior": "新五页DeveloperUI已实现",
+      "entry_and_flow": "src/DeveloperUI/NMDeveloperMenu.m → NMStaticControlsView.m",
+      "validation": "源码路径已审查；该实际手势/生命周期未验证",
+      "differences_and_limits": "真实手势/逐字键盘/复制/旋转/前后台/多窗口未验证；JSON编辑替代旧表单",
+      "device_verified": false,
+      "target_game_verified": false
+    },
+    {
+      "index": 44,
+      "name": "页面切换",
+      "original": {
+        "file": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+        "line": 487,
+        "anchor": "renderPage",
+        "call_chain": "category/page→renderer",
+        "behavior": "源码所示路径，运行行为未验证"
+      },
+      "new_behavior": "新五页DeveloperUI已实现",
+      "entry_and_flow": "src/DeveloperUI/NMDeveloperMenu.m → NMStaticControlsView.m",
+      "validation": "tests/ui/main.m程序化UIKit fixture；ui-fixture/result.json",
+      "differences_and_limits": "真实手势/逐字键盘/复制/旋转/前后台/多窗口未验证；JSON编辑替代旧表单",
+      "device_verified": false,
+      "target_game_verified": false
+    },
+    {
+      "index": 45,
+      "name": "输入键盘",
+      "original": {
+        "file": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+        "line": 1436,
+        "anchor": "endEditing:",
+        "call_chain": "text field→action→endEditing",
+        "behavior": "源码所示路径，运行行为未验证"
+      },
+      "new_behavior": "新五页DeveloperUI已实现",
+      "entry_and_flow": "src/DeveloperUI/NMDeveloperMenu.m → NMStaticControlsView.m",
+      "validation": "tests/ui/main.m程序化UIKit fixture；ui-fixture/result.json",
+      "differences_and_limits": "真实手势/逐字键盘/复制/旋转/前后台/多窗口未验证；JSON编辑替代旧表单",
+      "device_verified": false,
+      "target_game_verified": false
+    },
+    {
+      "index": 46,
+      "name": "滚动卡片",
+      "original": {
+        "file": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+        "line": 348,
+        "anchor": "cardAtY:",
+        "call_chain": "results→views→contentHeight",
+        "behavior": "源码所示路径，运行行为未验证"
+      },
+      "new_behavior": "新五页DeveloperUI已实现",
+      "entry_and_flow": "src/DeveloperUI/NMDeveloperMenu.m → NMStaticControlsView.m",
+      "validation": "tests/ui/main.m程序化UIKit fixture；ui-fixture/result.json",
+      "differences_and_limits": "真实手势/逐字键盘/复制/旋转/前后台/多窗口未验证；JSON编辑替代旧表单",
+      "device_verified": false,
+      "target_game_verified": false
+    },
+    {
+      "index": 47,
+      "name": "搜索结果显示",
+      "original": {
+        "file": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+        "line": 12181,
+        "anchor": "znm64_renderClassResultsAtWidth:",
+        "call_chain": "snapshot→class/method cards",
+        "behavior": "源码所示路径，运行行为未验证"
+      },
+      "new_behavior": "新五页DeveloperUI已实现",
+      "entry_and_flow": "src/DeveloperUI/NMDeveloperMenu.m → NMStaticControlsView.m",
+      "validation": "tests/ui/main.m程序化UIKit fixture；ui-fixture/result.json",
+      "differences_and_limits": "真实手势/逐字键盘/复制/旋转/前后台/多窗口未验证；JSON编辑替代旧表单",
+      "device_verified": false,
+      "target_game_verified": false
+    },
+    {
+      "index": 48,
+      "name": "功能编辑",
+      "original": {
+        "file": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+        "line": 7166,
+        "anchor": "znrmc_instanceEditingEnded:",
+        "call_chain": "field→action store→snapshot",
+        "behavior": "源码所示路径，运行行为未验证"
+      },
+      "new_behavior": "新五页DeveloperUI已实现",
+      "entry_and_flow": "src/DeveloperUI/NMDeveloperMenu.m → NMStaticControlsView.m",
+      "validation": "tests/ui/main.m程序化UIKit fixture；ui-fixture/result.json",
+      "differences_and_limits": "真实手势/逐字键盘/复制/旋转/前后台/多窗口未验证；JSON编辑替代旧表单",
+      "device_verified": false,
+      "target_game_verified": false
+    },
+    {
+      "index": 49,
+      "name": "生成错误反馈",
+      "original": {
+        "file": "iosruntimepatchmenu/src/ZNBuildExecutor.mm",
+        "line": 46,
+        "anchor": "prepareError",
+        "call_chain": "prepare/base/emit/postprocess error→UI",
+        "behavior": "源码所示路径，运行行为未验证"
+      },
+      "new_behavior": "新五页DeveloperUI已实现",
+      "entry_and_flow": "src/DeveloperUI/NMDeveloperMenu.m → NMStaticControlsView.m",
+      "validation": "tests/ui/main.m程序化UIKit fixture；ui-fixture/result.json",
+      "differences_and_limits": "真实手势/逐字键盘/复制/旋转/前后台/多窗口未验证；JSON编辑替代旧表单",
+      "device_verified": false,
+      "target_game_verified": false
+    },
+    {
+      "index": 50,
+      "name": "横竖屏",
+      "original": {
+        "file": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+        "line": 548,
+        "anchor": "- (void)tick:(NSTimer *)timer",
+        "call_chain": "0.5秒tick→window bounds/safeArea变化→layoutForWindow→layoutPanel",
+        "behavior": "源码所示路径，运行行为未验证"
+      },
+      "new_behavior": "新五页DeveloperUI已实现",
+      "entry_and_flow": "src/DeveloperUI/NMDeveloperMenu.m → NMStaticControlsView.m",
+      "validation": "源码路径已审查；该实际手势/生命周期未验证",
+      "differences_and_limits": "真实手势/逐字键盘/复制/旋转/前后台/多窗口未验证；JSON编辑替代旧表单",
+      "device_verified": false,
+      "target_game_verified": false
+    },
+    {
+      "index": 51,
+      "name": "触摸穿透",
+      "original": {
+        "file": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+        "line": 2455,
+        "anchor": "hitTest:",
+        "call_chain": "window hit test→interactive region",
+        "behavior": "源码所示路径，运行行为未验证"
+      },
+      "new_behavior": "新五页DeveloperUI已实现",
+      "entry_and_flow": "src/DeveloperUI/NMDeveloperMenu.m → NMStaticControlsView.m",
+      "validation": "tests/ui/main.m程序化UIKit fixture；ui-fixture/result.json",
+      "differences_and_limits": "真实手势/逐字键盘/复制/旋转/前后台/多窗口未验证；JSON编辑替代旧表单",
+      "device_verified": false,
+      "target_game_verified": false
+    },
+    {
+      "index": 52,
+      "name": "多窗口",
+      "original": {
+        "file": "iosruntimepatchmenu/src/ZNUnifiedUI.mm",
+        "line": 225,
+        "anchor": "UIWindowScene",
+        "call_chain": "scene→host window→launcher/menu",
+        "behavior": "源码所示路径，运行行为未验证"
+      },
+      "new_behavior": "新五页DeveloperUI已实现",
+      "entry_and_flow": "src/DeveloperUI/NMDeveloperMenu.m → NMStaticControlsView.m",
+      "validation": "源码路径已审查；该实际手势/生命周期未验证",
+      "differences_and_limits": "真实手势/逐字键盘/复制/旋转/前后台/多窗口未验证；JSON编辑替代旧表单",
+      "device_verified": false,
+      "target_game_verified": false
+    }
+  ]
+}

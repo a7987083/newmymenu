@@ -1,44 +1,28 @@
-# 架构草案与迁移门槛
+# 独立开发端架构
 
-当前进入首批独立基础模块迁移：离线翻译与Action wire/checked codec，见decisions/0001。Invoke/Receiver/Capture的基础契约现已按0002实现并验证；真实IL2CPP/Dobby adapter、UI与Build仍未迁移。这不是全功能验收。
+当前核心API21；代码与组件验证范围见PROJECT_STATE和docs/builds。原仓库只读固定7066ede，架构与迁移决定从decisions/0001到后续编号保留，早期“未迁移”状态不是当前实现清单。
 
-## 唯一职责
-
-- RuntimeDiscovery：ObjC 与 IL2CPP 分开的 provider；输出带模块世代的元数据身份。Runtime API 缺失必须报告。
-- MethodFinder：唯一搜索状态，query/mode/filter/generation/results/scroll。worker 接收不可变查询，主线程提交与 generation 相符的完整快照；count 与 Renderer 使用同一快照。模糊匹配保持原行为直到 fixture 明确。
-- DeveloperUI：SceneSession 管理 host window、keyboard、gesture、timer；单 Renderer 路由，显式 actions，不再 Swizzle 自己的页面方法。
-- InvokeEngine：唯一 InvocationRequest 入口，显式 method identity、参数、ReceiverLease、执行线程策略、typed result/error。复用 ABI classifier、Marshaller、ComplexStructCodec；不擅自支持未知签名。
-- ReceiverStore：单一所有者，租约覆盖完整 managed 调用；枚举序号与身份严格区分；没有可证存活机制时明确失败。不得以 ObjC retain 假装持有 IL2CPP 对象。
-- SwizzleManager：仅确证必要的外部 ObjC Hook。安装按 Class/metaclass+SEL 唯一键；保存 original/installed IMP、types、owner、state；签名检查、类局部方法隔离、自身锁、重复/冲突识别。不得承诺原子阻止第三方 runtime 写入。
-- NativeHookEngine：与 ObjC 分离，Dobby temporary 与 StaticPreparedHook 分离；固定后端，核实 trampoline 生命周期。无法排空时拒绝热卸载。
-- BuildEngine：沿用 Manifest→prepare→base→emit→postprocess；保持单入口。Mach-O、地址转换、签名基础设施通过 fixture 后复用。
-- Configuration：版本化 Feature/Action；迁移必须固定64字节原始entry、instanceIndex flags及JSON语义，统一校验和错误。
-
-## Swizzle 生命周期约束
-
-必要目标列表尚未完成，所以不先写泛型“万能 Swizzle”框架。自身 UI 自我修饰改为直接函数调用，不迁移旧 installer 链。
-
-安装仅在明确受控窗口；未加载目标保留 pending，不消费安装成功状态。继承目标 class_addMethod 本地化，不能直接交换父类 Method。恢复原 IMP 只能恢复当时的行为，公开 Runtime API 不能删除已加本地 Method，后续父类修改不会自动继承：必须记录限制。
-
-不能通过“activeCount==0”的一次检查证明安全：新调用可能同时进入，且第三方仍可持有替换 IMP。必须明确调用准入、停止新调用和所有者生命周期。无此保证拒绝运行中恢复，保留已安装代码到进程结束，不能释放 block IMP/trampoline。
-
-## 旧模块处置
-
-| 模块 | 决定 | 原因/迁移门槛 |
+| 模块 | 唯一职责/状态所有者 | 核心入口 |
 |---|---|---|
-| ZNUnifiedUI 历史装饰器链 | 完全替代 | 同一 selector 多版本所有者；先提取有效 action/helper 的依赖 |
-| HybridFinder/Resolver | 小范围重构 | 已有元数据发现，提取查询上下文与cache generation |
-| ABI/Marshaller/StructCodec | 评估直接复用 | 每类参数/返回/ByRef需真实fixture |
-| InstanceSelection/M462 | 完全替代生命周期层 | 租约缺失、raw fallback风险 |
-| NativeHook backend与ARM64桥 | 暂缓迁移 | Dobby拆卸语义、ABI与在途调用证据不足 |
-| Static Builder/Manifest/Mach-O/签名 | 小范围重构外围 | 保留底层算法，补固定二进制fixture和独立校验 |
-| 翻译器与词典 | 评估直接复用 | 模块独立；保留许可，运行现有测试 |
-| customer UI /网络观察器/hfamap | 不迁移 | 与独立开发端无关 |
-| 旧源码中未直接编译文件 | 尚不删除或迁入 | 须排查内联、include、导出与脚本依赖 |
+| RuntimeDiscovery | 同镜像公开IL2CPP API与每次Domain/thread scope；只返回元数据值身份 | NMIL2CPPDiscovery |
+| MethodFinder | 查询模式、generation、不可变结果、最近类页面与offset | NMFinderSession；NMNamedExpression；NMMethodPresentation |
+| Swizzle | 合作域内Class/metaclass+SEL唯一owner；IMP/类型/代码镜像与恢复 | NMSwizzleManager.sharedManager |
+| Execution | 不可变request、receiver lease覆盖调用scope；不默认保活managed指针 | NMInvocationCoordinator / NMReceiverLease |
+| Native Capture | token/ack会话、停止/关闭/排空责任显式化 | NMCaptureSessionManager；真实后端暂缓 |
+| Configuration | 唯一离线authoring model与revision提交；候选只提取不执行 | NMConfigurationDocument/Store；NMPatchImportDocument |
+| Build | 冻结输入、地址/原字节/冲突/重定位、owned段、签名与新目录事务 | NMOfflineBuildRequest→NMStaticPatchPlan→NMStaticCodePayload→NMStaticBinaryImage→NMMachOSigner |
+| Manifest | 版本化不可变功能数据；说明表只是Manifest文本的派生wire投影 | NMBuildManifest |
+| Loaded Static | dyld清单、process-lifetime pin、每物理站点owner-stack及RW CAS | NMStaticRuntime.sharedRuntime |
+| DeveloperUI | 呈现快照/编辑草稿/提交操作，无底层执行或自我Swizzle | NMDeveloperMenu；NMStaticControlsView |
 
-## 后续高风险模块迁移门槛（首批基础模块闭包见0001）
+Finder的worker只做元数据发现；主线程generation检查后一次提交count/rows，单table Renderer展示。类返回复用已保存快照和offset，搜索/刷新使旧缓存失效；没有多个关联对象状态源。
 
-1. 完成全部必要 Swizzle 的实际 target/replacement/signature/install-order 列表；目前只有文本库存，不能宣布完成。
-2. 完成53项功能的传递依赖闭包、执行入口和范围；弱锚点不能标已实现。
-3. 真实ObjC Runtime实验通过后，仅验证Runtime基础结论；不得当成旧菜单回归。
-4. 每个业务模块独立迁移、测试、构建、提交；禁止把实验fixture dylib作为产品交付。
+构建只读冻结输入；用户明确选择地址域和控件类型。候选→definition保存expected bytes来源→plan校验→代码/元数据派生→owned RX/RW段→私有签名工作节点→全新未写映射发布节点只读验签→独占发布。失败不覆盖原文件或既有输出。签名页hash正确与当前vnode可执行性是不同证据；AMFI问题见决策0023，后续加载结果决定是否修复。
+
+Loaded Static把实际开关和数值保存在受管prepared镜像RW单元；没有运行时RX写入。不同logical共享站点按owner栈恢复；Imported同标题保持不同逻辑身份，显式group依logicalIndex排序取第一成员说明。工作线程绑定后，UI真正提交时读取最新快照，防旧异步状态覆盖。表格复用可见卡片，草稿/反馈按稳定ID保存，不能当成引擎实际执行状态。
+
+必要Swizzle仅在证明目标调用/writer全部加入合作域后安装；组件不自动给外部SharedSite填coordinated=YES。继承默认拒绝，LocalSnapshot的本地槽限制明确保留。Native Hook与ObjC Swizzle不共用执行器；无法证明在途排空时不强行卸载。
+
+游戏ABI相关adapter保持暂缓：真实Invoke/GCHandle、复杂参数/ByRef、多实例执行、Native/Prepared桥及对应混合执行provider没有目标证据就拒绝接入。公开类型名不等于MethodInfo布局证明，RVA/offset反查不能靠猜指针补齐。
+
+src的唯一构建清单是scripts/source_lists.sh，Core/Developer/Simulator及分析从同一清单取源；没有旧菜单或历史installer备用执行路径。真实ObjC Runtime、macOS ARM64执行、iOS编译、Simulator、实机分别记录，互不替代。

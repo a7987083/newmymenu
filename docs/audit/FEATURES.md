@@ -1,3 +1,5 @@
+> 本文件及features.json是冻结的原仓库审计时点库存。当前迁移状态见[CURRENT_REGRESSION.md](CURRENT_REGRESSION.md)。
+
 # 功能清单与迁移回归矩阵
 
 53项源码入口索引，不是“全部可用”声明。部分项仅定位实现片段；传递依赖尚未补全。原行为按源码记录，新实现尚未迁移，回归均未验证。机器可读数据见features.json。

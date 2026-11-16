@@ -1,3 +1,11 @@
+# 2026-11-16 API21整合交付核验
+
+源码e797351d，Run43779727851五Job成功；下载Artifact14187618734核对ZIP/dylib/source_head。SHA256 842cfc16900c6bf568fc06225110887bdd17b8d29597259ecb855ebf5b78b1d9。实际Simulator通过Finder卡片/详情/滚动、模态/picker身份、混合Static生成及已加载Static执行。实机未验证；游戏ABI暂缓。
+
+关键实际提交：b775ceb逐行Static控制类型；2693e9d同组控件计划校验；c250模态/picker归属；e797351d移除UI读取worker发现状态。0d9c1df签名发布新inode及后续const修复，5c573660完成API20全绿；失败和后续修复历史保留。
+
+本次仅更新README/架构/交接/状态/路线/限制、53项当前对照和验收清单，不改变交付二进制源码。
+
 # 实际变更
 
 ## 2026-11-15
