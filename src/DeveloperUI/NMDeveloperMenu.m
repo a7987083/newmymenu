@@ -135,7 +135,7 @@ static CGFloat NMClamp(CGFloat x,CGFloat low,CGFloat high){return MAX(low,MIN(MA
     NSString *error=_finder.report[@"error"];
     if(error.length)_status.text=[NSString stringWithFormat:@"读取失败：%@",error];
     else if(_finder.snapshot[@"kind"])_status.text=[NSString stringWithFormat:@"%@ %lu 项%@",_finder.methodMode?@"方法":@"类",(unsigned long)_finder.rows.count,[_finder.snapshot[@"truncated"] boolValue]?@" · 扫描受限/结果未完整":@""];
-    else _status.text=_service?@"Runtime 接口已找到；选择模式并输入关键词。":@"尚未检查 Runtime；请先检查后搜索。";
+    else _status.text=@"尚未取得 Runtime 结果；请检查后搜索。";
     [_table reloadData];[self setNeedsLayout];[self layoutIfNeeded];[_table layoutIfNeeded];
     CGFloat low=-_table.adjustedContentInset.top,high=MAX(low,_table.contentSize.height-_table.bounds.size.height+_table.adjustedContentInset.bottom);
     [_table setContentOffset:CGPointMake(0,NMClamp(restore?_finder.classOffset:low,low,high)) animated:NO];
